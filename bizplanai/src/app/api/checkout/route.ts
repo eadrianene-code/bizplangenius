@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-12-18.acacia',
+  apiVersion: '2025-02-24.acacia',
 });
 
 export async function POST(req: NextRequest) {
@@ -34,21 +34,3 @@ export async function POST(req: NextRequest) {
       mode: 'payment',
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/generate`,
-      metadata: {
-        businessName,
-        industry,
-        description: description.substring(0, 500), // Stripe metadata limit
-        targetMarket: targetMarket.substring(0, 500),
-        revenueModel,
-        location: body.location || '',
-        investment: body.investment || '',
-        competitors: (body.competitors || '').substring(0, 500),
-      },
-    });
-
-    return NextResponse.json({ url: session.url });
-  } catch (error: any) {
-    console.error('Stripe checkout error:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-}
