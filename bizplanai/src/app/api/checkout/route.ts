@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'AI Business Plan — ' + businessName,
+              name: 'AI Business Plan â ' + businessName,
               description: 'Complete business plan with real competitor research, market analysis, and financial projections.',
             },
             unit_amount: 4900, // $49.00
@@ -34,3 +34,21 @@ export async function POST(req: NextRequest) {
       mode: 'payment',
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/generate`,
+      metadata: {
+        businessName,
+        industry,
+        description: description.substring(0, 500), // Stripe metadata limit
+        targetMarket: targetMarket.substring(0, 500),
+        revenueModel,
+        location: body.location || '',
+        investment: body.investment || '',
+        competitors: (body.competitors || '').substring(0, 500),
+      },
+    });
+
+    return NextResponse.json({ url: session.url });
+  } catch (error: any) {
+    console.error('Stripe checkout error:', error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+}
