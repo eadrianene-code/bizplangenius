@@ -47,7 +47,7 @@ function sectionHeading(num: number, title: string): any[] {
   return [
     { text: '', margin: [0, 8, 0, 0] },
     { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, lineColor: ACCENT }], margin: [0, 0, 0, 6] },
-    { text: `${num}.  ${title.toUpperCase()}`, fontSize: 14, bold: true, color: ACCENT, characterSpacing: 1, margin: [0, 0, 0, 14] },
+    { text: `${num}.  ${title.toUpperCase()}`, fontSize: 14, bold: true, color: ACCENT, characterSpacing: 1, margin: [0, 0, 0, 14], headlineLevel: 1 },
   ];
 }
 
@@ -59,17 +59,50 @@ function twoCol(l1: string, v1: string, l2: string, v2: string): any {
   return {
     columns: [
       { width: '*', stack: [
-        { text: l1, bold: true, fontSize: 9, color: TEXT_MUTED, margin: [0, 0, 0, 3] },
-        { text: v1 || '—', fontSize: 10, color: TEXT, lineHeight: 1.4 },
+        { text: l1.toUpperCase(), bold: true, fontSize: 9, color: ACCENT, characterSpacing: 0.5, margin: [0, 0, 0, 4] },
+        { text: v1 || '—', fontSize: 10, color: TEXT, lineHeight: 1.5 },
       ] },
-      { width: 20, text: '' },
+      { width: 24, text: '' },
       { width: '*', stack: [
-        { text: l2, bold: true, fontSize: 9, color: TEXT_MUTED, margin: [0, 0, 0, 3] },
-        { text: v2 || '—', fontSize: 10, color: TEXT, lineHeight: 1.4 },
+        { text: l2.toUpperCase(), bold: true, fontSize: 9, color: ACCENT, characterSpacing: 0.5, margin: [0, 0, 0, 4] },
+        { text: v2 || '—', fontSize: 10, color: TEXT, lineHeight: 1.5 },
       ] },
     ],
-    margin: [0, 8, 0, 8],
+    margin: [0, 10, 0, 10],
   };
+}
+
+/* highlight box for key callouts (value prop, positioning, funding) */
+function calloutBox(label: string, value: string): any {
+  return {
+    margin: [0, 8, 0, 8],
+    table: { widths: ['*'], body: [[{ stack: [
+      { text: label.toUpperCase(), bold: true, fontSize: 9, color: ACCENT, characterSpacing: 0.5, margin: [0, 0, 0, 4] },
+      { text: value || '—', fontSize: 10, color: TEXT, lineHeight: 1.5 },
+    ] }]] },
+    layout: {
+      hLineWidth: () => 0, vLineWidth: (i: number) => i === 0 ? 3 : 0,
+      vLineColor: () => ACCENT,
+      paddingLeft: () => 14, paddingRight: () => 14, paddingTop: () => 10, paddingBottom: () => 10,
+      fillColor: () => '#f8f9fa',
+    },
+  };
+}
+
+/* parse markdown-style **bold** in text and return pdfmake text array */
+function parseMarkdownText(raw: string): any {
+  if (!raw) return { text: '—', fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5 };
+  const parts: any[] = [];
+  const regex = /\*\*(.+?)\*\*/g;
+  let last = 0;
+  let match;
+  while ((match = regex.exec(raw)) !== null) {
+    if (match.index > last) parts.push({ text: raw.slice(last, match.index), color: TEXT_LIGHT });
+    parts.push({ text: match[1], bold: true, color: TEXT });
+    last = regex.lastIndex;
+  }
+  if (last < raw.length) parts.push({ text: raw.slice(last), color: TEXT_LIGHT });
+  return { text: parts.length ? parts : [{ text: raw, color: TEXT_LIGHT }], fontSize: 10, lineHeight: 1.5 };
 }
 
 function competitorEntry(c: any): any {
@@ -78,8 +111,8 @@ function competitorEntry(c: any): any {
   if (c.pricing) rows.push({ text: c.pricing, fontSize: 9, color: TEXT_MUTED, italics: true, margin: [0, 0, 0, 4] });
   if (c.description) rows.push({ text: c.description, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.4, margin: [0, 0, 0, 6] });
   const items: any[] = [];
-  (c.strengths || []).forEach((s: string) => items.push({ text: `  +  ${s}`, fontSize: 9, color: TEXT, margin: [0, 1, 0, 1] }));
-  (c.weaknesses || []).forEach((w: string) => items.push({ text: `  -  ${w}`, fontSize: 9, color: TEXT_LIGHT, margin: [0, 1, 0, 1] }));
+  (c.strengths || []).forEach((s: string) => items.push({ text: [{ text: '  +  ', color: '#27ae60', bold: true }, { text: s, color: TEXT }], fontSize: 9, margin: [0, 1, 0, 1] }));
+  (c.weaknesses || []).forEach((w: string) => items.push({ text: [{ text: '  -  ', color: '#c0392b', bold: true }, { text: w, color: TEXT_LIGHT }], fontSize: 9, margin: [0, 1, 0, 1] }));
   if (items.length) rows.push({ stack: items, margin: [0, 2, 0, 4] });
   rows.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: LINE_LIGHT }], margin: [0, 4, 0, 0] });
   return { stack: rows, unbreakable: true };
@@ -133,7 +166,7 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     content.push({ text: plan.executiveSummary.overview, fontSize: 10, color: TEXT, lineHeight: 1.6, margin: [0, 0, 0, 12] });
   }
   content.push(twoCol('Mission', plan.executiveSummary?.mission || '—', 'Vision', plan.executiveSummary?.vision || '—'));
-  content.push(labelValue('Value Proposition', plan.executiveSummary?.valueProposition || '—'));
+  content.push(calloutBox('Value Proposition', plan.executiveSummary?.valueProposition || '—'));
   if (plan.executiveSummary?.keyMetrics?.length) {
     content.push(
       { text: 'Key Projected Metrics', bold: true, fontSize: 10, color: TEXT, margin: [0, 12, 0, 6] },
@@ -153,7 +186,7 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
   if (plan.competitorAnalysis?.marketGaps?.length) {
     content.push(
       { text: 'Market Gaps & Opportunities', bold: true, fontSize: 10, color: ACCENT, margin: [0, 12, 0, 6] },
-      ...plan.competitorAnalysis.marketGaps.map((g: string) => ({ text: `→  ${g}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 2, 0, 2] })),
+      ...plan.competitorAnalysis.marketGaps.map((g: string, i: number) => ({ text: `${i + 1}.  ${g}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 2, 0, 2] })),
     );
   }
   content.push({ text: '', margin: [0, 12, 0, 0] });
@@ -186,7 +219,7 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
   /* ---------- 4. MARKETING & SALES STRATEGY ---------- */
   content.push(...sectionHeading(4, 'Marketing & Sales Strategy'));
   if (plan.marketingStrategy?.positioning) {
-    content.push(labelValue('Positioning', plan.marketingStrategy.positioning));
+    content.push(calloutBox('Positioning', plan.marketingStrategy.positioning));
   }
   if (plan.marketingStrategy?.channels?.length) {
     content.push({ text: 'Marketing Channels', bold: true, fontSize: 10, color: TEXT, margin: [0, 10, 0, 6] });
@@ -210,10 +243,32 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     });
   }
   if (plan.marketingStrategy?.launchPlan) {
-    content.push(
-      { text: '90-Day Launch Plan', bold: true, fontSize: 10, color: ACCENT, margin: [0, 8, 0, 4] },
-      { text: plan.marketingStrategy.launchPlan, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [0, 0, 0, 8] },
-    );
+    content.push({ text: '90-Day Launch Plan', bold: true, fontSize: 10, color: ACCENT, margin: [0, 8, 0, 6] });
+    /* Try to split launch plan into month blocks for a cleaner table layout */
+    const lp = plan.marketingStrategy.launchPlan;
+    const monthBlocks = lp.split(/(?=Month\s+\d)/i).filter((b: string) => b.trim());
+    if (monthBlocks.length >= 2) {
+      const lpBody: any[][] = [[
+        { text: 'Period', bold: true, fontSize: 9, color: ACCENT },
+        { text: 'Activities', bold: true, fontSize: 9, color: ACCENT },
+      ]];
+      monthBlocks.forEach((block: string) => {
+        const colonIdx = block.indexOf(':');
+        const period = colonIdx > 0 ? block.slice(0, colonIdx).trim() : 'Phase';
+        const activities = colonIdx > 0 ? block.slice(colonIdx + 1).trim() : block.trim();
+        lpBody.push([
+          { text: period, fontSize: 10, color: ACCENT, bold: true },
+          { text: activities, fontSize: 9, color: TEXT_LIGHT, lineHeight: 1.4 },
+        ]);
+      });
+      content.push({
+        table: { headerRows: 1, widths: [80, '*'], body: lpBody },
+        layout: { hLineWidth: (i: number) => i <= 1 ? 0.8 : 0.3, vLineWidth: () => 0, hLineColor: (i: number) => i <= 1 ? ACCENT : LINE_LIGHT, paddingLeft: () => 8, paddingRight: () => 8, paddingTop: () => 6, paddingBottom: () => 6 },
+        margin: [0, 0, 0, 8],
+      });
+    } else {
+      content.push({ text: lp, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [0, 0, 0, 8] });
+    }
   }
   content.push({ text: '', margin: [0, 12, 0, 0] });
 
@@ -271,20 +326,32 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     );
   }
   if (plan.financialProjections?.fundingNeeded) {
-    content.push(labelValue('Funding Requirement', plan.financialProjections.fundingNeeded));
+    content.push(calloutBox('Funding Requirement', plan.financialProjections.fundingNeeded));
   }
   content.push({ text: '', margin: [0, 12, 0, 0] });
 
   /* ---------- 6. OPERATIONS PLAN ---------- */
   content.push(...sectionHeading(6, 'Operations Plan'));
   if (plan.operationsPlan?.businessModel) {
-    content.push(labelValue('Business Model', plan.operationsPlan.businessModel));
+    content.push(
+      { text: 'Business Model', bold: true, fontSize: 11, color: ACCENT, margin: [0, 0, 0, 4] },
+      parseMarkdownText(plan.operationsPlan.businessModel),
+      { text: '', margin: [0, 6, 0, 0] },
+    );
   }
   if (plan.operationsPlan?.teamStructure) {
-    content.push(labelValue('Team Structure', plan.operationsPlan.teamStructure));
+    content.push(
+      { text: 'Team Structure', bold: true, fontSize: 11, color: ACCENT, margin: [0, 4, 0, 4] },
+      parseMarkdownText(plan.operationsPlan.teamStructure),
+      { text: '', margin: [0, 6, 0, 0] },
+    );
   }
   if (plan.operationsPlan?.technology) {
-    content.push(labelValue('Technology', plan.operationsPlan.technology));
+    content.push(
+      { text: 'Technology', bold: true, fontSize: 11, color: ACCENT, margin: [0, 4, 0, 4] },
+      parseMarkdownText(plan.operationsPlan.technology),
+      { text: '', margin: [0, 6, 0, 0] },
+    );
   }
   if (plan.operationsPlan?.keyMilestones?.length) {
     content.push({ text: 'Key Milestones', bold: true, fontSize: 10, color: TEXT, margin: [0, 8, 0, 6] });
@@ -350,6 +417,14 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     },
     content,
     defaultStyle: { font: 'Roboto', fontSize: 10, color: TEXT, lineHeight: 1.3 },
+    pageBreakBefore: (currentNode: any, followingNodesOnPage: any[]) => {
+      /* If a section heading would land near the bottom of a page with fewer than 2
+         content nodes after it, force a page break so the heading starts on a fresh page */
+      if (currentNode.headlineLevel === 1 && followingNodesOnPage.length <= 2) {
+        return true;
+      }
+      return false;
+    },
   };
 }
 
