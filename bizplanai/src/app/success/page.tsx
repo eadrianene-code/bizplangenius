@@ -33,114 +33,77 @@ function loadPdfMake(): Promise<void> {
   });
 }
 
-/* ---- helpers ---- */
+/* ---- helpers — clean professional document style ---- */
 
-const BLUE = '#1d4ed8';
-const BLUE_LIGHT = '#eff6ff';
-const BLUE_BORDER = '#dbeafe';
-const GREEN = '#059669';
-const GREEN_LIGHT = '#ecfdf5';
-const GRAY = '#374151';
-const GRAY_LIGHT = '#6b7280';
-const GRAY_MUTED = '#9ca3af';
-const RED = '#dc2626';
-const GREEN_TEXT = '#16a34a';
+const DARK = '#1a1a2e';
+const ACCENT = '#16537e';
+const TEXT = '#2d2d2d';
+const TEXT_LIGHT = '#555555';
+const TEXT_MUTED = '#888888';
+const LINE = '#cccccc';
+const LINE_LIGHT = '#e0e0e0';
 
-function heading(num: number, title: string): any[] {
+function sectionHeading(num: number, title: string): any[] {
   return [
-    { text: `${num}. ${title}`, fontSize: 18, bold: true, color: BLUE, margin: [0, 0, 0, 8] },
-    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1.5, lineColor: BLUE_BORDER }], margin: [0, 0, 0, 16] },
+    { text: '', margin: [0, 8, 0, 0] },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 1, lineColor: ACCENT }], margin: [0, 0, 0, 6] },
+    { text: `${num}.  ${title.toUpperCase()}`, fontSize: 14, bold: true, color: ACCENT, characterSpacing: 1, margin: [0, 0, 0, 14] },
   ];
 }
 
-function box(label: string, text: string, bg = BLUE_LIGHT, labelColor = BLUE): any {
-  return {
-    unbreakable: true,
-    margin: [0, 4, 0, 4],
-    table: { widths: ['*'], body: [[{
-      stack: [
-        { text: label, bold: true, fontSize: 11, color: labelColor, margin: [0, 0, 0, 4] },
-        { text: text || '—', fontSize: 10, color: GRAY, lineHeight: 1.4 },
-      ],
-      fillColor: bg,
-    }]] },
-    layout: { hLineWidth: () => 0, vLineWidth: () => 0, paddingLeft: () => 14, paddingRight: () => 14, paddingTop: () => 10, paddingBottom: () => 10 },
-  };
+function labelValue(label: string, value: string): any {
+  return { text: [{ text: `${label}: `, bold: true, color: TEXT }, { text: value || '—', color: TEXT_LIGHT }], fontSize: 10, lineHeight: 1.5, margin: [0, 2, 0, 2] };
 }
 
-function twoBoxes(l1: string, t1: string, l2: string, t2: string, bg = BLUE_LIGHT, lc = BLUE): any {
+function twoCol(l1: string, v1: string, l2: string, v2: string): any {
   return {
     columns: [
-      { ...box(l1, t1, bg, lc), width: '*' },
-      { text: '', width: 10 },
-      { ...box(l2, t2, bg, lc), width: '*' },
+      { width: '*', stack: [
+        { text: l1, bold: true, fontSize: 9, color: TEXT_MUTED, margin: [0, 0, 0, 3] },
+        { text: v1 || '—', fontSize: 10, color: TEXT, lineHeight: 1.4 },
+      ] },
+      { width: 20, text: '' },
+      { width: '*', stack: [
+        { text: l2, bold: true, fontSize: 9, color: TEXT_MUTED, margin: [0, 0, 0, 3] },
+        { text: v2 || '—', fontSize: 10, color: TEXT, lineHeight: 1.4 },
+      ] },
     ],
-    margin: [0, 4, 0, 4],
+    margin: [0, 8, 0, 8],
   };
 }
 
-function competitorCard(c: any): any {
-  return {
-    unbreakable: true,
-    margin: [0, 4, 0, 4],
-    table: { widths: ['*'], body: [[{
-      stack: [
-        { columns: [
-          { text: c.name || '', bold: true, fontSize: 12, color: '#111827', width: '*' },
-          c.pricing ? { text: c.pricing, fontSize: 9, color: GRAY_LIGHT, alignment: 'right', width: 'auto' } : { text: '' },
-        ], margin: [0, 0, 0, 4] },
-        c.description ? { text: c.description, fontSize: 10, color: GRAY_LIGHT, margin: [0, 0, 0, 8] } : null,
-        { columns: [
-          { width: '*', stack: [
-            { text: 'STRENGTHS', fontSize: 9, bold: true, color: GREEN_TEXT, margin: [0, 0, 0, 3] },
-            ...(c.strengths || []).map((s: string) => ({ text: `+ ${s}`, fontSize: 9, color: GRAY, margin: [0, 1, 0, 1] })),
-          ]},
-          { width: '*', stack: [
-            { text: 'WEAKNESSES', fontSize: 9, bold: true, color: RED, margin: [0, 0, 0, 3] },
-            ...(c.weaknesses || []).map((w: string) => ({ text: `- ${w}`, fontSize: 9, color: GRAY, margin: [0, 1, 0, 1] })),
-          ]},
-        ]},
-      ].filter(Boolean),
-    }]] },
-    layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#e5e7eb', vLineColor: () => '#e5e7eb', paddingLeft: () => 14, paddingRight: () => 14, paddingTop: () => 12, paddingBottom: () => 12 },
-  };
+function competitorEntry(c: any): any {
+  const rows: any[] = [];
+  rows.push({ text: c.name || '', bold: true, fontSize: 11, color: DARK, margin: [0, 8, 0, 2] });
+  if (c.pricing) rows.push({ text: c.pricing, fontSize: 9, color: TEXT_MUTED, italics: true, margin: [0, 0, 0, 4] });
+  if (c.description) rows.push({ text: c.description, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.4, margin: [0, 0, 0, 6] });
+  const items: any[] = [];
+  (c.strengths || []).forEach((s: string) => items.push({ text: `  +  ${s}`, fontSize: 9, color: TEXT, margin: [0, 1, 0, 1] }));
+  (c.weaknesses || []).forEach((w: string) => items.push({ text: `  -  ${w}`, fontSize: 9, color: TEXT_LIGHT, margin: [0, 1, 0, 1] }));
+  if (items.length) rows.push({ stack: items, margin: [0, 2, 0, 4] });
+  rows.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: LINE_LIGHT }], margin: [0, 4, 0, 0] });
+  return { stack: rows, unbreakable: true };
 }
 
-function riskCard(r: any): any {
-  const lc = r.likelihood === 'High' ? '#dc2626' : r.likelihood === 'Medium' ? '#d97706' : '#16a34a';
-  return {
-    unbreakable: true,
-    margin: [0, 3, 0, 3],
-    table: { widths: ['*'], body: [[{
-      stack: [
-        { columns: [
-          { text: r.risk || '', bold: true, fontSize: 11, color: '#111827', width: '*' },
-          { text: r.likelihood || '', fontSize: 9, bold: true, color: lc, width: 'auto', alignment: 'right' },
-        ], margin: [0, 0, 0, 4] },
-        r.mitigation ? { text: [{ text: 'Mitigation: ', bold: true, fontSize: 9 }, { text: r.mitigation, fontSize: 9 }], color: GRAY } : null,
-      ].filter(Boolean),
-    }]] },
-    layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#e5e7eb', vLineColor: () => '#e5e7eb', paddingLeft: () => 14, paddingRight: () => 14, paddingTop: () => 10, paddingBottom: () => 10 },
-  };
+function riskRow(r: any): any[] {
+  const color = r.likelihood === 'High' ? '#c0392b' : r.likelihood === 'Medium' ? '#d4850a' : '#27ae60';
+  return [
+    { text: r.risk || '', fontSize: 10, color: TEXT },
+    { text: r.likelihood || '', fontSize: 10, color, bold: true, alignment: 'center' },
+    { text: r.mitigation || '', fontSize: 9, color: TEXT_LIGHT },
+  ];
 }
 
-function channelCard(ch: any): any {
-  const pc = ch.priority === 'High' ? '#dc2626' : ch.priority === 'Medium' ? '#d97706' : GRAY_LIGHT;
-  return {
-    unbreakable: true,
-    margin: [0, 3, 0, 3],
-    table: { widths: ['*'], body: [[{
-      stack: [
-        { columns: [
-          { text: ch.channel || '', bold: true, fontSize: 11, color: '#111827', width: '*' },
-          { text: ch.priority || '', fontSize: 9, bold: true, color: pc, width: 'auto', alignment: 'right' },
-        ], margin: [0, 0, 0, 3] },
-        ch.strategy ? { text: ch.strategy, fontSize: 10, color: GRAY_LIGHT, margin: [0, 0, 0, 3] } : null,
-        ch.estimatedCAC ? { text: `Est. CAC: ${ch.estimatedCAC}`, fontSize: 9, color: GRAY_MUTED } : null,
-      ].filter(Boolean),
-    }]] },
-    layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#e5e7eb', vLineColor: () => '#e5e7eb', paddingLeft: () => 14, paddingRight: () => 14, paddingTop: () => 10, paddingBottom: () => 10 },
-  };
+function channelRow(ch: any): any[] {
+  const color = ch.priority === 'High' ? '#c0392b' : ch.priority === 'Medium' ? '#d4850a' : TEXT_MUTED;
+  return [
+    { text: ch.channel || '', fontSize: 10, color: TEXT, bold: true },
+    { text: ch.priority || '', fontSize: 9, color, bold: true, alignment: 'center' },
+    { stack: [
+      { text: ch.strategy || '', fontSize: 9, color: TEXT_LIGHT, lineHeight: 1.3 },
+      ch.estimatedCAC ? { text: `CAC: ${ch.estimatedCAC}`, fontSize: 8, color: TEXT_MUTED, margin: [0, 2, 0, 0] } : null,
+    ].filter(Boolean) },
+  ];
 }
 
 /* ---- main document builder ---- */
@@ -152,99 +115,112 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
   /* ---------- COVER PAGE ---------- */
   content.push(
     { text: '\n\n\n\n\n\n\n\n\n\n', fontSize: 10 },
-    { text: businessName, fontSize: 32, bold: true, color: BLUE, alignment: 'center' },
-    { text: '\n', fontSize: 6 },
-    { canvas: [{ type: 'line', x1: 140, y1: 0, x2: 375, y2: 0, lineWidth: 2, lineColor: '#3b82f6' }], alignment: 'center' },
-    { text: '\nBusiness Plan', fontSize: 20, color: GRAY_LIGHT, alignment: 'center' },
-    { text: `\n\n${date}`, fontSize: 11, color: GRAY_MUTED, alignment: 'center' },
-    { text: '\n\n\n\n\n\n\n\n\n\n\n\n\n\n', fontSize: 10 },
-    { text: 'Prepared with BizPlan Genius', fontSize: 10, color: GRAY_MUTED, alignment: 'center' },
-    { text: 'AI-Powered Business Plans with Real Market Research', fontSize: 9, color: '#d1d5db', alignment: 'center' },
+    { text: businessName.toUpperCase(), fontSize: 28, bold: true, color: DARK, alignment: 'center', characterSpacing: 2 },
+    { text: '', margin: [0, 6, 0, 0] },
+    { canvas: [{ type: 'line', x1: 160, y1: 0, x2: 355, y2: 0, lineWidth: 2, lineColor: ACCENT }], alignment: 'center' },
+    { text: '\nBusiness Plan', fontSize: 18, color: TEXT_LIGHT, alignment: 'center' },
+    { text: `\n${date}`, fontSize: 11, color: TEXT_MUTED, alignment: 'center' },
+    { text: '\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n', fontSize: 10 },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: LINE }] },
+    { text: 'Prepared with BizPlan Genius', fontSize: 9, color: TEXT_MUTED, alignment: 'center', margin: [0, 8, 0, 2] },
+    { text: 'AI-Powered Business Plans with Real Market Research', fontSize: 8, color: LINE, alignment: 'center' },
     { text: '', pageBreak: 'after' },
   );
 
   /* ---------- 1. EXECUTIVE SUMMARY ---------- */
-  content.push(...heading(1, 'Executive Summary'));
+  content.push(...sectionHeading(1, 'Executive Summary'));
   if (plan.executiveSummary?.overview) {
-    content.push({ text: plan.executiveSummary.overview, fontSize: 10, color: GRAY, lineHeight: 1.5, margin: [0, 0, 0, 12] });
+    content.push({ text: plan.executiveSummary.overview, fontSize: 10, color: TEXT, lineHeight: 1.6, margin: [0, 0, 0, 12] });
   }
-  content.push(twoBoxes('Mission', plan.executiveSummary?.mission || '—', 'Vision', plan.executiveSummary?.vision || '—'));
-  content.push(box('Value Proposition', plan.executiveSummary?.valueProposition || '—', GREEN_LIGHT, GREEN));
+  content.push(twoCol('Mission', plan.executiveSummary?.mission || '—', 'Vision', plan.executiveSummary?.vision || '—'));
+  content.push(labelValue('Value Proposition', plan.executiveSummary?.valueProposition || '—'));
   if (plan.executiveSummary?.keyMetrics?.length) {
     content.push(
-      { text: 'Key Projected Metrics', bold: true, fontSize: 11, color: GRAY, margin: [0, 12, 0, 6] },
-      { ul: plan.executiveSummary.keyMetrics, fontSize: 10, color: GRAY, lineHeight: 1.4, margin: [0, 0, 0, 4] },
+      { text: 'Key Projected Metrics', bold: true, fontSize: 10, color: TEXT, margin: [0, 12, 0, 6] },
+      ...plan.executiveSummary.keyMetrics.map((m: string) => ({ text: `•  ${m}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 1, 0, 1] })),
     );
   }
-  content.push({ text: '', margin: [0, 16, 0, 0] });
-  { /* Natural flow — no forced page break */ }
+  content.push({ text: '', margin: [0, 12, 0, 0] });
 
   /* ---------- 2. COMPETITOR ANALYSIS ---------- */
-  content.push(...heading(2, 'Competitor Analysis'));
+  content.push(...sectionHeading(2, 'Competitor Analysis'));
   if (plan.competitorAnalysis?.overview) {
-    content.push({ text: plan.competitorAnalysis.overview, fontSize: 10, color: GRAY, lineHeight: 1.5, margin: [0, 0, 0, 12] });
+    content.push({ text: plan.competitorAnalysis.overview, fontSize: 10, color: TEXT, lineHeight: 1.6, margin: [0, 0, 0, 12] });
   }
   (plan.competitorAnalysis?.competitors || []).forEach((c: any) => {
-    content.push(competitorCard(c));
+    content.push(competitorEntry(c));
   });
   if (plan.competitorAnalysis?.marketGaps?.length) {
     content.push(
-      { text: '', margin: [0, 8, 0, 0] },
-      box('Market Gaps & Opportunities', plan.competitorAnalysis.marketGaps.map((g: string) => `→ ${g}`).join('\n'), GREEN_LIGHT, GREEN),
+      { text: 'Market Gaps & Opportunities', bold: true, fontSize: 10, color: ACCENT, margin: [0, 12, 0, 6] },
+      ...plan.competitorAnalysis.marketGaps.map((g: string) => ({ text: `→  ${g}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 2, 0, 2] })),
     );
   }
-  content.push({ text: '', margin: [0, 16, 0, 0] });
+  content.push({ text: '', margin: [0, 12, 0, 0] });
 
   /* ---------- 3. MARKET ANALYSIS ---------- */
-  content.push(...heading(3, 'Market Analysis'));
+  content.push(...sectionHeading(3, 'Market Analysis'));
   if (plan.marketAnalysis?.industryOverview) {
-    content.push({ text: plan.marketAnalysis.industryOverview, fontSize: 10, color: GRAY, lineHeight: 1.5, margin: [0, 0, 0, 12] });
+    content.push({ text: plan.marketAnalysis.industryOverview, fontSize: 10, color: TEXT, lineHeight: 1.6, margin: [0, 0, 0, 12] });
   }
-  content.push(twoBoxes('Market Size', plan.marketAnalysis?.marketSize || '—', 'Growth Rate', plan.marketAnalysis?.growthRate || '—'));
+  content.push(twoCol('Market Size', plan.marketAnalysis?.marketSize || '—', 'Growth Rate', plan.marketAnalysis?.growthRate || '—'));
   if (plan.marketAnalysis?.trends?.length) {
     content.push(
-      { text: 'Key Industry Trends', bold: true, fontSize: 11, color: GRAY, margin: [0, 12, 0, 6] },
-      ...plan.marketAnalysis.trends.map((t: string) => ({ text: `• ${t}`, fontSize: 10, color: GRAY, lineHeight: 1.4, margin: [8, 1, 0, 1] })),
+      { text: 'Key Industry Trends', bold: true, fontSize: 10, color: TEXT, margin: [0, 12, 0, 6] },
+      ...plan.marketAnalysis.trends.map((t: string) => ({ text: `•  ${t}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 1, 0, 1] })),
     );
   }
   if (plan.marketAnalysis?.targetCustomerProfile) {
     const tcp = plan.marketAnalysis.targetCustomerProfile;
-    const lines: any[] = [];
-    if (tcp.demographics) lines.push({ text: [{ text: 'Demographics: ', bold: true }, tcp.demographics], fontSize: 10, color: GRAY, margin: [0, 2, 0, 2] });
-    if (tcp.psychographics) lines.push({ text: [{ text: 'Psychographics: ', bold: true }, tcp.psychographics], fontSize: 10, color: GRAY, margin: [0, 2, 0, 2] });
-    if (tcp.buyingBehavior) lines.push({ text: [{ text: 'Buying Behavior: ', bold: true }, tcp.buyingBehavior], fontSize: 10, color: GRAY, margin: [0, 2, 0, 2] });
+    content.push({ text: 'Target Customer Profile', bold: true, fontSize: 11, color: ACCENT, margin: [0, 14, 0, 8] });
+    if (tcp.demographics) content.push(labelValue('Demographics', tcp.demographics));
+    if (tcp.psychographics) content.push(labelValue('Psychographics', tcp.psychographics));
+    if (tcp.buyingBehavior) content.push(labelValue('Buying Behavior', tcp.buyingBehavior));
     if (tcp.painPoints?.length) {
-      lines.push({ text: 'Pain Points:', bold: true, fontSize: 10, color: GRAY, margin: [0, 4, 0, 2] });
-      tcp.painPoints.forEach((p: string) => lines.push({ text: `• ${p}`, fontSize: 10, color: GRAY, margin: [12, 1, 0, 1] }));
+      content.push({ text: 'Pain Points:', bold: true, fontSize: 10, color: TEXT, margin: [0, 6, 0, 4] });
+      tcp.painPoints.forEach((p: string) => content.push({ text: `•  ${p}`, fontSize: 10, color: TEXT_LIGHT, margin: [12, 1, 0, 1] }));
     }
-    content.push({
-      unbreakable: true,
-      margin: [0, 12, 0, 4],
-      table: { widths: ['*'], body: [[{ stack: [{ text: 'Target Customer Profile', bold: true, fontSize: 12, color: '#111827', margin: [0, 0, 0, 8] }, ...lines] }]] },
-      layout: { hLineWidth: () => 0.5, vLineWidth: () => 0.5, hLineColor: () => '#e5e7eb', vLineColor: () => '#e5e7eb', paddingLeft: () => 14, paddingRight: () => 14, paddingTop: () => 12, paddingBottom: () => 12 },
-    });
   }
-  content.push({ text: '', margin: [0, 16, 0, 0] });
+  content.push({ text: '', margin: [0, 12, 0, 0] });
 
   /* ---------- 4. MARKETING & SALES STRATEGY ---------- */
-  content.push(...heading(4, 'Marketing & Sales Strategy'));
+  content.push(...sectionHeading(4, 'Marketing & Sales Strategy'));
   if (plan.marketingStrategy?.positioning) {
-    content.push(box('Positioning', plan.marketingStrategy.positioning));
+    content.push(labelValue('Positioning', plan.marketingStrategy.positioning));
   }
   if (plan.marketingStrategy?.channels?.length) {
-    content.push({ text: 'Marketing Channels', bold: true, fontSize: 11, color: GRAY, margin: [0, 10, 0, 6] });
-    plan.marketingStrategy.channels.forEach((ch: any) => content.push(channelCard(ch)));
+    content.push({ text: 'Marketing Channels', bold: true, fontSize: 10, color: TEXT, margin: [0, 10, 0, 6] });
+    const chBody: any[][] = [
+      [
+        { text: 'Channel', bold: true, fontSize: 9, color: ACCENT },
+        { text: 'Priority', bold: true, fontSize: 9, color: ACCENT, alignment: 'center' },
+        { text: 'Strategy & CAC', bold: true, fontSize: 9, color: ACCENT },
+      ],
+    ];
+    plan.marketingStrategy.channels.forEach((ch: any) => chBody.push(channelRow(ch)));
+    content.push({
+      table: { headerRows: 1, widths: [100, 50, '*'], body: chBody },
+      layout: {
+        hLineWidth: (i: number, node: any) => (i === 0 || i === 1 || i === node.table.body.length) ? 0.8 : 0.3,
+        vLineWidth: () => 0,
+        hLineColor: (i: number) => i <= 1 ? ACCENT : LINE_LIGHT,
+        paddingLeft: () => 8, paddingRight: () => 8, paddingTop: () => 6, paddingBottom: () => 6,
+      },
+      margin: [0, 0, 0, 8],
+    });
   }
   if (plan.marketingStrategy?.launchPlan) {
-    content.push({ text: '', margin: [0, 6, 0, 0] });
-    content.push(box('90-Day Launch Plan', plan.marketingStrategy.launchPlan, GREEN_LIGHT, GREEN));
+    content.push(
+      { text: '90-Day Launch Plan', bold: true, fontSize: 10, color: ACCENT, margin: [0, 8, 0, 4] },
+      { text: plan.marketingStrategy.launchPlan, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [0, 0, 0, 8] },
+    );
   }
-  content.push({ text: '', margin: [0, 16, 0, 0] });
+  content.push({ text: '', margin: [0, 12, 0, 0] });
 
   /* ---------- 5. FINANCIAL PROJECTIONS ---------- */
-  content.push(...heading(5, 'Financial Projections'));
+  content.push(...sectionHeading(5, 'Financial Projections'));
   if (plan.financialProjections?.revenueModel) {
-    content.push({ text: plan.financialProjections.revenueModel, fontSize: 10, color: GRAY, lineHeight: 1.5, margin: [0, 0, 0, 12] });
+    content.push({ text: plan.financialProjections.revenueModel, fontSize: 10, color: TEXT, lineHeight: 1.6, margin: [0, 0, 0, 12] });
   }
   const y1 = plan.financialProjections?.year1 || {};
   const y2 = plan.financialProjections?.year2 || {};
@@ -256,92 +232,104 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
       widths: ['*', 'auto', 'auto', 'auto'],
       body: [
         [
-          { text: 'Metric', bold: true, fillColor: '#f9fafb', fontSize: 10, color: GRAY },
-          { text: 'Year 1', bold: true, fillColor: '#f9fafb', fontSize: 10, color: GRAY, alignment: 'right' },
-          { text: 'Year 2', bold: true, fillColor: '#f9fafb', fontSize: 10, color: GRAY, alignment: 'right' },
-          { text: 'Year 3', bold: true, fillColor: '#f9fafb', fontSize: 10, color: GRAY, alignment: 'right' },
+          { text: 'Metric', bold: true, fontSize: 9, color: ACCENT },
+          { text: 'Year 1', bold: true, fontSize: 9, color: ACCENT, alignment: 'right' },
+          { text: 'Year 2', bold: true, fontSize: 9, color: ACCENT, alignment: 'right' },
+          { text: 'Year 3', bold: true, fontSize: 9, color: ACCENT, alignment: 'right' },
         ],
-        [{ text: 'Revenue', fontSize: 10 }, { text: y1.revenue || '—', alignment: 'right', fontSize: 10 }, { text: y2.revenue || '—', alignment: 'right', fontSize: 10 }, { text: y3.revenue || '—', alignment: 'right', fontSize: 10, bold: true, color: GREEN }],
-        [{ text: 'Costs', fontSize: 10 }, { text: y1.costs || '—', alignment: 'right', fontSize: 10 }, { text: y2.costs || '—', alignment: 'right', fontSize: 10 }, { text: y3.costs || '—', alignment: 'right', fontSize: 10 }],
-        [{ text: 'Profit', fontSize: 10 }, { text: y1.profit || '—', alignment: 'right', fontSize: 10 }, { text: y2.profit || '—', alignment: 'right', fontSize: 10 }, { text: y3.profit || '—', alignment: 'right', fontSize: 10, bold: true, color: GREEN }],
-        [{ text: 'Customers', fontSize: 10 }, { text: y1.customers || '—', alignment: 'right', fontSize: 10 }, { text: y2.customers || '—', alignment: 'right', fontSize: 10 }, { text: y3.customers || '—', alignment: 'right', fontSize: 10 }],
+        [{ text: 'Revenue', fontSize: 10, color: TEXT }, { text: y1.revenue || '—', alignment: 'right', fontSize: 10, color: TEXT }, { text: y2.revenue || '—', alignment: 'right', fontSize: 10, color: TEXT }, { text: y3.revenue || '—', alignment: 'right', fontSize: 10, bold: true, color: ACCENT }],
+        [{ text: 'Costs', fontSize: 10, color: TEXT }, { text: y1.costs || '—', alignment: 'right', fontSize: 10, color: TEXT }, { text: y2.costs || '—', alignment: 'right', fontSize: 10, color: TEXT }, { text: y3.costs || '—', alignment: 'right', fontSize: 10, color: TEXT }],
+        [{ text: 'Profit', fontSize: 10, color: TEXT }, { text: y1.profit || '—', alignment: 'right', fontSize: 10, color: TEXT }, { text: y2.profit || '—', alignment: 'right', fontSize: 10, color: TEXT }, { text: y3.profit || '—', alignment: 'right', fontSize: 10, bold: true, color: ACCENT }],
+        [{ text: 'Customers', fontSize: 10, color: TEXT }, { text: y1.customers || '—', alignment: 'right', fontSize: 10, color: TEXT }, { text: y2.customers || '—', alignment: 'right', fontSize: 10, color: TEXT }, { text: y3.customers || '—', alignment: 'right', fontSize: 10, color: TEXT }],
       ],
     },
     layout: {
-      hLineWidth: (i: number, node: any) => (i === 0 || i === 1 || i === node.table.body.length) ? 1 : 0.5,
+      hLineWidth: (i: number, node: any) => (i === 0 || i === 1 || i === node.table.body.length) ? 0.8 : 0.3,
       vLineWidth: () => 0,
-      hLineColor: (i: number) => i <= 1 ? '#d1d5db' : '#f3f4f6',
-      paddingLeft: () => 10,
-      paddingRight: () => 10,
-      paddingTop: () => 6,
-      paddingBottom: () => 6,
+      hLineColor: (i: number) => i <= 1 ? ACCENT : LINE_LIGHT,
+      paddingLeft: () => 10, paddingRight: () => 10, paddingTop: () => 6, paddingBottom: () => 6,
     },
   });
   if (plan.financialProjections?.breakEvenTimeline) {
-    content.push({ text: [{ text: 'Break-even: ', bold: true }, plan.financialProjections.breakEvenTimeline], fontSize: 10, color: GRAY, margin: [0, 0, 0, 8] });
+    content.push(labelValue('Break-even Timeline', plan.financialProjections.breakEvenTimeline));
   }
   if (plan.financialProjections?.startupCosts?.length) {
-    const scBody = [[
-      { text: 'Item', bold: true, fillColor: '#f9fafb', fontSize: 10, color: GRAY },
-      { text: 'Amount', bold: true, fillColor: '#f9fafb', fontSize: 10, color: GRAY, alignment: 'right' },
+    const scBody: any[][] = [[
+      { text: 'Item', bold: true, fontSize: 9, color: ACCENT },
+      { text: 'Amount', bold: true, fontSize: 9, color: ACCENT, alignment: 'right' },
     ]];
     plan.financialProjections.startupCosts.forEach((c: any) => {
-      scBody.push([{ text: c.item || '', fontSize: 10 }, { text: c.amount || '', alignment: 'right', fontSize: 10 }]);
+      scBody.push([{ text: c.item || '', fontSize: 10, color: TEXT }, { text: c.amount || '', alignment: 'right', fontSize: 10, color: TEXT }]);
     });
     content.push(
-      { text: 'Startup Costs', bold: true, fontSize: 11, color: GRAY, margin: [0, 8, 0, 6] },
+      { text: 'Startup Costs', bold: true, fontSize: 10, color: TEXT, margin: [0, 8, 0, 6] },
       {
         table: { headerRows: 1, widths: ['*', 'auto'], body: scBody },
-        layout: { hLineWidth: (i: number) => i <= 1 ? 1 : 0.5, vLineWidth: () => 0, hLineColor: (i: number) => i <= 1 ? '#d1d5db' : '#f3f4f6', paddingLeft: () => 10, paddingRight: () => 10, paddingTop: () => 5, paddingBottom: () => 5 },
+        layout: { hLineWidth: (i: number) => i <= 1 ? 0.8 : 0.3, vLineWidth: () => 0, hLineColor: (i: number) => i <= 1 ? ACCENT : LINE_LIGHT, paddingLeft: () => 10, paddingRight: () => 10, paddingTop: () => 5, paddingBottom: () => 5 },
         margin: [0, 0, 0, 8],
       },
     );
   }
   if (plan.financialProjections?.fundingNeeded) {
-    content.push(box('Funding Requirement', plan.financialProjections.fundingNeeded, GREEN_LIGHT, GREEN));
+    content.push(labelValue('Funding Requirement', plan.financialProjections.fundingNeeded));
   }
-  content.push({ text: '', margin: [0, 16, 0, 0] });
+  content.push({ text: '', margin: [0, 12, 0, 0] });
 
   /* ---------- 6. OPERATIONS PLAN ---------- */
-  content.push(...heading(6, 'Operations Plan'));
+  content.push(...sectionHeading(6, 'Operations Plan'));
   if (plan.operationsPlan?.businessModel) {
-    content.push({ text: 'Business Model', bold: true, fontSize: 11, color: '#111827', margin: [0, 0, 0, 4] });
-    content.push({ text: plan.operationsPlan.businessModel, fontSize: 10, color: GRAY, lineHeight: 1.5, margin: [0, 0, 0, 12] });
+    content.push(labelValue('Business Model', plan.operationsPlan.businessModel));
   }
   if (plan.operationsPlan?.teamStructure) {
-    content.push({ text: 'Team Structure', bold: true, fontSize: 11, color: '#111827', margin: [0, 0, 0, 4] });
-    content.push({ text: plan.operationsPlan.teamStructure, fontSize: 10, color: GRAY, lineHeight: 1.5, margin: [0, 0, 0, 12] });
+    content.push(labelValue('Team Structure', plan.operationsPlan.teamStructure));
   }
   if (plan.operationsPlan?.technology) {
-    content.push({ text: 'Technology', bold: true, fontSize: 11, color: '#111827', margin: [0, 0, 0, 4] });
-    content.push({ text: plan.operationsPlan.technology, fontSize: 10, color: GRAY, lineHeight: 1.5, margin: [0, 0, 0, 12] });
+    content.push(labelValue('Technology', plan.operationsPlan.technology));
   }
   if (plan.operationsPlan?.keyMilestones?.length) {
-    content.push({ text: 'Key Milestones', bold: true, fontSize: 11, color: '#111827', margin: [0, 4, 0, 6] });
-    const msBody = [[
-      { text: 'Timeline', bold: true, fillColor: '#f9fafb', fontSize: 10, color: BLUE },
-      { text: 'Milestone', bold: true, fillColor: '#f9fafb', fontSize: 10, color: GRAY },
+    content.push({ text: 'Key Milestones', bold: true, fontSize: 10, color: TEXT, margin: [0, 8, 0, 6] });
+    const msBody: any[][] = [[
+      { text: 'Timeline', bold: true, fontSize: 9, color: ACCENT },
+      { text: 'Milestone', bold: true, fontSize: 9, color: ACCENT },
     ]];
     plan.operationsPlan.keyMilestones.forEach((m: any) => {
-      msBody.push([{ text: m.timeline || '', fontSize: 10, color: BLUE, bold: true }, { text: m.milestone || '', fontSize: 10, color: GRAY }]);
+      msBody.push([{ text: m.timeline || '', fontSize: 10, color: ACCENT, bold: true }, { text: m.milestone || '', fontSize: 10, color: TEXT }]);
     });
     content.push({
       table: { headerRows: 1, widths: ['auto', '*'], body: msBody },
-      layout: { hLineWidth: (i: number) => i <= 1 ? 1 : 0.5, vLineWidth: () => 0, hLineColor: (i: number) => i <= 1 ? '#d1d5db' : '#f3f4f6', paddingLeft: () => 10, paddingRight: () => 10, paddingTop: () => 6, paddingBottom: () => 6 },
+      layout: { hLineWidth: (i: number) => i <= 1 ? 0.8 : 0.3, vLineWidth: () => 0, hLineColor: (i: number) => i <= 1 ? ACCENT : LINE_LIGHT, paddingLeft: () => 10, paddingRight: () => 10, paddingTop: () => 6, paddingBottom: () => 6 },
     });
   }
-  content.push({ text: '', margin: [0, 16, 0, 0] });
+  content.push({ text: '', margin: [0, 12, 0, 0] });
 
   /* ---------- 7. RISK ANALYSIS ---------- */
-  content.push(...heading(7, 'Risk Analysis'));
-  (plan.riskAnalysis?.risks || []).forEach((r: any) => content.push(riskCard(r)));
+  content.push(...sectionHeading(7, 'Risk Analysis'));
+  if (plan.riskAnalysis?.risks?.length) {
+    const rBody: any[][] = [
+      [
+        { text: 'Risk', bold: true, fontSize: 9, color: ACCENT },
+        { text: 'Likelihood', bold: true, fontSize: 9, color: ACCENT, alignment: 'center' },
+        { text: 'Mitigation Strategy', bold: true, fontSize: 9, color: ACCENT },
+      ],
+    ];
+    plan.riskAnalysis.risks.forEach((r: any) => rBody.push(riskRow(r)));
+    content.push({
+      table: { headerRows: 1, widths: ['*', 60, '*'], body: rBody },
+      layout: {
+        hLineWidth: (i: number, node: any) => (i === 0 || i === 1 || i === node.table.body.length) ? 0.8 : 0.3,
+        vLineWidth: () => 0,
+        hLineColor: (i: number) => i <= 1 ? ACCENT : LINE_LIGHT,
+        paddingLeft: () => 8, paddingRight: () => 8, paddingTop: () => 6, paddingBottom: () => 6,
+      },
+    });
+  }
 
   /* ---------- FOOTER ---------- */
   content.push(
-    { text: '', margin: [0, 20, 0, 0] },
-    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: '#e5e7eb' }] },
-    { text: `Generated by BizPlan Genius — ${date}`, fontSize: 9, color: GRAY_MUTED, alignment: 'center', margin: [0, 10, 0, 0] },
-    { text: 'AI-Powered Business Plans with Real Market Research', fontSize: 8, color: '#d1d5db', alignment: 'center', margin: [0, 2, 0, 0] },
+    { text: '', margin: [0, 30, 0, 0] },
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: LINE }] },
+    { text: `Generated by BizPlan Genius  —  ${date}`, fontSize: 9, color: TEXT_MUTED, alignment: 'center', margin: [0, 10, 0, 2] },
+    { text: 'AI-Powered Business Plans with Real Market Research', fontSize: 8, color: LINE, alignment: 'center' },
   );
 
   return {
@@ -351,17 +339,17 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
       if (currentPage === 1) return null;
       return {
         columns: [
-          { text: businessName, fontSize: 8, color: GRAY_MUTED, margin: [40, 20, 0, 0] },
-          { text: 'BizPlan Genius', fontSize: 8, color: GRAY_MUTED, alignment: 'right', margin: [0, 20, 40, 0] },
+          { text: businessName, fontSize: 8, color: TEXT_MUTED, margin: [40, 20, 0, 0] },
+          { text: 'BizPlan Genius', fontSize: 8, color: TEXT_MUTED, alignment: 'right', margin: [0, 20, 40, 0] },
         ],
       };
     },
     footer: (currentPage: number, pageCount: number) => {
       if (currentPage === 1) return null;
-      return { text: `Page ${currentPage} of ${pageCount}`, alignment: 'center', fontSize: 8, color: GRAY_MUTED, margin: [0, 10, 0, 0] };
+      return { text: `Page ${currentPage} of ${pageCount}`, alignment: 'center', fontSize: 8, color: TEXT_MUTED, margin: [0, 10, 0, 0] };
     },
     content,
-    defaultStyle: { font: 'Roboto', fontSize: 10, color: GRAY, lineHeight: 1.3 },
+    defaultStyle: { font: 'Roboto', fontSize: 10, color: TEXT, lineHeight: 1.3 },
   };
 }
 
