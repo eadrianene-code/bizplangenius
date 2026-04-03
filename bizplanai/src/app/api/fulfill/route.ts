@@ -1,4 +1,4 @@
-import { NextRequ65536est, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
@@ -21,7 +21,7 @@ BUSINESS DETAILS:
 - Revenue Model: ${meta.revenueModel}
 - Location: ${meta.location || 'Not specified'}
 - Starting Budget: ${meta.investment || 'Not specified'}
-- Known Competitors: ${meta.competitors || 'None listed — research and identify the top competitors'}
+- Known Competitors: ${meta.competitors || 'None listed \u2014 research and identify the top competitors'}
 
 INSTRUCTIONS:
 Create a thorough, professional business plan with the following sections. Use REAL industry data, realistic estimates, and specific numbers wherever possible. Do NOT use placeholder text or generic filler.
@@ -112,15 +112,14 @@ CRITICAL RULES:
 2. Identify 5-10 REAL competitors that exist in this space
 3. All financial projections must be conservative and achievable
 4. Include specific pricing comparisons with competitors
-5. Output ONLY the JSON — no markdown, no code blocks, no extra text
-6. Make the plan specific to THIS business — not generic advice`;
+5. Output ONLY the JSON \u2014 no markdown, no code blocks, no extra text
+6. Make the plan specific to THIS business \u2014 not generic advice`;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const { sessionId } = await req.json();
 
-    // Verify the payment session
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status !== 'paid') {
@@ -129,7 +128,6 @@ export async function POST(req: NextRequest) {
 
     const meta = session.metadata || {};
 
-    // Generate the business plan
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.5-flash',
       generationConfig: {
@@ -147,14 +145,11 @@ export async function POST(req: NextRequest) {
     console.log('Gemini raw response (first 500 chars):', text.substring(0, 500));
 
     let plan;
-    // Try multiple parsing strategies
     const rawText = text.trim();
 
-    // Strategy 1: Direct JSON parse
     try {
       plan = JSON.parse(rawText);
     } catch {
-      // Strategy 2: Extract from markdown code blocks
       const jsonMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
       if (jsonMatch) {
         try {
@@ -162,7 +157,6 @@ export async function POST(req: NextRequest) {
         } catch {}
       }
 
-      // Strategy 3: Find the first { and last } to extract JSON object
       if (!plan) {
         const firstBrace = rawText.indexOf('{');
         const lastBrace = rawText.lastIndexOf('}');
