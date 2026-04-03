@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequ65536est, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
@@ -135,7 +135,7 @@ export async function POST(req: NextRequest) {
       generationConfig: {
         temperature: 0.7,
         topP: 0.9,
-        maxOutputTokens: 8192,
+        maxOutputTokens: 65536,
         responseMimeType: 'application/json',
       },
     });
