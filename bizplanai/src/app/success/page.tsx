@@ -12,6 +12,27 @@ interface BusinessPlan {
   riskAnalysis: any;
 }
 
+function downloadPDF() {
+  const element = document.getElementById('business-plan');
+  if (!element) return;
+
+  // Dynamically load html2pdf.js
+  const script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+  script.onload = () => {
+    const opt = {
+      margin: [10, 10, 10, 10],
+      filename: 'BizPlan-Genius-Business-Plan.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    (window as any).html2pdf().set(opt).from(element).save();
+  };
+  document.head.appendChild(script);
+}
+
 export default function SuccessPage() {
   const [status, setStatus] = useState<'loading' | 'generating' | 'done' | 'error'>('loading');
   const [plan, setPlan] = useState<BusinessPlan | null>(null);
@@ -113,10 +134,10 @@ export default function SuccessPage() {
         <div className="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
           <a href="/" className="text-xl font-bold text-gradient">BizPlan Genius</a>
           <button
-            onClick={() => window.print()}
+            onClick={downloadPDF}
             className="px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-lg hover:bg-brand-700 transition text-sm"
           >
-            Download as PDF
+            📥 Download as PDF
           </button>
         </div>
       </header>
@@ -126,7 +147,7 @@ export default function SuccessPage() {
         <div className="bg-accent-500/10 border border-accent-500/20 rounded-2xl p-6 text-center print:hidden">
           <div className="text-3xl mb-2">✅</div>
           <h1 className="text-2xl font-bold text-accent-600 mb-1">Your Business Plan is Ready!</h1>
-          <p className="text-gray-600">Click "Download as PDF" above to save your plan, or use Ctrl+P / Cmd+P</p>
+          <p className="text-gray-600">Review your plan below, then click "Download as PDF" to save it to your computer</p>
         </div>
 
         {/* Executive Summary */}
