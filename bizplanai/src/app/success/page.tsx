@@ -16,6 +16,62 @@ function downloadPDF() {
   const element = document.getElementById('business-plan');
   if (!element) return;
 
+  // Inject temporary PDF-friendly styles to override CSS custom properties
+  const pdfStyles = document.createElement('style');
+  pdfStyles.id = 'pdf-override-styles';
+  pdfStyles.textContent = `
+    #business-plan * {
+      color: #1a1a1a !important;
+    }
+    #business-plan {
+      background: #ffffff !important;
+    }
+    #business-plan section {
+      background: #ffffff !important;
+      border: 1px solid #e5e7eb !important;
+    }
+    #business-plan h2 {
+      color: #1e40af !important;
+    }
+    #business-plan .text-brand-700, #business-plan .text-brand-600 {
+      color: #1e40af !important;
+    }
+    #business-plan .text-accent-600 {
+      color: #059669 !important;
+    }
+    #business-plan .text-red-600, #business-plan .text-red-500 {
+      color: #dc2626 !important;
+    }
+    #business-plan .text-green-600 {
+      color: #16a34a !important;
+    }
+    #business-plan .text-yellow-600 {
+      color: #ca8a04 !important;
+    }
+    #business-plan .text-gray-400, #business-plan .text-gray-500 {
+      color: #6b7280 !important;
+    }
+    #business-plan .bg-brand-50 {
+      background: #eff6ff !important;
+    }
+    #business-plan .bg-gray-50 {
+      background: #f9fafb !important;
+    }
+    #business-plan [class*="bg-accent"] {
+      background: #ecfdf5 !important;
+    }
+    #business-plan table th {
+      color: #374151 !important;
+    }
+    #business-plan table td {
+      color: #1a1a1a !important;
+    }
+    #business-plan span[class*="rounded-full"] {
+      color: inherit !important;
+    }
+  `;
+  document.head.appendChild(pdfStyles);
+
   // Dynamically load html2pdf.js
   const script = document.createElement('script');
   script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
@@ -24,11 +80,15 @@ function downloadPDF() {
       margin: [10, 10, 10, 10],
       filename: 'BizPlan-Genius-Business-Plan.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
     };
-    (window as any).html2pdf().set(opt).from(element).save();
+    (window as any).html2pdf().set(opt).from(element).save().then(() => {
+      // Remove override styles after PDF is generated
+      const overrideEl = document.getElementById('pdf-override-styles');
+      if (overrideEl) overrideEl.remove();
+    });
   };
   document.head.appendChild(script);
 }
