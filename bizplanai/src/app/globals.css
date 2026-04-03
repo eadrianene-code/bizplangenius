@@ -21,3 +21,147 @@ body {
                       radial-gradient(circle at 75% 75%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
   }
 }
+
+/* ===== PDF / Print Styles ===== */
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 15mm 18mm 15mm;
+  }
+
+  html, body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  .print-hidden,
+  header,
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .plan-section {
+    background: white !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 0 8mm 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .plan-section h2 {
+    color: #1d4ed8 !important;
+    font-size: 16pt !important;
+    font-weight: 700 !important;
+    margin-bottom: 4mm !important;
+    padding-bottom: 2mm !important;
+    border-bottom: 1.5pt solid #dbeafe !important;
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .plan-info-box {
+    background-color: #eff6ff !important;
+    border: 0.5pt solid #dbeafe !important;
+    border-radius: 4pt !important;
+    padding: 8pt 10pt !important;
+    margin: 3mm 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .plan-accent-box {
+    background-color: #ecfdf5 !important;
+    border: 0.5pt solid #d1fae5 !important;
+    border-radius: 4pt !important;
+    padding: 8pt 10pt !important;
+    margin: 3mm 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .competitor-card {
+    border: 0.5pt solid #e5e7eb !important;
+    border-radius: 4pt !important;
+    padding: 8pt 10pt !important;
+    margin: 3mm 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .risk-card {
+    border: 0.5pt solid #e5e7eb !important;
+    border-radius: 4pt !important;
+    padding: 8pt 10pt !important;
+    margin: 2mm 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .plan-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 10pt !important;
+  }
+  .plan-table th {
+    background-color: #f9fafb !important;
+    border-bottom: 1.5pt solid #e5e7eb !important;
+    padding: 6pt 8pt !important;
+    text-align: left !important;
+    font-weight: 600 !important;
+  }
+  .plan-table td {
+    padding: 5pt 8pt !important;
+    border-bottom: 0.5pt solid #f3f4f6 !important;
+  }
+
+  .channel-card {
+    border: 0.5pt solid #e5e7eb !important;
+    border-radius: 4pt !important;
+    padding: 6pt 10pt !important;
+    margin: 2mm 0 !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .milestone-row {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .pdf-page-header {
+    display: block !important;
+    position: running(header);
+    font-size: 8pt;
+    color: #9ca3af;
+  }
+
+  .page-break-before {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .plan-footer {
+    margin-top: 10mm !important;
+    padding-top: 4mm !important;
+    border-top: 0.5pt solid #e5e7eb !important;
+    text-align: center !important;
+    font-size: 8pt !important;
+    color: #9ca3af !important;
+  }
+
+  .print-grid-2 {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 3mm !important;
+  }
+}
