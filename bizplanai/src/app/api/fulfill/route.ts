@@ -120,6 +120,7 @@ export async function POST(req: NextRequest) {
   try {
     const { sessionId } = await req.json();
 
+    // Verify the payment session
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status !== 'paid') {
@@ -128,6 +129,7 @@ export async function POST(req: NextRequest) {
 
     const meta = session.metadata || {};
 
+    // Generate the business plan
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.5-flash',
       generationConfig: {
@@ -145,11 +147,14 @@ export async function POST(req: NextRequest) {
     console.log('Gemini raw response (first 500 chars):', text.substring(0, 500));
 
     let plan;
+    // Try multiple parsing strategies
     const rawText = text.trim();
 
+    // Strategy 1: Direct JSON parse
     try {
       plan = JSON.parse(rawText);
     } catch {
+      // Strategy 2: Extract from markdown code blocks
       const jsonMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
       if (jsonMatch) {
         try {
@@ -157,6 +162,7 @@ export async function POST(req: NextRequest) {
         } catch {}
       }
 
+      // Strategy 3: Find the first { and last } to extract JSON object
       if (!plan) {
         const firstBrace = rawText.indexOf('{');
         const lastBrace = rawText.lastIndexOf('}');
@@ -173,7 +179,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return NextResponse.json({ plan });
+    return NextResponse.json({ plan, businessName: meta.businessName || 'Business Plan' });
   } catch (error: any) {
     console.error('Fulfill error:', error);
     return NextResponse.json(
