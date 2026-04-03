@@ -286,7 +286,6 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     content.push({ ...calloutBox('Positioning', plan.marketingStrategy.positioning), unbreakable: true });
   }
   if (plan.marketingStrategy?.channels?.length) {
-    content.push(subHeading('Marketing Channels'));
     const chBody: any[][] = [
       [
         { text: 'Channel', bold: true, fontSize: 8, color: ACCENT },
@@ -295,14 +294,21 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
       ],
     ];
     plan.marketingStrategy.channels.forEach((ch: any) => chBody.push(channelRow(ch)));
+    /* Marketing Channels table can be tall (5-6 rows), so don't make the whole
+       thing unbreakable — just keep heading with first rows via dontBreakRows.
+       But DO keep the heading attached to the table in one stack. */
     content.push({
-      table: { headerRows: 1, dontBreakRows: true, widths: [90, 50, '*'], body: chBody },
-      layout: cleanTableLayout(true),
-      margin: [0, 0, 0, 6],
+      stack: [
+        subHeading('Marketing Channels'),
+        {
+          table: { headerRows: 1, dontBreakRows: true, widths: [90, 50, '*'], body: chBody },
+          layout: cleanTableLayout(true),
+          margin: [0, 0, 0, 6],
+        },
+      ],
     });
   }
   if (plan.marketingStrategy?.launchPlan) {
-    content.push(subHeading('90-Day Launch Plan'));
     const lp = plan.marketingStrategy.launchPlan;
     const monthBlocks = lp.split(/(?=Month\s+\d)|(?=Phase\s+\d)|(?=Week\s+\d)/i).filter((b: string) => b.trim());
     if (monthBlocks.length >= 2) {
@@ -321,13 +327,20 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
           { text: activities, fontSize: 9, color: TEXT_LIGHT, lineHeight: 1.35 },
         ]);
       });
+      /* Wrap heading + table together so they never split across pages */
       content.push({
-        table: { headerRows: 1, dontBreakRows: true, widths: [75, '*'], body: lpBody },
-        layout: cleanTableLayout(true),
-        margin: [0, 0, 0, 6],
+        unbreakable: true,
+        stack: [
+          subHeading('90-Day Launch Plan'),
+          {
+            table: { headerRows: 1, dontBreakRows: true, widths: [75, '*'], body: lpBody },
+            layout: cleanTableLayout(true),
+            margin: [0, 0, 0, 6],
+          },
+        ],
       });
     } else {
-      content.push(calloutBox('90-Day Launch Plan', lp));
+      content.push({ ...calloutBox('90-Day Launch Plan', lp), unbreakable: true });
     }
   }
 
@@ -383,14 +396,17 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
         { text: '$' + totalAmount.toLocaleString('en-US'), alignment: 'right', fontSize: 10, color: ACCENT, bold: true },
       ]);
     }
-    content.push(
-      subHeading('Startup Costs'),
-      {
-        table: { headerRows: 1, dontBreakRows: true, widths: ['*', 'auto'], body: scBody },
-        layout: cleanTableLayout(true),
-        margin: [0, 0, 0, 6],
-      },
-    );
+    content.push({
+      unbreakable: true,
+      stack: [
+        subHeading('Startup Costs'),
+        {
+          table: { headerRows: 1, dontBreakRows: true, widths: ['*', 'auto'], body: scBody },
+          layout: cleanTableLayout(true),
+          margin: [0, 0, 0, 6],
+        },
+      ],
+    });
   }
   if (plan.financialProjections?.fundingNeeded) {
     content.push({ ...calloutBox('Funding Requirement', plan.financialProjections.fundingNeeded), unbreakable: true });
@@ -458,7 +474,6 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     content.push(subHeading('Technology'), ...parseOpsSection(plan.operationsPlan.technology));
   }
   if (plan.operationsPlan?.keyMilestones?.length) {
-    content.push(subHeading('Key Milestones'));
     const msBody: any[][] = [[
       { text: 'Timeline', bold: true, fontSize: 8, color: ACCENT },
       { text: 'Milestone', bold: true, fontSize: 8, color: ACCENT },
@@ -467,8 +482,14 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
       msBody.push([{ text: m.timeline || '', fontSize: 9, color: ACCENT, bold: true }, { text: m.milestone || '', fontSize: 9, color: TEXT }]);
     });
     content.push({
-      table: { headerRows: 1, dontBreakRows: true, widths: ['auto', '*'], body: msBody },
-      layout: cleanTableLayout(true),
+      unbreakable: true,
+      stack: [
+        subHeading('Key Milestones'),
+        {
+          table: { headerRows: 1, dontBreakRows: true, widths: ['auto', '*'], body: msBody },
+          layout: cleanTableLayout(true),
+        },
+      ],
     });
   }
 
