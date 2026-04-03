@@ -21,7 +21,7 @@ BUSINESS DETAILS:
 - Revenue Model: ${meta.revenueModel}
 - Location: ${meta.location || 'Not specified'}
 - Starting Budget: ${meta.investment || 'Not specified'}
-- Known Competitors: ${meta.competitors || 'None listed â research and identify the top competitors'}
+- Known Competitors: ${meta.competitors || 'None listed — research and identify the top competitors'}
 
 INSTRUCTIONS:
 Create a thorough, professional business plan with the following sections. Use REAL industry data, realistic estimates, and specific numbers wherever possible. Do NOT use placeholder text or generic filler.
@@ -112,8 +112,8 @@ CRITICAL RULES:
 2. Identify 5-10 REAL competitors that exist in this space
 3. All financial projections must be conservative and achievable
 4. Include specific pricing comparisons with competitors
-5. Output ONLY the JSON â no markdown, no code blocks, no extra text
-6. Make the plan specific to THIS business â not generic advice`;
+5. Output ONLY the JSON — no markdown, no code blocks, no extra text
+6. Make the plan specific to THIS business — not generic advice`;
 }
 
 export async function POST(req: NextRequest) {
@@ -144,14 +144,37 @@ export async function POST(req: NextRequest) {
     const result = await model.generateContent(prompt);
     const text = result.response.text();
 
+    console.log('Gemini raw response (first 500 chars):', text.substring(0, 500));
+
     let plan;
+    // Try multiple parsing strategies
+    const rawText = text.trim();
+
+    // Strategy 1: Direct JSON parse
     try {
-      plan = JSON.parse(text);
+      plan = JSON.parse(rawText);
     } catch {
-      const jsonMatch = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+      // Strategy 2: Extract from markdown code blocks
+      const jsonMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
       if (jsonMatch) {
-        plan = JSON.parse(jsonMatch[1]);
-      } else {
+        try {
+          plan = JSON.parse(jsonMatch[1].trim());
+        } catch {}
+      }
+
+      // Strategy 3: Find the first { and last } to extract JSON object
+      if (!plan) {
+        const firstBrace = rawText.indexOf('{');
+        const lastBrace = rawText.lastIndexOf('}');
+        if (firstBrace !== -1 && lastBrace > firstBrace) {
+          try {
+            plan = JSON.parse(rawText.substring(firstBrace, lastBrace + 1));
+          } catch {}
+        }
+      }
+
+      if (!plan) {
+        console.error('Failed to parse. Full response:', rawText.substring(0, 2000));
         throw new Error('Failed to parse AI response');
       }
     }
