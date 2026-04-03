@@ -160,6 +160,29 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     { text: '', pageBreak: 'after' },
   );
 
+  /* ---------- TABLE OF CONTENTS ---------- */
+  const tocItems = [
+    'Executive Summary',
+    'Competitor Analysis',
+    'Market Analysis',
+    'Marketing & Sales Strategy',
+    'Financial Projections',
+    'Operations Plan',
+    'Risk Analysis',
+  ];
+  content.push(
+    { text: 'TABLE OF CONTENTS', fontSize: 14, bold: true, color: ACCENT, characterSpacing: 1, margin: [0, 0, 0, 20] },
+    ...tocItems.map((item, i) => ({
+      columns: [
+        { text: `${i + 1}.`, width: 20, fontSize: 11, color: ACCENT, bold: true },
+        { text: item, fontSize: 11, color: TEXT, width: '*' },
+      ],
+      margin: [0, 8, 0, 8] as [number, number, number, number],
+    })),
+    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: LINE }], margin: [0, 20, 0, 0] },
+    { text: '', pageBreak: 'after' },
+  );
+
   /* ---------- 1. EXECUTIVE SUMMARY ---------- */
   content.push(...sectionHeading(1, 'Executive Summary'));
   if (plan.executiveSummary?.overview) {
@@ -168,10 +191,13 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
   content.push(twoCol('Mission', plan.executiveSummary?.mission || '—', 'Vision', plan.executiveSummary?.vision || '—'));
   content.push(calloutBox('Value Proposition', plan.executiveSummary?.valueProposition || '—'));
   if (plan.executiveSummary?.keyMetrics?.length) {
-    content.push(
-      { text: 'Key Projected Metrics', bold: true, fontSize: 10, color: TEXT, margin: [0, 12, 0, 6] },
-      ...plan.executiveSummary.keyMetrics.map((m: string) => ({ text: `•  ${m}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 1, 0, 1] })),
-    );
+    content.push({
+      unbreakable: true,
+      stack: [
+        { text: 'Key Projected Metrics', bold: true, fontSize: 10, color: TEXT, margin: [0, 12, 0, 6] },
+        ...plan.executiveSummary.keyMetrics.map((m: string) => ({ text: `•  ${m}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 1, 0, 1] })),
+      ],
+    });
   }
   content.push({ text: '', margin: [0, 12, 0, 0] });
 
@@ -184,10 +210,13 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     content.push(competitorEntry(c));
   });
   if (plan.competitorAnalysis?.marketGaps?.length) {
-    content.push(
-      { text: 'Market Gaps & Opportunities', bold: true, fontSize: 10, color: ACCENT, margin: [0, 12, 0, 6] },
-      ...plan.competitorAnalysis.marketGaps.map((g: string, i: number) => ({ text: `${i + 1}.  ${g}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 2, 0, 2] })),
-    );
+    content.push({
+      unbreakable: true,
+      stack: [
+        { text: 'Market Gaps & Opportunities', bold: true, fontSize: 10, color: ACCENT, margin: [0, 12, 0, 6] },
+        ...plan.competitorAnalysis.marketGaps.map((g: string, i: number) => ({ text: `${i + 1}.  ${g}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 2, 0, 2] })),
+      ],
+    });
   }
   content.push({ text: '', margin: [0, 12, 0, 0] });
 
@@ -198,21 +227,25 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
   }
   content.push(twoCol('Market Size', plan.marketAnalysis?.marketSize || '—', 'Growth Rate', plan.marketAnalysis?.growthRate || '—'));
   if (plan.marketAnalysis?.trends?.length) {
-    content.push(
-      { text: 'Key Industry Trends', bold: true, fontSize: 10, color: TEXT, margin: [0, 12, 0, 6] },
-      ...plan.marketAnalysis.trends.map((t: string) => ({ text: `•  ${t}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 1, 0, 1] })),
-    );
+    content.push({
+      unbreakable: true,
+      stack: [
+        { text: 'Key Industry Trends', bold: true, fontSize: 10, color: TEXT, margin: [0, 12, 0, 6] },
+        ...plan.marketAnalysis.trends.map((t: string) => ({ text: `•  ${t}`, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [8, 1, 0, 1] })),
+      ],
+    });
   }
   if (plan.marketAnalysis?.targetCustomerProfile) {
     const tcp = plan.marketAnalysis.targetCustomerProfile;
-    content.push({ text: 'Target Customer Profile', bold: true, fontSize: 11, color: ACCENT, margin: [0, 14, 0, 8] });
-    if (tcp.demographics) content.push(labelValue('Demographics', tcp.demographics));
-    if (tcp.psychographics) content.push(labelValue('Psychographics', tcp.psychographics));
-    if (tcp.buyingBehavior) content.push(labelValue('Buying Behavior', tcp.buyingBehavior));
+    const tcpStack: any[] = [{ text: 'Target Customer Profile', bold: true, fontSize: 11, color: ACCENT, margin: [0, 14, 0, 8] }];
+    if (tcp.demographics) tcpStack.push(labelValue('Demographics', tcp.demographics));
+    if (tcp.psychographics) tcpStack.push(labelValue('Psychographics', tcp.psychographics));
+    if (tcp.buyingBehavior) tcpStack.push(labelValue('Buying Behavior', tcp.buyingBehavior));
     if (tcp.painPoints?.length) {
-      content.push({ text: 'Pain Points:', bold: true, fontSize: 10, color: TEXT, margin: [0, 6, 0, 4] });
-      tcp.painPoints.forEach((p: string) => content.push({ text: `•  ${p}`, fontSize: 10, color: TEXT_LIGHT, margin: [12, 1, 0, 1] }));
+      tcpStack.push({ text: 'Pain Points:', bold: true, fontSize: 10, color: TEXT, margin: [0, 6, 0, 4] });
+      tcp.painPoints.forEach((p: string) => tcpStack.push({ text: `•  ${p}`, fontSize: 10, color: TEXT_LIGHT, margin: [12, 1, 0, 1] }));
     }
+    content.push({ stack: tcpStack });
   }
   content.push({ text: '', margin: [0, 12, 0, 0] });
 
@@ -232,7 +265,7 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     ];
     plan.marketingStrategy.channels.forEach((ch: any) => chBody.push(channelRow(ch)));
     content.push({
-      table: { headerRows: 1, widths: [100, 50, '*'], body: chBody },
+      table: { headerRows: 1, dontBreakRows: true, widths: [100, 50, '*'], body: chBody },
       layout: {
         hLineWidth: (i: number, node: any) => (i === 0 || i === 1 || i === node.table.body.length) ? 0.8 : 0.3,
         vLineWidth: () => 0,
@@ -244,9 +277,9 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
   }
   if (plan.marketingStrategy?.launchPlan) {
     content.push({ text: '90-Day Launch Plan', bold: true, fontSize: 10, color: ACCENT, margin: [0, 8, 0, 6] });
-    /* Try to split launch plan into month blocks for a cleaner table layout */
+    /* Try to split launch plan into month/phase blocks for a cleaner table layout */
     const lp = plan.marketingStrategy.launchPlan;
-    const monthBlocks = lp.split(/(?=Month\s+\d)/i).filter((b: string) => b.trim());
+    const monthBlocks = lp.split(/(?=Month\s+\d)|(?=Phase\s+\d)|(?=Week\s+\d)/i).filter((b: string) => b.trim());
     if (monthBlocks.length >= 2) {
       const lpBody: any[][] = [[
         { text: 'Period', bold: true, fontSize: 9, color: ACCENT },
@@ -254,20 +287,23 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
       ]];
       monthBlocks.forEach((block: string) => {
         const colonIdx = block.indexOf(':');
-        const period = colonIdx > 0 ? block.slice(0, colonIdx).trim() : 'Phase';
-        const activities = colonIdx > 0 ? block.slice(colonIdx + 1).trim() : block.trim();
+        const parenIdx = block.indexOf('(');
+        const splitIdx = colonIdx > 0 ? colonIdx : (parenIdx > 0 && parenIdx < 30 ? block.indexOf(')', parenIdx) + 1 : -1);
+        const period = splitIdx > 0 ? block.slice(0, splitIdx).replace(/[():]/g, '').trim() : 'Phase';
+        const activities = splitIdx > 0 ? block.slice(splitIdx).replace(/^[():]\s*/, '').trim() : block.trim();
         lpBody.push([
           { text: period, fontSize: 10, color: ACCENT, bold: true },
           { text: activities, fontSize: 9, color: TEXT_LIGHT, lineHeight: 1.4 },
         ]);
       });
       content.push({
-        table: { headerRows: 1, widths: [80, '*'], body: lpBody },
+        table: { headerRows: 1, dontBreakRows: true, widths: [80, '*'], body: lpBody },
         layout: { hLineWidth: (i: number) => i <= 1 ? 0.8 : 0.3, vLineWidth: () => 0, hLineColor: (i: number) => i <= 1 ? ACCENT : LINE_LIGHT, paddingLeft: () => 8, paddingRight: () => 8, paddingTop: () => 6, paddingBottom: () => 6 },
         margin: [0, 0, 0, 8],
       });
     } else {
-      content.push({ text: lp, fontSize: 10, color: TEXT_LIGHT, lineHeight: 1.5, margin: [0, 0, 0, 8] });
+      /* Single block — wrap in a callout box so it looks intentional */
+      content.push(calloutBox('90-Day Launch Plan', lp));
     }
   }
   content.push({ text: '', margin: [0, 12, 0, 0] });
@@ -281,9 +317,11 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
   const y2 = plan.financialProjections?.year2 || {};
   const y3 = plan.financialProjections?.year3 || {};
   content.push({
+    unbreakable: true,
     margin: [0, 0, 0, 12],
     table: {
       headerRows: 1,
+      dontBreakRows: true,
       widths: ['*', 'auto', 'auto', 'auto'],
       body: [
         [
@@ -319,7 +357,7 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     content.push(
       { text: 'Startup Costs', bold: true, fontSize: 10, color: TEXT, margin: [0, 8, 0, 6] },
       {
-        table: { headerRows: 1, widths: ['*', 'auto'], body: scBody },
+        table: { headerRows: 1, dontBreakRows: true, widths: ['*', 'auto'], body: scBody },
         layout: { hLineWidth: (i: number) => i <= 1 ? 0.8 : 0.3, vLineWidth: () => 0, hLineColor: (i: number) => i <= 1 ? ACCENT : LINE_LIGHT, paddingLeft: () => 10, paddingRight: () => 10, paddingTop: () => 5, paddingBottom: () => 5 },
         margin: [0, 0, 0, 8],
       },
@@ -363,7 +401,7 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
       msBody.push([{ text: m.timeline || '', fontSize: 10, color: ACCENT, bold: true }, { text: m.milestone || '', fontSize: 10, color: TEXT }]);
     });
     content.push({
-      table: { headerRows: 1, widths: ['auto', '*'], body: msBody },
+      table: { headerRows: 1, dontBreakRows: true, widths: ['auto', '*'], body: msBody },
       layout: { hLineWidth: (i: number) => i <= 1 ? 0.8 : 0.3, vLineWidth: () => 0, hLineColor: (i: number) => i <= 1 ? ACCENT : LINE_LIGHT, paddingLeft: () => 10, paddingRight: () => 10, paddingTop: () => 6, paddingBottom: () => 6 },
     });
   }
@@ -381,7 +419,7 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     ];
     plan.riskAnalysis.risks.forEach((r: any) => rBody.push(riskRow(r)));
     content.push({
-      table: { headerRows: 1, widths: ['*', 60, '*'], body: rBody },
+      table: { headerRows: 1, dontBreakRows: true, widths: ['*', 60, '*'], body: rBody },
       layout: {
         hLineWidth: (i: number, node: any) => (i === 0 || i === 1 || i === node.table.body.length) ? 0.8 : 0.3,
         vLineWidth: () => 0,
@@ -418,9 +456,10 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     content,
     defaultStyle: { font: 'Roboto', fontSize: 10, color: TEXT, lineHeight: 1.3 },
     pageBreakBefore: (currentNode: any, followingNodesOnPage: any[]) => {
-      /* If a section heading would land near the bottom of a page with fewer than 2
-         content nodes after it, force a page break so the heading starts on a fresh page */
-      if (currentNode.headlineLevel === 1 && followingNodesOnPage.length <= 2) {
+      /* If a section heading would land near the bottom of a page with fewer than 4
+         content nodes after it, force a page break so the heading + first content block
+         always appear together — critical for clean printed output */
+      if (currentNode.headlineLevel === 1 && followingNodesOnPage.length <= 4) {
         return true;
       }
       return false;
