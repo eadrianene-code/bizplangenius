@@ -141,7 +141,7 @@ function competitorEntry(c: any): any {
   (c.weaknesses || []).forEach((w: string) => items.push({ text: [{ text: '-  ', color: DANGER_RED, bold: true }, { text: w, color: TEXT_LIGHT }], fontSize: 9, margin: [4, 1, 0, 1] }));
   if (items.length) rows.push({ stack: items, margin: [0, 2, 0, 2] });
   rows.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.3, lineColor: LINE_LIGHT }], margin: [0, 4, 0, 0] });
-  return { stack: rows, unbreakable: true };
+  return { stack: rows };
 }
 
 function riskRow(r: any): any[] {
@@ -209,29 +209,8 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     { text: '', pageBreak: 'after' },
   );
 
-  /* ---------- TABLE OF CONTENTS (compact — no page break after) ---------- */
-  const tocItems = [
-    'Executive Summary',
-    'Competitor Analysis',
-    'Market Analysis',
-    'Marketing & Sales Strategy',
-    'Financial Projections',
-    'Operations Plan',
-    'Risk Analysis',
-  ];
-  content.push(
-    { text: 'TABLE OF CONTENTS', fontSize: 13, bold: true, color: ACCENT, characterSpacing: 1, margin: [0, 0, 0, 14] },
-    ...tocItems.map((item, i) => ({
-      columns: [
-        { text: `${i + 1}.`, width: 22, fontSize: 10, color: ACCENT, bold: true },
-        { text: item, fontSize: 10, color: TEXT, width: '*' },
-        { canvas: [{ type: 'line', x1: 0, y1: 6, x2: 200, y2: 6, lineWidth: 0.3, lineColor: LINE_LIGHT, dash: { length: 2 } }], width: 200 },
-      ],
-      margin: [0, 5, 0, 5] as [number, number, number, number],
-    })),
-    { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: LINE }], margin: [0, 14, 0, 14] },
-  );
-  /* NO pageBreak after TOC — content flows naturally onto the same page */
+  /* TOC removed — pdfmake cannot generate real page numbers,
+     and a TOC without page numbers looks unprofessional */
 
   /* ---------- 1. EXECUTIVE SUMMARY ---------- */
   content.push(...sectionHeading(1, 'Executive Summary'));
@@ -239,7 +218,7 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     content.push(bodyText(plan.executiveSummary.overview));
   }
   content.push(twoCol('Mission', plan.executiveSummary?.mission || '\u2014', 'Vision', plan.executiveSummary?.vision || '\u2014'));
-  content.push(calloutBox('Value Proposition', plan.executiveSummary?.valueProposition || '\u2014'));
+  content.push({ ...calloutBox('Value Proposition', plan.executiveSummary?.valueProposition || '\u2014'), unbreakable: true });
   if (plan.executiveSummary?.keyMetrics?.length) {
     content.push(
       { text: 'Key Projected Metrics', bold: true, fontSize: 10, color: TEXT, margin: [0, 6, 0, 4] },
@@ -274,7 +253,14 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
   if (plan.marketAnalysis?.industryOverview) {
     content.push(bodyText(plan.marketAnalysis.industryOverview));
   }
-  content.push(twoCol('Market Size', plan.marketAnalysis?.marketSize || '\u2014', 'Growth Rate', plan.marketAnalysis?.growthRate || '\u2014'));
+  /* Market Size and Growth Rate as separate callout boxes — twoCol creates
+     wildly unbalanced columns when one has much more text than the other */
+  if (plan.marketAnalysis?.marketSize) {
+    content.push(calloutBox('Market Size', plan.marketAnalysis.marketSize));
+  }
+  if (plan.marketAnalysis?.growthRate) {
+    content.push(calloutBox('Growth Rate', plan.marketAnalysis.growthRate));
+  }
   if (plan.marketAnalysis?.trends?.length) {
     content.push(
       { text: 'Key Industry Trends', bold: true, fontSize: 10, color: TEXT, margin: [0, 6, 0, 4] },
@@ -383,9 +369,20 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
       { text: 'Item', bold: true, fontSize: 8, color: ACCENT },
       { text: 'Amount', bold: true, fontSize: 8, color: ACCENT, alignment: 'right' },
     ]];
+    let totalAmount = 0;
     plan.financialProjections.startupCosts.forEach((c: any) => {
       scBody.push([{ text: c.item || '', fontSize: 10, color: TEXT }, { text: c.amount || '', alignment: 'right', fontSize: 10, color: TEXT }]);
+      /* Try to extract numeric value for total */
+      const num = parseFloat((c.amount || '').replace(/[^0-9.]/g, ''));
+      if (!isNaN(num)) totalAmount += num;
     });
+    /* Add total row */
+    if (totalAmount > 0) {
+      scBody.push([
+        { text: 'TOTAL', bold: true, fontSize: 10, color: ACCENT },
+        { text: '$' + totalAmount.toLocaleString('en-US'), alignment: 'right', fontSize: 10, color: ACCENT, bold: true },
+      ]);
+    }
     content.push(
       subHeading('Startup Costs'),
       {
@@ -401,14 +398,64 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
 
   /* ---------- 6. OPERATIONS PLAN ---------- */
   content.push(...sectionHeading(6, 'Operations Plan'));
+  /* Operations sections often contain "- **Bold Title:** description" lines from Gemini.
+     Parse these into proper structured bullet points instead of raw text. */
+  function parseOpsSection(raw: string): any[] {
+    if (!raw) return [{ text: '\u2014', fontSize: 10, color: TEXT_LIGHT }];
+    const lines = raw.split('\n').filter((l: string) => l.trim());
+    const result: any[] = [];
+    let paragraphLines: string[] = [];
+    const flushParagraph = () => {
+      if (paragraphLines.length) {
+        result.push(parseMarkdownText(paragraphLines.join(' ')));
+        result.push({ text: '', margin: [0, 3, 0, 0] });
+        paragraphLines = [];
+      }
+    };
+    lines.forEach((line: string) => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+        flushParagraph();
+        const bulletText = trimmed.slice(2);
+        /* Parse **bold:** pattern inside bullet */
+        const boldMatch = bulletText.match(/^\*\*(.+?)\*\*[:\s]*(.*)/);
+        if (boldMatch) {
+          result.push({
+            columns: [
+              { text: '\u2022', width: 12, fontSize: 10, color: ACCENT, alignment: 'center' },
+              { text: [
+                { text: boldMatch[1] + ': ', bold: true, color: TEXT },
+                { text: boldMatch[2] || '', color: TEXT_LIGHT },
+              ], fontSize: 10, lineHeight: 1.45, width: '*' },
+            ],
+            margin: [4, 2, 0, 2],
+            columnGap: 4,
+          });
+        } else {
+          result.push({
+            columns: [
+              { text: '\u2022', width: 12, fontSize: 10, color: ACCENT, alignment: 'center' },
+              parseMarkdownText(bulletText),
+            ],
+            margin: [4, 2, 0, 2],
+            columnGap: 4,
+          });
+        }
+      } else {
+        paragraphLines.push(trimmed);
+      }
+    });
+    flushParagraph();
+    return result;
+  }
   if (plan.operationsPlan?.businessModel) {
-    content.push(subHeading('Business Model'), parseMarkdownText(plan.operationsPlan.businessModel), { text: '', margin: [0, 4, 0, 0] });
+    content.push(subHeading('Business Model'), ...parseOpsSection(plan.operationsPlan.businessModel));
   }
   if (plan.operationsPlan?.teamStructure) {
-    content.push(subHeading('Team Structure'), parseMarkdownText(plan.operationsPlan.teamStructure), { text: '', margin: [0, 4, 0, 0] });
+    content.push(subHeading('Team Structure'), ...parseOpsSection(plan.operationsPlan.teamStructure));
   }
   if (plan.operationsPlan?.technology) {
-    content.push(subHeading('Technology'), parseMarkdownText(plan.operationsPlan.technology), { text: '', margin: [0, 4, 0, 0] });
+    content.push(subHeading('Technology'), ...parseOpsSection(plan.operationsPlan.technology));
   }
   if (plan.operationsPlan?.keyMilestones?.length) {
     content.push(subHeading('Key Milestones'));
@@ -442,14 +489,13 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     });
   }
 
-  /* ---------- DISCLAIMER + FOOTER ---------- */
+  /* ---------- FOOTER ---------- */
   content.push(
     { text: '', margin: [0, 20, 0, 0] },
     { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: LINE }] },
-    { text: 'DISCLAIMER', bold: true, fontSize: 7, color: TEXT_MUTED, characterSpacing: 1, margin: [0, 8, 0, 3] },
-    { text: 'This business plan was generated using AI-powered analysis and publicly available market data. Financial projections are estimates based on industry benchmarks and should be validated with professional advisors before making investment decisions. Past market performance does not guarantee future results.', fontSize: 7, color: TEXT_MUTED, lineHeight: 1.4, margin: [0, 0, 0, 12] },
-    { text: `Generated by BizPlan Genius  \u2014  ${date}`, fontSize: 8, color: TEXT_MUTED, alignment: 'center', margin: [0, 0, 0, 2] },
-    { text: 'bizplangenius.com', fontSize: 8, color: ACCENT, alignment: 'center' },
+    { text: `Generated by BizPlan Genius  \u2014  ${date}`, fontSize: 8, color: TEXT_MUTED, alignment: 'center', margin: [0, 10, 0, 2] },
+    { text: 'bizplangenius.com', fontSize: 8, color: ACCENT, alignment: 'center', margin: [0, 0, 0, 4] },
+    { text: 'Subject to our Terms & Conditions at bizplangenius.com/terms', fontSize: 7, color: LINE, alignment: 'center' },
   );
 
   return {
