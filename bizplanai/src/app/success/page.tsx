@@ -269,15 +269,21 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
   }
   if (plan.marketAnalysis?.targetCustomerProfile) {
     const tcp = plan.marketAnalysis.targetCustomerProfile;
-    const tcpStack: any[] = [subHeading('Target Customer Profile')];
-    if (tcp.demographics) tcpStack.push(labelValue('Demographics', tcp.demographics));
-    if (tcp.psychographics) tcpStack.push(labelValue('Psychographics', tcp.psychographics));
-    if (tcp.buyingBehavior) tcpStack.push(labelValue('Buying Behavior', tcp.buyingBehavior));
+    /* Keep heading + label fields together so heading never orphans at page bottom */
+    const tcpTop: any[] = [subHeading('Target Customer Profile')];
+    if (tcp.demographics) tcpTop.push(labelValue('Demographics', tcp.demographics));
+    if (tcp.psychographics) tcpTop.push(labelValue('Psychographics', tcp.psychographics));
+    if (tcp.buyingBehavior) tcpTop.push(labelValue('Buying Behavior', tcp.buyingBehavior));
+    content.push({ stack: tcpTop, unbreakable: true });
     if (tcp.painPoints?.length) {
-      tcpStack.push({ text: 'Pain Points', bold: true, fontSize: 11, color: ACCENT, margin: [0, 10, 0, 5], headlineLevel: 2 });
-      tcpStack.push(...bulletList(tcp.painPoints, { iconColor: DANGER_RED }));
+      content.push({
+        unbreakable: true,
+        stack: [
+          subHeading('Pain Points'),
+          ...bulletList(tcp.painPoints, { iconColor: DANGER_RED }),
+        ],
+      });
     }
-    content.push({ stack: tcpStack });
   }
 
   /* ---------- 4. MARKETING & SALES STRATEGY ---------- */
