@@ -141,7 +141,7 @@ function competitorEntry(c: any): any {
   (c.weaknesses || []).forEach((w: string) => items.push({ text: [{ text: '-  ', color: DANGER_RED, bold: true }, { text: w, color: TEXT_LIGHT }], fontSize: 9, margin: [4, 1, 0, 1] }));
   if (items.length) rows.push({ stack: items, margin: [0, 2, 0, 2] });
   rows.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.3, lineColor: LINE_LIGHT }], margin: [0, 4, 0, 0] });
-  return { stack: rows };
+  return { stack: rows, unbreakable: true };
 }
 
 function riskRow(r: any): any[] {
