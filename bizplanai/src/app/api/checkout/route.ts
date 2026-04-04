@@ -9,6 +9,10 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
+    // Derive base URL from the request origin (works with any domain)
+    const origin = req.headers.get('origin') || req.headers.get('referer')?.replace(/\/[^/]*$/, '') || process.env.NEXT_PUBLIC_BASE_URL || 'https://www.bizplangenius.com';
+    const baseUrl = origin.replace(/\/$/, ''); // Remove trailing slash
+
     // Validate required fields
     const { businessName, industry, description, targetMarket, revenueModel } = body;
     if (!businessName || !industry || !description || !targetMarket || !revenueModel) {
@@ -23,7 +27,7 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'AI Business Plan â ' + businessName,
+              name: 'Business Plan - ' + businessName,
               description: 'Complete business plan with real competitor research, market analysis, and financial projections.',
             },
             unit_amount: 4900, // $49.00
@@ -32,8 +36,8 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/generate`,
+      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/generate`,
       metadata: {
         businessName,
         industry,
