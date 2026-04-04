@@ -44,9 +44,6 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const contentHtml = await markdownToHtml(post.content);
 
-  // FAQ Schema for SEO
-  const faqItems = post.content.match(/### (.+?)\n\n(.+?)(?=\n###|\n## |$)/gs);
-
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
