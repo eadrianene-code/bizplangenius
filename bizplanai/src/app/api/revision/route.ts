@@ -10,147 +10,115 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export const maxDuration = 60;
 
-function buildRevisionPrompt(meta: Record<string, string>, revisionNotes: string): string {
-  return `You are a world-class business strategy consultant. You previously generated a business plan for this client. They have requested a revision with specific changes.
+function buildRevisionPrompt(originalPlanJson: string, revisionNotes: string, meta: Record<string, string>): string {
+  return `You are a world-class business strategy consultant. A customer previously received a complete business plan and now wants specific changes made to it.
 
-ORIGINAL BUSINESS DETAILS:
-- Business Name: \${meta.businessName}
-- Industry: \${meta.industry}
-- Description: \${meta.description}
-- Target Market: \${meta.targetMarket}
-- Revenue Model: \${meta.revenueModel}
-- Location: \${meta.location || 'Not specified'}
-- Starting Budget: \${meta.investment || 'Not specified'}
-- Known Competitors: \${meta.competitors || 'None listed'}
+BUSINESS DETAILS:
+- Business Name: ${meta.businessName || 'Unknown'}
+- Industry: ${meta.industry || 'Unknown'}
+
+ORIGINAL COMPLETE BUSINESS PLAN (JSON):
+${originalPlanJson}
 
 CUSTOMER REVISION REQUEST:
-\${revisionNotes}
+"${revisionNotes}"
 
 INSTRUCTIONS:
-Regenerate the complete business plan incorporating ALL customer requested changes. Keep the same professional quality and realistic data.
+1. Take the ORIGINAL BUSINESS PLAN above as your starting point
+2. Apply ONLY the changes the customer requested
+3. Keep ALL sections that the customer did NOT mention exactly as they are
+4. If the customer asks to change financials, update them but keep all other sections intact
+5. If the customer asks to add something, add it to the relevant section without removing existing content
+6. The revised plan must be COMPLETE - all 7 sections, same level of detail as the original
+7. Output the FULL revised plan in the exact same JSON structure
 
-Generate the plan in this exact JSON structure:
-
-{
-  "executiveSummary": {
-    "overview": "2-3 paragraph company overview",
-    "mission": "Mission statement",
-    "vision": "Vision statement",
-    "valueProposition": "Clear unique value proposition",
-    "keyMetrics": ["3-5 key projected metrics with numbers"]
-  },
-  "competitorAnalysis": {
-    "overview": "Paragraph analyzing the competitive landscape",
-    "competitors": [
-      {
-        "name": "Competitor name",
-        "description": "What they do",
-        "strengths": ["strength1", "strength2"],
-        "weaknesses": ["weakness1", "weakness2"],
-        "estimatedRevenue": "Revenue estimate if known",
-        "pricing": "Their pricing model"
-      }
-    ],
-    "competitiveAdvantage": "How this business differentiates",
-    "marketGaps": ["Gap 1", "Gap 2", "Gap 3"]
-  },
-  "marketAnalysis": {
-    "industryOverview": "2 paragraphs on the industry state and trends",
-    "marketSize": "TAM, SAM, SOM with dollar figures",
-    "growthRate": "Industry growth rate with source",
-    "trends": ["Trend 1", "Trend 2", "Trend 3", "Trend 4"],
-    "targetCustomerProfile": {
-      "demographics": "Age, income, location, etc.",
-      "psychographics": "Values, interests, behaviors",
-      "painPoints": ["Pain 1", "Pain 2", "Pain 3"],
-      "buyingBehavior": "How they discover and purchase"
-    }
-  },
-  "marketingStrategy": {
-    "positioning": "Brand positioning statement",
-    "channels": [
-      {
-        "channel": "Channel name",
-        "strategy": "How to use it",
-        "estimatedCAC": "Cost to acquire a customer",
-        "priority": "High/Medium/Low"
-      }
-    ],
-    "contentStrategy": "Content marketing approach",
-    "launchPlan": "First 90 days go-to-market plan"
-  },
-  "financialProjections": {
-    "revenueModel": "Detailed revenue model explanation",
-    "year1": { "revenue": "$X", "costs": "$X", "profit": "$X", "customers": "X" },
-    "year2": { "revenue": "$X", "costs": "$X", "profit": "$X", "customers": "X" },
-    "year3": { "revenue": "$X", "costs": "$X", "profit": "$X", "customers": "X" },
-    "keyAssumptions": ["Assumption 1", "Assumption 2", "Assumption 3"],
-    "breakEvenTimeline": "When the business breaks even",
-    "startupCosts": [
-      { "item": "Cost item", "amount": "$X" }
-    ]
-  },
-  "operationsPlan": {
-    "businessModel": "How the business operates day-to-day",
-    "teamStructure": "Required roles and hiring plan",
-    "technology": "Tech stack and tools needed",
-    "keyMilestones": [
-      { "timeline": "Month X", "milestone": "What happens" }
-    ]
-  },
-  "riskAnalysis": {
-    "risks": [
-      {
-        "risk": "Risk description",
-        "likelihood": "High/Medium/Low",
-        "impact": "High/Medium/Low",
-        "mitigation": "How to mitigate"
-      }
-    ]
-  }
-}
+The JSON structure must include ALL of these sections with full content:
+- executiveSummary (overview, mission, vision, valueProposition, keyMetrics)
+- competitorAnalysis (overview, competitors array with name/description/strengths/weaknesses/estimatedRevenue/pricing, competitiveAdvantage, marketGaps)
+- marketAnalysis (industryOverview, marketSize, growthRate, trends, targetCustomerProfile)
+- marketingStrategy (positioning, channels array, contentStrategy, launchPlan)
+- financialProjections (revenueModel, year1/year2/year3 with revenue/costs/profit/customers, keyAssumptions, breakEvenTimeline, startupCosts)
+- operationsPlan (businessModel, teamStructure, technology, keyMilestones)
+- riskAnalysis (risks array with risk/likelihood/impact/mitigation)
 
 CRITICAL RULES:
-1. Use REALISTIC numbers based on actual industry benchmarks
-2. Identify 5-10 REAL competitors that exist in this space
-3. All financial projections must be conservative and achievable
-4. Include specific pricing comparisons with competitors
-5. Output ONLY the JSON
-6. Incorporate ALL the customer revision requests
-7. Make the plan specific to THIS business`;
+1. Keep EVERYTHING the customer did not ask to change - copy it exactly from the original
+2. Only modify the specific parts mentioned in the revision request
+3. Maintain the same depth and quality as the original plan
+4. Output ONLY the JSON - no markdown, no code blocks, no extra text
+5. The revised plan should be the SAME LENGTH or LONGER than the original`;
+}
+
+function buildFallbackPrompt(revisionNotes: string, meta: Record<string, string>): string {
+  return `You are a world-class business strategy consultant who creates comprehensive, investor-ready business plans. Generate a complete business plan for the following business, incorporating the customer feedback below.
+
+BUSINESS DETAILS:
+- Business Name: ${meta.businessName || 'Unknown'}
+- Industry: ${meta.industry || 'Unknown'}
+- Description: ${meta.description || 'Not provided'}
+- Target Market: ${meta.targetMarket || 'Not provided'}
+- Revenue Model: ${meta.revenueModel || 'Not provided'}
+- Location: ${meta.location || 'Not specified'}
+- Starting Budget: ${meta.investment || 'Not specified'}
+- Known Competitors: ${meta.competitors || 'None listed'}
+
+CUSTOMER FEEDBACK TO INCORPORATE:
+"${revisionNotes}"
+
+Generate a COMPLETE business plan incorporating the customer feedback. Use REAL industry data and specific numbers.
+
+Output the plan in this exact JSON structure:
+{
+  "executiveSummary": { "overview": "2-3 paragraphs", "mission": "...", "vision": "...", "valueProposition": "...", "keyMetrics": ["metric1", "metric2", "metric3"] },
+  "competitorAnalysis": { "overview": "paragraph", "competitors": [{ "name": "...", "description": "...", "strengths": [], "weaknesses": [], "estimatedRevenue": "...", "pricing": "..." }], "competitiveAdvantage": "...", "marketGaps": [] },
+  "marketAnalysis": { "industryOverview": "2 paragraphs", "marketSize": "TAM SAM SOM", "growthRate": "...", "trends": [], "targetCustomerProfile": { "demographics": "...", "psychographics": "...", "painPoints": [], "buyingBehavior": "..." } },
+  "marketingStrategy": { "positioning": "...", "channels": [{ "channel": "...", "strategy": "...", "estimatedCAC": "...", "priority": "..." }], "contentStrategy": "...", "launchPlan": "..." },
+  "financialProjections": { "revenueModel": "...", "year1": { "revenue": "$X", "costs": "$X", "profit": "$X", "customers": "X" }, "year2": { "revenue": "$X", "costs": "$X", "profit": "$X", "customers": "X" }, "year3": { "revenue": "$X", "costs": "$X", "profit": "$X", "customers": "X" }, "keyAssumptions": [], "breakEvenTimeline": "...", "startupCosts": [{ "item": "...", "amount": "$X" }] },
+  "operationsPlan": { "businessModel": "...", "teamStructure": "...", "technology": "...", "keyMilestones": [{ "timeline": "...", "milestone": "..." }] },
+  "riskAnalysis": { "risks": [{ "risk": "...", "likelihood": "...", "impact": "...", "mitigation": "..." }] }
+}
+
+CRITICAL: Output ONLY valid JSON. No markdown, no code blocks. Make every section comprehensive.`;
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const { sessionId, revisionNotes } = await req.json();
+    const { sessionId, revisionNotes, originalPlan } = await req.json();
 
-    if (!sessionId || !revisionNotes?.trim()) {
-      return NextResponse.json({ error: 'Session ID and revision notes are required' }, { status: 400 });
+    if (!sessionId || !revisionNotes) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    // Verify payment
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['payment_intent'],
+    });
 
     if (session.payment_status !== 'paid') {
-      return NextResponse.json({ error: 'Payment not found or not completed' }, { status: 402 });
+      return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
     }
 
+    // Check Pro plan
     const amountPaid = session.amount_total || 0;
     if (amountPaid < 100) {
-      return NextResponse.json({ error: 'Free revision is only available with the Pro plan ($49). Upgrade to Pro for revision access.' }, { status: 403 });
+      return NextResponse.json({ error: 'Free revision is only available for Pro plan customers.' }, { status: 403 });
     }
 
-    const paymentIntentId = session.payment_intent as string;
-    if (!paymentIntentId) {
-      return NextResponse.json({ error: 'Payment record not found' }, { status: 404 });
-    }
-
-    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
-
-    if (paymentIntent.metadata?.revision_used === 'true') {
-      return NextResponse.json({ error: 'Your free revision has already been used. Contact support@bizplangenius.com for additional revisions.' }, { status: 403 });
+    // Check if revision already used
+    const pi = session.payment_intent as Stripe.PaymentIntent;
+    if (pi?.metadata?.revision_used === 'true') {
+      return NextResponse.json({ error: 'You have already used your free revision.' }, { status: 403 });
     }
 
     const meta = session.metadata || {};
+
+    // Build prompt based on whether we have the original plan
+    let prompt: string;
+    if (originalPlan && typeof originalPlan === 'object') {
+      prompt = buildRevisionPrompt(JSON.stringify(originalPlan, null, 2), revisionNotes, meta);
+    } else {
+      prompt = buildFallbackPrompt(revisionNotes, meta);
+    }
 
     const model = genAI.getGenerativeModel({
       model: 'gemini-2.5-flash',
@@ -162,7 +130,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    const prompt = buildRevisionPrompt(meta, revisionNotes.trim());
     const result = await model.generateContent(prompt);
     const text = result.response.text();
 
@@ -172,7 +139,7 @@ export async function POST(req: NextRequest) {
     try {
       plan = JSON.parse(rawText);
     } catch {
-      const jsonMatch = rawText.match(/\`\`\`(?:json)?\s*([\s\S]*?)\`\`\`/);
+      const jsonMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
       if (jsonMatch) {
         try { plan = JSON.parse(jsonMatch[1].trim()); } catch {}
       }
@@ -184,24 +151,24 @@ export async function POST(req: NextRequest) {
         }
       }
       if (!plan) {
+        console.error('Failed to parse revision response:', rawText.substring(0, 2000));
         throw new Error('Failed to parse AI response');
       }
     }
 
-    await stripe.paymentIntents.update(paymentIntentId, {
-      metadata: {
-        ...paymentIntent.metadata,
-        revision_used: 'true',
-        revision_date: new Date().toISOString(),
-      },
-    });
+    // Mark revision as used
+    if (pi?.id) {
+      await stripe.paymentIntents.update(pi.id, {
+        metadata: { ...pi.metadata, revision_used: 'true' },
+      });
+    }
 
     return NextResponse.json({ plan, businessName: meta.businessName || 'Business Plan' });
   } catch (error: any) {
     console.error('Revision error:', error);
-    return NextResponse.json(
-      { error: error.message || 'Failed to generate revised plan. Please try again or contact support@bizplangenius.com' },
-      { status: 500 }
-    );
+    if (error.message?.includes('parse')) {
+      return NextResponse.json({ error: 'Failed to generate revised plan. Please try again.' }, { status: 500 });
+    }
+    return NextResponse.json({ error: error.message || 'Something went wrong' }, { status: 500 });
   }
 }
