@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     // Validate required fields
     const { businessName, industry, description, targetMarket, revenueModel, planType } = body;
     const isStarter = planType === 'starter';
-    const amount = isStarter ? 2900 : 4900; // $29 or $49
+    const amount = isStarter ? 100 : 100; // $29 or $49
     const planName = isStarter ? 'Starter' : 'Pro';
     if (!businessName || !industry || !description || !targetMarket || !revenueModel) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
