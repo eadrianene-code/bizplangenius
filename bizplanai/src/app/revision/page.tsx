@@ -45,7 +45,7 @@ export default function RevisionPage() {
       const res = await fetch('/api/revision', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, revisionNotes: revisionNotes.trim() }),
+        body: JSON.stringify({ sessionId, revisionNotes: revisionNotes.trim(), originalPlan: (() => { try { return JSON.parse(sessionStorage.getItem('bizplan_original_' + sessionId) || 'null'); } catch { return null; } })() }),
       });
       const data = await res.json();
       clearInterval(interval);
