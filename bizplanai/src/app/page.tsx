@@ -110,7 +110,7 @@ function Hero() {
     <section className="pt-28 pb-20 px-4 bg-hero-pattern">
       <div className="max-w-4xl mx-auto text-center">
         <div className="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-medium rounded-full mb-6 border border-brand-100">
-          Trusted by 1,000+ entrepreneurs
+          Built for entrepreneurs who hate generic plans
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
           Business Plans with{' '}
@@ -123,7 +123,7 @@ function Hero() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="#pricing" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
-            Generate My Business Plan — $49
+            Generate My Business Plan — Starting at $29
           </a>
           <a href="#how-it-works" className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition text-lg">
             See How It Works
@@ -149,7 +149,7 @@ function ComparisonBanner() {
             <p className="text-gray-500 mt-1">DIY with templates</p>
           </div>
           <div>
-            <p className="text-3xl font-bold text-accent-500">$49 · 10 min</p>
+            <p className="text-3xl font-bold text-accent-500">From $29 · 10 min</p>
             <p className="text-gray-500 mt-1">BizPlan Genius</p>
           </div>
         </div>
@@ -212,50 +212,93 @@ function HowItWorks() {
 function Pricing() {
   return (
     <section id="pricing" className="py-20 px-4">
-      <div className="max-w-lg mx-auto">
+      <div className="max-w-4xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">Get Your Business Plan</h2>
-          <p className="text-lg text-gray-600">One plan. One price. No hidden fees.</p>
+          <p className="text-lg text-gray-600">Choose the plan that fits your needs. No subscriptions. No hidden fees.</p>
         </div>
-        <div className="bg-white rounded-2xl border-2 border-brand-600 p-8 shadow-xl shadow-brand-600/10">
-          <div className="text-center">
-            <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-2">Complete Business Plan</p>
-            <div className="flex items-baseline justify-center gap-2 mb-2">
-              <span className="text-5xl font-extrabold">$49</span>
-              <span className="text-gray-500 line-through text-lg">$149</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Starter Plan */}
+          <div className="bg-white rounded-2xl border-2 border-gray-200 p-8 shadow-md hover:border-brand-300 transition">
+            <div className="text-center">
+              <p className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2">Starter Plan</p>
+              <div className="flex items-baseline justify-center gap-2 mb-2">
+                <span className="text-5xl font-extrabold">$29</span>
+              </div>
+              <p className="text-sm text-gray-500 mb-6">One-time payment</p>
             </div>
-            <p className="text-sm text-gray-500 mb-6">One-time payment · No subscription</p>
+            <ul className="space-y-3 mb-8">
+              {[
+                'Executive Summary',
+                'Real Competitor Analysis (3-5 competitors)',
+                'Market Size & Growth Data',
+                'Target Customer Profile',
+                '3-Year Financial Projections',
+                'Marketing Strategy Overview',
+                'Professional PDF Download',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-700">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href="/generate?plan=starter"
+              className="block w-full text-center px-8 py-4 bg-gray-800 text-white font-bold rounded-xl hover:bg-gray-900 transition shadow-lg text-lg"
+            >
+              Get Starter Plan
+            </a>
+            <p className="text-center text-sm text-gray-500 mt-3">
+              Great for validating your idea
+            </p>
           </div>
-          <ul className="space-y-3 mb-8">
-            {[
-              'Executive Summary',
-              'Real Competitor Analysis (5-10 competitors)',
-              'Market Size & Growth Data',
-              'Target Customer Profile',
-              '3-Year Financial Projections',
-              'Marketing & Sales Strategy',
-              'Operations Plan',
-              'Risk Analysis & Mitigation',
-              'Professional PDF Download',
-              '1 Free Revision',
-            ].map((item, i) => (
-              <li key={i} className="flex items-start gap-3">
-                <svg className="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                </svg>
-                <span className="text-gray-700">{item}</span>
-              </li>
-            ))}
-          </ul>
-          <a
-            href="/generate"
-            className="block w-full text-center px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg"
-          >
-            Generate My Business Plan
-          </a>
-          <p className="text-center text-sm text-gray-500 mt-3">
-            100% money-back guarantee if not satisfied
-          </p>
+          {/* Pro Plan */}
+          <div className="bg-white rounded-2xl border-2 border-brand-600 p-8 shadow-xl shadow-brand-600/10 relative">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-brand-600 text-white text-xs font-bold rounded-full uppercase tracking-wider">
+              Most Popular
+            </div>
+            <div className="text-center">
+              <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-2">Pro Plan</p>
+              <div className="flex items-baseline justify-center gap-2 mb-2">
+                <span className="text-5xl font-extrabold">$49</span>
+                <span className="text-gray-500 line-through text-lg">$149</span>
+              </div>
+              <p className="text-sm text-gray-500 mb-6">One-time payment</p>
+            </div>
+            <ul className="space-y-3 mb-8">
+              {[
+                'Executive Summary',
+                'Real Competitor Analysis (5-10 competitors)',
+                'Market Size & Growth Data',
+                'Target Customer Profile',
+                '3-Year Financial Projections',
+                'Marketing & Sales Strategy',
+                'Operations Plan',
+                'Risk Analysis & Mitigation',
+                'Professional PDF Download',
+                '1 Free Revision',
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-700">{item}</span>
+                </li>
+              ))}
+            </ul>
+            <a
+              href="/generate?plan=pro"
+              className="block w-full text-center px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg"
+            >
+              Get Pro Plan
+            </a>
+            <p className="text-center text-sm text-gray-500 mt-3">
+              100% money-back guarantee
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -299,11 +342,11 @@ function CTA() {
           Stop Writing Business Plans the Hard Way
         </h2>
         <p className="text-lg text-brand-100 mb-8 max-w-xl mx-auto">
-          Join thousands of entrepreneurs who launched faster with AI-powered business plans
+          Get your investor-ready business plan with real competitor data and financial projections
           backed by real market research.
         </p>
         <a href="/generate" className="inline-block px-8 py-4 bg-white text-brand-700 font-bold rounded-xl hover:bg-gray-50 transition shadow-lg text-lg">
-          Generate My Business Plan — $49
+          Generate My Business Plan — Starting at $29
         </a>
       </div>
     </section>
