@@ -14,7 +14,10 @@ export async function POST(req: NextRequest) {
     const baseUrl = origin.replace(/\/$/, ''); // Remove trailing slash
 
     // Validate required fields
-    const { businessName, industry, description, targetMarket, revenueModel } = body;
+    const { businessName, industry, description, targetMarket, revenueModel, planType } = body;
+    const isStarter = planType === 'starter';
+    const amount = isStarter ? 2900 : 4900; // $29 or $49
+    const planName = isStarter ? 'Starter' : 'Pro';
     if (!businessName || !industry || !description || !targetMarket || !revenueModel) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
@@ -27,10 +30,10 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: 'Business Plan - ' + businessName,
+              name: planName + ' Business Plan - ' + businessName,
               description: 'Complete business plan with real competitor research, market analysis, and financial projections.',
             },
-            unit_amount: 4900, // $49.00
+            unit_amount: amount,
           },
           quantity: 1,
         },
