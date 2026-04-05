@@ -27,6 +27,10 @@ export default function GeneratePage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const planType = typeof window !== 'undefined' ? (new URLSearchParams(window.location.search).get('plan') || 'pro') : 'pro';
+  const isStarter = planType === 'starter';
+  const price = isStarter ? 29 : 49;
+  const planLabel = isStarter ? 'Starter' : 'Pro';
 
   const update = (field: keyof FormData, value: string) => setForm(prev => ({ ...prev, [field]: value }));
 
@@ -39,7 +43,7 @@ export default function GeneratePage() {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, planType }),
       });
 
       const data = await res.json();
@@ -61,7 +65,7 @@ export default function GeneratePage() {
       <header className="bg-white border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
           <a href="/" className="text-xl font-bold text-gradient">BizPlan Genius</a>
-          <span className="text-sm text-gray-500">Step 1 of 2: Describe Your Business</span>
+          <span className="text-sm text-gray-500">{planLabel} Plan — Step 1 of 2</span>
         </div>
       </header>
 
@@ -192,7 +196,7 @@ export default function GeneratePage() {
               disabled={loading}
               className="w-full px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? 'Processing...' : 'Continue to Payment — $49'}
+              {loading ? 'Processing...' : `Continue to Payment — $${price}`}
             </button>
             <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-500">
               <span className="flex items-center gap-1">
