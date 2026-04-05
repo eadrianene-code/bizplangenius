@@ -63,7 +63,7 @@ const FAQS = [
   },
   {
     q: 'What if I\'m not satisfied with the plan?',
-    a: 'We offer one free revision. If you\'re still not happy, we\'ll refund your purchase — no questions asked.',
+    a: 'Your satisfaction matters. If you\'re not happy with your plan, contact us and we\'ll refund your purchase — no questions asked.',
   },
   {
     q: 'Do you store my business idea?',
@@ -279,7 +279,7 @@ function Pricing() {
                 'Operations Plan',
                 'Risk Analysis & Mitigation',
                 'Professional PDF Download',
-                '1 Free Revision',
+                'Money-Back Guarantee',
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <svg className="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
