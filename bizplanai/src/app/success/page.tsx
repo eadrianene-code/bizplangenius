@@ -599,6 +599,8 @@ export default function SuccessPage() {
           setBusinessName(data.businessName || 'Business Plan');
           setTimeout(() => {
             setPlan(data.plan);
+            // Save original plan for revision feature
+            try { sessionStorage.setItem('bizplan_original_' + sessionId, JSON.stringify(data.plan)); } catch {}
             setStatus('done');
           }, 500);
         } else {
