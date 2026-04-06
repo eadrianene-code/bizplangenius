@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { trackViewContent, trackInitiateCheckout } from '@/lib/pixelEvents';
 
 interface FormData {
   businessName: string;
@@ -14,30 +15,61 @@ interface FormData {
 }
 
 const INDUSTRIES = [
-  'Technology / SaaS', 'E-commerce / Retail', 'Food & Beverage', 'Health & Wellness',
-  'Education / EdTech', 'Finance / FinTech', 'Real Estate', 'Marketing / Agency',
-  'Manufacturing', 'Consulting / Services', 'Travel / Hospitality', 'Entertainment / Media',
-  'Construction', 'Transportation / Logistics', 'Agriculture', 'Other',
+  'Technology / SaaS',
+  'E-commerce / Retail',
+  'Food & Beverage',
+  'Health & Wellness',
+  'Education / EdTech',
+  'Finance / FinTech',
+  'Real Estate',
+  'Marketing / Agency',
+  'Manufacturing',
+  'Consulting / Services',
+  'Travel / Hospitality',
+  'Entertainment / Media',
+  'Construction',
+  'Transportation / Logistics',
+  'Agriculture',
+  'Other',
 ];
 
 export default function GeneratePage() {
   const [form, setForm] = useState<FormData>({
-    businessName: '', industry: '', description: '', targetMarket: '',
-    revenueModel: '', location: '', investment: '', competitors: '',
+    businessName: '',
+    industry: '',
+    description: '',
+    targetMarket: '',
+    revenueModel: '',
+    location: '',
+    investment: '',
+    competitors: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const planType = typeof window !== 'undefined' ? (new URLSearchParams(window.location.search).get('plan') || 'pro') : 'pro';
+
+  const planType =
+    typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search).get('plan') || 'pro'
+      : 'pro';
   const isStarter = planType === 'starter';
   const price = isStarter ? 29 : 49;
   const planLabel = isStarter ? 'Starter' : 'Pro';
 
-  const update = (field: keyof FormData, value: string) => setForm(prev => ({ ...prev, [field]: value }));
+  // Track page view with plan type for Meta Pixel
+  useEffect(() => {
+    trackViewContent(isStarter ? 'starter' : 'pro');
+  }, []);
+
+  const update = (field: keyof FormData, value: string) =>
+    setForm(prev => ({ ...prev, [field]: value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+
+    // Track checkout initiation for Meta Pixel
+    trackInitiateCheckout(isStarter ? 'starter' : 'pro');
 
     try {
       const res = await fetch('/api/checkout', {
@@ -45,7 +77,6 @@ export default function GeneratePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, planType }),
       });
-
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
@@ -158,6 +189,7 @@ export default function GeneratePage() {
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition"
               />
             </div>
+
             {/* Startup Investment */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">Startup Budget</label>
@@ -213,4 +245,4 @@ export default function GeneratePage() {
       </main>
     </div>
   );
-}
+      }
