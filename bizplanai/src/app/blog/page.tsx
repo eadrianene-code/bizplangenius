@@ -27,7 +27,7 @@ export default function BlogPage() {
               href="/#pricing"
               className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
             >
-              Get Your Plan — $49
+              Get Your Plan — From $29
             </Link>
           </nav>
         </div>
@@ -95,7 +95,7 @@ export default function BlogPage() {
             href="/#pricing"
             className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
           >
-            Generate Your Business Plan — $49
+            Get Your Business Plan — From $29
           </Link>
         </div>
       </section>
