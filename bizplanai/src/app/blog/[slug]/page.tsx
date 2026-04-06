@@ -63,7 +63,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               href="/#pricing"
               className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
             >
-              Get Your Plan — $49
+              Get Your Plan — From $29
             </Link>
           </nav>
         </div>
@@ -130,13 +130,13 @@ export default async function BlogPostPage({ params }: PageProps) {
           </h2>
           <p className="text-blue-100 mb-6 max-w-lg mx-auto">
             BizPlan Genius researches real competitors and market data for your
-            specific business. Get an investor-ready plan in 5 minutes.
+            specific business. Plans from $29. Get an investor-ready plan in minutes.
           </p>
           <Link
             href="/#pricing"
             className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
           >
-            Generate Your Plan — $49
+            Get Your Plan — From $29
           </Link>
         </div>
       </article>
