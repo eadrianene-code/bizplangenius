@@ -112,6 +112,8 @@ interface ReportData {
   positioningMap: PositioningMap;
   swotAnalysis: SwotAnalysis;
   strategicRecommendations: StrategicRecommendations;
+  disclaimer?: string;
+  generatedAt?: string;
 }
 
 function loadPdfMake(): Promise<void> {
@@ -599,6 +601,32 @@ function generatePDF(data: ReportData): void {
         ul: data.strategicRecommendations.quickWins,
         margin: [20, 0, 0, 0],
       },
+
+      // Disclaimer
+      { text: '', pageBreak: 'after' },
+      {
+        text: 'Disclaimer',
+        style: 'sectionTitle',
+      },
+      {
+        text: data.disclaimer || 'This report reflects publicly available information gathered via web research. We recommend verifying pricing and company details directly on competitor websites before making strategic decisions.',
+        style: 'smallText',
+        margin: [0, 8, 0, 20],
+      },
+      {
+        text: `Report generated on ${dateStr} by BizPlan Genius Competitor Spy.`,
+        style: 'smallText',
+        color: TEXT_MUTED,
+        margin: [0, 0, 0, 10],
+      },
+      {
+        text: 'Need a full business plan? Visit bizplangenius.com',
+        fontSize: 11,
+        bold: true,
+        color: ACCENT,
+        alignment: 'center',
+        margin: [0, 20, 0, 0],
+      },
     ],
     footer: (currentPage: number, pageCount: number) => ({
       text: `Page ${currentPage} of ${pageCount}`,
@@ -627,7 +655,7 @@ const ProgressSteps = ({ step }: { step: number }) => {
               idx < step ? 'bg-green-600' : idx === step ? 'bg-blue-600 animate-pulse' : 'bg-gray-300'
             }`}
           >
-            {idx < step ? '✓' : idx + 1}
+            {idx < step ? 'â' : idx + 1}
           </div>
           <span
             className={`text-lg ${
@@ -802,7 +830,7 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
             <ul className="space-y-1 text-sm text-amber-800">
               {data.swotAnalysis.opportunities.slice(0, 3).map((item, idx) => (
                 <li key={idx} className="flex items-start">
-                  <span className="mr-2">→</span>
+                  <span className="mr-2">â</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -871,6 +899,11 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
         >
           Download Full Report (PDF)
         </button>
+        {data.disclaimer && (
+          <p className="text-xs text-gray-400 mt-3 text-center">
+            {data.disclaimer}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -915,8 +948,8 @@ export default function SpySuccessPage() {
           throw new Error(errorData.error || 'Failed to generate report');
         }
 
-        const data: ReportData = await response.json();
-        setReportData(data);
+        const { report } = await response.json();
+        setReportData(report as ReportData);
         setProgressStep(3);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
