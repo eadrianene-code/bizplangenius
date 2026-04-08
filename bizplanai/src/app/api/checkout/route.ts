@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-function getStripe() {
-  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2025-02-24.acacia',
-  });
-}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2025-02-24.acacia',
+});
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,34 +14,41 @@ export async function POST(req: NextRequest) {
     const baseUrl = origin.replace(/\/$/, ''); // Remove trailing slash
 
     // Validate required fields
-    const { businessName, industry, description, targetMarket, revenueModel, planType } = body;
-    const isStarter = planType === 'starter';
-    const amount = isStarter ? 2900 : 4900; // $29 or $49
-    const planName = isStarter ? 'Starter' : 'Pro';
+    const { businessName, industry, description, targetMarket, revenueModel } = body;
     if (!businessName || !industry || !description || !targetMarket || !revenueModel) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
+    // Determine tier and price
+    const tier = body.tier === 'starter' ? 'starter' : 'pro';
+    const isStarter = tier === 'starter';
+    const unitAmount = isStarter ? 2900 : 4900; // $29 or $49
+    const planLabel = isStarter ? 'Starter Business Plan' : 'Pro Business Plan';
+
     // Create a Stripe Checkout session
-    const session = await getStripe().checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
           price_data: {
             currency: 'usd',
             product_data: {
-              name: planName + ' Business Plan - ' + businessName,
-              description: 'Complete business plan with real competitor research, market analysis, and financial projections.',
+              name: `${planLabel} - ${businessName}`,
+              description: isStarter
+                ? 'Business plan with real competitor research, market analysis, and financial projections.'
+                : 'Complete business plan with competitor research, market analysis, financial projections, operations plan, risk analysis, and money-back guarantee.',
             },
-            unit_amount: amount,
+            unit_amount: unitAmount,
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
+      allow_promotion_codes: true,
       success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/generate`,
       metadata: {
+        tier,
         businessName,
         industry,
         description: description.substring(0, 500), // Stripe metadata limit
