@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -909,7 +909,7 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
   );
 };
 
-export default function SpySuccessPage() {
+function SpySuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams?.get('session_id');
 
@@ -1042,5 +1042,14 @@ export default function SpySuccessPage() {
         ) : null}
       </main>
     </div>
+  );
+}
+
+
+export default function SpySuccessPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center"><p className="text-gray-500 text-lg">Loading...</p></div>}>
+      <SpySuccessContent />
+    </Suspense>
   );
 }
