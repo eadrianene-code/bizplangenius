@@ -5,21 +5,17 @@ import {
   DynamicRetrievalMode,
 } from '@google/generative-ai';
 
-function getStripe() {
-  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2025-02-24.acacia',
-  });
-}
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2025-02-24.acacia',
+});
 
-function getGenAI() {
-  return new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-}
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export const maxDuration = 120;
 
 // Step 1: Research model with Google Search grounding for real-time data
 function getResearchModel() {
-  return getGenAI().getGenerativeModel(
+  return genAI.getGenerativeModel(
     {
       model: 'gemini-2.5-flash',
       tools: [
@@ -44,7 +40,7 @@ function getResearchModel() {
 
 // Step 2: Structure model for clean JSON output
 function getStructureModel() {
-  return getGenAI().getGenerativeModel({
+  return genAI.getGenerativeModel({
     model: 'gemini-2.5-flash',
     generationConfig: {
       temperature: 0.2,
@@ -56,9 +52,13 @@ function getStructureModel() {
 }
 
 function buildCompanyResearchPrompt(meta: Record<string, string>): string {
+  const locationContext = meta.city || meta.country
+    ? `\nGeographic Focus: ${[meta.city, meta.country].filter(Boolean).join(', ')}. Prioritize competitors and market data relevant to this location. Include both local/regional players and major national/international competitors operating in this area.`
+    : '';
+
   return `You are a competitive intelligence researcher. Research the following company and its competitive landscape using real, current data from the web.
 
-Company: "${meta.companyName}"${meta.companyUrl ? ` (Website: ${meta.companyUrl})` : ''}
+Company: "${meta.companyName}"${meta.companyUrl ? ` (Website: ${meta.companyUrl})` : ''}${locationContext}
 
 Research and provide detailed findings on:
 
@@ -111,11 +111,15 @@ CRITICAL: Only include REAL companies with REAL data. If you cannot find specifi
 }
 
 function buildIndustryResearchPrompt(meta: Record<string, string>): string {
+  const locationContext = meta.city || meta.country
+    ? `Geographic Focus: ${[meta.city, meta.country].filter(Boolean).join(', ')}. Prioritize competitors, market sizing, and trends relevant to this specific location. Include both local/regional players and major national/international competitors operating in this area.\n\n`
+    : '';
+
   return `You are a competitive intelligence researcher. Research the competitive landscape in this specific market using real, current data from the web.
 
 Market/Industry: "${meta.industryDescription}"
 Category: ${meta.industry}
-
+${locationContext}
 Research and provide detailed findings on:
 
 1. MARKET DEFINITION:
@@ -266,7 +270,7 @@ export async function POST(req: NextRequest) {
   try {
     const { sessionId } = await req.json();
 
-    const session = await getStripe().checkout.sessions.retrieve(sessionId);
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status !== 'paid') {
       return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
