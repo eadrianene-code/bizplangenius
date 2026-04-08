@@ -11,32 +11,32 @@ const NAV_LINKS = [
 
 const FEATURES = [
   {
-    icon: '🔍',
+    icon: 'ð',
     title: 'Real Competitor Research',
-    desc: 'We analyze your actual competitors — their pricing, positioning, strengths, and weaknesses. No generic filler.',
+    desc: 'We analyze your actual competitors â their pricing, positioning, strengths, and weaknesses. No generic filler.',
   },
   {
-    icon: '📊',
+    icon: 'ð',
     title: 'Live Market Data',
     desc: 'Get real market size estimates, growth trends, and industry benchmarks pulled from current sources.',
   },
   {
-    icon: '💰',
+    icon: 'ð°',
     title: 'Financial Projections',
     desc: 'Revenue forecasts, cost breakdowns, break-even analysis, and cash flow projections based on real industry margins.',
   },
   {
-    icon: '🎯',
+    icon: 'ð¯',
     title: 'Marketing Strategy',
     desc: 'Channel recommendations, customer acquisition costs, and a go-to-market playbook tailored to your niche.',
   },
   {
-    icon: '📄',
+    icon: 'ð',
     title: 'Investor-Ready PDF',
     desc: 'Download a beautifully formatted PDF ready to show banks, investors, or partners. Professional and polished.',
   },
   {
-    icon: '⚡',
+    icon: 'â¡',
     title: 'Minutes, Not Weeks',
     desc: 'Traditional business plans take 40+ hours. Ours takes under 10 minutes. Same quality, fraction of the time.',
   },
@@ -63,7 +63,7 @@ const FAQS = [
   },
   {
     q: 'What if I\'m not satisfied with the plan?',
-    a: 'Your satisfaction matters. If you\'re not happy with your plan, contact us and we\'ll refund your purchase — no questions asked.',
+    a: 'We offer one free revision. If you\'re still not happy, we\'ll refund your purchase â no questions asked.',
   },
   {
     q: 'Do you store my business idea?',
@@ -110,7 +110,7 @@ function Hero() {
     <section className="pt-28 pb-20 px-4 bg-hero-pattern">
       <div className="max-w-4xl mx-auto text-center">
         <div className="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-medium rounded-full mb-6 border border-brand-100">
-          Built for entrepreneurs who hate generic plans
+          Trusted by 1,000+ entrepreneurs
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
           Business Plans with{' '}
@@ -119,17 +119,27 @@ function Hero() {
         <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
           Describe your business idea. Our AI researches your actual competitors,
           analyzes real market data, and generates an investor-ready business plan
-          in minutes — not weeks.
+          in minutes â not weeks.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="#pricing" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
-            Generate My Business Plan — Starting at $29
+            Generate My Business Plan â $49
           </a>
           <a href="#how-it-works" className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition text-lg">
             See How It Works
           </a>
         </div>
-        <p className="mt-4 text-sm text-gray-500">One-time payment. No subscription. Money-back guarantee.</p>
+        <div className="mt-4 inline-flex items-center gap-2 text-sm text-gray-500">
+          <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          One-time payment. No subscription. 100% money-back guarantee.
+        </div>
+        <p className="mt-3 text-sm text-brand-600 font-medium">
+          <a href="/sample-business-plan.pdf" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-700">
+            See a real sample plan
+          </a>
+        </p>
       </div>
     </section>
   );
@@ -141,7 +151,7 @@ function ComparisonBanner() {
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div>
-            <p className="text-3xl font-bold text-red-500 line-through">$2,000–$10,000</p>
+            <p className="text-3xl font-bold text-red-500 line-through">$2,000â$10,000</p>
             <p className="text-gray-500 mt-1">Business plan consultant</p>
           </div>
           <div>
@@ -149,7 +159,7 @@ function ComparisonBanner() {
             <p className="text-gray-500 mt-1">DIY with templates</p>
           </div>
           <div>
-            <p className="text-3xl font-bold text-accent-500">From $29 · 10 min</p>
+            <p className="text-3xl font-bold text-accent-500">$49 Â· 10 min</p>
             <p className="text-gray-500 mt-1">BizPlan Genius</p>
           </div>
         </div>
@@ -209,94 +219,127 @@ function HowItWorks() {
   );
 }
 
+function SamplePlan() {
+  return (
+    <section className="py-20 px-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">See What You Get</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Don't take our word for it. Here's a real business plan generated by BizPlan Genius
+            for an artisan coffee roasting company.
+          </p>
+        </div>
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
+          <div className="bg-gray-50 border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <svg className="w-8 h-8 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/>
+              </svg>
+              <div>
+                <p className="font-semibold text-gray-800">BrewCraft Artisan Coffee Roasters</p>
+                <p className="text-sm text-gray-500">11-page business plan with real competitor data</p>
+              </div>
+            </div>
+            <a
+              href="/sample-business-plan.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20"
+            >
+              View Sample Plan (PDF)
+            </a>
+          </div>
+          <div className="p-6 sm:p-8">
+            <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-4">What's inside this plan:</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {[
+                'Executive Summary with mission, vision & key metrics',
+                'Competitor Analysis: Trade Coffee, Blue Bottle, Atlas Coffee Club, Onyx Coffee Lab',
+                'Real pricing data ($15-$30+ per bag)',
+                'Market sizing with actual industry figures',
+                'Target customer profile & acquisition strategy',
+                'Financial projections: Year 1 ($125K) to Year 3 ($450K)',
+                'Operations plan with supply chain details',
+                'Risk analysis with mitigation strategies',
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-sm text-gray-700">{item}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 p-4 bg-brand-50 rounded-xl border border-brand-100">
+              <p className="text-sm text-brand-800">
+                <span className="font-semibold">Notice the difference:</span> Real competitor names with real pricing.
+                Real revenue projections based on industry benchmarks. This is what separates BizPlan Genius
+                from generic AI templates.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="text-center mt-8">
+          <a href="#pricing" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg inline-block">
+            Generate Your Own Plan
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Pricing() {
   return (
     <section id="pricing" className="py-20 px-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-lg mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">Get Your Business Plan</h2>
-          <p className="text-lg text-gray-600">Choose the plan that fits your needs. No subscriptions. No hidden fees.</p>
+          <p className="text-lg text-gray-600">One plan. One price. No hidden fees.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Starter Plan */}
-          <div className="bg-white rounded-2xl border-2 border-gray-200 p-8 shadow-md hover:border-brand-300 transition">
-            <div className="text-center">
-              <p className="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-2">Starter Plan</p>
-              <div className="flex items-baseline justify-center gap-2 mb-2">
-                <span className="text-5xl font-extrabold">$29</span>
-              </div>
-              <p className="text-sm text-gray-500 mb-6">One-time payment</p>
+        <div className="bg-white rounded-2xl border-2 border-brand-600 p-8 shadow-xl shadow-brand-600/10">
+          <div className="text-center">
+            <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-2">Complete Business Plan</p>
+            <div className="flex items-baseline justify-center gap-2 mb-2">
+              <span className="text-5xl font-extrabold">$49</span>
+              <span className="text-gray-500 line-through text-lg">$149</span>
             </div>
-            <ul className="space-y-3 mb-8">
-              {[
-                'Executive Summary',
-                'Real Competitor Analysis (3-5 competitors)',
-                'Market Size & Growth Data',
-                'Target Customer Profile',
-                '3-Year Financial Projections',
-                'Marketing Strategy Overview',
-                'Professional PDF Download',
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <svg className="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <a
-              href="/generate?plan=starter"
-              className="block w-full text-center px-8 py-4 bg-gray-800 text-white font-bold rounded-xl hover:bg-gray-900 transition shadow-lg text-lg"
-            >
-              Get Starter Plan
-            </a>
-            <p className="text-center text-sm text-gray-500 mt-3">
-              Great for validating your idea
-            </p>
+            <p className="text-sm text-gray-500 mb-6">One-time payment Â· No subscription</p>
           </div>
-          {/* Pro Plan */}
-          <div className="bg-white rounded-2xl border-2 border-brand-600 p-8 shadow-xl shadow-brand-600/10 relative">
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-brand-600 text-white text-xs font-bold rounded-full uppercase tracking-wider">
-              Most Popular
-            </div>
-            <div className="text-center">
-              <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-2">Pro Plan</p>
-              <div className="flex items-baseline justify-center gap-2 mb-2">
-                <span className="text-5xl font-extrabold">$49</span>
-                <span className="text-gray-500 line-through text-lg">$149</span>
-              </div>
-              <p className="text-sm text-gray-500 mb-6">One-time payment</p>
-            </div>
-            <ul className="space-y-3 mb-8">
-              {[
-                'Executive Summary',
-                'Real Competitor Analysis (5-10 competitors)',
-                'Market Size & Growth Data',
-                'Target Customer Profile',
-                '3-Year Financial Projections',
-                'Marketing & Sales Strategy',
-                'Operations Plan',
-                'Risk Analysis & Mitigation',
-                'Professional PDF Download',
-                'Money-Back Guarantee',
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <svg className="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700">{item}</span>
-                </li>
-              ))}
-            </ul>
-            <a
-              href="/generate?plan=pro"
-              className="block w-full text-center px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg"
-            >
-              Get Pro Plan
-            </a>
-            <p className="text-center text-sm text-gray-500 mt-3">
-              100% money-back guarantee
+          <ul className="space-y-3 mb-8">
+            {[
+              'Executive Summary',
+              'Real Competitor Analysis (5-10 competitors)',
+              'Market Size & Growth Data',
+              'Target Customer Profile',
+              '3-Year Financial Projections',
+              'Marketing & Sales Strategy',
+              'Operations Plan',
+              'Risk Analysis & Mitigation',
+              'Professional PDF Download',
+              '1 Free Revision',
+            ].map((item, i) => (
+              <li key={i} className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-gray-700">{item}</span>
+              </li>
+            ))}
+          </ul>
+          <a
+            href="/generate"
+            className="block w-full text-center px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg"
+          >
+            Generate My Business Plan
+          </a>
+          <div className="mt-4 flex items-center justify-center gap-2 p-3 bg-green-50 rounded-xl border border-green-200">
+            <svg className="w-6 h-6 text-green-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            <p className="text-sm font-semibold text-green-800">
+              100% Money-Back Guarantee. Not satisfied? Full refund, no questions asked.
             </p>
           </div>
         </div>
@@ -342,11 +385,11 @@ function CTA() {
           Stop Writing Business Plans the Hard Way
         </h2>
         <p className="text-lg text-brand-100 mb-8 max-w-xl mx-auto">
-          Get your investor-ready business plan with real competitor data and financial projections
+          Join thousands of entrepreneurs who launched faster with AI-powered business plans
           backed by real market research.
         </p>
         <a href="/generate" className="inline-block px-8 py-4 bg-white text-brand-700 font-bold rounded-xl hover:bg-gray-50 transition shadow-lg text-lg">
-          Generate My Business Plan — Starting at $29
+          Generate My Business Plan â $49
         </a>
       </div>
     </section>
@@ -377,6 +420,7 @@ export default function Home() {
         <ComparisonBanner />
         <Features />
         <HowItWorks />
+        <SamplePlan />
         <Pricing />
         <FAQ />
         <CTA />
