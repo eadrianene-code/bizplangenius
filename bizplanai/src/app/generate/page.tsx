@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { trackViewContent, trackInitiateCheckout } from '@/lib/pixelEvents';
+import { useSearchParams } from 'next/navigation';
 
 interface FormData {
   businessName: string;
@@ -15,68 +15,60 @@ interface FormData {
 }
 
 const INDUSTRIES = [
-  'Technology / SaaS',
-  'E-commerce / Retail',
-  'Food & Beverage',
-  'Health & Wellness',
-  'Education / EdTech',
-  'Finance / FinTech',
-  'Real Estate',
-  'Marketing / Agency',
-  'Manufacturing',
-  'Consulting / Services',
-  'Travel / Hospitality',
-  'Entertainment / Media',
-  'Construction',
-  'Transportation / Logistics',
-  'Agriculture',
-  'Other',
+  'Technology / SaaS', 'E-commerce / Retail', 'Food & Beverage', 'Health & Wellness',
+  'Education / EdTech', 'Finance / FinTech', 'Real Estate', 'Marketing / Agency',
+  'Manufacturing', 'Consulting / Services', 'Travel / Hospitality', 'Entertainment / Media',
+  'Construction', 'Transportation / Logistics', 'Agriculture', 'Other',
+];
+
+const STARTER_SECTIONS = [
+  'Executive Summary',
+  'Competitor Analysis (5-10 real competitors)',
+  'Market Size & Growth Data',
+  'Target Customer Profile',
+  '3-Year Financial Projections',
+  'Marketing & Sales Strategy',
+  'Professional PDF Download',
+];
+
+const PRO_EXTRAS = [
+  'Operations Plan & Key Milestones',
+  'Risk Analysis & Mitigation Strategies',
+  '100% Money-Back Guarantee',
+  'Priority generation',
 ];
 
 export default function GeneratePage() {
+  const searchParams = useSearchParams();
+  const [tier, setTier] = useState<'starter' | 'pro'>('pro');
   const [form, setForm] = useState<FormData>({
-    businessName: '',
-    industry: '',
-    description: '',
-    targetMarket: '',
-    revenueModel: '',
-    location: '',
-    investment: '',
-    competitors: '',
+    businessName: '', industry: '', description: '', targetMarket: '',
+    revenueModel: '', location: '', investment: '', competitors: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const planType =
-    typeof window !== 'undefined'
-      ? new URLSearchParams(window.location.search).get('plan') || 'pro'
-      : 'pro';
-  const isStarter = planType === 'starter';
-  const price = isStarter ? 29 : 49;
-  const planLabel = isStarter ? 'Starter' : 'Pro';
-
-  // Track page view with plan type for Meta Pixel
   useEffect(() => {
-    trackViewContent(isStarter ? 'starter' : 'pro');
-  }, []);
+    const t = searchParams.get('tier');
+    if (t === 'starter' || t === 'pro') setTier(t);
+  }, [searchParams]);
 
-  const update = (field: keyof FormData, value: string) =>
-    setForm(prev => ({ ...prev, [field]: value }));
+  const update = (field: keyof FormData, value: string) => setForm(prev => ({ ...prev, [field]: value }));
+
+  const price = tier === 'starter' ? 29 : 49;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    // Track checkout initiation for Meta Pixel
-    trackInitiateCheckout(isStarter ? 'starter' : 'pro');
-
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, planType }),
+        body: JSON.stringify({ ...form, tier }),
       });
+
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
@@ -96,7 +88,7 @@ export default function GeneratePage() {
       <header className="bg-white border-b border-gray-100">
         <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
           <a href="/" className="text-xl font-bold text-gradient">BizPlan Genius</a>
-          <span className="text-sm text-gray-500">{planLabel} Plan — Step 1 of 2</span>
+          <span className="text-sm text-gray-500">Step 1 of 2: Describe Your Business</span>
         </div>
       </header>
 
@@ -106,6 +98,69 @@ export default function GeneratePage() {
           <p className="text-gray-600 text-lg">
             The more detail you provide, the more specific and actionable your business plan will be.
           </p>
+        </div>
+
+        {/* Tier Selector */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 sm:p-6 mb-6">
+          <p className="text-sm font-semibold text-gray-700 mb-3">Choose Your Plan</p>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => setTier('starter')}
+              className={`p-4 rounded-xl border-2 text-left transition ${
+                tier === 'starter'
+                  ? 'border-brand-600 bg-brand-50'
+                  : 'border-gray-200 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-baseline justify-between mb-1">
+                <span className="font-bold text-lg">Starter</span>
+                <span className="text-2xl font-extrabold">$29</span>
+              </div>
+              <p className="text-xs text-gray-500">7-section business plan with real market research</p>
+            </button>
+            <button
+              type="button"
+              onClick={() => setTier('pro')}
+              className={`p-4 rounded-xl border-2 text-left transition relative ${
+                tier === 'pro'
+                  ? 'border-brand-600 bg-brand-50'
+                  : 'border-gray-200 hover:border-gray-300'
+              }`}
+            >
+              <div className="absolute -top-2.5 right-3 px-2 py-0.5 bg-brand-600 text-white text-[10px] font-bold rounded-full uppercase">Best Value</div>
+              <div className="flex items-baseline justify-between mb-1">
+                <span className="font-bold text-lg">Pro</span>
+                <span className="text-2xl font-extrabold">$49</span>
+              </div>
+              <p className="text-xs text-gray-500">Full plan + Operations, Risk Analysis & Money-Back Guarantee</p>
+            </button>
+          </div>
+
+          {/* What's included */}
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+              {tier === 'starter' ? 'Included in Starter:' : 'Included in Pro:'}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+              {STARTER_SECTIONS.map((s, i) => (
+                <div key={i} className="flex items-center gap-1.5 text-xs text-gray-600">
+                  <svg className="w-3.5 h-3.5 text-accent-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  {s}
+                </div>
+              ))}
+              {tier === 'pro' && PRO_EXTRAS.map((s, i) => (
+                <div key={`pro-${i}`} className="flex items-center gap-1.5 text-xs text-brand-700 font-medium">
+                  <svg className="w-3.5 h-3.5 text-brand-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  {s}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 sm:p-8 space-y-6">
@@ -189,7 +244,6 @@ export default function GeneratePage() {
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition"
               />
             </div>
-
             {/* Startup Investment */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">Startup Budget</label>
@@ -228,7 +282,7 @@ export default function GeneratePage() {
               disabled={loading}
               className="w-full px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? 'Processing...' : `Continue to Payment — $${price}`}
+              {loading ? 'Processing...' : `Continue to Payment â $${price}`}
             </button>
             <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-500">
               <span className="flex items-center gap-1">
@@ -238,11 +292,11 @@ export default function GeneratePage() {
               <span>|</span>
               <span>Powered by Stripe</span>
               <span>|</span>
-              <span>Money-back Guarantee</span>
+              <span>{tier === 'pro' ? 'Money-back Guarantee' : 'No subscription'}</span>
             </div>
           </div>
         </form>
       </main>
     </div>
   );
-      }
+}
