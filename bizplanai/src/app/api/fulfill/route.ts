@@ -2,11 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-02-24.acacia',
-});
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2025-02-24.acacia',
+  });
+}
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+function getGenAI() {
+  return new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+}
 
 export const maxDuration = 60;
 
@@ -121,7 +125,7 @@ export async function POST(req: NextRequest) {
     const { sessionId } = await req.json();
 
     // Verify the payment session
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status !== 'paid') {
       return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
@@ -130,7 +134,7 @@ export async function POST(req: NextRequest) {
     const meta = session.metadata || {};
 
     // Generate the business plan
-    const model = genAI.getGenerativeModel({
+    const model = getGenAI().getGenerativeModel({
       model: 'gemini-2.5-flash',
       generationConfig: {
         temperature: 0.7,
