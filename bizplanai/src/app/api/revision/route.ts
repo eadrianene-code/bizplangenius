@@ -2,11 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-02-24.acacia',
-});
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2025-02-24.acacia',
+  });
+}
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+function getGenAI() {
+  return new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+}
 
 export const maxDuration = 60;
 
@@ -90,7 +94,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Verify payment
-    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+    const session = await getStripe().checkout.sessions.retrieve(sessionId, {
       expand: ['payment_intent'],
     });
 
@@ -120,7 +124,7 @@ export async function POST(req: NextRequest) {
       prompt = buildFallbackPrompt(revisionNotes, meta);
     }
 
-    const model = genAI.getGenerativeModel({
+    const model = getGenAI().getGenerativeModel({
       model: 'gemini-2.5-flash',
       generationConfig: {
         temperature: 0.7,
@@ -158,7 +162,7 @@ export async function POST(req: NextRequest) {
 
     // Mark revision as used
     if (pi?.id) {
-      await stripe.paymentIntents.update(pi.id, {
+      await getStripe().paymentIntents.update(pi.id, {
         metadata: { ...pi.metadata, revision_used: 'true' },
       });
     }
