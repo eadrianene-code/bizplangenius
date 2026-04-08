@@ -11,12 +11,12 @@ const INDUSTRIES = [
 ];
 
 const REPORT_SECTIONS = [
-  { icon: '🎯', title: 'Competitor Profiles', desc: '5-8 real competitors with their pricing, positioning, strengths, and weaknesses' },
-  { icon: '💰', title: 'Pricing Comparison', desc: 'Side-by-side pricing matrix so you know exactly where you stand' },
-  { icon: '📊', title: 'Market Positioning Map', desc: 'Visual breakdown of where each competitor sits and where the gaps are' },
-  { icon: '🔍', title: 'SWOT Analysis', desc: 'Strengths, weaknesses, opportunities, and threats across the competitive set' },
-  { icon: '🧠', title: 'Strategic Recommendations', desc: 'Top 3 differentiation opportunities and quick wins you can act on today' },
-  { icon: '📈', title: 'Market Overview', desc: 'Industry size, growth trends, and key forces shaping competition' },
+  { icon: 'ð¯', title: 'Competitor Profiles', desc: '5-8 real competitors with their pricing, positioning, strengths, and weaknesses' },
+  { icon: 'ð°', title: 'Pricing Comparison', desc: 'Side-by-side pricing matrix so you know exactly where you stand' },
+  { icon: 'ð', title: 'Market Positioning Map', desc: 'Visual breakdown of where each competitor sits and where the gaps are' },
+  { icon: 'ð', title: 'SWOT Analysis', desc: 'Strengths, weaknesses, opportunities, and threats across the competitive set' },
+  { icon: 'ð§ ', title: 'Strategic Recommendations', desc: 'Top 3 differentiation opportunities and quick wins you can act on today' },
+  { icon: 'ð', title: 'Market Overview', desc: 'Industry size, growth trends, and key forces shaping competition' },
 ];
 
 function Header() {
@@ -189,6 +189,8 @@ function SpyForm() {
     companyUrl: '',
     industryDescription: '',
     industry: '',
+    city: '',
+    country: '',
     email: '',
   });
   const [loading, setLoading] = useState(false);
@@ -303,6 +305,35 @@ function SpyForm() {
               </div>
             </>
           )}
+
+          {/* Location â City & Country */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                City <span className="text-gray-400 font-normal">(optional)</span>
+              </label>
+              <input
+                type="text"
+                value={form.city}
+                onChange={e => update('city', e.target.value)}
+                placeholder="e.g., Austin, London, Toronto"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                Country <span className="text-gray-400 font-normal">(optional)</span>
+              </label>
+              <input
+                type="text"
+                value={form.country}
+                onChange={e => update('country', e.target.value)}
+                placeholder="e.g., United States, UK, Canada"
+                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition"
+              />
+            </div>
+          </div>
+          <p className="text-xs text-gray-400 -mt-4">Adding location helps find local and regional competitors relevant to your market.</p>
 
           {/* Email */}
           <div>
