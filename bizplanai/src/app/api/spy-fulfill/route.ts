@@ -5,17 +5,21 @@ import {
   DynamicRetrievalMode,
 } from '@google/generative-ai';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-02-24.acacia',
-});
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2025-02-24.acacia',
+  });
+}
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+function getGenAI() {
+  return new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+}
 
 export const maxDuration = 120;
 
 // Step 1: Research model with Google Search grounding for real-time data
 function getResearchModel() {
-  return genAI.getGenerativeModel(
+  return getGenAI().getGenerativeModel(
     {
       model: 'gemini-2.5-flash',
       tools: [
@@ -40,7 +44,7 @@ function getResearchModel() {
 
 // Step 2: Structure model for clean JSON output
 function getStructureModel() {
-  return genAI.getGenerativeModel({
+  return getGenAI().getGenerativeModel({
     model: 'gemini-2.5-flash',
     generationConfig: {
       temperature: 0.2,
@@ -262,7 +266,7 @@ export async function POST(req: NextRequest) {
   try {
     const { sessionId } = await req.json();
 
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status !== 'paid') {
       return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
