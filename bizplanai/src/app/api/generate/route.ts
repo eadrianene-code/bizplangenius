@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+function getGenAI() {
+  return new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+}
 
 export const maxDuration = 60; // Allow up to 60 seconds for generation
 
@@ -27,7 +29,7 @@ BUSINESS DETAILS:
 - Revenue Model: ${input.revenueModel}
 - Location: ${input.location || 'Not specified'}
 - Starting Budget: ${input.investment || 'Not specified'}
-- Known Competitors: ${input.competitors || 'None listed — research and identify the top competitors'}
+- Known Competitors: ${input.competitors || 'None listed â research and identify the top competitors'}
 
 INSTRUCTIONS:
 Create a thorough, professional business plan with the following sections. Use REAL industry data, realistic estimates, and specific numbers wherever possible. Do NOT use placeholder text or generic filler.
@@ -118,15 +120,15 @@ CRITICAL RULES:
 2. Identify 5-10 REAL competitors that exist in this space (research them)
 3. All financial projections must be conservative and achievable
 4. Include specific pricing comparisons with competitors
-5. Output ONLY the JSON — no markdown, no code blocks, no extra text
-6. Make the plan specific to THIS business — not generic advice`;
+5. Output ONLY the JSON â no markdown, no code blocks, no extra text
+6. Make the plan specific to THIS business â not generic advice`;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const input: BusinessInput = await req.json();
 
-    const model = genAI.getGenerativeModel({
+    const model = getGenAI().getGenerativeModel({
       model: 'gemini-2.0-flash',
       generationConfig: {
         temperature: 0.7,
