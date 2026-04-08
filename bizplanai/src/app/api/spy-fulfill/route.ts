@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import {
+  GoogleGenerativeAI,
+  DynamicRetrievalMode,
+} from '@google/generative-ai';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-02-24.acacia',
@@ -10,192 +13,249 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 export const maxDuration = 120;
 
-function buildCompanyPrompt(meta: Record<string, string>): string {
-  return `You are a world-class competitive intelligence analyst. A customer wants to understand the competitive landscape around "${meta.companyName}"${meta.companyUrl ? ` (${meta.companyUrl})` : ''}.
+// Step 1: Research model with Google Search grounding for real-time data
+function getResearchModel() {
+  return genAI.getGenerativeModel(
+    {
+      model: 'gemini-2.5-flash',
+      tools: [
+        {
+          googleSearchRetrieval: {
+            dynamicRetrievalConfig: {
+              mode: DynamicRetrievalMode.MODE_DYNAMIC,
+              dynamicThreshold: 0.3,
+            },
+          },
+        },
+      ],
+      generationConfig: {
+        temperature: 0.4,
+        topP: 0.9,
+        maxOutputTokens: 32768,
+      },
+    },
+    { apiVersion: 'v1beta' }
+  );
+}
 
-YOUR TASK: Research this company and its competitors using real, current data. This is a PAID report ($19) so it must contain specific, actionable intelligence that justifies the price. No generic filler. Every data point must be real and verifiable.
+// Step 2: Structure model for clean JSON output
+function getStructureModel() {
+  return genAI.getGenerativeModel({
+    model: 'gemini-2.5-flash',
+    generationConfig: {
+      temperature: 0.2,
+      topP: 0.9,
+      maxOutputTokens: 65536,
+      responseMimeType: 'application/json',
+    },
+  });
+}
 
-INSTRUCTIONS:
-1. First, identify what "${meta.companyName}" does, their pricing, target market, and positioning
-2. Find 5-8 direct competitors that serve the same market
-3. Research each competitor's ACTUAL pricing (from their website), real product features, and market positioning
-4. Identify gaps and opportunities in the competitive landscape
+function buildCompanyResearchPrompt(meta: Record<string, string>): string {
+  return `You are a competitive intelligence researcher. Research the following company and its competitive landscape using real, current data from the web.
 
-Generate the report in this exact JSON structure:
+Company: "${meta.companyName}"${meta.companyUrl ? ` (Website: ${meta.companyUrl})` : ''}
 
-{
-  "reportType": "company",
+Research and provide detailed findings on:
+
+1. ABOUT THE TARGET COMPANY:
+   - What they do, their pricing (from their actual website), target market, year founded, estimated company size
+   - Their unique selling proposition
+
+2. MARKET OVERVIEW:
+   - What industry/market they operate in
+   - Market size (with dollar figures and source)
+   - Growth rate (with source)
+   - 4+ key trends with specific data points
+   - Market drivers and threat factors
+
+3. COMPETITORS (find 5-8 direct competitors):
+   For EACH competitor, research and provide:
+   - Company name and real website URL
+   - What they do (2-3 sentences)
+   - Year founded and estimated size
+   - ACTUAL pricing tiers and amounts from their website (if not publicly listed, say so)
+   - Pricing model (subscription, one-time, freemium, etc.)
+   - Target customer
+   - 3 specific strengths with evidence
+   - 2 specific weaknesses with evidence
+   - Unique features that set them apart
+   - Customer sentiment from real review platforms (G2, Trustpilot, Capterra, etc.)
+   - Market position (Leader/Challenger/Niche/Emerging)
+
+4. PRICING LANDSCAPE:
+   - Summary of pricing across the market
+   - Lowest and highest prices with who offers them
+   - Average market price
+   - Pricing trends
+
+5. MARKET POSITIONING:
+   - Two key dimensions to compare competitors on
+   - Where each company sits on those dimensions
+   - 3 specific market gaps/opportunities
+
+6. SWOT ANALYSIS of entering this market:
+   - 3 strengths, 3 weaknesses, 3 opportunities, 3 threats (each with reasoning)
+
+7. STRATEGIC RECOMMENDATIONS:
+   - 3+ differentiation opportunities with difficulty and impact ratings
+   - Recommended pricing strategy
+   - 3 marketing angles competitors are missing
+   - 3 quick wins (this week, this month, next quarter)
+
+CRITICAL: Only include REAL companies with REAL data. If you cannot find specific pricing, say "Pricing not publicly listed". Do not make up any data. Reference actual review platforms and sources.`;
+}
+
+function buildIndustryResearchPrompt(meta: Record<string, string>): string {
+  return `You are a competitive intelligence researcher. Research the competitive landscape in this specific market using real, current data from the web.
+
+Market/Industry: "${meta.industryDescription}"
+Category: ${meta.industry}
+
+Research and provide detailed findings on:
+
+1. MARKET DEFINITION:
+   - Precise definition of this market niche
+
+2. MARKET OVERVIEW:
+   - Market size (with dollar figures and source)
+   - Growth rate (with source)
+   - 4+ key trends with specific data points
+   - Market drivers and threat factors
+
+3. KEY PLAYERS (find 6-8 significant companies):
+   For EACH company, research and provide:
+   - Company name and real website URL
+   - What they do (2-3 sentences)
+   - Year founded and estimated size
+   - ACTUAL pricing tiers and amounts from their website (if not publicly listed, say so)
+   - Pricing model (subscription, one-time, freemium, etc.)
+   - Target customer
+   - 3 specific strengths with evidence
+   - 2 specific weaknesses with evidence
+   - Unique features
+   - Customer sentiment from real review platforms (G2, Trustpilot, Capterra, etc.)
+   - Market position (Leader/Challenger/Niche/Emerging)
+
+4. PRICING LANDSCAPE:
+   - Summary of pricing across the market
+   - Lowest and highest prices
+   - Average market price
+   - Pricing trends
+
+5. MARKET POSITIONING:
+   - Two key dimensions to compare competitors
+   - Where each company sits
+   - 3 specific market gaps/opportunities
+
+6. SWOT ANALYSIS:
+   - 3 strengths, 3 weaknesses, 3 opportunities, 3 threats (each with reasoning)
+
+7. STRATEGIC RECOMMENDATIONS:
+   - 3+ differentiation opportunities with difficulty and impact
+   - Recommended pricing strategy
+   - 3 marketing angles competitors are missing
+   - 3 quick wins
+
+CRITICAL: Only include REAL companies with REAL data. If pricing is not publicly available, say so. Do not fabricate any information.`;
+}
+
+function buildStructurePrompt(research: string, mode: string, meta: Record<string, string>): string {
+  const reportTypeBlock = mode === 'company'
+    ? `"reportType": "company",
   "targetCompany": {
     "name": "${meta.companyName}",
     "url": "${meta.companyUrl || 'N/A'}",
-    "description": "What this company does (2-3 sentences)",
-    "industry": "Industry category",
-    "founded": "Year founded if known, otherwise 'N/A'",
-    "estimatedSize": "Employee count range or revenue estimate if available",
-    "pricing": "Their actual pricing tiers and amounts",
-    "targetCustomer": "Who they serve",
-    "uniqueSellingPoint": "Their key differentiator"
-  },
-  "marketOverview": {
-    "industryName": "The specific market/industry",
-    "marketSize": "Total addressable market with real dollar figures and source",
-    "growthRate": "Annual growth rate with source",
-    "keyTrends": ["Trend 1 with specific data point", "Trend 2 with specific data point", "Trend 3 with specific data point", "Trend 4 with specific data point"],
-    "marketDrivers": "What is driving growth in this space (2-3 sentences)",
-    "threatFactors": "What could slow growth (2-3 sentences)"
-  },
-  "competitors": [
-    {
-      "name": "Real competitor name",
-      "url": "Their actual website URL",
-      "description": "What they do (2-3 sentences)",
-      "founded": "Year if known",
-      "estimatedSize": "Employee count or revenue estimate",
-      "pricing": {
-        "model": "Subscription/One-time/Freemium/etc",
-        "tiers": [
-          { "name": "Tier name", "price": "Actual price from their website", "features": "Key features included" }
-        ]
-      },
-      "targetCustomer": "Who they primarily serve",
-      "strengths": ["Specific strength with evidence", "Specific strength with evidence", "Specific strength with evidence"],
-      "weaknesses": ["Specific weakness with evidence", "Specific weakness with evidence"],
-      "uniqueFeatures": ["Feature that sets them apart"],
-      "customerSentiment": "Summary of how customers feel based on reviews (mention specific review platforms)",
-      "marketPosition": "Leader/Challenger/Niche/Emerging"
-    }
-  ],
-  "pricingComparison": {
-    "summary": "2-3 sentence overview of pricing landscape",
-    "lowestPrice": "Cheapest option and who offers it",
-    "highestPrice": "Most expensive and who offers it",
-    "averagePrice": "Market average",
-    "pricingTrends": "How pricing is evolving in this space"
-  },
-  "positioningMap": {
-    "xAxis": "Dimension 1 (e.g., Price: Low to High)",
-    "yAxis": "Dimension 2 (e.g., Features: Basic to Advanced)",
-    "positions": [
-      { "company": "Company name", "x": "low/medium/high", "y": "low/medium/high", "quadrant": "Description of their position" }
-    ],
-    "gaps": ["Market gap 1 - specific opportunity", "Market gap 2 - specific opportunity", "Market gap 3 - specific opportunity"]
-  },
-  "swotAnalysis": {
-    "strengths": ["Industry strength 1", "Industry strength 2", "Industry strength 3"],
-    "weaknesses": ["Industry weakness 1", "Industry weakness 2", "Industry weakness 3"],
-    "opportunities": ["Opportunity 1 with specific reasoning", "Opportunity 2 with specific reasoning", "Opportunity 3 with specific reasoning"],
-    "threats": ["Threat 1 with specific reasoning", "Threat 2 with specific reasoning", "Threat 3 with specific reasoning"]
-  },
-  "strategicRecommendations": {
-    "differentiationOpportunities": [
-      { "opportunity": "Specific opportunity", "reasoning": "Why this works based on competitive gaps", "difficulty": "Easy/Medium/Hard", "impact": "High/Medium/Low" }
-    ],
-    "pricingStrategy": "Recommended pricing approach based on competitive data",
-    "marketingAngles": ["Marketing angle 1 that competitors are missing", "Marketing angle 2", "Marketing angle 3"],
-    "quickWins": ["Something you can do this week", "Something you can do this month", "Something for next quarter"]
-  }
-}
-
-CRITICAL RULES:
-1. Every competitor must be REAL and currently operating. Do not invent companies.
-2. All pricing must reflect ACTUAL current prices from their websites. If you cannot verify pricing, state "Pricing not publicly listed" rather than guessing.
-3. Include real website URLs for every competitor.
-4. Market size and growth figures should reference real industry reports or estimates.
-5. Customer sentiment should reference real review platforms (G2, Trustpilot, Capterra, Yelp, Google Reviews, etc.).
-6. Output ONLY the JSON. No markdown, no code blocks, no extra text.
-7. If data is unavailable for a field, use "N/A" rather than making something up.
-8. Find at LEAST 5 competitors but aim for 6-8.`;
-}
-
-function buildIndustryPrompt(meta: Record<string, string>): string {
-  return `You are a world-class competitive intelligence analyst. A customer wants to understand the competitive landscape in this market: "${meta.industryDescription}" (Category: ${meta.industry}).
-
-YOUR TASK: Map the competitive landscape of this specific market using real, current data. This is a PAID report ($19) so it must contain specific, actionable intelligence that justifies the price. No generic filler. Every data point must be real and verifiable.
-
-INSTRUCTIONS:
-1. Identify the 6-8 most significant players in this specific market niche
-2. Research each company's ACTUAL pricing, features, and positioning
-3. Find real market data (size, growth, trends)
-4. Identify specific gaps and opportunities
-
-Generate the report in this exact JSON structure:
-
-{
-  "reportType": "industry",
+    "description": "string",
+    "industry": "string",
+    "founded": "string",
+    "estimatedSize": "string",
+    "pricing": "string",
+    "targetCustomer": "string",
+    "uniqueSellingPoint": "string"
+  },`
+    : `"reportType": "industry",
   "industryTarget": {
     "description": "${meta.industryDescription}",
     "category": "${meta.industry}",
-    "nicheDefinition": "Precise definition of this market niche (2-3 sentences)"
-  },
+    "nicheDefinition": "string"
+  },`;
+
+  return `You are a data structuring assistant. Below is raw competitive intelligence research. Your ONLY job is to organize this research into the exact JSON structure specified. Do NOT add any information that isn't in the research. If the research says data is unavailable, use "N/A".
+
+=== RAW RESEARCH ===
+${research}
+=== END RESEARCH ===
+
+Structure the above research into this exact JSON format:
+
+{
+  ${reportTypeBlock}
   "marketOverview": {
-    "industryName": "The specific market/industry",
-    "marketSize": "Total addressable market with real dollar figures and source",
-    "growthRate": "Annual growth rate with source",
-    "keyTrends": ["Trend 1 with specific data point", "Trend 2 with specific data point", "Trend 3 with specific data point", "Trend 4 with specific data point"],
-    "marketDrivers": "What is driving growth in this space (2-3 sentences)",
-    "threatFactors": "What could slow growth (2-3 sentences)"
+    "industryName": "string",
+    "marketSize": "string",
+    "growthRate": "string",
+    "keyTrends": ["string", "string", "string", "string"],
+    "marketDrivers": "string",
+    "threatFactors": "string"
   },
   "competitors": [
     {
-      "name": "Real company name",
-      "url": "Their actual website URL",
-      "description": "What they do (2-3 sentences)",
-      "founded": "Year if known",
-      "estimatedSize": "Employee count or revenue estimate",
+      "name": "string",
+      "url": "string",
+      "description": "string",
+      "founded": "string",
+      "estimatedSize": "string",
       "pricing": {
-        "model": "Subscription/One-time/Freemium/etc",
+        "model": "string",
         "tiers": [
-          { "name": "Tier name", "price": "Actual price from their website", "features": "Key features included" }
+          { "name": "string", "price": "string", "features": "string" }
         ]
       },
-      "targetCustomer": "Who they primarily serve",
-      "strengths": ["Specific strength with evidence", "Specific strength with evidence", "Specific strength with evidence"],
-      "weaknesses": ["Specific weakness with evidence", "Specific weakness with evidence"],
-      "uniqueFeatures": ["Feature that sets them apart"],
-      "customerSentiment": "Summary of how customers feel based on reviews (mention specific review platforms)",
-      "marketPosition": "Leader/Challenger/Niche/Emerging"
+      "targetCustomer": "string",
+      "strengths": ["string", "string", "string"],
+      "weaknesses": ["string", "string"],
+      "uniqueFeatures": ["string"],
+      "customerSentiment": "string",
+      "marketPosition": "Leader|Challenger|Niche|Emerging"
     }
   ],
   "pricingComparison": {
-    "summary": "2-3 sentence overview of pricing landscape",
-    "lowestPrice": "Cheapest option and who offers it",
-    "highestPrice": "Most expensive and who offers it",
-    "averagePrice": "Market average",
-    "pricingTrends": "How pricing is evolving in this space"
+    "summary": "string",
+    "lowestPrice": "string",
+    "highestPrice": "string",
+    "averagePrice": "string",
+    "pricingTrends": "string"
   },
   "positioningMap": {
-    "xAxis": "Dimension 1 (e.g., Price: Low to High)",
-    "yAxis": "Dimension 2 (e.g., Features: Basic to Advanced)",
+    "xAxis": "string",
+    "yAxis": "string",
     "positions": [
-      { "company": "Company name", "x": "low/medium/high", "y": "low/medium/high", "quadrant": "Description of their position" }
+      { "company": "string", "x": "low|medium|high", "y": "low|medium|high", "quadrant": "string" }
     ],
-    "gaps": ["Market gap 1 - specific opportunity", "Market gap 2 - specific opportunity", "Market gap 3 - specific opportunity"]
+    "gaps": ["string", "string", "string"]
   },
   "swotAnalysis": {
-    "strengths": ["Industry strength 1", "Industry strength 2", "Industry strength 3"],
-    "weaknesses": ["Industry weakness 1", "Industry weakness 2", "Industry weakness 3"],
-    "opportunities": ["Opportunity 1 with specific reasoning", "Opportunity 2 with specific reasoning", "Opportunity 3 with specific reasoning"],
-    "threats": ["Threat 1 with specific reasoning", "Threat 2 with specific reasoning", "Threat 3 with specific reasoning"]
+    "strengths": ["string", "string", "string"],
+    "weaknesses": ["string", "string", "string"],
+    "opportunities": ["string", "string", "string"],
+    "threats": ["string", "string", "string"]
   },
   "strategicRecommendations": {
     "differentiationOpportunities": [
-      { "opportunity": "Specific opportunity", "reasoning": "Why this works based on competitive gaps", "difficulty": "Easy/Medium/Hard", "impact": "High/Medium/Low" }
+      { "opportunity": "string", "reasoning": "string", "difficulty": "Easy|Medium|Hard", "impact": "High|Medium|Low" }
     ],
-    "pricingStrategy": "Recommended pricing approach based on competitive data",
-    "marketingAngles": ["Marketing angle 1 that competitors are missing", "Marketing angle 2", "Marketing angle 3"],
-    "quickWins": ["Something you can do this week", "Something you can do this month", "Something for next quarter"]
+    "pricingStrategy": "string",
+    "marketingAngles": ["string", "string", "string"],
+    "quickWins": ["string", "string", "string"]
   }
 }
 
-CRITICAL RULES:
-1. Every competitor must be REAL and currently operating. Do not invent companies.
-2. All pricing must reflect ACTUAL current prices from their websites. If pricing is not public, state "Pricing not publicly listed".
-3. Include real website URLs for every competitor.
-4. Market size and growth figures should reference real industry reports or estimates.
-5. Customer sentiment should reference real review platforms (G2, Trustpilot, Capterra, Yelp, Google Reviews, etc.).
-6. Output ONLY the JSON. No markdown, no code blocks, no extra text.
-7. If data is unavailable for a field, use "N/A" rather than making something up.
-8. Find at LEAST 5 competitors but aim for 6-8.`;
+RULES:
+1. Output ONLY valid JSON. No markdown, no code blocks, no extra text.
+2. Include ALL competitors from the research (aim for 5-8).
+3. Preserve all specific data points, URLs, pricing, and sources from the research.
+4. Do not invent or add any data not present in the research.`;
 }
 
 export async function POST(req: NextRequest) {
@@ -210,27 +270,31 @@ export async function POST(req: NextRequest) {
 
     const meta = session.metadata || {};
 
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash',
-      generationConfig: {
-        temperature: 0.7,
-        topP: 0.9,
-        maxOutputTokens: 65536,
-        responseMimeType: 'application/json',
-      },
-    });
+    // STEP 1: Research with Google Search grounding
+    console.log('Spy Step 1: Starting grounded research...');
+    const researchModel = getResearchModel();
+    const researchPrompt = meta.mode === 'company'
+      ? buildCompanyResearchPrompt(meta)
+      : buildIndustryResearchPrompt(meta);
 
-    const prompt = meta.mode === 'company'
-      ? buildCompanyPrompt(meta)
-      : buildIndustryPrompt(meta);
+    const researchResult = await researchModel.generateContent(researchPrompt);
+    const researchText = researchResult.response.text();
 
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    console.log('Spy Step 1 complete. Research length:', researchText.length);
+    console.log('Research preview (first 500):', researchText.substring(0, 500));
 
-    console.log('Spy Gemini response (first 500 chars):', text.substring(0, 500));
+    // STEP 2: Structure into JSON
+    console.log('Spy Step 2: Structuring into JSON...');
+    const structureModel = getStructureModel();
+    const structurePrompt = buildStructurePrompt(researchText, meta.mode || 'company', meta);
+
+    const structureResult = await structureModel.generateContent(structurePrompt);
+    const structureText = structureResult.response.text();
+
+    console.log('Spy Step 2 complete. JSON length:', structureText.length);
 
     let report;
-    const rawText = text.trim();
+    const rawText = structureText.trim();
 
     // Strategy 1: Direct JSON parse
     try {
@@ -256,7 +320,7 @@ export async function POST(req: NextRequest) {
       }
 
       if (!report) {
-        console.error('Failed to parse spy report. Full response:', rawText.substring(0, 2000));
+        console.error('Failed to parse spy report. Raw:', rawText.substring(0, 2000));
         throw new Error('Failed to parse AI response');
       }
     }
@@ -264,6 +328,10 @@ export async function POST(req: NextRequest) {
     const reportName = meta.mode === 'company'
       ? meta.companyName
       : meta.industry;
+
+    // Add metadata
+    report.generatedAt = new Date().toISOString();
+    report.disclaimer = 'This report reflects publicly available information gathered via web research. We recommend verifying pricing and company details directly on competitor websites before making strategic decisions.';
 
     return NextResponse.json({ report, reportName });
   } catch (error: any) {
