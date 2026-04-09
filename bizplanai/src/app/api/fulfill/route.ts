@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import {
-  GoogleGenerativeAI,
-} from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -10,42 +8,9 @@ function getStripe() {
   });
 }
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
-export const maxDuration = 120; // Increased from 60 to support two-stage generation
-
-// Step 1: Research model with Google Search grounding for real-time data
-function getResearchModel() {
-  return genAI.getGenerativeModel(
-    {
-      model: 'gemini-2.5-flash',
-      tools: [
-        {
-          googleSearch: {},
-        },
-      ],
-      generationConfig: {
-        temperature: 0.4,
-        topP: 0.9,
-        maxOutputTokens: 32768,
-      },
-    },
-    { apiVersion: 'v1beta' }
-  );
-}
-
-// Step 2: Structure model for clean JSON output
-function getStructureModel() {
-  return genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash',
-    generationConfig: {
-      temperature: 0.3,
-      topP: 0.9,
-      maxOutputTokens: 65536,
-      responseMimeType: 'application/json',
-    },
-  });
-}
+export const maxDuration = 120;
 
 function buildResearchPrompt(meta: Record<string, string>): string {
   const locationContext = meta.location
@@ -229,8 +194,9 @@ export async function POST(req: NextRequest) {
   try {
     const { sessionId } = await req.json();
 
-    // Verify the payment session
     const stripe = getStripe();
+
+    // Verify the payment session
     const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     if (session.payment_status !== 'paid') {
@@ -241,22 +207,37 @@ export async function POST(req: NextRequest) {
 
     // STEP 1: Research with Google Search grounding
     console.log('BizPlan Step 1: Starting grounded market research...');
-    const researchModel = getResearchModel();
     const researchPrompt = buildResearchPrompt(meta);
 
-    const researchResult = await researchModel.generateContent(researchPrompt);
-    const researchText = researchResult.response.text();
+    const researchResult = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: researchPrompt,
+      config: {
+        tools: [{ googleSearch: {} }],
+        temperature: 0.4,
+        topP: 0.9,
+        maxOutputTokens: 32768,
+      },
+    });
+    const researchText = researchResult.text || '';
 
     console.log('BizPlan Step 1 complete. Research length:', researchText.length);
-    console.log('Research preview (first 500):', researchText.substring(0, 500));
 
     // STEP 2: Structure into clean JSON
     console.log('BizPlan Step 2: Structuring into business plan JSON...');
-    const structureModel = getStructureModel();
     const structurePrompt = buildStructurePrompt(researchText, meta);
 
-    const structureResult = await structureModel.generateContent(structurePrompt);
-    const structureText = structureResult.response.text();
+    const structureResult = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: structurePrompt,
+      config: {
+        temperature: 0.3,
+        topP: 0.9,
+        maxOutputTokens: 65536,
+        responseMimeType: 'application/json',
+      },
+    });
+    const structureText = structureResult.text || '';
 
     console.log('BizPlan Step 2 complete. JSON length:', structureText.length);
 

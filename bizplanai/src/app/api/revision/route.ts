@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -8,9 +8,7 @@ function getStripe() {
   });
 }
 
-function getGenAI() {
-  return new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-}
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 export const maxDuration = 60;
 
@@ -124,18 +122,17 @@ export async function POST(req: NextRequest) {
       prompt = buildFallbackPrompt(revisionNotes, meta);
     }
 
-    const model = getGenAI().getGenerativeModel({
+    const result = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
-      generationConfig: {
+      contents: prompt,
+      config: {
         temperature: 0.7,
         topP: 0.9,
         maxOutputTokens: 65536,
         responseMimeType: 'application/json',
       },
     });
-
-    const result = await model.generateContent(prompt);
-    const text = result.response.text();
+    const text = result.text || '';
 
     let plan;
     const rawText = text.trim();

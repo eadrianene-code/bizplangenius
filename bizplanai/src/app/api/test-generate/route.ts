@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import {
-  GoogleGenerativeAI,
-} from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 export const maxDuration = 120;
 
 // TEMPORARY TEST ENDPOINT - DELETE AFTER QA
-// Protected by STRIPE_SECRET_KEY as auth token
 export async function POST(req: NextRequest) {
   try {
     const { meta, authKey } = await req.json();
@@ -57,7 +54,7 @@ Research and provide detailed findings on:
 1. EXECUTIVE SUMMARY INPUTS:
    - What makes this business idea viable
    - Key value proposition and differentiation
-   - 3-5 projected key metrics based on industry benchmarks (e.g., average revenue for similar businesses in year 1, typical customer count, average order value)
+   - 3-5 projected key metrics based on industry benchmarks
 
 2. COMPETITOR ANALYSIS (find 5-10 REAL competitors):
    For EACH competitor, research and provide:
@@ -80,7 +77,6 @@ Research and provide detailed findings on:
    - Recommended marketing channels with estimated Customer Acquisition Cost (CAC) for each
    - Content strategy recommendations
    - First 90-day launch plan
-   - What successful competitors in this space are doing for marketing
 
 5. FINANCIAL PROJECTIONS:
    - Realistic revenue estimates for Year 1, 2, and 3 based on industry benchmarks
@@ -95,26 +91,18 @@ CRITICAL RULES:
 - Be specific to THIS business, not generic advice.
 - Financial projections must be conservative and grounded in comparable business performance.`;
 
-    // Step 1: Research with grounding
-    const researchModel = genAI.getGenerativeModel(
-      {
-        model: 'gemini-2.5-flash',
-        tools: [
-          {
-            googleSearch: {},
-          },
-        ],
-        generationConfig: {
-          temperature: 0.4,
-          topP: 0.9,
-          maxOutputTokens: 32768,
-        },
+    // Step 1: Research with Google Search grounding
+    const researchResult = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: researchPrompt,
+      config: {
+        tools: [{ googleSearch: {} }],
+        temperature: 0.4,
+        topP: 0.9,
+        maxOutputTokens: 32768,
       },
-      { apiVersion: 'v1beta' }
-    );
-
-    const researchResult = await researchModel.generateContent(researchPrompt);
-    const researchText = researchResult.response.text();
+    });
+    const researchText = researchResult.text || '';
 
     // Step 2: Structure into JSON
     const proJsonSections = isPro ? `,
@@ -216,18 +204,17 @@ RULES:
 4. Do not invent or add any data not present in the research.
 5. Make the plan specific to ${meta.businessName} - not generic advice.`;
 
-    const structureModel = genAI.getGenerativeModel({
+    const structureResult = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
-      generationConfig: {
+      contents: structurePrompt,
+      config: {
         temperature: 0.3,
         topP: 0.9,
         maxOutputTokens: 65536,
         responseMimeType: 'application/json',
       },
     });
-
-    const structureResult = await structureModel.generateContent(structurePrompt);
-    const structureText = structureResult.response.text();
+    const structureText = structureResult.text || '';
 
     let plan;
     const rawText = structureText.trim();
