@@ -282,7 +282,7 @@ function GeneratePageContent() {
               disabled={loading}
               className="w-full px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? 'Processing...' : `Continue to Payment +�-�-� $${price}`}
+              {loading ? 'Processing...' : `Continue to Payment ├ó┬Ç┬ö $${price}`}
             </button>
             <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-500">
               <span className="flex items-center gap-1">
