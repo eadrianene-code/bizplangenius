@@ -3,7 +3,7 @@ import { GoogleGenAI } from '@google/genai';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 // TEMPORARY TEST ENDPOINT - DELETE AFTER QA
 export async function POST(req: NextRequest) {

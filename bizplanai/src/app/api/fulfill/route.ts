@@ -10,7 +10,7 @@ function getStripe() {
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 function buildResearchPrompt(meta: Record<string, string>): string {
   const locationContext = meta.location
