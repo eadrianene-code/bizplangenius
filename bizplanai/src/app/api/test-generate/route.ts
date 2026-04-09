@@ -14,9 +14,8 @@ export async function POST(req: NextRequest) {
   try {
     const { meta, authKey } = await req.json();
 
-    // Use first 20 chars of Stripe secret key as auth
-    const expectedKey = (process.env.STRIPE_SECRET_KEY || '').substring(0, 20);
-    if (!authKey || authKey !== expectedKey) {
+    // Temporary QA auth - this endpoint will be deleted after testing
+    if (!authKey || authKey !== 'bzpqa2026x') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
