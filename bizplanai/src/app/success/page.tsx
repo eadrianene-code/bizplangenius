@@ -603,6 +603,14 @@ export default function SuccessPage() {
         if (data.plan) {
           setProgress(100);
           setBusinessName(data.businessName || 'Business Plan');
+          // Fire Meta Pixel Purchase event
+          if (typeof window !== 'undefined' && (window as any).fbq) {
+            (window as any).fbq('track', 'Purchase', {
+              content_name: data.businessName || 'Business Plan',
+              content_category: 'business_plan',
+              currency: 'USD',
+            });
+          }
           setTimeout(() => {
             setPlan(data.plan);
             setStatus('done');

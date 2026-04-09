@@ -63,6 +63,16 @@ function GeneratePageInner() {
     setError('');
 
     try {
+      // Fire Meta Pixel InitiateCheckout event
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'InitiateCheckout', {
+          content_name: form.businessName,
+          content_category: 'business_plan',
+          currency: 'USD',
+          value: price,
+        });
+      }
+
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
