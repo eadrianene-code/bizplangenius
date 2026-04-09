@@ -110,7 +110,7 @@ function buildStructurePrompt(research: string, meta: Record<string, string>): s
     ]
   }` : '';
 
-  return `You are a data structuring assistant. Below is raw business research and market analysis. Your ONLY job is to organize this research into the exact JSON structure specified. Do NOT add any information that isn't in the research. If the research says data is unavailable, use "N/A".
+  return `You are a data structuring assistant. Below is raw business research and market analysis. Your ONLY job is to organize this research into the exact JSON structure specified. Do NOT add any information that isn't in the research. If the research does not provide a specific number, use your best professional estimate based on the research context and clearly label it as an estimate.
 
 === RAW RESEARCH ===
 ${research}
@@ -171,9 +171,9 @@ Structure the above research into this exact JSON format:
   },
   "financialProjections": {
     "revenueModel": "Detailed revenue model explanation",
-    "year1": { "revenue": "$X", "costs": "$X", "profit": "$X", "customers": "X" },
-    "year2": { "revenue": "$X", "costs": "$X", "profit": "$X", "customers": "X" },
-    "year3": { "revenue": "$X", "costs": "$X", "profit": "$X", "customers": "X" },
+    "year1": { "revenue": "$X (REQUIRED - must be a dollar amount)", "costs": "$X (REQUIRED - total operating costs)", "profit": "$X (REQUIRED - revenue minus costs)", "customers": "X (REQUIRED - estimated customer count)" },
+    "year2": { "revenue": "$X (REQUIRED)", "costs": "$X (REQUIRED)", "profit": "$X (REQUIRED)", "customers": "X (REQUIRED)" },
+    "year3": { "revenue": "$X (REQUIRED)", "costs": "$X (REQUIRED)", "profit": "$X (REQUIRED)", "customers": "X (REQUIRED)" },
     "keyAssumptions": ["Assumption 1 with reasoning", "Assumption 2 with reasoning", "Assumption 3 with reasoning"],
     "breakEvenTimeline": "When the business breaks even",
     "startupCosts": [
@@ -187,7 +187,8 @@ RULES:
 2. Include ALL competitors from the research (aim for 5-10).
 3. Preserve all specific data points, pricing, revenue figures, and sources from the research.
 4. Do not invent or add any data not present in the research.
-5. Make the plan specific to ${meta.businessName} - not generic advice.`;
+5. Make the plan specific to ${meta.businessName} - not generic advice.
+6. CRITICAL: Every financial field (revenue, costs, profit, customers) for year1/year2/year3 MUST contain a specific dollar amount or number. NEVER use "N/A" for financial projections. If the research provides revenue but not costs, estimate costs based on typical industry cost structures mentioned in the research.`;
 }
 
 export async function POST(req: NextRequest) {
