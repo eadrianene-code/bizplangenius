@@ -343,7 +343,7 @@ function SpyForm() {
               required
               value={form.email}
               onChange={e => update('email', e.target.value)}
-              placeholder="your@email.com (we'll send the report here too)"
+              placeholder="your@email.com"
               className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition"
             />
           </div>
@@ -390,7 +390,7 @@ function FAQ() {
     },
     {
       q: 'How long does it take to get my report?',
-      a: 'Under 3 minutes. After payment, our AI immediately begins researching your market and generates a professional PDF report. You can download it instantly and we also email you a copy.',
+      a: 'Under 3 minutes. After payment, our AI immediately begins researching your market and generates a professional PDF report. You can download it instantly from the results page.',
     },
     {
       q: 'Can I use this for investor pitches?',
