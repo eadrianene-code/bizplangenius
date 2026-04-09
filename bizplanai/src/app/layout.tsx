@@ -1,17 +1,16 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import MetaPixel from './components/MetaPixel';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bizplangenius.com'),
   alternates: {
     canonical: '/',
   },
-  title: 'BizPlan Genius — AI Business Plan Generator with Real Market Research',
+  title: 'BizPlan Genius | AI Business Plan Generator with Real Market Research',
   description: 'Generate investor-ready business plans with real competitor analysis and market data. Powered by AI. Get your professional business plan in minutes, not weeks.',
   keywords: 'AI business plan generator, business plan writer, competitor analysis, market research, startup business plan, business plan template',
   openGraph: {
-    title: 'BizPlan Genius — Professional Business Plans in Minutes',
+    title: 'BizPlan Genius | Professional Business Plans in Minutes',
     description: 'AI-powered business plans with real competitor research and market analysis. From $29, one-time payment.',
     url: 'https://www.bizplangenius.com',
     siteName: 'BizPlan Genius',
@@ -31,7 +30,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased text-gray-900 bg-white">
-        <MetaPixel />
         {children}
       </body>
     </html>

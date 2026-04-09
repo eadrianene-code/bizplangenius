@@ -11,32 +11,32 @@ const NAV_LINKS = [
 
 const FEATURES = [
   {
-    icon: 'ð',
+    icon: '🔍',
     title: 'Real Competitor Research',
-    desc: 'We analyze your actual competitors â their pricing, positioning, strengths, and weaknesses. No generic filler.',
+    desc: 'We analyze your actual competitors: their pricing, positioning, strengths, and weaknesses. No generic filler.',
   },
   {
-    icon: 'ð',
+    icon: '📊',
     title: 'Live Market Data',
     desc: 'Get real market size estimates, growth trends, and industry benchmarks pulled from current sources.',
   },
   {
-    icon: 'ð°',
+    icon: '💰',
     title: 'Financial Projections',
     desc: 'Revenue forecasts, cost breakdowns, break-even analysis, and cash flow projections based on real industry margins.',
   },
   {
-    icon: 'ð¯',
+    icon: '🎯',
     title: 'Marketing Strategy',
     desc: 'Channel recommendations, customer acquisition costs, and a go-to-market playbook tailored to your niche.',
   },
   {
-    icon: 'ð',
+    icon: '📄',
     title: 'Investor-Ready PDF',
     desc: 'Download a beautifully formatted PDF ready to show banks, investors, or partners. Professional and polished.',
   },
   {
-    icon: 'â¡',
+    icon: '⚡',
     title: 'Minutes, Not Weeks',
     desc: 'Traditional business plans take 40+ hours. Ours takes under 10 minutes. Same quality, fraction of the time.',
   },
@@ -63,7 +63,7 @@ const FAQS = [
   },
   {
     q: 'What if I\'m not satisfied with the plan?',
-    a: 'We offer one free revision. If you\'re still not happy, we\'ll refund your purchase â no questions asked.',
+    a: 'We offer one free revision. If you\'re still not happy, we\'ll refund your purchase. No questions asked.',
   },
   {
     q: 'Do you store my business idea?',
@@ -110,7 +110,7 @@ function Hero() {
     <section className="pt-28 pb-20 px-4 bg-hero-pattern">
       <div className="max-w-4xl mx-auto text-center">
         <div className="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-medium rounded-full mb-6 border border-brand-100">
-          Trusted by 1,000+ entrepreneurs
+          AI-Powered Business Plans with Real Data
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
           Business Plans with{' '}
@@ -119,11 +119,11 @@ function Hero() {
         <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
           Describe your business idea. Our AI researches your actual competitors,
           analyzes real market data, and generates an investor-ready business plan
-          in minutes â not weeks.
+          in minutes, not weeks.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="#pricing" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
-            Generate My Business Plan â Starting at $29
+            Generate My Business Plan - Starting at $29
           </a>
           <a href="#how-it-works" className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition text-lg">
             See How It Works
@@ -151,7 +151,7 @@ function ComparisonBanner() {
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div>
-            <p className="text-3xl font-bold text-red-500 line-through">$2,000â$10,000</p>
+            <p className="text-3xl font-bold text-red-500 line-through">$2,000–$10,000</p>
             <p className="text-gray-500 mt-1">Business plan consultant</p>
           </div>
           <div>
@@ -159,7 +159,7 @@ function ComparisonBanner() {
             <p className="text-gray-500 mt-1">DIY with templates</p>
           </div>
           <div>
-            <p className="text-3xl font-bold text-accent-500">From $29 Â· 10 min</p>
+            <p className="text-3xl font-bold text-accent-500">From $29 · 10 min</p>
             <p className="text-gray-500 mt-1">BizPlan Genius</p>
           </div>
         </div>
@@ -430,11 +430,11 @@ function CTA() {
           Stop Writing Business Plans the Hard Way
         </h2>
         <p className="text-lg text-brand-100 mb-8 max-w-xl mx-auto">
-          Join thousands of entrepreneurs who launched faster with AI-powered business plans
-          backed by real market research.
+          Get a professional business plan backed by real competitor data and market research.
+          Ready in minutes, not weeks.
         </p>
         <a href="/generate" className="inline-block px-8 py-4 bg-white text-brand-700 font-bold rounded-xl hover:bg-gray-50 transition shadow-lg text-lg">
-          Generate My Business Plan â Starting at $29
+          Generate My Business Plan - Starting at $29
         </a>
       </div>
     </section>

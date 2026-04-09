@@ -38,7 +38,7 @@ const PRO_EXTRAS = [
   'Priority generation',
 ];
 
-function GeneratePageContent() {
+function GeneratePageInner() {
   const searchParams = useSearchParams();
   const [tier, setTier] = useState<'starter' | 'pro'>('pro');
   const [form, setForm] = useState<FormData>({
@@ -282,7 +282,7 @@ function GeneratePageContent() {
               disabled={loading}
               className="w-full px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? 'Processing...' : `Continue to Payment ├ó┬Ç┬ö $${price}`}
+              {loading ? 'Processing...' : `Continue to Payment - $${price}`}
             </button>
             <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-500">
               <span className="flex items-center gap-1">
@@ -301,11 +301,10 @@ function GeneratePageContent() {
   );
 }
 
-
 export default function GeneratePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
-      <GeneratePageContent />
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center"><p className="text-gray-500">Loading...</p></div>}>
+      <GeneratePageInner />
     </Suspense>
   );
 }
