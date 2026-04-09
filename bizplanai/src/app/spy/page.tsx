@@ -11,12 +11,12 @@ const INDUSTRIES = [
 ];
 
 const REPORT_SECTIONS = [
-  { icon: 'u{1F3AF}', title: 'Competitor Profiles', desc: '5-8 real competitors with their pricing, positioning, strengths, and weaknesses' },
-  { icon: 'u{1F4B0}', title: 'Pricing Comparison', desc: 'Side-by-side pricing matrix so you know exactly where you stand' },
-  { icon: 'u{1F5FA}', title: 'Market Positioning Map', desc: 'Visual breakdown of where each competitor sits and where the gaps are' },
-  { icon: 'u{1F50D}', title: 'SWOT Analysis', desc: 'Strengths, weaknesses, opportunities, and threats across the competitive set' },
-  { icon: 'u{1F9E0}', title: 'Strategic Recommendations', desc: 'Top 3 differentiation opportunities and quick wins you can act on today' },
-  { icon: 'u{1F4CA}', title: 'Market Overview', desc: 'Industry size, growth trends, and key forces shaping competition' },
+  { icon: '🎯', title: 'Competitor Profiles', desc: '5-8 real competitors with their pricing, positioning, strengths, and weaknesses' },
+  { icon: '💰', title: 'Pricing Comparison', desc: 'Side-by-side pricing matrix so you know exactly where you stand' },
+  { icon: '📊', title: 'Market Positioning Map', desc: 'Visual breakdown of where each competitor sits and where the gaps are' },
+  { icon: '🔍', title: 'SWOT Analysis', desc: 'Strengths, weaknesses, opportunities, and threats across the competitive set' },
+  { icon: '🧠', title: 'Strategic Recommendations', desc: 'Top 3 differentiation opportunities and quick wins you can act on today' },
+  { icon: '📈', title: 'Market Overview', desc: 'Industry size, growth trends, and key forces shaping competition' },
 ];
 
 function Header() {
