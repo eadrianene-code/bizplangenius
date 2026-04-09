@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import {
   GoogleGenerativeAI,
-  DynamicRetrievalMode,
 } from '@google/generative-ai';
 
 function getStripe() {
@@ -22,12 +21,7 @@ function getResearchModel() {
       model: 'gemini-2.5-flash',
       tools: [
         {
-          googleSearchRetrieval: {
-            dynamicRetrievalConfig: {
-              mode: DynamicRetrievalMode.MODE_DYNAMIC,
-              dynamicThreshold: 0.3,
-            },
-          },
+          googleSearch: {},
         },
       ],
       generationConfig: {
