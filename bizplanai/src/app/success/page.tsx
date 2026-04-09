@@ -423,7 +423,7 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
   content.push(...sectionHeading(6, 'Operations Plan'));
   /* Operations sections often contain "- **Bold Title:** description" lines from Gemini.
      Parse these into proper structured bullet points instead of raw text. */
-  function parseOpsSection(raw: string): any[] {
+  const parseOpsSection = (raw: string): any[] => {
     if (!raw) return [{ text: '\u2014', fontSize: 10, color: TEXT_LIGHT }];
     const lines = raw.split('\n').filter((l: string) => l.trim());
     const result: any[] = [];
