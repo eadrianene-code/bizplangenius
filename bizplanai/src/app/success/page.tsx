@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { trackPurchase } from '@/lib/pixelEvents';
 
 interface BusinessPlan {
   executiveSummary: any;
@@ -419,7 +418,8 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     content.push({ ...calloutBox('Funding Requirement', plan.financialProjections.fundingNeeded), unbreakable: true });
   }
 
-  /* ---------- 6. OPERATIONS PLAN ---------- */
+  /* ---------- 6. OPERATIONS PLAN (Pro only) ---------- */
+  if (plan.operationsPlan) {
   content.push(...sectionHeading(6, 'Operations Plan'));
   /* Operations sections often contain "- **Bold Title:** description" lines from Gemini.
      Parse these into proper structured bullet points instead of raw text. */
@@ -500,8 +500,12 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
     });
   }
 
-  /* ---------- 7. RISK ANALYSIS ---------- */
-  content.push(...sectionHeading(7, 'Risk Analysis'));
+  } // end operationsPlan guard
+
+  /* ---------- 7. RISK ANALYSIS (Pro only) ---------- */
+  const riskSectionNum = plan.operationsPlan ? 7 : 6;
+  if (plan.riskAnalysis) {
+  content.push(...sectionHeading(riskSectionNum, 'Risk Analysis'));
   if (plan.riskAnalysis?.risks?.length) {
     const rBody: any[][] = [
       [
@@ -516,6 +520,7 @@ function buildPDF(plan: BusinessPlan, businessName: string) {
       layout: cleanTableLayout(true),
     });
   }
+  } // end riskAnalysis guard
 
   /* ---------- FOOTER ---------- */
   content.push({
@@ -600,10 +605,7 @@ export default function SuccessPage() {
           setBusinessName(data.businessName || 'Business Plan');
           setTimeout(() => {
             setPlan(data.plan);
-            // Save original plan for revision feature
-            try { sessionStorage.setItem('bizplan_original_' + sessionId, JSON.stringify(data.plan)); } catch {}
             setStatus('done');
-              trackPurchase('pro');
           }, 500);
         } else {
           setStatus('error');
@@ -974,7 +976,8 @@ export default function SuccessPage() {
           )}
         </section>
 
-        {/* ==================== 6. OPERATIONS PLAN ==================== */}
+        {/* ==================== 6. OPERATIONS PLAN (Pro only) ==================== */}
+        {plan.operationsPlan && (
         <section className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm mb-6">
           <h2 className="text-lg font-bold text-gray-900 mb-5 pb-3 border-b border-gray-100 flex items-center gap-3">
             <span className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold">6</span>
@@ -1014,11 +1017,13 @@ export default function SuccessPage() {
             </div>
           )}
         </section>
+        )}
 
-        {/* ==================== 7. RISK ANALYSIS ==================== */}
+        {/* ==================== 7. RISK ANALYSIS (Pro only) ==================== */}
+        {plan.riskAnalysis && (
         <section className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm mb-6">
           <h2 className="text-lg font-bold text-gray-900 mb-5 pb-3 border-b border-gray-100 flex items-center gap-3">
-            <span className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold">7</span>
+            <span className="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-sm font-bold">{plan.operationsPlan ? '7' : '6'}</span>
             Risk Analysis
           </h2>
           <div className="space-y-2.5">
@@ -1035,6 +1040,7 @@ export default function SuccessPage() {
             ))}
           </div>
         </section>
+        )}
 
         {/* Download CTA */}
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 sm:p-8 text-center text-white print-hide">
@@ -1047,19 +1053,6 @@ export default function SuccessPage() {
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
             Download Business Plan (PDF)
           </button>
-        </div>
-
-        {/* Request Revision */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 text-center mt-6 print-hide">
-          <h3 className="text-lg font-bold text-gray-900 mb-2">Not quite right?</h3>
-          <p className="text-gray-500 text-sm mb-4">Pro plan includes 1 free revision. Tell us what to change and we&apos;ll regenerate your plan.</p>
-          <a
-            href={`/revision?session_id=${new URLSearchParams(window.location.search).get('session_id') || ''}`}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition text-sm"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
-            Request Free Revision
-          </a>
         </div>
 
         {/* Footer */}
