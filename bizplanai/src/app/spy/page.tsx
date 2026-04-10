@@ -401,7 +401,7 @@ function SampleSpyReport() {
               </svg>
               <div>
                 <p className="font-semibold text-gray-800">Artisan Coffee Subscription Market</p>
-                <p className="text-sm text-gray-500">30+ page report with 8 competitors analyzed</p>
+                <p className="text-sm text-gray-500">38-page report with 15 competitors analyzed</p>
               </div>
             </div>
             <a
@@ -417,16 +417,16 @@ function SampleSpyReport() {
             <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-4">What's inside this report:</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
-                'Executive Summary of the competitive landscape',
-                '8 competitors: Trade Coffee, Blue Bottle, Atlas Coffee Club, and more',
-                'Real pricing data from each competitor\'s website',
-                'Customer review analysis (G2, Trustpilot, Reddit)',
-                'SWOT analysis across the entire competitive set',
-                'Vulnerability audit: feature gaps & customer friction per competitor',
-                'Opportunity engineering with impact/difficulty scores',
-                '90-day tactical roadmap with week-by-week actions',
-                'Strategic positioning and go-to-market recommendations',
-                'Differentiation strategies ranked by ROI and ease',
+                'Executive Summary with market size and key opportunities',
+                '15 real competitors: Trade Coffee, Blue Bottle, Cometeer, and more',
+                'Detailed competitor profiles with pricing tables and strengths/weaknesses',
+                'Side-by-side pricing comparison across all competitors',
+                'Market positioning map showing where each player sits',
+                'Full SWOT analysis of the competitive landscape',
+                'Vulnerability audit for all 15 competitors with exploitation angles',
+                '6 opportunity strategies with detailed action plans',
+                '90-day tactical roadmap split into 4 phases with expected outcomes',
+                'Go-to-market strategy, differentiation plays, and what to build first',
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-2">
                   <svg className="w-5 h-5 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -475,7 +475,7 @@ function FAQ() {
     },
     {
       q: 'What if the report is missing a competitor I know about?',
-      a: 'Our AI finds 5-8 of the most relevant competitors based on real market data. If you know of specific competitors, mention them in the industry description and we will include them in the analysis.',
+      a: 'Our AI typically finds 10-15+ of the most relevant competitors based on real market data. If you know of specific competitors, mention them in the industry description and we will include them in the analysis.',
     },
     {
       q: 'Is this a subscription?',
