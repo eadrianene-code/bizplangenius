@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import {
-  GoogleGenerativeAI,
-  DynamicRetrievalMode,
-} from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -11,47 +8,9 @@ function getStripe() {
   });
 }
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 export const maxDuration = 120;
-
-// Step 1: Research model with Google Search grounding for real-time data
-function getResearchModel() {
-  return genAI.getGenerativeModel(
-    {
-      model: 'gemini-2.5-flash',
-      tools: [
-        {
-          googleSearchRetrieval: {
-            dynamicRetrievalConfig: {
-              mode: DynamicRetrievalMode.MODE_DYNAMIC,
-              dynamicThreshold: 0.3,
-            },
-          },
-        },
-      ],
-      generationConfig: {
-        temperature: 0.4,
-        topP: 0.9,
-        maxOutputTokens: 32768,
-      },
-    },
-    { apiVersion: 'v1beta' }
-  );
-}
-
-// Step 2: Structure model for clean JSON output
-function getStructureModel() {
-  return genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash',
-    generationConfig: {
-      temperature: 0.2,
-      topP: 0.9,
-      maxOutputTokens: 65536,
-      responseMimeType: 'application/json',
-    },
-  });
-}
 
 function buildCompanyResearchPrompt(meta: Record<string, string>): string {
   const locationContext = meta.city || meta.country
@@ -283,24 +242,40 @@ export async function POST(req: NextRequest) {
 
     // STEP 1: Research with Google Search grounding
     console.log('Spy Step 1: Starting grounded research...');
-    const researchModel = getResearchModel();
     const researchPrompt = meta.mode === 'company'
       ? buildCompanyResearchPrompt(meta)
       : buildIndustryResearchPrompt(meta);
 
-    const researchResult = await researchModel.generateContent(researchPrompt);
-    const researchText = researchResult.response.text();
+    const researchResult = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: researchPrompt,
+      config: {
+        tools: [{ googleSearch: {} }],
+        temperature: 0.4,
+        topP: 0.9,
+        maxOutputTokens: 32768,
+      },
+    });
+    const researchText = researchResult.text || '';
 
     console.log('Spy Step 1 complete. Research length:', researchText.length);
     console.log('Research preview (first 500):', researchText.substring(0, 500));
 
     // STEP 2: Structure into JSON
     console.log('Spy Step 2: Structuring into JSON...');
-    const structureModel = getStructureModel();
     const structurePrompt = buildStructurePrompt(researchText, meta.mode || 'company', meta);
 
-    const structureResult = await structureModel.generateContent(structurePrompt);
-    const structureText = structureResult.response.text();
+    const structureResult = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: structurePrompt,
+      config: {
+        temperature: 0.2,
+        topP: 0.9,
+        maxOutputTokens: 65536,
+        responseMimeType: 'application/json',
+      },
+    });
+    const structureText = structureResult.text || '';
 
     console.log('Spy Step 2 complete. JSON length:', structureText.length);
 
