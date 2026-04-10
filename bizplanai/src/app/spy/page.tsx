@@ -245,19 +245,22 @@ function SpyForm() {
               onClick={() => setMode('company')}
               className={`flex-1 py-2.5 text-sm font-semibold rounded-md transition ${mode === 'company' ? 'bg-white text-brand-600 shadow-sm' : 'text-gray-600 hover:text-gray-800'}`}
             >
-              Spy on a Company
+              Start from a Company
             </button>
             <button
               type="button"
               onClick={() => setMode('industry')}
               className={`flex-1 py-2.5 text-sm font-semibold rounded-md transition ${mode === 'industry' ? 'bg-white text-brand-600 shadow-sm' : 'text-gray-600 hover:text-gray-800'}`}
             >
-              Explore an Industry
+              Start from an Industry
             </button>
           </div>
 
           {mode === 'company' ? (
             <>
+              <p className="text-sm text-gray-500 bg-brand-50 border border-brand-100 rounded-lg px-4 py-2.5">
+                Name a company you want to compete with. We'll find 10-15 of their competitors, analyze the entire market, and build your competitive strategy.
+              </p>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">Company or Brand Name *</label>
                 <input
@@ -284,6 +287,9 @@ function SpyForm() {
             </>
           ) : (
             <>
+              <p className="text-sm text-gray-500 bg-brand-50 border border-brand-100 rounded-lg px-4 py-2.5">
+                Describe your market or niche. We'll find 10-15 real competitors, compare pricing, and deliver a full competitive strategy with a 90-day action plan.
+              </p>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">Describe Your Industry or Niche *</label>
                 <textarea
