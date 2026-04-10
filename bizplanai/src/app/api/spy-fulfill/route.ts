@@ -295,6 +295,11 @@ export async function POST(req: NextRequest) {
 
     const meta = session.metadata || {};
 
+    const startTime = Date.now();
+    const TOTAL_BUDGET_MS = 280_000; // 280s safety margin (300s max)
+    const STEP2_RESERVE_MS = 150_000; // Reserve 2.5 min for Step 2
+    const MAX_RESEARCH_CHARS = 50_000; // Cap research to keep Step 2 fast
+
     /* ---- STEP 1: Deep research (Gemini + Google Search grounding) ---- */
     console.log('Spy Step 1: Starting deep research with Gemini + Google Search...');
     console.log('Spy meta:', JSON.stringify({ mode: meta.mode, companyName: meta.companyName, industry: meta.industry }));
@@ -303,6 +308,7 @@ export async function POST(req: NextRequest) {
     let researchText = '';
 
     // PRIMARY: Gemini with Google Search grounding (real-time web data)
+    // Cap output tokens to keep response reasonable and leave time for Step 2
     try {
       researchText = await geminiWithRetry({
         model: 'gemini-2.5-flash',
@@ -311,9 +317,9 @@ export async function POST(req: NextRequest) {
           tools: [{ googleSearch: {} }],
           temperature: 0.3,
           topP: 0.95,
-          maxOutputTokens: 65536,
+          maxOutputTokens: 16384,
         },
-      }, 3, 5000);
+      }, 2, 5000);
       console.log('Step 1 (Gemini) complete. Research length:', researchText.length);
       if (researchText.length > 200) {
         console.log('Research first 200 chars:', researchText.substring(0, 200));
@@ -356,35 +362,52 @@ export async function POST(req: NextRequest) {
       throw new Error(`Research produced insufficient data (${researchText.length} chars)`);
     }
 
-    console.log('Step 1 SUCCESS. Total research:', researchText.length, 'chars');
-
-    /* ---- STEP 2: Structure research into JSON (Gemini primary) ---- */
-    console.log('Spy Step 2: Structuring research into JSON...');
-    const structurePrompt = buildStructurePrompt(researchText, meta);
-
-    let reportText = '';
-
-    // PRIMARY: Gemini for JSON structuring (no search tools needed)
-    try {
-      reportText = await geminiWithRetry({
-        model: 'gemini-2.5-flash',
-        contents: structurePrompt,
-        config: {
-          temperature: 0.1,
-          topP: 0.9,
-          maxOutputTokens: 65536,
-        },
-      }, 3, 5000);
-      console.log('Step 2 (Gemini) complete. JSON length:', reportText.length);
-    } catch (geminiError: any) {
-      console.warn('Gemini Step 2 failed:', geminiError.message?.substring(0, 300));
+    // Cap research to prevent Step 2 from choking on massive input
+    if (researchText.length > MAX_RESEARCH_CHARS) {
+      console.log(`Trimming research from ${researchText.length} to ${MAX_RESEARCH_CHARS} chars`);
+      researchText = researchText.substring(0, MAX_RESEARCH_CHARS);
     }
 
-    // FALLBACK: OpenAI if Gemini fails
+    const step1Elapsed = Date.now() - startTime;
+    console.log(`Step 1 SUCCESS. Research: ${researchText.length} chars. Elapsed: ${Math.round(step1Elapsed / 1000)}s`);
+
+    /* ---- STEP 2: Structure research into JSON ---- */
+    const timeLeft = TOTAL_BUDGET_MS - step1Elapsed;
+    console.log(`Spy Step 2: Structuring into JSON. Time remaining: ${Math.round(timeLeft / 1000)}s`);
+
+    const structurePrompt = buildStructurePrompt(researchText, meta);
+    let reportText = '';
+
+    // Choose Step 2 strategy based on remaining time
+    // If we have enough time, try Gemini first (better quality), then OpenAI fallback
+    // If time is tight, go straight to OpenAI (faster)
+    const useGeminiStep2 = timeLeft > STEP2_RESERVE_MS;
+
+    if (useGeminiStep2) {
+      console.log('Step 2: Using Gemini (enough time budget)');
+      try {
+        reportText = await geminiWithRetry({
+          model: 'gemini-2.5-flash',
+          contents: structurePrompt,
+          config: {
+            temperature: 0.1,
+            topP: 0.9,
+            maxOutputTokens: 32768,
+          },
+        }, 1, 5000); // Only 1 retry to save time
+        console.log('Step 2 (Gemini) complete. JSON length:', reportText.length);
+      } catch (geminiError: any) {
+        console.warn('Gemini Step 2 failed:', geminiError.message?.substring(0, 300));
+      }
+    } else {
+      console.log(`Step 2: Skipping Gemini (only ${Math.round(timeLeft / 1000)}s left), going straight to OpenAI`);
+    }
+
+    // FALLBACK: OpenAI if Gemini failed or was skipped
     if (!reportText || reportText.length < 500) {
-      console.log('Gemini Step 2 insufficient. Falling back to OpenAI...');
+      console.log('Step 2: Falling back to OpenAI...');
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-      const modelsToTry = ['gpt-4o', 'gpt-4o-mini', 'gpt-3.5-turbo'];
+      const modelsToTry = ['gpt-4o', 'gpt-4o-mini'];
 
       for (const model of modelsToTry) {
         if (reportText && reportText.length > 500) break;
@@ -400,7 +423,7 @@ export async function POST(req: NextRequest) {
               { role: 'user', content: structurePrompt },
             ],
             temperature: 0.1,
-            max_tokens: model === 'gpt-3.5-turbo' ? 4096 : 16384,
+            max_tokens: 16384,
           });
           reportText = openaiResponse.choices[0].message.content || '';
           console.log(`Step 2 fallback (OpenAI ${model}) complete. Length:`, reportText.length);
@@ -413,6 +436,8 @@ export async function POST(req: NextRequest) {
     if (!reportText || reportText.length < 500) {
       throw new Error(`JSON structuring failed. Output too short (${reportText.length} chars)`);
     }
+
+    console.log(`Step 2 SUCCESS. JSON: ${reportText.length} chars. Total elapsed: ${Math.round((Date.now() - startTime) / 1000)}s`);
 
     /* ---- Parse JSON ---- */
     let report;
