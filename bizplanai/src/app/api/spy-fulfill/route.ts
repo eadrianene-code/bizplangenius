@@ -295,68 +295,37 @@ export async function POST(req: NextRequest) {
 
     const meta = session.metadata || {};
 
-    /* ---- STEP 1: Deep research with Google Search grounding ---- */
-    console.log('Spy Step 1: Starting deep research with Google Search...');
+    /* ---- STEP 1: Deep research ---- */
+    console.log('Spy Step 1: Starting deep research...');
     console.log('Spy meta:', JSON.stringify({ mode: meta.mode, companyName: meta.companyName, industry: meta.industry }));
     const researchPrompt = buildResearchPrompt(meta);
 
     let researchText = '';
-    let step1Error = '';
 
-    // Strategy A: Gemini with Google Search (5 retries, longer delays)
+    // PRIMARY: OpenAI GPT-4o (reliable, paid, no quota issues)
     try {
-      researchText = await geminiWithRetry({
-        model: 'gemini-2.5-flash',
-        contents: researchPrompt,
-        config: {
-          tools: [{ googleSearch: {} }],
-          temperature: 0.3,
-          topP: 0.95,
-          maxOutputTokens: 65536,
-        },
-      }, 5, 5000); // 5 retries, 5s base delay
-      console.log('Step 1 (Gemini) complete. Research length:', researchText.length);
-    } catch (geminiError: any) {
-      step1Error = geminiError.message?.substring(0, 300) || 'Unknown Gemini error';
-      console.warn('Gemini research failed after 5 retries:', step1Error);
-    }
+      console.log('Step 1: Using OpenAI GPT-4o...');
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const openaiResponse = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are SpyMaster, an elite competitive intelligence analyst hired by a Fortune 500 strategy team. Your reputation depends on DEPTH, ACCURACY, and RUTHLESS HONESTY. Use your training knowledge to provide real company names, real URLs, real pricing data, and real review sentiments. Be exhaustive and specific. Never use placeholder or generic data.',
+          },
+          { role: 'user', content: researchPrompt },
+        ],
+        temperature: 0.3,
+        max_tokens: 16000,
+      });
+      researchText = openaiResponse.choices[0].message.content || '';
+      console.log('Step 1 (OpenAI) complete. Research length:', researchText.length);
+    } catch (openaiError: any) {
+      console.warn('OpenAI Step 1 failed:', openaiError.message?.substring(0, 300));
 
-    // Strategy B: OpenAI fallback if Gemini failed
-    if (!researchText || researchText.length < 200) {
-      if (process.env.OPENAI_API_KEY) {
-        try {
-          console.log('Trying OpenAI for Step 1 research...');
-          const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-          const openaiResponse = await openai.chat.completions.create({
-            model: 'gpt-4o',
-            messages: [
-              {
-                role: 'system',
-                content: 'You are SpyMaster, an elite competitive intelligence analyst. Be exhaustive, specific, and brutal in your analysis. Never use placeholder or generic data. Research thoroughly and provide real company names, URLs, and pricing data.',
-              },
-              { role: 'user', content: researchPrompt },
-            ],
-            temperature: 0.3,
-            max_tokens: 16000,
-          });
-          researchText = openaiResponse.choices[0].message.content || '';
-          console.log('Step 1 (OpenAI) complete. Research length:', researchText.length);
-        } catch (openaiError: any) {
-          const openaiMsg = openaiError.message?.substring(0, 300) || 'Unknown OpenAI error';
-          console.error('OpenAI Step 1 also failed:', openaiMsg);
-          step1Error += ' | OpenAI: ' + openaiMsg;
-        }
-      } else {
-        console.error('No OPENAI_API_KEY set, cannot fall back');
-        step1Error += ' | No OPENAI_API_KEY configured';
-      }
-    }
-
-    // Strategy C: Last resort - wait and try Gemini once more
-    if (!researchText || researchText.length < 200) {
+      // FALLBACK: Gemini with Google Search
       try {
-        console.log('Last resort: waiting 20s then trying Gemini once more...');
-        await new Promise(r => setTimeout(r, 20000));
+        console.log('Falling back to Gemini with Google Search...');
         researchText = await geminiWithRetry({
           model: 'gemini-2.5-flash',
           contents: researchPrompt,
@@ -366,87 +335,64 @@ export async function POST(req: NextRequest) {
             topP: 0.95,
             maxOutputTokens: 65536,
           },
-        }, 2, 10000);
-        console.log('Step 1 (Gemini last resort) complete. Research length:', researchText.length);
-      } catch (lastError: any) {
-        console.error('All Step 1 strategies failed');
-        throw new Error(`All research strategies failed. Gemini: ${step1Error} | Last attempt: ${lastError.message?.substring(0, 200)}`);
+        }, 3, 5000);
+        console.log('Step 1 (Gemini fallback) complete. Research length:', researchText.length);
+      } catch (geminiError: any) {
+        console.error('Both OpenAI and Gemini failed for Step 1');
+        throw new Error(`Research failed. OpenAI: ${openaiError.message?.substring(0, 200)} | Gemini: ${geminiError.message?.substring(0, 200)}`);
       }
     }
 
     if (!researchText || researchText.length < 100) {
-      throw new Error(`Research produced insufficient data (${researchText.length} chars). Errors: ${step1Error}`);
+      throw new Error(`Research produced insufficient data (${researchText.length} chars)`);
     }
 
     console.log('Step 1 SUCCESS. Total research:', researchText.length, 'chars');
 
     /* ---- STEP 2: Structure research into JSON ---- */
-    // Wait 10 seconds to let Gemini per-minute quota recover from Step 1
-    console.log('Spy: Waiting 10s for quota recovery before Step 2...');
-    await new Promise(r => setTimeout(r, 10000));
-
     console.log('Spy Step 2: Structuring research into JSON...');
     const structurePrompt = buildStructurePrompt(researchText, meta);
 
     let reportText = '';
-    let step2Done = false;
 
-    // Strategy A: Try Gemini first (quota may have recovered)
+    // PRIMARY: OpenAI GPT-4o (reliable for JSON structuring)
     try {
-      reportText = await geminiWithRetry({
-        model: 'gemini-2.5-flash',
-        contents: structurePrompt,
-        config: {
-          temperature: 0.1,
-          topP: 0.9,
-          maxOutputTokens: 65536,
-        },
-      }, 2, 5000); // 2 retries, 5s delay
-      console.log('Step 2 (Gemini) complete. JSON length:', reportText.length);
-      step2Done = true;
-    } catch (geminiError: any) {
-      console.warn('Gemini Step 2 failed:', geminiError.message?.substring(0, 200));
-    }
+      console.log('Step 2: Using OpenAI GPT-4o...');
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const openaiResponse = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are an elite data structuring specialist. Convert the research brief into strictly valid JSON matching the provided schema. Output ONLY valid JSON with no markdown fences, no explanation, no text before or after the JSON. Be thorough and preserve ALL specific data points, URLs, prices, and review quotes from the research.',
+          },
+          { role: 'user', content: structurePrompt },
+        ],
+        temperature: 0.1,
+        max_tokens: 32000,
+      });
+      reportText = openaiResponse.choices[0].message.content || '';
+      console.log('Step 2 (OpenAI) complete. JSON length:', reportText.length);
+    } catch (openaiError: any) {
+      console.warn('OpenAI Step 2 failed:', openaiError.message?.substring(0, 300));
 
-    // Strategy B: Try OpenAI if Gemini failed and key exists
-    if (!step2Done && process.env.OPENAI_API_KEY) {
+      // FALLBACK: Gemini
       try {
-        console.log('Trying OpenAI for Step 2...');
-        const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-        const openaiResponse = await openai.chat.completions.create({
-          model: 'gpt-4o',
-          messages: [
-            {
-              role: 'system',
-              content: 'You are an elite data structuring specialist. Convert the research brief into strictly valid JSON matching the provided schema. Output ONLY valid JSON with no markdown fences, no explanation, no text before or after the JSON. Be thorough and preserve ALL specific data points, URLs, prices, and review quotes from the research.',
-            },
-            { role: 'user', content: structurePrompt },
-          ],
-          temperature: 0.1,
-          max_tokens: 32000,
-        });
-        reportText = openaiResponse.choices[0].message.content || '';
-        console.log('Step 2 (OpenAI) complete. JSON length:', reportText.length);
-        step2Done = true;
-      } catch (openaiError: any) {
-        console.warn('OpenAI Step 2 also failed:', openaiError.message?.substring(0, 200));
+        console.log('Falling back to Gemini for Step 2...');
+        reportText = await geminiWithRetry({
+          model: 'gemini-2.5-flash',
+          contents: structurePrompt,
+          config: {
+            temperature: 0.1,
+            topP: 0.9,
+            maxOutputTokens: 65536,
+          },
+        }, 3, 5000);
+        console.log('Step 2 (Gemini fallback) complete. JSON length:', reportText.length);
+      } catch (geminiError: any) {
+        console.error('Both OpenAI and Gemini failed for Step 2');
+        throw new Error(`JSON structuring failed. OpenAI: ${openaiError.message?.substring(0, 200)} | Gemini: ${geminiError.message?.substring(0, 200)}`);
       }
-    }
-
-    // Strategy C: Last resort - wait longer and try Gemini one more time
-    if (!step2Done) {
-      console.log('Both failed. Waiting 15s and trying Gemini once more...');
-      await new Promise(r => setTimeout(r, 15000));
-      reportText = await geminiWithRetry({
-        model: 'gemini-2.5-flash',
-        contents: structurePrompt,
-        config: {
-          temperature: 0.1,
-          topP: 0.9,
-          maxOutputTokens: 65536,
-        },
-      }, 2, 8000);
-      console.log('Step 2 (Gemini final attempt) complete. JSON length:', reportText.length);
     }
 
     /* ---- Parse JSON ---- */
