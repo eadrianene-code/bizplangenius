@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenAI } from '@google/genai';
+import OpenAI from 'openai';
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -246,17 +247,40 @@ export async function POST(req: NextRequest) {
       ? buildCompanyResearchPrompt(meta)
       : buildIndustryResearchPrompt(meta);
 
-    const researchResult = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: researchPrompt,
-      config: {
-        tools: [{ googleSearch: {} }],
+    let researchText = '';
+    let usedFallback = false;
+
+    try {
+      console.log('Attempting Gemini API call...');
+      const researchResult = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: researchPrompt,
+        config: {
+          tools: [{ googleSearch: {} }],
+          temperature: 0.4,
+          topP: 0.9,
+          maxOutputTokens: 32768,
+        },
+      });
+      researchText = researchResult.text || '';
+    } catch (geminiError: any) {
+      console.warn('Gemini API failed, falling back to OpenAI:', geminiError.message);
+      usedFallback = true;
+
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const openaiResponse = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'user',
+            content: `${researchPrompt}\n\nPlease use your web browsing capabilities to find real, current data to answer this research request.`,
+          },
+        ],
         temperature: 0.4,
-        topP: 0.9,
-        maxOutputTokens: 32768,
-      },
-    });
-    const researchText = researchResult.text || '';
+        max_tokens: 32768,
+      });
+      researchText = openaiResponse.choices[0].message.content || '';
+    }
 
     console.log('Spy Step 1 complete. Research length:', researchText.length);
     console.log('Research preview (first 500):', researchText.substring(0, 500));
@@ -265,17 +289,38 @@ export async function POST(req: NextRequest) {
     console.log('Spy Step 2: Structuring into JSON...');
     const structurePrompt = buildStructurePrompt(researchText, meta.mode || 'company', meta);
 
-    const structureResult = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: structurePrompt,
-      config: {
+    let structureText = '';
+
+    try {
+      if (!usedFallback) {
+        console.log('Attempting Gemini API call for structure...');
+        const structureResult = await ai.models.generateContent({
+          model: 'gemini-2.5-flash',
+          contents: structurePrompt,
+          config: {
+            temperature: 0.2,
+            topP: 0.9,
+            maxOutputTokens: 65536,
+            responseMimeType: 'application/json',
+          },
+        });
+        structureText = structureResult.text || '';
+      } else {
+        throw new Error('Skipping Gemini for structure since research fallback was used');
+      }
+    } catch (geminiError: any) {
+      console.warn('Gemini structure API failed, falling back to OpenAI:', geminiError.message);
+
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const openaiResponse = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [{ role: 'user', content: structurePrompt }],
+        response_format: { type: 'json_object' },
         temperature: 0.2,
-        topP: 0.9,
-        maxOutputTokens: 65536,
-        responseMimeType: 'application/json',
-      },
-    });
-    const structureText = structureResult.text || '';
+        max_tokens: 65536,
+      });
+      structureText = openaiResponse.choices[0].message.content || '';
+    }
 
     console.log('Spy Step 2 complete. JSON length:', structureText.length);
 
