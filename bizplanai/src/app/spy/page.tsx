@@ -233,7 +233,7 @@ function SpyForm() {
         <div className="text-center mb-8">
           <h2 id="pricing" className="text-3xl sm:text-4xl font-bold mb-4">Get Your Competitor Report</h2>
           <p className="text-lg text-gray-600">
-            Choose how you want to research. Enter a specific company or describe your market.
+            Already have a business? Enter it below. Still exploring? Describe your market instead.
           </p>
         </div>
 
@@ -245,42 +245,42 @@ function SpyForm() {
               onClick={() => setMode('company')}
               className={`flex-1 py-2.5 text-sm font-semibold rounded-md transition ${mode === 'company' ? 'bg-white text-brand-600 shadow-sm' : 'text-gray-600 hover:text-gray-800'}`}
             >
-              Start from a Company
+              I Have a Business
             </button>
             <button
               type="button"
               onClick={() => setMode('industry')}
               className={`flex-1 py-2.5 text-sm font-semibold rounded-md transition ${mode === 'industry' ? 'bg-white text-brand-600 shadow-sm' : 'text-gray-600 hover:text-gray-800'}`}
             >
-              Start from an Industry
+              I Have an Idea
             </button>
           </div>
 
           {mode === 'company' ? (
             <>
               <p className="text-sm text-gray-500 bg-brand-50 border border-brand-100 rounded-lg px-4 py-2.5">
-                Name a company you want to compete with. We'll find 10-15 of their competitors, analyze the entire market, and build your competitive strategy.
+                Enter your company name and website. We'll find 10-15 competitors in your space, analyze how you stack up, and give you a strategy to outperform them.
               </p>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Company or Brand Name *</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Your Company or Brand Name *</label>
                 <input
                   type="text"
                   required
                   value={form.companyName}
                   onChange={e => update('companyName', e.target.value)}
-                  placeholder="e.g., Blue Bottle Coffee, Notion, Warby Parker"
+                  placeholder="e.g., My Coffee Co, FreshBrew, your brand name"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition"
                 />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                  Website URL <span className="text-gray-400 font-normal">(optional, helps accuracy)</span>
+                  Your Website <span className="text-gray-400 font-normal">(recommended for best results)</span>
                 </label>
                 <input
                   type="text"
                   value={form.companyUrl}
                   onChange={e => update('companyUrl', e.target.value)}
-                  placeholder="e.g., bluebottlecoffee.com"
+                  placeholder="e.g., mycoffeeco.com"
                   className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition"
                 />
               </div>
@@ -288,7 +288,7 @@ function SpyForm() {
           ) : (
             <>
               <p className="text-sm text-gray-500 bg-brand-50 border border-brand-100 rounded-lg px-4 py-2.5">
-                Describe your market or niche. We'll find 10-15 real competitors, compare pricing, and deliver a full competitive strategy with a 90-day action plan.
+                Exploring a new market? Describe your niche and we'll map out 10-15 competitors, compare their pricing, and give you a 90-day plan to enter and win.
               </p>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1.5">Describe Your Industry or Niche *</label>
