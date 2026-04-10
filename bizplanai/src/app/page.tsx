@@ -423,6 +423,45 @@ function FAQ() {
   );
 }
 
+function SpyCrossSell() {
+  return (
+    <section className="py-16 px-4 bg-gray-900">
+      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+        <div className="flex-1">
+          <p className="text-accent-400 text-sm font-semibold uppercase tracking-wider mb-2">New Tool</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
+            Know Your Competition Before You Write Your Plan
+          </h2>
+          <p className="text-gray-400 mb-4">
+            Competitor Spy finds 10-15 real competitors in your market, analyzes their pricing,
+            strengths, and weaknesses, then gives you a 90-day strategy to outperform them.
+            Pairs perfectly with your business plan.
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <a href="/spy" className="inline-block px-6 py-3 bg-accent-500 text-white font-bold rounded-xl hover:bg-accent-600 transition shadow-lg text-sm">
+              See a Sample Report
+            </a>
+            <span className="text-gray-500 text-sm">Just $19 per report</span>
+          </div>
+        </div>
+        <div className="flex-shrink-0 bg-gray-800 rounded-xl p-5 border border-gray-700 w-full md:w-auto">
+          <p className="text-white font-semibold text-sm mb-3">What you get:</p>
+          <ul className="space-y-2">
+            {['15+ competitor profiles', 'Real pricing comparison', 'SWOT analysis', 'Vulnerability audit', '90-day action plan'].map((item, i) => (
+              <li key={i} className="flex items-center gap-2 text-sm text-gray-300">
+                <svg className="w-4 h-4 text-accent-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                </svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CTA() {
   return (
     <section className="py-20 px-4 bg-brand-600">
@@ -469,6 +508,7 @@ export default function Home() {
         <HowItWorks />
         <Pricing />
         <FAQ />
+        <SpyCrossSell />
         <CTA />
       </main>
       <Footer />
