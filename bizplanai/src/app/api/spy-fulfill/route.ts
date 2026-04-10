@@ -355,7 +355,7 @@ export async function POST(req: NextRequest) {
           { role: 'user', content: structurePrompt },
         ],
         temperature: 0.1,
-        max_tokens: 16000,
+        max_tokens: 32000,
       });
       reportText = openaiResponse.choices[0].message.content || '';
       console.log('Step 2 (OpenAI) complete. JSON length:', reportText.length);
