@@ -655,7 +655,7 @@ const ProgressSteps = ({ step }: { step: number }) => {
               idx < step ? 'bg-green-600' : idx === step ? 'bg-blue-600 animate-pulse' : 'bg-gray-300'
             }`}
           >
-            {idx < step ? 'â' : idx + 1}
+            {idx < step ? '\u2713' : idx + 1}
           </div>
           <span
             className={`text-lg ${
