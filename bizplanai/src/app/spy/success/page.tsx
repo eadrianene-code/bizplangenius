@@ -726,6 +726,114 @@ const renderGapText = (gap: string | PositioningGap): string => {
   return gap.gap || 'Gap';
 };
 
+/* ------------------------------------------------------------------ */
+/*  Normalize report data to prevent crashes from shape mismatches     */
+/* ------------------------------------------------------------------ */
+
+function normalizeReport(raw: any): ReportData {
+  const r = raw || {};
+
+  // Ensure arrays exist
+  const competitors = (r.competitors || []).map((c: any) => ({
+    ...c,
+    strengths: Array.isArray(c.strengths) ? c.strengths : [],
+    weaknesses: Array.isArray(c.weaknesses) ? c.weaknesses : [],
+    uniqueFeatures: Array.isArray(c.uniqueFeatures) ? c.uniqueFeatures : [],
+    pricing: c.pricing ? {
+      model: c.pricing.model || 'N/A',
+      tiers: Array.isArray(c.pricing.tiers) ? c.pricing.tiers.map((t: any) => ({
+        ...t,
+        features: Array.isArray(t.features) ? t.features : (typeof t.features === 'string' ? t.features.split(',').map((s: string) => s.trim()) : []),
+      })) : [],
+    } : undefined,
+  }));
+
+  const marketOverview = r.marketOverview || {};
+  const pricingComparison = r.pricingComparison || {};
+  const positioningMap = r.positioningMap || { xAxis: '', yAxis: '', positions: [], gaps: [] };
+  const swotAnalysis = r.swotAnalysis || { strengths: [], weaknesses: [], opportunities: [], threats: [] };
+  const stratRec = r.strategicRecommendations || {};
+
+  // Normalize opportunityEngineering - exploitationPlan can be strings or objects
+  const opportunityEngineering = Array.isArray(r.opportunityEngineering)
+    ? r.opportunityEngineering.map((opp: any) => ({
+        ...opp,
+        exploitationPlan: Array.isArray(opp.exploitationPlan)
+          ? opp.exploitationPlan.map((step: any) =>
+              typeof step === 'string' ? { action: step } : step
+            )
+          : [],
+      }))
+    : [];
+
+  // Build differentiationOpportunities from topDifferentiationStrategies if missing
+  const diffOpps = Array.isArray(stratRec.differentiationOpportunities)
+    ? stratRec.differentiationOpportunities
+    : Array.isArray(stratRec.topDifferentiationStrategies)
+      ? stratRec.topDifferentiationStrategies.map((s: any) => ({
+          opportunity: s.strategy || s.opportunity || '',
+          reasoning: s.reasoning || '',
+          difficulty: s.ease || 'Medium',
+          impact: s.roi || 'Medium',
+        }))
+      : [];
+
+  return {
+    reportType: r.reportType || 'company',
+    targetCompany: r.targetCompany,
+    industryTarget: r.industryTarget,
+    executiveSummary: r.executiveSummary || '',
+    marketOverview: {
+      industryName: marketOverview.industryName || 'N/A',
+      marketSize: marketOverview.marketSize || 'N/A',
+      growthRate: marketOverview.growthRate || 'N/A',
+      keyTrends: Array.isArray(marketOverview.keyTrends) ? marketOverview.keyTrends : [],
+      marketDrivers: marketOverview.marketDrivers || '',
+      threatFactors: marketOverview.threatFactors || '',
+      regulatoryConsiderations: marketOverview.regulatoryConsiderations,
+    },
+    competitors,
+    vulnerabilityAudit: Array.isArray(r.vulnerabilityAudit) ? r.vulnerabilityAudit : [],
+    opportunityEngineering,
+    pricingComparison: {
+      summary: pricingComparison.summary || '',
+      lowestPrice: pricingComparison.lowestPrice || 'N/A',
+      highestPrice: pricingComparison.highestPrice || 'N/A',
+      averagePrice: pricingComparison.averagePrice || 'N/A',
+      pricingTrends: pricingComparison.pricingTrends || '',
+      priceGaps: pricingComparison.priceGaps,
+      pricingModelsBreakdown: pricingComparison.pricingModelsBreakdown,
+    },
+    positioningMap: {
+      xAxis: positioningMap.xAxis || 'Price',
+      yAxis: positioningMap.yAxis || 'Quality',
+      positions: Array.isArray(positioningMap.positions) ? positioningMap.positions : [],
+      gaps: Array.isArray(positioningMap.gaps) ? positioningMap.gaps : [],
+    },
+    swotAnalysis: {
+      strengths: Array.isArray(swotAnalysis.strengths) ? swotAnalysis.strengths : [],
+      weaknesses: Array.isArray(swotAnalysis.weaknesses) ? swotAnalysis.weaknesses : [],
+      opportunities: Array.isArray(swotAnalysis.opportunities) ? swotAnalysis.opportunities : [],
+      threats: Array.isArray(swotAnalysis.threats) ? swotAnalysis.threats : [],
+    },
+    tacticalRoadmap: r.tacticalRoadmap || undefined,
+    strategicRecommendations: {
+      differentiationOpportunities: diffOpps,
+      topDifferentiationStrategies: Array.isArray(stratRec.topDifferentiationStrategies) ? stratRec.topDifferentiationStrategies : [],
+      pricingStrategy: stratRec.pricingStrategy,
+      recommendedPricePoints: stratRec.recommendedPricePoints,
+      positioningStatement: stratRec.positioningStatement,
+      buildFirst: Array.isArray(stratRec.buildFirst) ? stratRec.buildFirst : [],
+      avoid: Array.isArray(stratRec.avoid) ? stratRec.avoid : [],
+      goToMarketStrategy: stratRec.goToMarketStrategy,
+      marketingAngles: Array.isArray(stratRec.marketingAngles) ? stratRec.marketingAngles : [],
+      quickWins: Array.isArray(stratRec.quickWins) ? stratRec.quickWins : [],
+    },
+    disclaimer: r.disclaimer,
+    generatedAt: r.generatedAt,
+  };
+}
+
 const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPDF: () => void }) => {
   const reportTitle =
     data.reportType === 'company'
@@ -1475,27 +1583,66 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
   );
 };
 
-function ProgressSteps({ step }: { step: number }) {
-  const steps = ['Analyzing competitors', 'Building insights', 'Generating report', 'Complete'];
+function ProgressBar({ startTime }: { startTime: number }) {
+  const [elapsed, setElapsed] = useState(0);
+  const [statusText, setStatusText] = useState('Connecting to intelligence network...');
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = Date.now();
+      const secs = Math.floor((now - startTime) / 1000);
+      setElapsed(secs);
+
+      if (secs < 10) setStatusText('Searching competitor websites and databases...');
+      else if (secs < 25) setStatusText('Analyzing pricing pages and review sites...');
+      else if (secs < 45) setStatusText('Mining customer reviews from G2, Capterra, Reddit...');
+      else if (secs < 70) setStatusText('Identifying vulnerabilities and market gaps...');
+      else if (secs < 100) setStatusText('Engineering opportunities and building roadmap...');
+      else if (secs < 130) setStatusText('Structuring findings into your report...');
+      else setStatusText('Finalizing report (this can take up to 3 minutes)...');
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [startTime]);
+
+  // Progress fills to ~90% over 150 seconds, never reaches 100% until done
+  const progress = Math.min(90, (elapsed / 150) * 90);
+
+  const minutes = Math.floor(elapsed / 60);
+  const seconds = elapsed % 60;
+  const timeStr = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+
   return (
-    <div className="space-y-3">
-      {steps.map((label, idx) => (
-        <div key={idx} className="flex items-center gap-3">
-          <div
-            className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-white transition"
-            style={{
-              backgroundColor: idx <= step ? ACCENT : '#ddd',
-            }}
-          >
-            {idx <= step ? '✓' : idx + 1}
-          </div>
-          <span
-            className={`text-sm font-semibold transition ${idx <= step ? 'text-gray-900' : 'text-gray-500'}`}
-          >
-            {label}
-          </span>
+    <div className="space-y-6">
+      {/* Progress bar */}
+      <div>
+        <div className="flex justify-between text-sm mb-2">
+          <span className="font-semibold text-gray-700">{statusText}</span>
+          <span className="text-gray-500">{timeStr}</span>
         </div>
-      ))}
+        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+          <div
+            className="h-full rounded-full transition-all duration-1000 ease-out"
+            style={{
+              width: `${progress}%`,
+              background: `linear-gradient(90deg, ${ACCENT}, ${SUCCESS_GREEN})`,
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Animated dots */}
+      <div className="flex items-center justify-center gap-2">
+        <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: ACCENT, animationDelay: '0ms' }} />
+        <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: ACCENT, animationDelay: '200ms' }} />
+        <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: ACCENT, animationDelay: '400ms' }} />
+      </div>
+
+      {/* Reassurance message */}
+      <p className="text-center text-sm text-gray-500">
+        Our AI is conducting deep research across the web. Premium reports take 1-3 minutes to generate.
+        <br />
+        <span className="font-semibold">Please don't close or refresh this page.</span>
+      </p>
     </div>
   );
 }
@@ -1507,7 +1654,7 @@ function SpySuccessContent() {
   const [reportData, setReportData] = useState<ReportData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [progressStep, setProgressStep] = useState(0);
+  const [startTime] = useState(() => Date.now());
 
   useEffect(() => {
     if (!sessionId) {
@@ -1521,17 +1668,11 @@ function SpySuccessContent() {
         setLoading(true);
         setError(null);
 
-        const progressInterval = setInterval(() => {
-          setProgressStep((prev) => (prev < 2 ? prev + 1 : prev));
-        }, 1500);
-
         const response = await fetch('/api/spy-fulfill', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sessionId }),
         });
-
-        clearInterval(progressInterval);
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
@@ -1539,11 +1680,9 @@ function SpySuccessContent() {
         }
 
         const { report } = await response.json();
-        setReportData(report as ReportData);
-        setProgressStep(3);
+        setReportData(normalizeReport(report));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
-        setProgressStep(0);
       } finally {
         setLoading(false);
       }
@@ -1578,16 +1717,16 @@ function SpySuccessContent() {
       <main className="max-w-4xl mx-auto px-6 py-12">
         {loading && !error ? (
           <div className="space-y-8">
-            <div>
+            <div className="text-center">
               <h1 className="text-3xl font-bold mb-2" style={{ color: DARK }}>
-                Generating Your Report
+                Generating Your Intelligence Report
               </h1>
               <p className="text-gray-600">
-                We're analyzing competitors and building your comprehensive report...
+                Our AI is conducting deep competitive research across the web
               </p>
             </div>
             <div className="bg-gray-50 p-8 rounded-lg">
-              <ProgressSteps step={progressStep} />
+              <ProgressBar startTime={startTime} />
             </div>
           </div>
         ) : error ? (
