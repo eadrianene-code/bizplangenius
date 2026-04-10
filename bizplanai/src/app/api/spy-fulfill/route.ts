@@ -337,33 +337,20 @@ export async function POST(req: NextRequest) {
       throw new Error('Research step produced insufficient data');
     }
 
-    /* ---- STEP 2: Structure research into JSON ---- */
-    console.log('Spy Step 2: Structuring research into JSON...');
+    /* ---- STEP 2: Structure research into JSON (OpenAI - avoids Gemini quota burn) ---- */
+    console.log('Spy Step 2: Structuring research into JSON via OpenAI...');
     const structurePrompt = buildStructurePrompt(researchText, meta);
 
     let reportText = '';
 
     try {
-      reportText = await geminiWithRetry({
-        model: 'gemini-2.5-flash',
-        contents: structurePrompt,
-        config: {
-          temperature: 0.1,
-          topP: 0.9,
-          maxOutputTokens: 65536,
-        },
-      });
-      console.log('Step 2 complete. JSON length:', reportText.length);
-    } catch (geminiError: any) {
-      console.warn('Gemini structuring failed, falling back to OpenAI:', geminiError.message);
-
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
       const openaiResponse = await openai.chat.completions.create({
         model: 'gpt-4o',
         messages: [
           {
             role: 'system',
-            content: 'You are a data structuring specialist. Convert the research into strictly valid JSON. Output ONLY JSON, nothing else.',
+            content: 'You are an elite data structuring specialist. Convert the research brief into strictly valid JSON matching the provided schema. Output ONLY valid JSON with no markdown fences, no explanation, no text before or after the JSON. Be thorough and preserve ALL specific data points, URLs, prices, and review quotes from the research.',
           },
           { role: 'user', content: structurePrompt },
         ],
@@ -371,7 +358,26 @@ export async function POST(req: NextRequest) {
         max_tokens: 16000,
       });
       reportText = openaiResponse.choices[0].message.content || '';
-      console.log('Step 2 (OpenAI fallback) complete. JSON length:', reportText.length);
+      console.log('Step 2 (OpenAI) complete. JSON length:', reportText.length);
+    } catch (openaiError: any) {
+      console.warn('OpenAI structuring failed, trying Gemini:', openaiError.message);
+
+      // Fallback to Gemini if OpenAI fails
+      try {
+        reportText = await geminiWithRetry({
+          model: 'gemini-2.5-flash',
+          contents: structurePrompt,
+          config: {
+            temperature: 0.1,
+            topP: 0.9,
+            maxOutputTokens: 65536,
+          },
+        });
+        console.log('Step 2 (Gemini fallback) complete. JSON length:', reportText.length);
+      } catch (geminiError: any) {
+        console.error('Both OpenAI and Gemini failed for Step 2');
+        throw openaiError; // throw original error
+      }
     }
 
     /* ---- Parse JSON ---- */
