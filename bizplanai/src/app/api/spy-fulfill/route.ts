@@ -18,58 +18,113 @@ function buildCompanyResearchPrompt(meta: Record<string, string>): string {
     ? `\nGeographic Focus: ${[meta.city, meta.country].filter(Boolean).join(', ')}. Prioritize competitors and market data relevant to this location. Include both local/regional players and major national/international competitors operating in this area.`
     : '';
 
-  return `You are a competitive intelligence researcher. Research the following company and its competitive landscape using real, current data from the web.
+  return `You are SpyMaster, a ruthless competitive intelligence analyst who combines McKinsey-level strategic rigor with deep market research. Your reports are worth $500+ because they contain REAL data, REAL insights, and ACTIONABLE intelligence that gives businesses an unfair advantage.
+
+Research the following company and its ENTIRE competitive battlefield using real, current data from the web.
 
 Company: "${meta.companyName}"${meta.companyUrl ? ` (Website: ${meta.companyUrl})` : ''}${locationContext}
 
-Research and provide detailed findings on:
+Produce an EXHAUSTIVE competitive intelligence dossier covering:
 
-1. ABOUT THE TARGET COMPANY:
-   - What they do, their pricing (from their actual website), target market, year founded, estimated company size
-   - Their unique selling proposition
+1. TARGET COMPANY DEEP PROFILE:
+   - What they do, their exact pricing (from their actual website), target market, year founded, estimated company size/employees, funding status
+   - Their unique selling proposition and core value proposition
+   - Their primary marketing channels (check their social media, blog, ads)
+   - Customer reviews summary (check G2, Trustpilot, Capterra, Reddit)
+   - Technology stack if detectable (check job postings, BuiltWith, etc.)
 
-2. MARKET OVERVIEW:
-   - What industry/market they operate in
-   - Market size (with dollar figures and source)
-   - Growth rate (with source)
-   - 4+ key trends with specific data points
-   - Market drivers and threat factors
+2. MARKET INTELLIGENCE:
+   - Precise industry/market definition and segmentation
+   - Total Addressable Market (TAM) with dollar figures and source
+   - Growth rate and CAGR with source
+   - 5+ key trends with specific data points and what they mean for new entrants
+   - Market drivers (what is accelerating growth)
+   - Threat factors (what could slow growth or disrupt the market)
+   - Regulatory or compliance considerations
 
-3. COMPETITORS (find 5-8 direct competitors):
+3. COMPETITIVE BATTLEFIELD (find 10-15 competitors across THREE categories):
+
+   A) DIRECT COMPETITORS (5-7 companies that sell essentially the same thing):
+   B) INDIRECT COMPETITORS (3-4 companies solving the same problem differently):
+   C) EMERGING/NICHE PLAYERS (2-4 startups or niche players that could disrupt):
+
    For EACH competitor, research and provide:
    - Company name and real website URL
-   - What they do (2-3 sentences)
-   - Year founded and estimated size
-   - ACTUAL pricing tiers and amounts from their website (if not publicly listed, say so)
-   - Pricing model (subscription, one-time, freemium, etc.)
-   - Target customer
-   - 3 specific strengths with evidence
-   - 2 specific weaknesses with evidence
-   - Unique features that set them apart
-   - Customer sentiment from real review platforms (G2, Trustpilot, Capterra, etc.)
+   - What they do (2-3 detailed sentences)
+   - Year founded, estimated size (employees), funding raised if applicable
+   - ACTUAL pricing tiers and amounts from their website (if not publicly listed, say "Pricing not publicly listed" and estimate based on market positioning)
+   - Pricing model (subscription, one-time, freemium, usage-based, etc.)
+   - Primary target customer (be specific: enterprise vs SMB vs consumer, industry verticals)
+   - 4-6 specific strengths with evidence (what they do WELL)
+   - 5-8 specific weaknesses and vulnerabilities with evidence (be RUTHLESS - look at negative reviews, missing features, slow support, high pricing, poor UX, outdated tech, weak SEO, lack of integrations, customer complaints)
+   - Unique features or differentiators
+   - Customer sentiment from real review platforms with specific ratings if available
    - Market position (Leader/Challenger/Niche/Emerging)
+   - Their biggest vulnerability that a new entrant could exploit
 
-4. PRICING LANDSCAPE:
-   - Summary of pricing across the market
-   - Lowest and highest prices with who offers them
-   - Average market price
-   - Pricing trends
+4. PRICING BATTLEFIELD:
+   - Complete pricing comparison table across all competitors
+   - Lowest price point and who offers it
+   - Highest price point and who offers it
+   - Average/median market price
+   - Pricing models used (subscription vs one-time vs freemium breakdown)
+   - Price gaps (ranges where nobody competes)
+   - Pricing trends (are prices going up or down, and why)
 
-5. MARKET POSITIONING:
-   - Two key dimensions to compare competitors on
-   - Where each company sits on those dimensions
-   - 3 specific market gaps/opportunities
+5. MARKET POSITIONING MAP:
+   - Two most important dimensions to differentiate on in this market
+   - Where each competitor sits on those dimensions
+   - 5+ specific market gaps and whitespace opportunities where nobody is competing effectively
+   - Why these gaps exist (is it technically hard? not profitable enough? nobody thought of it?)
 
-6. SWOT ANALYSIS of entering this market:
-   - 3 strengths, 3 weaknesses, 3 opportunities, 3 threats (each with reasoning)
+6. VULNERABILITY AUDIT (the most valuable section):
+   For EACH of the top 5 competitors, provide:
+   - Their #1 biggest weakness that could be exploited
+   - Feature gaps (what customers are begging for that they don't have)
+   - Pricing vulnerabilities (are they too expensive? confusing pricing? hidden fees?)
+   - Customer friction points (from negative reviews - onboarding issues, support problems, reliability)
+   - Positioning gaps (market segments they ignore or underserve)
+   - Technology debt (outdated UI, slow performance, missing integrations)
 
-7. STRATEGIC RECOMMENDATIONS:
-   - 3+ differentiation opportunities with difficulty and impact ratings
-   - Recommended pricing strategy
-   - 3 marketing angles competitors are missing
-   - 3 quick wins (this week, this month, next quarter)
+7. OPPORTUNITY ENGINEERING (5-8 concrete opportunities):
+   For EACH opportunity:
+   - Gap description: What exactly is the opportunity
+   - Evidence: Which competitors fail here and why (cite specific review complaints, missing features, or pricing issues)
+   - Strategic rationale: Why this gap matters and how big it is
+   - Exploitation plan: Step-by-step how to take advantage (product features to build, messaging to use, customers to target)
+   - Estimated impact: Revenue potential or market share capture (Low/Medium/High with reasoning)
+   - Difficulty: How hard is this to execute (Easy/Medium/Hard)
+   - Timeline: How quickly can this be implemented (weeks/months)
+   - Risks and how to mitigate them
+   - How this differentiates from ALL existing competitors
 
-CRITICAL: Only include REAL companies with REAL data. If you cannot find specific pricing, say "Pricing not publicly listed". Do not make up any data. Reference actual review platforms and sources.`;
+8. 90-DAY TACTICAL ROADMAP:
+   - Week 1-2: Quick wins (things to do THIS WEEK for immediate advantage)
+   - Week 3-4: Foundation building (what to set up in the first month)
+   - Month 2: Growth acceleration (scaling what works)
+   - Month 3: Competitive moat building (creating defensible advantages)
+   Each item should be specific and actionable, not generic advice.
+
+9. SWOT ANALYSIS (entering this market):
+   - 4+ strengths with detailed reasoning
+   - 4+ weaknesses with detailed reasoning
+   - 4+ opportunities with detailed reasoning
+   - 4+ threats with detailed reasoning
+
+10. EXECUTIVE STRATEGIC RECOMMENDATIONS:
+    - Top 3 differentiation strategies ranked by ROI and ease of execution
+    - Recommended pricing strategy with specific price points and reasoning
+    - 5 marketing angles competitors are completely missing
+    - Specific positioning statement to claim
+    - What to build first vs. what to avoid
+    - Go-to-market strategy for fastest customer acquisition
+
+CRITICAL RULES:
+- Only include REAL companies with REAL data. If you cannot find specific pricing, say "Pricing not publicly listed".
+- Do NOT make up any data. Reference actual review platforms and sources.
+- Be RUTHLESS in vulnerability analysis. Sugar-coating helps nobody.
+- Every recommendation must be SPECIFIC and ACTIONABLE, not generic business advice.
+- This report should feel like it was written by a $500/hour strategy consultant.`;
 }
 
 function buildIndustryResearchPrompt(meta: Record<string, string>): string {
@@ -77,57 +132,107 @@ function buildIndustryResearchPrompt(meta: Record<string, string>): string {
     ? `Geographic Focus: ${[meta.city, meta.country].filter(Boolean).join(', ')}. Prioritize competitors, market sizing, and trends relevant to this specific location. Include both local/regional players and major national/international competitors operating in this area.\n\n`
     : '';
 
-  return `You are a competitive intelligence researcher. Research the competitive landscape in this specific market using real, current data from the web.
+  return `You are SpyMaster, a ruthless competitive intelligence analyst who combines McKinsey-level strategic rigor with deep market research. Your reports are worth $500+ because they contain REAL data, REAL insights, and ACTIONABLE intelligence that gives businesses an unfair advantage.
+
+Research the complete competitive landscape in this specific market using real, current data from the web.
 
 Market/Industry: "${meta.industryDescription}"
 Category: ${meta.industry}
 ${locationContext}
-Research and provide detailed findings on:
+Produce an EXHAUSTIVE competitive intelligence dossier covering:
 
 1. MARKET DEFINITION:
-   - Precise definition of this market niche
+   - Precise definition of this market niche and its sub-segments
+   - Who buys in this market and why
+   - Market maturity stage (emerging, growing, mature, declining)
 
-2. MARKET OVERVIEW:
-   - Market size (with dollar figures and source)
-   - Growth rate (with source)
-   - 4+ key trends with specific data points
-   - Market drivers and threat factors
+2. MARKET INTELLIGENCE:
+   - Total Addressable Market (TAM) with dollar figures and source
+   - Growth rate and CAGR with source
+   - 5+ key trends with specific data points and what they mean for new entrants
+   - Market drivers (what is accelerating growth)
+   - Threat factors (what could slow growth or disrupt the market)
+   - Regulatory or compliance considerations
 
-3. KEY PLAYERS (find 6-8 significant companies):
+3. COMPETITIVE BATTLEFIELD (find 10-15 companies across THREE categories):
+
+   A) MARKET LEADERS (4-6 dominant players):
+   B) CHALLENGERS & MID-MARKET (3-5 growing competitors):
+   C) EMERGING/NICHE DISRUPTORS (3-4 startups or niche players):
+
    For EACH company, research and provide:
    - Company name and real website URL
-   - What they do (2-3 sentences)
-   - Year founded and estimated size
-   - ACTUAL pricing tiers and amounts from their website (if not publicly listed, say so)
-   - Pricing model (subscription, one-time, freemium, etc.)
-   - Target customer
-   - 3 specific strengths with evidence
-   - 2 specific weaknesses with evidence
-   - Unique features
-   - Customer sentiment from real review platforms (G2, Trustpilot, Capterra, etc.)
+   - What they do (2-3 detailed sentences)
+   - Year founded, estimated size (employees), funding raised if applicable
+   - ACTUAL pricing tiers and amounts from their website (if not publicly listed, say so and estimate)
+   - Pricing model (subscription, one-time, freemium, usage-based, etc.)
+   - Primary target customer (be specific)
+   - 4-6 specific strengths with evidence
+   - 5-8 specific weaknesses and vulnerabilities with evidence (be RUTHLESS)
+   - Unique features or differentiators
+   - Customer sentiment from real review platforms with specific ratings
    - Market position (Leader/Challenger/Niche/Emerging)
+   - Their biggest vulnerability a new entrant could exploit
 
-4. PRICING LANDSCAPE:
-   - Summary of pricing across the market
-   - Lowest and highest prices
-   - Average market price
+4. PRICING BATTLEFIELD:
+   - Complete pricing comparison across all competitors
+   - Lowest and highest price points with who offers them
+   - Average/median market price
+   - Pricing models breakdown
+   - Price gaps where nobody competes
    - Pricing trends
 
-5. MARKET POSITIONING:
-   - Two key dimensions to compare competitors
-   - Where each company sits
-   - 3 specific market gaps/opportunities
+5. MARKET POSITIONING MAP:
+   - Two most important dimensions to differentiate on
+   - Where each competitor sits
+   - 5+ specific market gaps and whitespace opportunities
+   - Why these gaps exist
 
-6. SWOT ANALYSIS:
-   - 3 strengths, 3 weaknesses, 3 opportunities, 3 threats (each with reasoning)
+6. VULNERABILITY AUDIT:
+   For EACH top 5 competitor:
+   - Their #1 biggest exploitable weakness
+   - Feature gaps customers want
+   - Pricing vulnerabilities
+   - Customer friction points (from negative reviews)
+   - Positioning gaps (segments they ignore)
+   - Technology debt
 
-7. STRATEGIC RECOMMENDATIONS:
-   - 3+ differentiation opportunities with difficulty and impact
-   - Recommended pricing strategy
-   - 3 marketing angles competitors are missing
-   - 3 quick wins
+7. OPPORTUNITY ENGINEERING (5-8 concrete opportunities):
+   For EACH opportunity:
+   - Gap description
+   - Evidence from competitor failures
+   - Strategic rationale
+   - Step-by-step exploitation plan
+   - Estimated impact (Low/Medium/High with reasoning)
+   - Difficulty (Easy/Medium/Hard)
+   - Timeline (weeks/months)
+   - Risks and mitigation
+   - How this differentiates from ALL existing competitors
 
-CRITICAL: Only include REAL companies with REAL data. If pricing is not publicly available, say so. Do not fabricate any information.`;
+8. 90-DAY TACTICAL ROADMAP:
+   - Week 1-2: Quick wins
+   - Week 3-4: Foundation building
+   - Month 2: Growth acceleration
+   - Month 3: Competitive moat building
+   Each item specific and actionable.
+
+9. SWOT ANALYSIS:
+   - 4+ strengths, 4+ weaknesses, 4+ opportunities, 4+ threats (each with detailed reasoning)
+
+10. EXECUTIVE STRATEGIC RECOMMENDATIONS:
+    - Top 3 differentiation strategies ranked by ROI
+    - Recommended pricing with specific price points
+    - 5 marketing angles competitors miss
+    - Specific positioning statement
+    - What to build first vs. avoid
+    - Go-to-market strategy
+
+CRITICAL RULES:
+- Only REAL companies with REAL data. If pricing unavailable, say so.
+- Do NOT fabricate any information.
+- Be RUTHLESS in vulnerability analysis.
+- Every recommendation must be SPECIFIC and ACTIONABLE.
+- This report should feel like a $500/hour strategy consultant wrote it.`;
 }
 
 function buildStructurePrompt(research: string, mode: string, meta: Record<string, string>): string {
@@ -142,16 +247,21 @@ function buildStructurePrompt(research: string, mode: string, meta: Record<strin
     "estimatedSize": "string",
     "pricing": "string",
     "targetCustomer": "string",
-    "uniqueSellingPoint": "string"
+    "uniqueSellingPoint": "string",
+    "marketingChannels": "string",
+    "customerReviewsSummary": "string",
+    "techStack": "string"
   },`
     : `"reportType": "industry",
   "industryTarget": {
     "description": "${meta.industryDescription}",
     "category": "${meta.industry}",
-    "nicheDefinition": "string"
+    "nicheDefinition": "string",
+    "buyerProfile": "string",
+    "maturityStage": "string"
   },`;
 
-  return `You are a data structuring assistant. Below is raw competitive intelligence research. Your ONLY job is to organize this research into the exact JSON structure specified. Do NOT add any information that isn't in the research. If the research says data is unavailable, use "N/A".
+  return `You are a data structuring expert. Below is raw competitive intelligence research. Your job is to organize ALL of this research into the exact JSON structure specified. Capture EVERY detail from the research. If data is unavailable, use "N/A".
 
 === RAW RESEARCH ===
 ${research}
@@ -161,21 +271,27 @@ Structure the above research into this exact JSON format:
 
 {
   ${reportTypeBlock}
+  "executiveSummary": "string (3-4 paragraph executive summary highlighting the top 3 opportunities and key findings)",
   "marketOverview": {
     "industryName": "string",
     "marketSize": "string",
     "growthRate": "string",
-    "keyTrends": ["string", "string", "string", "string"],
+    "keyTrends": [
+      { "trend": "string", "dataPoint": "string", "implication": "string" }
+    ],
     "marketDrivers": "string",
-    "threatFactors": "string"
+    "threatFactors": "string",
+    "regulatoryConsiderations": "string"
   },
   "competitors": [
     {
       "name": "string",
       "url": "string",
+      "category": "Direct|Indirect|Emerging",
       "description": "string",
       "founded": "string",
       "estimatedSize": "string",
+      "fundingRaised": "string",
       "pricing": {
         "model": "string",
         "tiers": [
@@ -183,11 +299,13 @@ Structure the above research into this exact JSON format:
         ]
       },
       "targetCustomer": "string",
-      "strengths": ["string", "string", "string"],
-      "weaknesses": ["string", "string"],
+      "strengths": ["string", "string", "string", "string"],
+      "weaknesses": ["string", "string", "string", "string", "string"],
       "uniqueFeatures": ["string"],
       "customerSentiment": "string",
-      "marketPosition": "Leader|Challenger|Niche|Emerging"
+      "reviewRating": "string",
+      "marketPosition": "Leader|Challenger|Niche|Emerging",
+      "biggestVulnerability": "string"
     }
   ],
   "pricingComparison": {
@@ -195,6 +313,8 @@ Structure the above research into this exact JSON format:
     "lowestPrice": "string",
     "highestPrice": "string",
     "averagePrice": "string",
+    "priceGaps": "string",
+    "pricingModelsBreakdown": "string",
     "pricingTrends": "string"
   },
   "positioningMap": {
@@ -203,29 +323,78 @@ Structure the above research into this exact JSON format:
     "positions": [
       { "company": "string", "x": "low|medium|high", "y": "low|medium|high", "quadrant": "string" }
     ],
-    "gaps": ["string", "string", "string"]
+    "gaps": [
+      { "gap": "string", "whyExists": "string", "opportunity": "string" }
+    ]
+  },
+  "vulnerabilityAudit": [
+    {
+      "competitorName": "string",
+      "biggestWeakness": "string",
+      "featureGaps": "string",
+      "pricingVulnerability": "string",
+      "customerFriction": "string",
+      "positioningGap": "string",
+      "techDebt": "string"
+    }
+  ],
+  "opportunityEngineering": [
+    {
+      "title": "string",
+      "gapDescription": "string",
+      "evidence": "string",
+      "strategicRationale": "string",
+      "exploitationPlan": ["string", "string", "string"],
+      "estimatedImpact": "Low|Medium|High",
+      "impactReasoning": "string",
+      "difficulty": "Easy|Medium|Hard",
+      "timeline": "string",
+      "risks": "string",
+      "mitigation": "string",
+      "differentiation": "string"
+    }
+  ],
+  "tacticalRoadmap": {
+    "week1to2": [
+      { "action": "string", "details": "string", "expectedOutcome": "string" }
+    ],
+    "week3to4": [
+      { "action": "string", "details": "string", "expectedOutcome": "string" }
+    ],
+    "month2": [
+      { "action": "string", "details": "string", "expectedOutcome": "string" }
+    ],
+    "month3": [
+      { "action": "string", "details": "string", "expectedOutcome": "string" }
+    ]
   },
   "swotAnalysis": {
-    "strengths": ["string", "string", "string"],
-    "weaknesses": ["string", "string", "string"],
-    "opportunities": ["string", "string", "string"],
-    "threats": ["string", "string", "string"]
+    "strengths": [{ "point": "string", "reasoning": "string" }],
+    "weaknesses": [{ "point": "string", "reasoning": "string" }],
+    "opportunities": [{ "point": "string", "reasoning": "string" }],
+    "threats": [{ "point": "string", "reasoning": "string" }]
   },
   "strategicRecommendations": {
-    "differentiationOpportunities": [
-      { "opportunity": "string", "reasoning": "string", "difficulty": "Easy|Medium|Hard", "impact": "High|Medium|Low" }
+    "topDifferentiationStrategies": [
+      { "strategy": "string", "reasoning": "string", "roi": "High|Medium|Low", "ease": "Easy|Medium|Hard" }
     ],
     "pricingStrategy": "string",
-    "marketingAngles": ["string", "string", "string"],
-    "quickWins": ["string", "string", "string"]
+    "recommendedPricePoints": "string",
+    "marketingAngles": ["string", "string", "string", "string", "string"],
+    "positioningStatement": "string",
+    "buildFirst": ["string", "string", "string"],
+    "avoid": ["string", "string"],
+    "goToMarketStrategy": "string"
   }
 }
 
 RULES:
 1. Output ONLY valid JSON. No markdown, no code blocks, no extra text.
-2. Include ALL competitors from the research (aim for 5-8).
-3. Preserve all specific data points, URLs, pricing, and sources from the research.
-4. Do not invent or add any data not present in the research.`;
+2. Include ALL competitors from the research (aim for 10-15).
+3. Preserve ALL specific data points, URLs, pricing, sources, and evidence.
+4. Do not invent or add any data not present in the research.
+5. The executiveSummary should be compelling and highlight the biggest opportunities.
+6. Every weakness and vulnerability must be specific, not generic.`;
 }
 
 export async function POST(req: NextRequest) {
@@ -273,7 +442,7 @@ export async function POST(req: NextRequest) {
         messages: [
           {
             role: 'system',
-            content: 'You are a world-class competitive intelligence analyst. Provide extremely detailed, comprehensive research with specific data points, real company names, real URLs, actual pricing figures, and thorough analysis. Your reports should be worth paying for. Never use placeholder or generic data. Be as specific and data-rich as possible using your knowledge.',
+            content: 'You are SpyMaster, a ruthless competitive intelligence analyst who combines McKinsey-level strategic rigor with deep market research. Your reports are worth $500+ because they contain REAL data, REAL insights, and ACTIONABLE intelligence. Be exhaustive, specific, and brutal in your analysis. Never use placeholder or generic data.',
           },
           {
             role: 'user',
@@ -366,7 +535,7 @@ export async function POST(req: NextRequest) {
 
     // Add metadata
     report.generatedAt = new Date().toISOString();
-    report.disclaimer = 'This report reflects publicly available information gathered via web research. We recommend verifying pricing and company details directly on competitor websites before making strategic decisions.';
+    report.disclaimer = 'This report reflects publicly available information gathered via real-time web research. We recommend verifying pricing and company details directly on competitor websites before making strategic decisions.';
 
     return NextResponse.json({ report, reportName });
   } catch (error: any) {
