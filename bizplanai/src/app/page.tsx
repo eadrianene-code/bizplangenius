@@ -462,10 +462,10 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <SamplePlan />
         <ComparisonBanner />
         <Features />
         <HowItWorks />
-        <SamplePlan />
         <Pricing />
         <FAQ />
         <CTA />
