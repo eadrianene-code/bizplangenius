@@ -154,7 +154,7 @@ function generatePDF(data: ReportData): void {
     pageSize: 'A4',
     pageMargins: [40, 40, 40, 60],
     defaultStyle: {
-      font: 'Helvetica',
+      font: 'Roboto',
       size: 11,
       color: TEXT,
       lineHeight: 1.5,
@@ -830,7 +830,7 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
             <ul className="space-y-1 text-sm text-amber-800">
               {data.swotAnalysis.opportunities.slice(0, 3).map((item, idx) => (
                 <li key={idx} className="flex items-start">
-                  <span className="mr-2">â</span>
+                  <span className="mr-2">{"\u2192"}</span>
                   <span>{item}</span>
                 </li>
               ))}

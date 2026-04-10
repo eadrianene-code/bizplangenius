@@ -233,11 +233,15 @@ export async function POST(req: NextRequest) {
 
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
       const openaiResponse = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages: [
           {
+            role: 'system',
+            content: 'You are a world-class business research analyst. Provide extremely detailed, comprehensive research with specific data points, real market figures, actual competitor names and pricing, and thorough analysis. Your research should be worth paying for. Never use placeholder or generic data. Be as specific and data-rich as possible using your knowledge.',
+          },
+          {
             role: 'user',
-            content: `${researchPrompt}\n\nPlease use your web browsing capabilities to find real, current data to answer this research request.`,
+            content: researchPrompt,
           },
         ],
         temperature: 0.4,
@@ -276,7 +280,7 @@ export async function POST(req: NextRequest) {
 
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
       const openaiResponse = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages: [{ role: 'user', content: structurePrompt }],
         response_format: { type: 'json_object' },
         temperature: 0.3,
