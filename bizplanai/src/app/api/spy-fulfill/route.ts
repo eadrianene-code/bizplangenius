@@ -11,231 +11,9 @@ function getStripe() {
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
-export const maxDuration = 120;
+export const maxDuration = 60;
 
-function buildCompanyResearchPrompt(meta: Record<string, string>): string {
-  const locationContext = meta.city || meta.country
-    ? `\nGeographic Focus: ${[meta.city, meta.country].filter(Boolean).join(', ')}. Prioritize competitors and market data relevant to this location. Include both local/regional players and major national/international competitors operating in this area.`
-    : '';
-
-  return `You are SpyMaster, a ruthless competitive intelligence analyst who combines McKinsey-level strategic rigor with deep market research. Your reports are worth $500+ because they contain REAL data, REAL insights, and ACTIONABLE intelligence that gives businesses an unfair advantage.
-
-Research the following company and its ENTIRE competitive battlefield using real, current data from the web.
-
-Company: "${meta.companyName}"${meta.companyUrl ? ` (Website: ${meta.companyUrl})` : ''}${locationContext}
-
-Produce an EXHAUSTIVE competitive intelligence dossier covering:
-
-1. TARGET COMPANY DEEP PROFILE:
-   - What they do, their exact pricing (from their actual website), target market, year founded, estimated company size/employees, funding status
-   - Their unique selling proposition and core value proposition
-   - Their primary marketing channels (check their social media, blog, ads)
-   - Customer reviews summary (check G2, Trustpilot, Capterra, Reddit)
-   - Technology stack if detectable (check job postings, BuiltWith, etc.)
-
-2. MARKET INTELLIGENCE:
-   - Precise industry/market definition and segmentation
-   - Total Addressable Market (TAM) with dollar figures and source
-   - Growth rate and CAGR with source
-   - 5+ key trends with specific data points and what they mean for new entrants
-   - Market drivers (what is accelerating growth)
-   - Threat factors (what could slow growth or disrupt the market)
-   - Regulatory or compliance considerations
-
-3. COMPETITIVE BATTLEFIELD (find 10-15 competitors across THREE categories):
-
-   A) DIRECT COMPETITORS (5-7 companies that sell essentially the same thing):
-   B) INDIRECT COMPETITORS (3-4 companies solving the same problem differently):
-   C) EMERGING/NICHE PLAYERS (2-4 startups or niche players that could disrupt):
-
-   For EACH competitor, research and provide:
-   - Company name and real website URL
-   - What they do (2-3 detailed sentences)
-   - Year founded, estimated size (employees), funding raised if applicable
-   - ACTUAL pricing tiers and amounts from their website (if not publicly listed, say "Pricing not publicly listed" and estimate based on market positioning)
-   - Pricing model (subscription, one-time, freemium, usage-based, etc.)
-   - Primary target customer (be specific: enterprise vs SMB vs consumer, industry verticals)
-   - 4-6 specific strengths with evidence (what they do WELL)
-   - 5-8 specific weaknesses and vulnerabilities with evidence (be RUTHLESS - look at negative reviews, missing features, slow support, high pricing, poor UX, outdated tech, weak SEO, lack of integrations, customer complaints)
-   - Unique features or differentiators
-   - Customer sentiment from real review platforms with specific ratings if available
-   - Market position (Leader/Challenger/Niche/Emerging)
-   - Their biggest vulnerability that a new entrant could exploit
-
-4. PRICING BATTLEFIELD:
-   - Complete pricing comparison table across all competitors
-   - Lowest price point and who offers it
-   - Highest price point and who offers it
-   - Average/median market price
-   - Pricing models used (subscription vs one-time vs freemium breakdown)
-   - Price gaps (ranges where nobody competes)
-   - Pricing trends (are prices going up or down, and why)
-
-5. MARKET POSITIONING MAP:
-   - Two most important dimensions to differentiate on in this market
-   - Where each competitor sits on those dimensions
-   - 5+ specific market gaps and whitespace opportunities where nobody is competing effectively
-   - Why these gaps exist (is it technically hard? not profitable enough? nobody thought of it?)
-
-6. VULNERABILITY AUDIT (the most valuable section):
-   For EACH of the top 5 competitors, provide:
-   - Their #1 biggest weakness that could be exploited
-   - Feature gaps (what customers are begging for that they don't have)
-   - Pricing vulnerabilities (are they too expensive? confusing pricing? hidden fees?)
-   - Customer friction points (from negative reviews - onboarding issues, support problems, reliability)
-   - Positioning gaps (market segments they ignore or underserve)
-   - Technology debt (outdated UI, slow performance, missing integrations)
-
-7. OPPORTUNITY ENGINEERING (5-8 concrete opportunities):
-   For EACH opportunity:
-   - Gap description: What exactly is the opportunity
-   - Evidence: Which competitors fail here and why (cite specific review complaints, missing features, or pricing issues)
-   - Strategic rationale: Why this gap matters and how big it is
-   - Exploitation plan: Step-by-step how to take advantage (product features to build, messaging to use, customers to target)
-   - Estimated impact: Revenue potential or market share capture (Low/Medium/High with reasoning)
-   - Difficulty: How hard is this to execute (Easy/Medium/Hard)
-   - Timeline: How quickly can this be implemented (weeks/months)
-   - Risks and how to mitigate them
-   - How this differentiates from ALL existing competitors
-
-8. 90-DAY TACTICAL ROADMAP:
-   - Week 1-2: Quick wins (things to do THIS WEEK for immediate advantage)
-   - Week 3-4: Foundation building (what to set up in the first month)
-   - Month 2: Growth acceleration (scaling what works)
-   - Month 3: Competitive moat building (creating defensible advantages)
-   Each item should be specific and actionable, not generic advice.
-
-9. SWOT ANALYSIS (entering this market):
-   - 4+ strengths with detailed reasoning
-   - 4+ weaknesses with detailed reasoning
-   - 4+ opportunities with detailed reasoning
-   - 4+ threats with detailed reasoning
-
-10. EXECUTIVE STRATEGIC RECOMMENDATIONS:
-    - Top 3 differentiation strategies ranked by ROI and ease of execution
-    - Recommended pricing strategy with specific price points and reasoning
-    - 5 marketing angles competitors are completely missing
-    - Specific positioning statement to claim
-    - What to build first vs. what to avoid
-    - Go-to-market strategy for fastest customer acquisition
-
-CRITICAL RULES:
-- Only include REAL companies with REAL data. If you cannot find specific pricing, say "Pricing not publicly listed".
-- Do NOT make up any data. Reference actual review platforms and sources.
-- Be RUTHLESS in vulnerability analysis. Sugar-coating helps nobody.
-- Every recommendation must be SPECIFIC and ACTIONABLE, not generic business advice.
-- This report should feel like it was written by a $500/hour strategy consultant.`;
-}
-
-function buildIndustryResearchPrompt(meta: Record<string, string>): string {
-  const locationContext = meta.city || meta.country
-    ? `Geographic Focus: ${[meta.city, meta.country].filter(Boolean).join(', ')}. Prioritize competitors, market sizing, and trends relevant to this specific location. Include both local/regional players and major national/international competitors operating in this area.\n\n`
-    : '';
-
-  return `You are SpyMaster, a ruthless competitive intelligence analyst who combines McKinsey-level strategic rigor with deep market research. Your reports are worth $500+ because they contain REAL data, REAL insights, and ACTIONABLE intelligence that gives businesses an unfair advantage.
-
-Research the complete competitive landscape in this specific market using real, current data from the web.
-
-Market/Industry: "${meta.industryDescription}"
-Category: ${meta.industry}
-${locationContext}
-Produce an EXHAUSTIVE competitive intelligence dossier covering:
-
-1. MARKET DEFINITION:
-   - Precise definition of this market niche and its sub-segments
-   - Who buys in this market and why
-   - Market maturity stage (emerging, growing, mature, declining)
-
-2. MARKET INTELLIGENCE:
-   - Total Addressable Market (TAM) with dollar figures and source
-   - Growth rate and CAGR with source
-   - 5+ key trends with specific data points and what they mean for new entrants
-   - Market drivers (what is accelerating growth)
-   - Threat factors (what could slow growth or disrupt the market)
-   - Regulatory or compliance considerations
-
-3. COMPETITIVE BATTLEFIELD (find 10-15 companies across THREE categories):
-
-   A) MARKET LEADERS (4-6 dominant players):
-   B) CHALLENGERS & MID-MARKET (3-5 growing competitors):
-   C) EMERGING/NICHE DISRUPTORS (3-4 startups or niche players):
-
-   For EACH company, research and provide:
-   - Company name and real website URL
-   - What they do (2-3 detailed sentences)
-   - Year founded, estimated size (employees), funding raised if applicable
-   - ACTUAL pricing tiers and amounts from their website (if not publicly listed, say so and estimate)
-   - Pricing model (subscription, one-time, freemium, usage-based, etc.)
-   - Primary target customer (be specific)
-   - 4-6 specific strengths with evidence
-   - 5-8 specific weaknesses and vulnerabilities with evidence (be RUTHLESS)
-   - Unique features or differentiators
-   - Customer sentiment from real review platforms with specific ratings
-   - Market position (Leader/Challenger/Niche/Emerging)
-   - Their biggest vulnerability a new entrant could exploit
-
-4. PRICING BATTLEFIELD:
-   - Complete pricing comparison across all competitors
-   - Lowest and highest price points with who offers them
-   - Average/median market price
-   - Pricing models breakdown
-   - Price gaps where nobody competes
-   - Pricing trends
-
-5. MARKET POSITIONING MAP:
-   - Two most important dimensions to differentiate on
-   - Where each competitor sits
-   - 5+ specific market gaps and whitespace opportunities
-   - Why these gaps exist
-
-6. VULNERABILITY AUDIT:
-   For EACH top 5 competitor:
-   - Their #1 biggest exploitable weakness
-   - Feature gaps customers want
-   - Pricing vulnerabilities
-   - Customer friction points (from negative reviews)
-   - Positioning gaps (segments they ignore)
-   - Technology debt
-
-7. OPPORTUNITY ENGINEERING (5-8 concrete opportunities):
-   For EACH opportunity:
-   - Gap description
-   - Evidence from competitor failures
-   - Strategic rationale
-   - Step-by-step exploitation plan
-   - Estimated impact (Low/Medium/High with reasoning)
-   - Difficulty (Easy/Medium/Hard)
-   - Timeline (weeks/months)
-   - Risks and mitigation
-   - How this differentiates from ALL existing competitors
-
-8. 90-DAY TACTICAL ROADMAP:
-   - Week 1-2: Quick wins
-   - Week 3-4: Foundation building
-   - Month 2: Growth acceleration
-   - Month 3: Competitive moat building
-   Each item specific and actionable.
-
-9. SWOT ANALYSIS:
-   - 4+ strengths, 4+ weaknesses, 4+ opportunities, 4+ threats (each with detailed reasoning)
-
-10. EXECUTIVE STRATEGIC RECOMMENDATIONS:
-    - Top 3 differentiation strategies ranked by ROI
-    - Recommended pricing with specific price points
-    - 5 marketing angles competitors miss
-    - Specific positioning statement
-    - What to build first vs. avoid
-    - Go-to-market strategy
-
-CRITICAL RULES:
-- Only REAL companies with REAL data. If pricing unavailable, say so.
-- Do NOT fabricate any information.
-- Be RUTHLESS in vulnerability analysis.
-- Every recommendation must be SPECIFIC and ACTIONABLE.
-- This report should feel like a $500/hour strategy consultant wrote it.`;
-}
-
-function buildStructurePrompt(research: string, mode: string, meta: Record<string, string>): string {
+function buildJsonSchema(mode: string, meta: Record<string, string>): string {
   const reportTypeBlock = mode === 'company'
     ? `"reportType": "company",
   "targetCompany": {
@@ -247,10 +25,7 @@ function buildStructurePrompt(research: string, mode: string, meta: Record<strin
     "estimatedSize": "string",
     "pricing": "string",
     "targetCustomer": "string",
-    "uniqueSellingPoint": "string",
-    "marketingChannels": "string",
-    "customerReviewsSummary": "string",
-    "techStack": "string"
+    "uniqueSellingPoint": "string"
   },`
     : `"reportType": "industry",
   "industryTarget": {
@@ -261,21 +36,13 @@ function buildStructurePrompt(research: string, mode: string, meta: Record<strin
     "maturityStage": "string"
   },`;
 
-  return `You are a data structuring expert. Below is raw competitive intelligence research. Your job is to organize ALL of this research into the exact JSON structure specified. Capture EVERY detail from the research. If data is unavailable, use "N/A".
-
-=== RAW RESEARCH ===
-${research}
-=== END RESEARCH ===
-
-Structure the above research into this exact JSON format:
-
-{
+  return `{
   ${reportTypeBlock}
-  "executiveSummary": "string (3-4 paragraph executive summary highlighting the top 3 opportunities and key findings)",
+  "executiveSummary": "string (3-4 paragraph summary highlighting top 3 opportunities)",
   "marketOverview": {
     "industryName": "string",
-    "marketSize": "string",
-    "growthRate": "string",
+    "marketSize": "string with dollar figures",
+    "growthRate": "string with percentage",
     "keyTrends": [
       { "trend": "string", "dataPoint": "string", "implication": "string" }
     ],
@@ -286,26 +53,24 @@ Structure the above research into this exact JSON format:
   "competitors": [
     {
       "name": "string",
-      "url": "string",
+      "url": "string (real URL)",
       "category": "Direct|Indirect|Emerging",
-      "description": "string",
+      "description": "string (2-3 sentences)",
       "founded": "string",
       "estimatedSize": "string",
-      "fundingRaised": "string",
+      "fundingRaised": "string or N/A",
       "pricing": {
         "model": "string",
-        "tiers": [
-          { "name": "string", "price": "string", "features": "string" }
-        ]
+        "tiers": [{ "name": "string", "price": "string", "features": "string" }]
       },
       "targetCustomer": "string",
-      "strengths": ["string", "string", "string", "string"],
-      "weaknesses": ["string", "string", "string", "string", "string"],
+      "strengths": ["string (4-6 items, each with evidence)"],
+      "weaknesses": ["string (5-8 items, be ruthless, cite reviews/evidence)"],
       "uniqueFeatures": ["string"],
-      "customerSentiment": "string",
-      "reviewRating": "string",
+      "customerSentiment": "string with specific review data",
+      "reviewRating": "string or N/A",
       "marketPosition": "Leader|Challenger|Niche|Emerging",
-      "biggestVulnerability": "string"
+      "biggestVulnerability": "string (the #1 exploitable weakness)"
     }
   ],
   "pricingComparison": {
@@ -344,7 +109,7 @@ Structure the above research into this exact JSON format:
       "gapDescription": "string",
       "evidence": "string",
       "strategicRationale": "string",
-      "exploitationPlan": ["string", "string", "string"],
+      "exploitationPlan": ["step 1", "step 2", "step 3"],
       "estimatedImpact": "Low|Medium|High",
       "impactReasoning": "string",
       "difficulty": "Easy|Medium|Hard",
@@ -355,18 +120,10 @@ Structure the above research into this exact JSON format:
     }
   ],
   "tacticalRoadmap": {
-    "week1to2": [
-      { "action": "string", "details": "string", "expectedOutcome": "string" }
-    ],
-    "week3to4": [
-      { "action": "string", "details": "string", "expectedOutcome": "string" }
-    ],
-    "month2": [
-      { "action": "string", "details": "string", "expectedOutcome": "string" }
-    ],
-    "month3": [
-      { "action": "string", "details": "string", "expectedOutcome": "string" }
-    ]
+    "week1to2": [{ "action": "string", "details": "string", "expectedOutcome": "string" }],
+    "week3to4": [{ "action": "string", "details": "string", "expectedOutcome": "string" }],
+    "month2": [{ "action": "string", "details": "string", "expectedOutcome": "string" }],
+    "month3": [{ "action": "string", "details": "string", "expectedOutcome": "string" }]
   },
   "swotAnalysis": {
     "strengths": [{ "point": "string", "reasoning": "string" }],
@@ -386,15 +143,47 @@ Structure the above research into this exact JSON format:
     "avoid": ["string", "string"],
     "goToMarketStrategy": "string"
   }
+}`;
 }
 
+function buildPrompt(meta: Record<string, string>): string {
+  const isCompany = meta.mode === 'company';
+
+  const locationContext = meta.city || meta.country
+    ? `\nGeographic Focus: ${[meta.city, meta.country].filter(Boolean).join(', ')}. Prioritize competitors and market data relevant to this location.`
+    : '';
+
+  const targetContext = isCompany
+    ? `Company: "${meta.companyName}"${meta.companyUrl ? ` (Website: ${meta.companyUrl})` : ''}`
+    : `Market/Industry: "${meta.industryDescription}"\nCategory: ${meta.industry}`;
+
+  const jsonSchema = buildJsonSchema(meta.mode || 'company', meta);
+
+  return `You are SpyMaster, an elite competitive intelligence analyst. Research the competitive battlefield using real web data and produce an executive-grade intelligence report.
+
+${targetContext}${locationContext}
+
+RESEARCH MANDATE:
+- Find 10-15 REAL competitors (categorize as Direct, Indirect, Emerging)
+- Get ACTUAL pricing from their websites
+- Check REAL reviews on G2, Trustpilot, Capterra, Reddit
+- Find 5-8 SPECIFIC weaknesses per competitor (be ruthless - cite negative reviews, missing features, poor UX, slow support)
+- Identify the single biggest vulnerability for each top competitor
+- Engineer 5-8 concrete opportunities with step-by-step exploitation plans
+- Create a 90-day tactical roadmap with specific weekly actions
+- Every recommendation must be SPECIFIC and ACTIONABLE
+
+OUTPUT: Return your findings as a single JSON object matching this exact schema. Output ONLY valid JSON, no markdown, no explanation.
+
+${jsonSchema}
+
 RULES:
-1. Output ONLY valid JSON. No markdown, no code blocks, no extra text.
-2. Include ALL competitors from the research (aim for 10-15).
-3. Preserve ALL specific data points, URLs, pricing, sources, and evidence.
-4. Do not invent or add any data not present in the research.
-5. The executiveSummary should be compelling and highlight the biggest opportunities.
-6. Every weakness and vulnerability must be specific, not generic.`;
+- Only REAL companies with REAL data. Never fabricate.
+- If pricing unavailable, say "Pricing not publicly listed".
+- Be RUTHLESS in vulnerability analysis. Sugar-coating helps nobody.
+- The executiveSummary must be compelling, highlighting the top 3 opportunities.
+- Include ALL 10-15 competitors in the competitors array.
+- Every weakness must cite evidence (review quotes, missing features, etc).`;
 }
 
 export async function POST(req: NextRequest) {
@@ -410,31 +199,27 @@ export async function POST(req: NextRequest) {
 
     const meta = session.metadata || {};
 
-    // STEP 1: Research with Google Search grounding
-    console.log('Spy Step 1: Starting grounded research...');
-    const researchPrompt = meta.mode === 'company'
-      ? buildCompanyResearchPrompt(meta)
-      : buildIndustryResearchPrompt(meta);
+    // SINGLE CALL: Research + Structure combined with Google Search grounding
+    console.log('Spy: Starting combined research + structure call...');
+    const prompt = buildPrompt(meta);
 
-    let researchText = '';
-    let usedFallback = false;
+    let reportText = '';
 
     try {
-      console.log('Attempting Gemini API call...');
-      const researchResult = await ai.models.generateContent({
+      console.log('Attempting Gemini API call with Google Search...');
+      const result = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: researchPrompt,
+        contents: prompt,
         config: {
           tools: [{ googleSearch: {} }],
-          temperature: 0.4,
+          temperature: 0.3,
           topP: 0.9,
-          maxOutputTokens: 32768,
+          maxOutputTokens: 65536,
         },
       });
-      researchText = researchResult.text || '';
+      reportText = result.text || '';
     } catch (geminiError: any) {
       console.warn('Gemini API failed, falling back to OpenAI:', geminiError.message);
-      usedFallback = true;
 
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
       const openaiResponse = await openai.chat.completions.create({
@@ -442,65 +227,22 @@ export async function POST(req: NextRequest) {
         messages: [
           {
             role: 'system',
-            content: 'You are SpyMaster, a ruthless competitive intelligence analyst who combines McKinsey-level strategic rigor with deep market research. Your reports are worth $500+ because they contain REAL data, REAL insights, and ACTIONABLE intelligence. Be exhaustive, specific, and brutal in your analysis. Never use placeholder or generic data.',
+            content: 'You are SpyMaster, an elite competitive intelligence analyst. Output ONLY valid JSON. Be exhaustive, specific, and brutal in analysis. Never use placeholder or generic data.',
           },
-          {
-            role: 'user',
-            content: researchPrompt,
-          },
+          { role: 'user', content: prompt },
         ],
-        temperature: 0.4,
+        temperature: 0.3,
         max_tokens: 16000,
       });
-      researchText = openaiResponse.choices[0].message.content || '';
+      reportText = openaiResponse.choices[0].message.content || '';
     }
 
-    console.log('Spy Step 1 complete. Research length:', researchText.length);
-    console.log('Research preview (first 500):', researchText.substring(0, 500));
-
-    // STEP 2: Structure into JSON
-    console.log('Spy Step 2: Structuring into JSON...');
-    const structurePrompt = buildStructurePrompt(researchText, meta.mode || 'company', meta);
-
-    let structureText = '';
-
-    try {
-      if (!usedFallback) {
-        console.log('Attempting Gemini API call for structure...');
-        const structureResult = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
-          contents: structurePrompt,
-          config: {
-            temperature: 0.2,
-            topP: 0.9,
-            maxOutputTokens: 65536,
-            responseMimeType: 'application/json',
-          },
-        });
-        structureText = structureResult.text || '';
-      } else {
-        throw new Error('Skipping Gemini for structure since research fallback was used');
-      }
-    } catch (geminiError: any) {
-      console.warn('Gemini structure API failed, falling back to OpenAI:', geminiError.message);
-
-      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-      const openaiResponse = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [{ role: 'user', content: structurePrompt }],
-        response_format: { type: 'json_object' },
-        temperature: 0.2,
-        max_tokens: 16000,
-      });
-      structureText = openaiResponse.choices[0].message.content || '';
-    }
-
-    console.log('Spy Step 2 complete. JSON length:', structureText.length);
+    console.log('Spy call complete. Response length:', reportText.length);
 
     let report;
-    const rawText = structureText.trim();
+    const rawText = reportText.trim();
 
-    // Strategy 1: Direct JSON parse
+    // Parse JSON from response
     try {
       report = JSON.parse(rawText);
     } catch {
