@@ -337,47 +337,73 @@ export async function POST(req: NextRequest) {
       throw new Error('Research step produced insufficient data');
     }
 
-    /* ---- STEP 2: Structure research into JSON (OpenAI - avoids Gemini quota burn) ---- */
-    console.log('Spy Step 2: Structuring research into JSON via OpenAI...');
+    /* ---- STEP 2: Structure research into JSON ---- */
+    // Wait 10 seconds to let Gemini per-minute quota recover from Step 1
+    console.log('Spy: Waiting 10s for quota recovery before Step 2...');
+    await new Promise(r => setTimeout(r, 10000));
+
+    console.log('Spy Step 2: Structuring research into JSON...');
     const structurePrompt = buildStructurePrompt(researchText, meta);
 
     let reportText = '';
+    let step2Done = false;
 
+    // Strategy A: Try Gemini first (quota may have recovered)
     try {
-      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-      const openaiResponse = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are an elite data structuring specialist. Convert the research brief into strictly valid JSON matching the provided schema. Output ONLY valid JSON with no markdown fences, no explanation, no text before or after the JSON. Be thorough and preserve ALL specific data points, URLs, prices, and review quotes from the research.',
-          },
-          { role: 'user', content: structurePrompt },
-        ],
-        temperature: 0.1,
-        max_tokens: 32000,
-      });
-      reportText = openaiResponse.choices[0].message.content || '';
-      console.log('Step 2 (OpenAI) complete. JSON length:', reportText.length);
-    } catch (openaiError: any) {
-      console.warn('OpenAI structuring failed, trying Gemini:', openaiError.message);
+      reportText = await geminiWithRetry({
+        model: 'gemini-2.5-flash',
+        contents: structurePrompt,
+        config: {
+          temperature: 0.1,
+          topP: 0.9,
+          maxOutputTokens: 65536,
+        },
+      }, 2, 5000); // 2 retries, 5s delay
+      console.log('Step 2 (Gemini) complete. JSON length:', reportText.length);
+      step2Done = true;
+    } catch (geminiError: any) {
+      console.warn('Gemini Step 2 failed:', geminiError.message?.substring(0, 200));
+    }
 
-      // Fallback to Gemini if OpenAI fails
+    // Strategy B: Try OpenAI if Gemini failed and key exists
+    if (!step2Done && process.env.OPENAI_API_KEY) {
       try {
-        reportText = await geminiWithRetry({
-          model: 'gemini-2.5-flash',
-          contents: structurePrompt,
-          config: {
-            temperature: 0.1,
-            topP: 0.9,
-            maxOutputTokens: 65536,
-          },
+        console.log('Trying OpenAI for Step 2...');
+        const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+        const openaiResponse = await openai.chat.completions.create({
+          model: 'gpt-4o',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are an elite data structuring specialist. Convert the research brief into strictly valid JSON matching the provided schema. Output ONLY valid JSON with no markdown fences, no explanation, no text before or after the JSON. Be thorough and preserve ALL specific data points, URLs, prices, and review quotes from the research.',
+            },
+            { role: 'user', content: structurePrompt },
+          ],
+          temperature: 0.1,
+          max_tokens: 32000,
         });
-        console.log('Step 2 (Gemini fallback) complete. JSON length:', reportText.length);
-      } catch (geminiError: any) {
-        console.error('Both OpenAI and Gemini failed for Step 2');
-        throw openaiError; // throw original error
+        reportText = openaiResponse.choices[0].message.content || '';
+        console.log('Step 2 (OpenAI) complete. JSON length:', reportText.length);
+        step2Done = true;
+      } catch (openaiError: any) {
+        console.warn('OpenAI Step 2 also failed:', openaiError.message?.substring(0, 200));
       }
+    }
+
+    // Strategy C: Last resort - wait longer and try Gemini one more time
+    if (!step2Done) {
+      console.log('Both failed. Waiting 15s and trying Gemini once more...');
+      await new Promise(r => setTimeout(r, 15000));
+      reportText = await geminiWithRetry({
+        model: 'gemini-2.5-flash',
+        contents: structurePrompt,
+        config: {
+          temperature: 0.1,
+          topP: 0.9,
+          maxOutputTokens: 65536,
+        },
+      }, 2, 8000);
+      console.log('Step 2 (Gemini final attempt) complete. JSON length:', reportText.length);
     }
 
     /* ---- Parse JSON ---- */
