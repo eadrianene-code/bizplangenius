@@ -330,6 +330,17 @@ function generatePDF(data: ReportData): Promise<void> {
           },
           { text: '', pageBreak: 'after' },
 
+          // Executive Summary
+          ...(data.executiveSummary ? [
+            { text: 'Executive Summary', style: 'sectionTitle' },
+            {
+              text: data.executiveSummary,
+              margin: [0, 8, 0, 20] as [number, number, number, number],
+              lineHeight: 1.6,
+            },
+            { text: '', pageBreak: 'after' as const },
+          ] : []),
+
           { text: 'Market Overview', style: 'sectionTitle' },
           {
             text: `Industry: ${data.marketOverview.industryName}`,
@@ -681,14 +692,148 @@ function generatePDF(data: ReportData): Promise<void> {
           },
           { text: '', pageBreak: 'after' },
 
+          // Vulnerability Audit
+          ...(data.vulnerabilityAudit && data.vulnerabilityAudit.length > 0 ? [
+            { text: 'Vulnerability Audit', style: 'sectionTitle' },
+            ...data.vulnerabilityAudit.flatMap((audit: VulnerabilityAuditItem) => [
+              { text: audit.competitorName, fontSize: 13, bold: true, color: DANGER_RED, margin: [0, 10, 0, 4] as [number, number, number, number] },
+              { text: `Biggest Weakness: ${audit.biggestWeakness}`, fontSize: 10, bold: true, color: DANGER_RED, margin: [0, 0, 0, 4] as [number, number, number, number] },
+              {
+                table: {
+                  widths: ['30%', '70%'],
+                  body: [
+                    [{ text: 'Feature Gaps', style: 'label' }, { text: audit.featureGaps || 'N/A', fontSize: 10 }],
+                    [{ text: 'Pricing Vulnerability', style: 'label' }, { text: audit.pricingVulnerability || 'N/A', fontSize: 10 }],
+                    [{ text: 'Customer Friction', style: 'label' }, { text: audit.customerFriction || 'N/A', fontSize: 10 }],
+                    [{ text: 'Positioning Gap', style: 'label' }, { text: audit.positioningGap || 'N/A', fontSize: 10 }],
+                    ...(audit.techDebt ? [[{ text: 'Tech Debt', style: 'label' }, { text: audit.techDebt, fontSize: 10 }]] : []),
+                  ],
+                },
+                layout: 'lightHorizontalLines',
+                margin: [0, 0, 0, 12] as [number, number, number, number],
+              },
+            ]),
+            { text: '', pageBreak: 'after' as const },
+          ] : []),
+
+          // Opportunity Engineering
+          ...(data.opportunityEngineering && data.opportunityEngineering.length > 0 ? [
+            { text: 'Opportunity Engineering', style: 'sectionTitle' },
+            { text: 'Concrete opportunities to exploit competitor gaps and capture market share.', style: 'smallText', margin: [0, 0, 0, 12] as [number, number, number, number] },
+            ...data.opportunityEngineering.flatMap((opp: Opportunity, idx: number) => [
+              { text: `${idx + 1}. ${opp.title}`, fontSize: 13, bold: true, color: SUCCESS_GREEN, margin: [0, 10, 0, 4] as [number, number, number, number] },
+              { text: opp.gapDescription, margin: [0, 0, 0, 4] as [number, number, number, number], fontSize: 10 },
+              ...(opp.evidence ? [{ text: `Evidence: ${opp.evidence}`, style: 'smallText', italics: true, margin: [0, 0, 0, 4] as [number, number, number, number] }] : []),
+              {
+                columns: [
+                  { text: `Impact: ${opp.estimatedImpact}`, style: 'label', width: '33%' },
+                  { text: `Difficulty: ${opp.difficulty}`, style: 'label', width: '33%' },
+                  { text: `Timeline: ${opp.timeline}`, style: 'label', width: '33%' },
+                ],
+                margin: [0, 4, 0, 4] as [number, number, number, number],
+              },
+              ...(opp.exploitationPlan && opp.exploitationPlan.length > 0 ? [
+                { text: 'Exploitation Plan:', style: 'label', margin: [0, 4, 0, 2] as [number, number, number, number] },
+                { ol: opp.exploitationPlan.map((step: ExploitationPlan) => step.action), margin: [20, 0, 0, 4] as [number, number, number, number], fontSize: 10 },
+              ] : []),
+              ...(opp.risks ? [{ text: `Risks: ${opp.risks}`, style: 'smallText', color: WARNING_AMBER, margin: [0, 2, 0, 2] as [number, number, number, number] }] : []),
+              ...(opp.mitigation ? [{ text: `Mitigation: ${opp.mitigation}`, style: 'smallText', margin: [0, 0, 0, 8] as [number, number, number, number] }] : []),
+            ]),
+            { text: '', pageBreak: 'after' as const },
+          ] : []),
+
+          // 90-Day Tactical Roadmap
+          ...(data.tacticalRoadmap ? (() => {
+            const phases = [
+              { key: 'week1to2' as const, label: 'Week 1-2: Foundation' },
+              { key: 'week3to4' as const, label: 'Week 3-4: Acceleration' },
+              { key: 'month2' as const, label: 'Month 2: Scaling' },
+              { key: 'month3' as const, label: 'Month 3: Consolidation' },
+            ];
+            const phaseContent = phases.flatMap(({ key, label }) => {
+              const items = data.tacticalRoadmap?.[key];
+              if (!items || items.length === 0) return [];
+              return [
+                { text: label, fontSize: 12, bold: true, color: ACCENT, margin: [0, 10, 0, 6] as [number, number, number, number] },
+                ...items.map((item: TacticalRoadmapPhase) => ({
+                  stack: [
+                    { text: item.action, bold: true, fontSize: 10, margin: [0, 0, 0, 2] as [number, number, number, number] },
+                    ...(item.details ? [{ text: item.details, fontSize: 9, color: TEXT_LIGHT, margin: [0, 0, 0, 2] as [number, number, number, number] }] : []),
+                    ...(item.expectedOutcome ? [{ text: `Expected: ${item.expectedOutcome}`, fontSize: 9, color: ACCENT, margin: [0, 0, 0, 6] as [number, number, number, number] }] : []),
+                  ],
+                  margin: [10, 0, 0, 0] as [number, number, number, number],
+                })),
+              ];
+            });
+            if (phaseContent.length === 0) return [];
+            return [
+              { text: '90-Day Tactical Roadmap', style: 'sectionTitle' },
+              ...phaseContent,
+              { text: '', pageBreak: 'after' as const },
+            ];
+          })() : []),
+
+          // Strategic Recommendations (full version)
           { text: 'Strategic Recommendations', style: 'sectionTitle' },
-          {
-            text: data.strategicRecommendations.differentiationOpportunities
-              .slice(0, 3)
-              .map((opp, idx) => `${idx + 1}. ${opp.opportunity}`)
-              .join('\n'),
-            margin: [0, 0, 0, 20],
-          },
+          ...(data.strategicRecommendations.positioningStatement ? [
+            { text: 'Positioning Statement:', style: 'label', margin: [0, 8, 0, 4] as [number, number, number, number] },
+            { text: data.strategicRecommendations.positioningStatement, fontSize: 12, bold: true, color: DARK, margin: [0, 0, 0, 12] as [number, number, number, number] },
+          ] : []),
+          ...(data.strategicRecommendations.topDifferentiationStrategies && data.strategicRecommendations.topDifferentiationStrategies.length > 0 ? [
+            { text: 'Top Differentiation Strategies:', style: 'label', margin: [0, 8, 0, 4] as [number, number, number, number] },
+            ...data.strategicRecommendations.topDifferentiationStrategies.map((strat: DifferentiationStrategy, idx: number) => ({
+              stack: [
+                { text: `${idx + 1}. ${strat.strategy}`, bold: true, fontSize: 11, margin: [0, 4, 0, 2] as [number, number, number, number] },
+                { text: strat.reasoning, fontSize: 10, color: TEXT_LIGHT, margin: [0, 0, 0, 2] as [number, number, number, number] },
+                ...(strat.roi || strat.ease ? [{ text: `ROI: ${strat.roi || 'N/A'} | Ease: ${strat.ease || 'N/A'}`, fontSize: 9, color: ACCENT, margin: [0, 0, 0, 6] as [number, number, number, number] }] : []),
+              ],
+            })),
+          ] : [
+            { text: 'Differentiation Strategies:', style: 'label', margin: [0, 8, 0, 4] as [number, number, number, number] },
+            ...data.strategicRecommendations.differentiationOpportunities.slice(0, 5).map((opp: DifferentiationOpportunity, idx: number) => ({
+              text: `${idx + 1}. ${opp.opportunity}${opp.reasoning ? ' - ' + opp.reasoning : ''}`,
+              margin: [0, 2, 0, 4] as [number, number, number, number],
+              fontSize: 10,
+            })),
+          ]),
+          ...(data.strategicRecommendations.pricingStrategy ? [
+            { text: 'Pricing Strategy:', style: 'label', margin: [0, 10, 0, 4] as [number, number, number, number] },
+            { text: data.strategicRecommendations.pricingStrategy, fontSize: 10, margin: [0, 0, 0, 4] as [number, number, number, number] },
+          ] : []),
+          ...(data.strategicRecommendations.recommendedPricePoints ? [
+            { text: 'Recommended Price Points:', style: 'label', margin: [0, 6, 0, 4] as [number, number, number, number] },
+            { text: data.strategicRecommendations.recommendedPricePoints, fontSize: 10, margin: [0, 0, 0, 4] as [number, number, number, number] },
+          ] : []),
+          ...(data.strategicRecommendations.goToMarketStrategy ? [
+            { text: 'Go-To-Market Strategy:', style: 'label', margin: [0, 10, 0, 4] as [number, number, number, number] },
+            { text: data.strategicRecommendations.goToMarketStrategy, fontSize: 10, margin: [0, 0, 0, 8] as [number, number, number, number] },
+          ] : []),
+          ...(data.strategicRecommendations.marketingAngles && data.strategicRecommendations.marketingAngles.length > 0 ? [
+            { text: 'Marketing Angles:', style: 'label', margin: [0, 8, 0, 4] as [number, number, number, number] },
+            { ul: data.strategicRecommendations.marketingAngles, margin: [20, 0, 0, 8] as [number, number, number, number], fontSize: 10 },
+          ] : []),
+          ...((data.strategicRecommendations.buildFirst && data.strategicRecommendations.buildFirst.length > 0) ||
+            (data.strategicRecommendations.avoid && data.strategicRecommendations.avoid.length > 0) ? [
+            {
+              columns: [
+                ...(data.strategicRecommendations.buildFirst && data.strategicRecommendations.buildFirst.length > 0 ? [{
+                  width: '50%',
+                  stack: [
+                    { text: 'Build First:', style: 'label', color: SUCCESS_GREEN, margin: [0, 0, 0, 4] as [number, number, number, number] },
+                    { ul: data.strategicRecommendations.buildFirst, color: SUCCESS_GREEN, fontSize: 10, margin: [10, 0, 0, 0] as [number, number, number, number] },
+                  ],
+                }] : []),
+                ...(data.strategicRecommendations.avoid && data.strategicRecommendations.avoid.length > 0 ? [{
+                  width: '50%',
+                  stack: [
+                    { text: 'Avoid:', style: 'label', color: DANGER_RED, margin: [0, 0, 0, 4] as [number, number, number, number] },
+                    { ul: data.strategicRecommendations.avoid, color: DANGER_RED, fontSize: 10, margin: [10, 0, 0, 0] as [number, number, number, number] },
+                  ],
+                }] : []),
+              ],
+              margin: [0, 8, 0, 12] as [number, number, number, number],
+            },
+          ] : []),
           { text: '', pageBreak: 'after' },
         ].filter(Boolean),
       };

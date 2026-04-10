@@ -212,19 +212,23 @@ RESEARCH MANDATE (be thorough, take your time):
    - Identify pricing model (per seat, usage-based, flat, freemium)
    - If pricing is not public, note that explicitly
 
-3. CUSTOMER SENTIMENT & REVIEWS
-   - Search G2, Capterra, Trustpilot, Reddit, Twitter/X, ProductHunt for each competitor
-   - Record specific star ratings where available
-   - Find and quote NEGATIVE reviews (exact complaints, not paraphrases)
+3. CUSTOMER SENTIMENT & REVIEWS (CRITICAL - DO THIS FOR EVERY SINGLE COMPETITOR)
+   - THIS IS THE MOST IMPORTANT SECTION. Do NOT skip any competitor.
+   - For EVERY competitor (not just the top 3), search G2, Capterra, Trustpilot, Reddit, Twitter/X, ProductHunt
+   - Record specific star ratings where available (e.g., "4.2/5 on G2 from 1,200 reviews")
+   - Find and quote NEGATIVE reviews for EACH competitor (exact complaints, not paraphrases)
+   - If you cannot find reviews for a specific competitor, search "[competitor name] reviews" and "[competitor name] complaints" and "[competitor name] reddit"
+   - NEVER write "Data not available" for customer sentiment. At minimum, describe what users say about it based on any available source
    - Identify recurring pain points across multiple review sites
 
-4. WEAKNESS & VULNERABILITY ANALYSIS
-   - For each competitor, identify 5-8 SPECIFIC weaknesses with evidence
+4. WEAKNESS & VULNERABILITY ANALYSIS (MUST COVER ALL COMPETITORS)
+   - For EVERY competitor (not just the top ones), identify 3-8 SPECIFIC weaknesses with evidence
+   - Even for smaller/newer competitors, find weaknesses: limited features, small team, lack of integrations, no free tier, etc.
    - Find feature gaps (things customers ask for that don't exist)
    - Find UX complaints (onboarding friction, confusing UI, slow performance)
    - Find support complaints (slow response, unhelpful, no live chat)
    - Find pricing complaints (too expensive, confusing tiers, hidden fees)
-   - Identify the SINGLE BIGGEST vulnerability for each top competitor
+   - Identify the SINGLE BIGGEST vulnerability for EACH competitor (not just top ones)
 
 5. MARKET OVERVIEW
    - Total addressable market size with dollar figures and sources
