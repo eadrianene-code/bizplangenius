@@ -277,7 +277,7 @@ export async function POST(req: NextRequest) {
           },
         ],
         temperature: 0.4,
-        max_tokens: 32768,
+        max_tokens: 16000,
       });
       researchText = openaiResponse.choices[0].message.content || '';
     }
@@ -317,7 +317,7 @@ export async function POST(req: NextRequest) {
         messages: [{ role: 'user', content: structurePrompt }],
         response_format: { type: 'json_object' },
         temperature: 0.2,
-        max_tokens: 65536,
+        max_tokens: 16000,
       });
       structureText = openaiResponse.choices[0].message.content || '';
     }
