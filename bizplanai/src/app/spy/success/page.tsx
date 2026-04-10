@@ -136,29 +136,36 @@ function loadPdfMake(): Promise<void> {
   });
 }
 
-function generatePDF(data: ReportData): void {
-  const pdfMake = (window as any).pdfMake;
-  const now = new Date();
-  const dateStr = now.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+function generatePDF(data: ReportData): Promise<void> {
+  return new Promise((resolve, reject) => {
+    try {
+      const pdfMake = (window as any).pdfMake;
+      if (!pdfMake) {
+        reject(new Error('pdfMake not loaded'));
+        return;
+      }
 
-  const reportTitle =
-    data.reportType === 'company'
-      ? data.targetCompany?.name || 'Competitor Analysis'
-      : data.industryTarget?.category || 'Industry Analysis';
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
 
-  const docDefinition: any = {
-    pageSize: 'A4',
-    pageMargins: [40, 40, 40, 60],
-    defaultStyle: {
-      font: 'Roboto',
-      size: 11,
-      color: TEXT,
-      lineHeight: 1.5,
-    },
+      const reportTitle =
+        data.reportType === 'company'
+          ? data.targetCompany?.name || 'Competitor Analysis'
+          : data.industryTarget?.category || 'Industry Analysis';
+
+      const docDefinition: any = {
+        pageSize: 'A4',
+        pageMargins: [40, 40, 40, 60],
+        defaultStyle: {
+          font: 'Roboto',
+          fontSize: 11,
+          color: TEXT,
+          lineHeight: 1.5,
+        },
     styles: {
       header: {
         fontSize: 28,
@@ -636,7 +643,16 @@ function generatePDF(data: ReportData): void {
     }),
   };
 
-  pdfMake.createPdf(docDefinition).download(`competitor-spy-report-${Date.now()}.pdf`);
+      try {
+        pdfMake.createPdf(docDefinition).download(`competitor-spy-report-${Date.now()}.pdf`);
+        resolve();
+      } catch (error) {
+        reject(error instanceof Error ? error : new Error('Failed to create PDF'));
+      }
+    } catch (error) {
+      reject(error instanceof Error ? error : new Error('Failed to generate PDF'));
+    }
+  });
 }
 
 const ProgressSteps = ({ step }: { step: number }) => {
@@ -967,7 +983,7 @@ function SpySuccessContent() {
 
     try {
       await loadPdfMake();
-      generatePDF(reportData);
+      await generatePDF(reportData);
     } catch (err) {
       setError('Failed to generate PDF');
       console.error(err);
