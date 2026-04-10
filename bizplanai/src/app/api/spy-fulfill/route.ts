@@ -14,6 +14,34 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 export const maxDuration = 300;
 
 /* ------------------------------------------------------------------ */
+/*  RETRY HELPER (Gemini 503 "high demand" is common)                  */
+/* ------------------------------------------------------------------ */
+
+async function geminiWithRetry(
+  params: { model: string; contents: string; config: Record<string, any> },
+  maxRetries = 3,
+  baseDelay = 3000,
+): Promise<string> {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const result = await ai.models.generateContent(params);
+      return result.text || '';
+    } catch (err: any) {
+      const is503 = err?.message?.includes('503') || err?.message?.includes('UNAVAILABLE') || err?.message?.includes('high demand');
+      const is429 = err?.message?.includes('429') || err?.message?.includes('RESOURCE_EXHAUSTED');
+      if ((is503 || is429) && attempt < maxRetries) {
+        const delay = baseDelay * attempt;
+        console.log(`Gemini attempt ${attempt} failed (${is503 ? '503' : '429'}), retrying in ${delay}ms...`);
+        await new Promise(r => setTimeout(r, delay));
+        continue;
+      }
+      throw err;
+    }
+  }
+  throw new Error('Gemini max retries exceeded');
+}
+
+/* ------------------------------------------------------------------ */
 /*  JSON SCHEMA                                                        */
 /* ------------------------------------------------------------------ */
 
@@ -274,7 +302,7 @@ export async function POST(req: NextRequest) {
     let researchText = '';
 
     try {
-      const researchResult = await ai.models.generateContent({
+      researchText = await geminiWithRetry({
         model: 'gemini-2.5-flash',
         contents: researchPrompt,
         config: {
@@ -284,7 +312,6 @@ export async function POST(req: NextRequest) {
           maxOutputTokens: 65536,
         },
       });
-      researchText = researchResult.text || '';
       console.log('Step 1 complete. Research length:', researchText.length);
     } catch (geminiError: any) {
       console.warn('Gemini research failed, falling back to OpenAI:', geminiError.message);
@@ -317,7 +344,7 @@ export async function POST(req: NextRequest) {
     let reportText = '';
 
     try {
-      const structureResult = await ai.models.generateContent({
+      reportText = await geminiWithRetry({
         model: 'gemini-2.5-flash',
         contents: structurePrompt,
         config: {
@@ -326,7 +353,6 @@ export async function POST(req: NextRequest) {
           maxOutputTokens: 65536,
         },
       });
-      reportText = structureResult.text || '';
       console.log('Step 2 complete. JSON length:', reportText.length);
     } catch (geminiError: any) {
       console.warn('Gemini structuring failed, falling back to OpenAI:', geminiError.message);
