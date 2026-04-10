@@ -11,7 +11,11 @@ function getStripe() {
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
-export const maxDuration = 60;
+export const maxDuration = 300;
+
+/* ------------------------------------------------------------------ */
+/*  JSON SCHEMA                                                        */
+/* ------------------------------------------------------------------ */
 
 function buildJsonSchema(mode: string, meta: Record<string, string>): string {
   const reportTypeBlock = mode === 'company'
@@ -146,7 +150,11 @@ function buildJsonSchema(mode: string, meta: Record<string, string>): string {
 }`;
 }
 
-function buildPrompt(meta: Record<string, string>): string {
+/* ------------------------------------------------------------------ */
+/*  STEP 1 PROMPT  -  Deep research (free-form text output)            */
+/* ------------------------------------------------------------------ */
+
+function buildResearchPrompt(meta: Record<string, string>): string {
   const isCompany = meta.mode === 'company';
 
   const locationContext = meta.city || meta.country
@@ -157,34 +165,94 @@ function buildPrompt(meta: Record<string, string>): string {
     ? `Company: "${meta.companyName}"${meta.companyUrl ? ` (Website: ${meta.companyUrl})` : ''}`
     : `Market/Industry: "${meta.industryDescription}"\nCategory: ${meta.industry}`;
 
-  const jsonSchema = buildJsonSchema(meta.mode || 'company', meta);
+  return `You are SpyMaster, an elite competitive intelligence analyst hired by a Fortune 500 strategy team. Your reputation depends on DEPTH, ACCURACY, and RUTHLESS HONESTY.
 
-  return `You are SpyMaster, an elite competitive intelligence analyst. Research the competitive battlefield using real web data and produce an executive-grade intelligence report.
-
+TARGET:
 ${targetContext}${locationContext}
 
-RESEARCH MANDATE:
-- Find 10-15 REAL competitors (categorize as Direct, Indirect, Emerging)
-- Get ACTUAL pricing from their websites
-- Check REAL reviews on G2, Trustpilot, Capterra, Reddit
-- Find 5-8 SPECIFIC weaknesses per competitor (be ruthless - cite negative reviews, missing features, poor UX, slow support)
-- Identify the single biggest vulnerability for each top competitor
-- Engineer 5-8 concrete opportunities with step-by-step exploitation plans
-- Create a 90-day tactical roadmap with specific weekly actions
-- Every recommendation must be SPECIFIC and ACTIONABLE
+RESEARCH MANDATE (be thorough, take your time):
 
-OUTPUT: Return your findings as a single JSON object matching this exact schema. Output ONLY valid JSON, no markdown, no explanation.
+1. COMPETITOR IDENTIFICATION (10-15 competitors)
+   - Find Direct competitors (same product/service, same customer)
+   - Find Indirect competitors (different approach, same problem)
+   - Find Emerging/stealth competitors (startups, new entrants, adjacent players moving in)
+   - For EACH competitor, gather: official website URL, founding year, team size, funding raised, pricing tiers
 
-${jsonSchema}
+2. PRICING DEEP-DIVE
+   - Visit each competitor's pricing page and record EXACT prices and tier names
+   - Note free tiers, trial periods, enterprise pricing
+   - Identify pricing model (per seat, usage-based, flat, freemium)
+   - If pricing is not public, note that explicitly
+
+3. CUSTOMER SENTIMENT & REVIEWS
+   - Search G2, Capterra, Trustpilot, Reddit, Twitter/X, ProductHunt for each competitor
+   - Record specific star ratings where available
+   - Find and quote NEGATIVE reviews (exact complaints, not paraphrases)
+   - Identify recurring pain points across multiple review sites
+
+4. WEAKNESS & VULNERABILITY ANALYSIS
+   - For each competitor, identify 5-8 SPECIFIC weaknesses with evidence
+   - Find feature gaps (things customers ask for that don't exist)
+   - Find UX complaints (onboarding friction, confusing UI, slow performance)
+   - Find support complaints (slow response, unhelpful, no live chat)
+   - Find pricing complaints (too expensive, confusing tiers, hidden fees)
+   - Identify the SINGLE BIGGEST vulnerability for each top competitor
+
+5. MARKET OVERVIEW
+   - Total addressable market size with dollar figures and sources
+   - Growth rate and trajectory
+   - Key trends shaping the market in 2024-2025
+   - Regulatory or compliance factors
+   - Technology shifts affecting the space
+
+6. OPPORTUNITY ENGINEERING
+   - Based on all weaknesses and gaps found, identify 5-8 concrete opportunities
+   - For each opportunity: what gap exists, what evidence supports it, and a 3-step exploitation plan
+   - Rate each by impact (High/Medium/Low) and difficulty (Easy/Medium/Hard)
+
+7. STRATEGIC POSITIONING
+   - Map competitors on Price vs. Quality/Features axes
+   - Identify underserved quadrants and positioning gaps
+   - Recommend specific positioning angles
+
+Write your complete findings as a detailed research brief. Include ALL data points, URLs, review quotes, and specific numbers. Do NOT output JSON. Write in clear sections with headers. Be EXHAUSTIVE.`;
+}
+
+/* ------------------------------------------------------------------ */
+/*  STEP 2 PROMPT  -  Structure into JSON                              */
+/* ------------------------------------------------------------------ */
+
+function buildStructurePrompt(researchText: string, meta: Record<string, string>): string {
+  const jsonSchema = buildJsonSchema(meta.mode || 'company', meta);
+
+  return `You are a data structuring specialist. Below is a comprehensive competitive intelligence research brief. Your job is to convert ALL of the findings into a strictly valid JSON object matching the schema provided.
 
 RULES:
-- Only REAL companies with REAL data. Never fabricate.
-- If pricing unavailable, say "Pricing not publicly listed".
-- Be RUTHLESS in vulnerability analysis. Sugar-coating helps nobody.
-- The executiveSummary must be compelling, highlighting the top 3 opportunities.
-- Include ALL 10-15 competitors in the competitors array.
-- Every weakness must cite evidence (review quotes, missing features, etc).`;
+- Output ONLY valid JSON. No markdown, no explanation, no text before or after.
+- Include ALL competitors found in the research (aim for 10-15).
+- Preserve SPECIFIC data: exact prices, exact URLs, exact review ratings, exact quotes from reviews.
+- Do NOT summarize or water down the weaknesses. Keep them ruthless and evidence-based.
+- For the executiveSummary, write 3-4 compelling paragraphs highlighting the top 3 opportunities.
+- For opportunityEngineering, include 5-8 opportunities with detailed exploitation plans.
+- For tacticalRoadmap, create specific weekly/monthly action items.
+- For SWOT, include reasoning for every single point.
+- Categorize each competitor as "Direct", "Indirect", or "Emerging".
+- If any data point is missing from the research, use "Data not available" instead of making something up.
+
+RESEARCH BRIEF:
+---
+${researchText}
+---
+
+OUTPUT JSON SCHEMA:
+${jsonSchema}
+
+Output the JSON now:`;
 }
+
+/* ------------------------------------------------------------------ */
+/*  MAIN HANDLER                                                       */
+/* ------------------------------------------------------------------ */
 
 export async function POST(req: NextRequest) {
   try {
@@ -199,27 +267,27 @@ export async function POST(req: NextRequest) {
 
     const meta = session.metadata || {};
 
-    // SINGLE CALL: Research + Structure combined with Google Search grounding
-    console.log('Spy: Starting combined research + structure call...');
-    const prompt = buildPrompt(meta);
+    /* ---- STEP 1: Deep research with Google Search grounding ---- */
+    console.log('Spy Step 1: Starting deep research with Google Search...');
+    const researchPrompt = buildResearchPrompt(meta);
 
-    let reportText = '';
+    let researchText = '';
 
     try {
-      console.log('Attempting Gemini API call with Google Search...');
-      const result = await ai.models.generateContent({
+      const researchResult = await ai.models.generateContent({
         model: 'gemini-2.5-flash',
-        contents: prompt,
+        contents: researchPrompt,
         config: {
           tools: [{ googleSearch: {} }],
           temperature: 0.3,
-          topP: 0.9,
+          topP: 0.95,
           maxOutputTokens: 65536,
         },
       });
-      reportText = result.text || '';
+      researchText = researchResult.text || '';
+      console.log('Step 1 complete. Research length:', researchText.length);
     } catch (geminiError: any) {
-      console.warn('Gemini API failed, falling back to OpenAI:', geminiError.message);
+      console.warn('Gemini research failed, falling back to OpenAI:', geminiError.message);
 
       const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
       const openaiResponse = await openai.chat.completions.create({
@@ -227,22 +295,64 @@ export async function POST(req: NextRequest) {
         messages: [
           {
             role: 'system',
-            content: 'You are SpyMaster, an elite competitive intelligence analyst. Output ONLY valid JSON. Be exhaustive, specific, and brutal in analysis. Never use placeholder or generic data.',
+            content: 'You are SpyMaster, an elite competitive intelligence analyst. Be exhaustive, specific, and brutal in your analysis. Never use placeholder or generic data.',
           },
-          { role: 'user', content: prompt },
+          { role: 'user', content: researchPrompt },
         ],
         temperature: 0.3,
         max_tokens: 16000,
       });
-      reportText = openaiResponse.choices[0].message.content || '';
+      researchText = openaiResponse.choices[0].message.content || '';
+      console.log('Step 1 (OpenAI fallback) complete. Research length:', researchText.length);
     }
 
-    console.log('Spy call complete. Response length:', reportText.length);
+    if (!researchText || researchText.length < 500) {
+      throw new Error('Research step produced insufficient data');
+    }
 
+    /* ---- STEP 2: Structure research into JSON ---- */
+    console.log('Spy Step 2: Structuring research into JSON...');
+    const structurePrompt = buildStructurePrompt(researchText, meta);
+
+    let reportText = '';
+
+    try {
+      const structureResult = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: structurePrompt,
+        config: {
+          temperature: 0.1,
+          topP: 0.9,
+          maxOutputTokens: 65536,
+        },
+      });
+      reportText = structureResult.text || '';
+      console.log('Step 2 complete. JSON length:', reportText.length);
+    } catch (geminiError: any) {
+      console.warn('Gemini structuring failed, falling back to OpenAI:', geminiError.message);
+
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+      const openaiResponse = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a data structuring specialist. Convert the research into strictly valid JSON. Output ONLY JSON, nothing else.',
+          },
+          { role: 'user', content: structurePrompt },
+        ],
+        temperature: 0.1,
+        max_tokens: 16000,
+      });
+      reportText = openaiResponse.choices[0].message.content || '';
+      console.log('Step 2 (OpenAI fallback) complete. JSON length:', reportText.length);
+    }
+
+    /* ---- Parse JSON ---- */
     let report;
     const rawText = reportText.trim();
 
-    // Parse JSON from response
+    // Strategy 1: Direct parse
     try {
       report = JSON.parse(rawText);
     } catch {
@@ -266,8 +376,8 @@ export async function POST(req: NextRequest) {
       }
 
       if (!report) {
-        console.error('Failed to parse spy report. Raw:', rawText.substring(0, 2000));
-        throw new Error('Failed to parse AI response');
+        console.error('Failed to parse spy report JSON. Raw (first 2000 chars):', rawText.substring(0, 2000));
+        throw new Error('Failed to parse AI response into valid JSON');
       }
     }
 
@@ -279,6 +389,7 @@ export async function POST(req: NextRequest) {
     report.generatedAt = new Date().toISOString();
     report.disclaimer = 'This report reflects publicly available information gathered via real-time web research. We recommend verifying pricing and company details directly on competitor websites before making strategic decisions.';
 
+    console.log('Spy report generated successfully for:', reportName);
     return NextResponse.json({ report, reportName });
   } catch (error: any) {
     console.error('Spy fulfill error:', error);
