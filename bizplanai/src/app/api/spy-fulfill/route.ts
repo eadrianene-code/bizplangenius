@@ -302,30 +302,46 @@ export async function POST(req: NextRequest) {
 
     let researchText = '';
 
-    // PRIMARY: OpenAI GPT-4o (reliable, paid, no quota issues)
-    try {
-      console.log('Step 1: Using OpenAI GPT-4o...');
-      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-      const openaiResponse = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are SpyMaster, an elite competitive intelligence analyst hired by a Fortune 500 strategy team. Your reputation depends on DEPTH, ACCURACY, and RUTHLESS HONESTY. Use your training knowledge to provide real company names, real URLs, real pricing data, and real review sentiments. Be exhaustive and specific. Never use placeholder or generic data.',
-          },
-          { role: 'user', content: researchPrompt },
-        ],
-        temperature: 0.3,
-        max_tokens: 16000,
-      });
-      researchText = openaiResponse.choices[0].message.content || '';
-      console.log('Step 1 (OpenAI) complete. Research length:', researchText.length);
-    } catch (openaiError: any) {
-      console.warn('OpenAI Step 1 failed:', openaiError.message?.substring(0, 300));
+    // PRIMARY: OpenAI (reliable, paid, no quota issues)
+    // Try gpt-4o first, then gpt-4o-mini if not available
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const modelsToTry = ['gpt-4o', 'gpt-4o-mini', 'gpt-3.5-turbo'];
 
-      // FALLBACK: Gemini with Google Search
+    for (const model of modelsToTry) {
+      if (researchText && researchText.length > 200) break;
       try {
-        console.log('Falling back to Gemini with Google Search...');
+        console.log(`Step 1: Trying OpenAI ${model}...`);
+        const openaiResponse = await openai.chat.completions.create({
+          model,
+          messages: [
+            {
+              role: 'system',
+              content: 'You are SpyMaster, an elite competitive intelligence analyst hired by a Fortune 500 strategy team. Your reputation depends on DEPTH, ACCURACY, and RUTHLESS HONESTY. Use your training knowledge to provide real company names, real URLs, real pricing data, and real review sentiments. Be exhaustive and specific. Never use placeholder or generic data.',
+            },
+            { role: 'user', content: researchPrompt },
+          ],
+          temperature: 0.3,
+          max_tokens: 16000,
+        });
+        researchText = openaiResponse.choices[0].message.content || '';
+        console.log(`Step 1 (OpenAI ${model}) complete. Research length:`, researchText.length);
+        if (researchText.length > 200) {
+          console.log('Research first 200 chars:', researchText.substring(0, 200));
+          break;
+        } else {
+          console.warn(`OpenAI ${model} returned only ${researchText.length} chars:`, researchText);
+        }
+      } catch (modelError: any) {
+        console.warn(`OpenAI ${model} failed:`, modelError.message?.substring(0, 200));
+      }
+    }
+
+    if (researchText && researchText.length > 200) {
+      console.log('Step 1 (OpenAI) SUCCESS');
+    } else {
+      // FALLBACK: Gemini with Google Search
+      console.log('All OpenAI models produced insufficient data. Trying Gemini...');
+      try {
         researchText = await geminiWithRetry({
           model: 'gemini-2.5-flash',
           contents: researchPrompt,
@@ -338,8 +354,7 @@ export async function POST(req: NextRequest) {
         }, 3, 5000);
         console.log('Step 1 (Gemini fallback) complete. Research length:', researchText.length);
       } catch (geminiError: any) {
-        console.error('Both OpenAI and Gemini failed for Step 1');
-        throw new Error(`Research failed. OpenAI: ${openaiError.message?.substring(0, 200)} | Gemini: ${geminiError.message?.substring(0, 200)}`);
+        console.error('Gemini fallback also failed:', geminiError.message?.substring(0, 200));
       }
     }
 
@@ -355,25 +370,36 @@ export async function POST(req: NextRequest) {
 
     let reportText = '';
 
-    // PRIMARY: OpenAI GPT-4o (reliable for JSON structuring)
-    try {
-      console.log('Step 2: Using OpenAI GPT-4o...');
-      const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-      const openaiResponse = await openai.chat.completions.create({
-        model: 'gpt-4o',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are an elite data structuring specialist. Convert the research brief into strictly valid JSON matching the provided schema. Output ONLY valid JSON with no markdown fences, no explanation, no text before or after the JSON. Be thorough and preserve ALL specific data points, URLs, prices, and review quotes from the research.',
-          },
-          { role: 'user', content: structurePrompt },
-        ],
-        temperature: 0.1,
-        max_tokens: 16384,
-      });
-      reportText = openaiResponse.choices[0].message.content || '';
-      console.log('Step 2 (OpenAI) complete. JSON length:', reportText.length);
-    } catch (openaiError: any) {
+    // PRIMARY: OpenAI (try multiple models)
+    for (const model of modelsToTry) {
+      if (reportText && reportText.length > 500) break;
+      try {
+        console.log(`Step 2: Trying OpenAI ${model}...`);
+        const openaiResponse = await openai.chat.completions.create({
+          model,
+          messages: [
+            {
+              role: 'system',
+              content: 'You are an elite data structuring specialist. Convert the research brief into strictly valid JSON matching the provided schema. Output ONLY valid JSON with no markdown fences, no explanation, no text before or after the JSON. Be thorough and preserve ALL specific data points, URLs, prices, and review quotes from the research.',
+            },
+            { role: 'user', content: structurePrompt },
+          ],
+          temperature: 0.1,
+          max_tokens: model === 'gpt-3.5-turbo' ? 4096 : 16384,
+        });
+        reportText = openaiResponse.choices[0].message.content || '';
+        console.log(`Step 2 (OpenAI ${model}) complete. JSON length:`, reportText.length);
+        if (reportText.length > 500) break;
+        else console.warn(`OpenAI ${model} Step 2 returned only ${reportText.length} chars`);
+      } catch (modelError: any) {
+        console.warn(`OpenAI ${model} Step 2 failed:`, modelError.message?.substring(0, 200));
+      }
+    }
+
+    if (reportText && reportText.length > 500) {
+      console.log('Step 2 (OpenAI) SUCCESS');
+    } else {
+      const openaiError = { message: `All models returned insufficient JSON (last: ${reportText.length} chars)` };
       console.warn('OpenAI Step 2 failed:', openaiError.message?.substring(0, 300));
 
       // FALLBACK: Gemini
