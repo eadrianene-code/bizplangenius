@@ -22,12 +22,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `${post.title} — BizPlan Genius`,
     description: post.description,
     keywords: post.keywords.join(", "),
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.description,
       type: "article",
       publishedTime: post.date,
       authors: [post.author],
+      url: `https://www.bizplangenius.com/blog/${slug}`,
     },
   };
 }

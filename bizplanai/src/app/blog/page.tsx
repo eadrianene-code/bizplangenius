@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "Blog — BizPlan Genius | Business Planning Tips & Guides",
   description:
     "Expert guides on writing business plans, competitor analysis, market research, and financial projections. Industry-specific tips for restaurants, food trucks, SaaS, and more.",
+  alternates: {
+    canonical: "/blog",
+  },
 };
 
 export default function BlogPage() {

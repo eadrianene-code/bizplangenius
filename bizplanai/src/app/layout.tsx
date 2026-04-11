@@ -5,7 +5,7 @@ import './globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bizplangenius.com'),
   alternates: {
-    canonical: '/',
+    canonical: 'https://www.bizplangenius.com',
   },
   title: 'BizPlan Genius | AI Business Plan Generator with Real Market Research',
   description: 'Generate investor-ready business plans with real competitor analysis and market data. Powered by AI. Get your professional business plan in minutes, not weeks.',
