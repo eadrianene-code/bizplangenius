@@ -32,6 +32,7 @@ function Header() {
         <nav className="hidden md:flex items-center gap-8">
           <a href="/" className="text-sm text-gray-600 hover:text-brand-600 transition">Business Plans</a>
           <a href="/spy" className="text-sm text-brand-600 font-semibold">Competitor Spy</a>
+          <a href="/blog" className="text-sm text-gray-600 hover:text-brand-600 transition">Blog</a>
           <a href="#how-it-works" className="text-sm text-gray-600 hover:text-brand-600 transition">How It Works</a>
           <a href="#pricing" className="text-sm text-gray-600 hover:text-brand-600 transition">Pricing</a>
           <a href="#get-started" className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20">
@@ -48,6 +49,7 @@ function Header() {
         <div className="md:hidden bg-white border-t border-gray-100 py-4 px-4 space-y-3">
           <a href="/" className="block text-gray-600 hover:text-brand-600 py-2">Business Plans</a>
           <a href="/spy" className="block text-brand-600 font-semibold py-2">Competitor Spy</a>
+          <a href="/blog" className="block text-gray-600 hover:text-brand-600 py-2">Blog</a>
           <a href="#how-it-works" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2">How It Works</a>
           <a href="#pricing" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2">Pricing</a>
           <a href="#get-started" className="block w-full text-center px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-lg">
@@ -543,6 +545,7 @@ function Footer() {
         <div className="flex gap-6 text-sm">
           <a href="/" className="hover:text-white transition">Business Plans</a>
           <a href="/spy" className="hover:text-white transition">Competitor Spy</a>
+          <a href="/blog" className="hover:text-white transition">Blog</a>
           <a href="/privacy" className="hover:text-white transition">Privacy</a>
           <a href="/terms" className="hover:text-white transition">Terms</a>
         </div>
