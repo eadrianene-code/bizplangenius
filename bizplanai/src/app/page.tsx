@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { href: '#pricing', label: 'Pricing' },
   { href: '/spy', label: 'Competitor Spy' },
   { href: '/blog', label: 'Blog' },
-  { href: '#faq', label: 'FAQ' },
+  { href: '/about', label: 'About' },
 ];
 
 const FEATURES = [
@@ -345,6 +345,7 @@ function Pricing() {
             >
               Get Starter Plan
             </a>
+            <p className="mt-3 text-center text-xs text-gray-500">100% money-back guarantee</p>
           </div>
 
           {/* Pro Plan */}
@@ -484,14 +485,37 @@ function CTA() {
 
 function Footer() {
   return (
-    <footer className="py-10 px-4 border-t border-gray-100">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-sm text-gray-500">&copy; {new Date().getFullYear()} BizPlan Genius. All rights reserved.</p>
-        <div className="flex gap-6">
-          <a href="/blog" className="text-sm text-gray-500 hover:text-gray-700">Blog</a>
-          <a href="/privacy" className="text-sm text-gray-500 hover:text-gray-700">Privacy Policy</a>
-          <a href="/terms" className="text-sm text-gray-500 hover:text-gray-700">Terms of Service</a>
-          <a href="mailto:support@bizplangenius.com" className="text-sm text-gray-500 hover:text-gray-700">Contact</a>
+    <footer className="py-12 px-4 border-t border-gray-100 bg-gray-50">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div>
+            <p className="font-bold text-gray-900 mb-3">BizPlan Genius</p>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              AI business plans with real competitor research and market data. Not templates. Not filler. Real data you can verify.
+            </p>
+          </div>
+          <div>
+            <p className="font-semibold text-gray-900 mb-3">Products</p>
+            <div className="space-y-2">
+              <a href="/#pricing" className="block text-sm text-gray-500 hover:text-gray-700">Business Plan Generator</a>
+              <a href="/spy" className="block text-sm text-gray-500 hover:text-gray-700">Competitor Spy Tool</a>
+              <a href="/sample-business-plan.pdf" target="_blank" rel="noopener noreferrer" className="block text-sm text-gray-500 hover:text-gray-700">Sample Plan (PDF)</a>
+            </div>
+          </div>
+          <div>
+            <p className="font-semibold text-gray-900 mb-3">Company</p>
+            <div className="space-y-2">
+              <a href="/about" className="block text-sm text-gray-500 hover:text-gray-700">About</a>
+              <a href="/blog" className="block text-sm text-gray-500 hover:text-gray-700">Blog</a>
+              <a href="mailto:support@bizplangenius.com" className="block text-sm text-gray-500 hover:text-gray-700">Contact</a>
+              <a href="/privacy" className="block text-sm text-gray-500 hover:text-gray-700">Privacy Policy</a>
+              <a href="/terms" className="block text-sm text-gray-500 hover:text-gray-700">Terms of Service</a>
+            </div>
+          </div>
+        </div>
+        <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-gray-400">&copy; {new Date().getFullYear()} BizPlan Genius. All rights reserved.</p>
+          <p className="text-sm text-gray-400">Built by Adi</p>
         </div>
       </div>
     </footer>
