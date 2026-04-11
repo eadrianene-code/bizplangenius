@@ -4,18 +4,18 @@ description: "Complete guide to writing a gym business plan with real startup co
 date: "2026-04-09"
 author: "Adi"
 keywords:
-  - gym business plan
-  - how to start a gym
-  - gym startup costs
-  - fitness center business plan
-  - gym profit margins
+ - gym business plan
+ - how to start a gym
+ - gym startup costs
+ - fitness center business plan
+ - gym profit margins
 ---
 
 # How to Write a Gym Business Plan in 2026 (With Real Numbers)
 
 The fitness industry is booming. The U.S. fitness market is worth approximately **$35 billion annually**, with over **115,000+ fitness facilities** operating nationwide. The industry grows **3-4% year-over-year**, and consumer spending on fitness has grown 40% in the last decade.
 
-If you're thinking about opening a gym—whether it's a big-box facility, a boutique studio, a CrossFit box, or a yoga studio—you need a solid business plan. Not just for yourself, but for investors, banks, and partners who'll want to see your numbers add up.
+If you're thinking about opening a gym -whether it's a big-box facility, a boutique studio, a CrossFit box, or a yoga studio -you need a solid business plan. Not just for yourself, but for investors, banks, and partners who'll want to see your numbers add up.
 
 In this guide, I'll walk you through exactly what goes into a gym business plan, with real benchmarks and actual startup costs you can expect in 2026.
 
@@ -36,7 +36,7 @@ A solid gym business plan:
 
 ## Types of Gyms (And Why This Matters for Your Plan)
 
-Not all gyms are created equal. Your business plan will look different depending on the model you choose—and the numbers will vary dramatically.
+Not all gyms are created equal. Your business plan will look different depending on the model you choose -and the numbers will vary dramatically.
 
 ### 1. **Big-Box Gyms**
 Think 24 Hour Fitness, LA Fitness, Gold's Gym. Low-cost memberships ($20-50/month), high volume, heavy reliance on automation and contracts.
@@ -104,7 +104,7 @@ Cover:
 - Your competitive advantage (why you, not them?)
 - Your mission statement (optional but helpful)
 
-**Real example:** "Urban professionals spend 45+ minutes commuting daily. They need flexible, time-efficient workouts close to the office. We're a 45-minute, high-intensity class gym open 6am-9pm weekdays, with a max capacity of 20 people per class to ensure personalization. Unlike big-box gyms, we're not competing on price—we're competing on results, community, and convenience."
+**Real example:** "Urban professionals spend 45+ minutes commuting daily. They need flexible, time-efficient workouts close to the office. We're a 45-minute, high-intensity class gym open 6am-9pm weekdays, with a max capacity of 20 people per class to ensure personalization. Unlike big-box gyms, we're not competing on price -we're competing on results, community, and convenience."
 
 ### **Section 3: Market Analysis**
 
@@ -253,23 +253,23 @@ How will you get your first 100 members? This section should be detailed.
 **Channels that work for fitness:**
 
 1. **Content Marketing (YouTube, Instagram, TikTok):** Free or low-cost. Post workout clips, transformation stories, member spotlights.
-   - If you have an existing YouTube channel (like some of you reading this), you have a *massive* advantage. Leverage it.
-   - Expected ROI: 1 member acquired per $10-20 in effort/equipment
+  - If you have an existing YouTube channel (like some of you reading this), you have a *massive* advantage. Leverage it.
+  - Expected ROI: 1 member acquired per $10-20 in effort/equipment
 
 2. **Local Partnerships:** Partner with corporate offices, corporate wellness programs, local businesses.
-   - Expected ROI: 2-5 new members per partnership
+  - Expected ROI: 2-5 new members per partnership
 
 3. **Referral Program:** $25-50 credit per referral. Your best members become your sales force.
-   - Expected ROI: 1 member per $20 spent
+  - Expected ROI: 1 member per $20 spent
 
 4. **Paid Ads (Google/Facebook):** $500-1,000/month, targeting your demographic.
-   - Expected cost per acquisition: $30-50 per member
+  - Expected cost per acquisition: $30-50 per member
 
 5. **Grand Opening:** First 50 sign-ups at 50% off 3 months creates urgency.
-   - Expected ROI: 40-60 members in week 1
+  - Expected ROI: 40-60 members in week 1
 
 6. **Community Events:** Free intro classes, fitness challenges, local sponsorships.
-   - Expected ROI: 5-10 members per event
+  - Expected ROI: 5-10 members per event
 
 **Realistic acquisition curve:**
 - Month 1: 30 members (friends, family, grand opening)
@@ -356,7 +356,7 @@ It depends on your model. A boutique fitness studio needs $75K-$150K. A CrossFit
 
 **Q2: What's the average gym member retention rate?**
 
-Most gyms see 20-30% monthly churn (70-80% retention). This varies by type—boutique studios often have 80%+ retention because of community. Big-box gyms often see 25-35% churn due to low engagement. Build your projections around 75% retention unless you have data proving otherwise.
+Most gyms see 20-30% monthly churn (70-80% retention). This varies by type -boutique studios often have 80%+ retention because of community. Big-box gyms often see 25-35% churn due to low engagement. Build your projections around 75% retention unless you have data proving otherwise.
 
 **Q3: Can I start a gym with $50K?**
 

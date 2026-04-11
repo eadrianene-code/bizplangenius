@@ -4,11 +4,11 @@ description: "Comparing ChatGPT business plans vs dedicated AI business plan gen
 date: "2026-04-11"
 author: "Adi"
 keywords:
-  - AI business plan generator
-  - ChatGPT business plan
-  - business plan AI tool
-  - best AI business plan generator 2026
-  - business plan software
+ - AI business plan generator
+ - ChatGPT business plan
+ - business plan AI tool
+ - best AI business plan generator 2026
+ - business plan software
 ---
 
 # ChatGPT vs Dedicated AI Business Plan Generators: Which Actually Works?

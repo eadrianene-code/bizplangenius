@@ -153,7 +153,7 @@ function ComparisonBanner() {
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div>
-            <p className="text-3xl font-bold text-red-500 line-through">$2,000–$10,000</p>
+            <p className="text-3xl font-bold text-red-500 line-through">$2,000-$10,000</p>
             <p className="text-gray-500 mt-1">Business plan consultant</p>
           </div>
           <div>

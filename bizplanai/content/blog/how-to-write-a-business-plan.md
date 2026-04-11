@@ -4,11 +4,11 @@ description: "Learn how to write a business plan in 2026 with this step-by-step 
 date: "2026-04-11"
 author: "Adi"
 keywords:
-  - how to write a business plan
-  - business plan template 2026
-  - business plan for startups
-  - business plan guide
-  - AI business plan generator
+ - how to write a business plan
+ - business plan template 2026
+ - business plan for startups
+ - business plan guide
+ - AI business plan generator
 ---
 
 # How to Write a Business Plan in 2026: A Step-by-Step Guide

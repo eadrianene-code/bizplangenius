@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — BizPlan Genius',
+  title: 'Privacy Policy - BizPlan Genius',
   description: 'Privacy Policy for BizPlan Genius business plan generator.',
 };
 
@@ -147,11 +147,11 @@ export default function PrivacyPage() {
             <h2 className="text-lg font-semibold text-gray-900 mb-3">8. Your Rights</h2>
             <p>Depending on your location, you may have the following rights regarding your personal information:</p>
             <ul className="mt-3 space-y-2 list-disc pl-5">
-              <li><strong>Access</strong> — request a copy of the personal information we hold about you.</li>
-              <li><strong>Correction</strong> — request correction of inaccurate personal information.</li>
-              <li><strong>Deletion</strong> — request deletion of your personal information.</li>
-              <li><strong>Portability</strong> — request your data in a portable format.</li>
-              <li><strong>Objection</strong> — object to certain processing of your personal information.</li>
+              <li><strong>Access</strong> - request a copy of the personal information we hold about you.</li>
+              <li><strong>Correction</strong> - request correction of inaccurate personal information.</li>
+              <li><strong>Deletion</strong> - request deletion of your personal information.</li>
+              <li><strong>Portability</strong> - request your data in a portable format.</li>
+              <li><strong>Objection</strong> - object to certain processing of your personal information.</li>
             </ul>
             <p className="mt-3">
               To exercise any of these rights, contact us at{' '}

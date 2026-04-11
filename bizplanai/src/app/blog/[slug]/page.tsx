@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!post) return { title: "Not Found" };
 
   return {
-    title: `${post.title} — BizPlan Genius`,
+    title: `${post.title} - BizPlan Genius`,
     description: post.description,
     keywords: post.keywords.join(", "),
     alternates: {
@@ -67,7 +67,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               href="/#pricing"
               className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
             >
-              Get Your Plan — From $29
+              Get Your Plan - From $29
             </Link>
           </nav>
         </div>
@@ -140,7 +140,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             href="/#pricing"
             className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
           >
-            Get Your Plan — From $29
+            Get Your Plan - From $29
           </Link>
         </div>
       </article>

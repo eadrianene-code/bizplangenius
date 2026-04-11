@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service — BizPlan Genius',
+  title: 'Terms of Service - BizPlan Genius',
   description: 'Terms of Service for BizPlan Genius business plan generator.',
 };
 

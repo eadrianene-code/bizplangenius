@@ -4,11 +4,11 @@ description: "Learn how to write a bakery business plan with real startup costs,
 date: "2026-04-06"
 author: "Adi"
 keywords:
-  - bakery business plan
-  - how to start a bakery
-  - bakery startup costs
-  - bakery business plan template
-  - bakery profit margins
+ - bakery business plan
+ - how to start a bakery
+ - bakery startup costs
+ - bakery business plan template
+ - bakery profit margins
 ---
 
 The bakery industry is worth over $525 billion globally in 2026 and growing at 4.3% annually. But opening a bakery without a plan is one of the fastest ways to burn through your savings -- about 40% of bakeries fail within the first three years.

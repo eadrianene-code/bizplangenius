@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog — BizPlan Genius | Business Planning Tips & Guides",
+  title: "Blog - BizPlan Genius | Business Planning Tips & Guides",
   description:
     "Expert guides on writing business plans, competitor analysis, market research, and financial projections. Industry-specific tips for restaurants, food trucks, SaaS, and more.",
   alternates: {
@@ -30,7 +30,7 @@ export default function BlogPage() {
               href="/#pricing"
               className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
             >
-              Get Your Plan — From $29
+              Get Your Plan - From $29
             </Link>
           </nav>
         </div>
@@ -42,7 +42,7 @@ export default function BlogPage() {
         </h1>
         <p className="text-lg text-gray-600 mb-12 max-w-2xl">
           Expert guides on writing business plans with real competitor research,
-          market data, and financial projections — for every industry.
+          market data, and financial projections - for every industry.
         </p>
 
         {posts.length === 0 ? (
@@ -98,7 +98,7 @@ export default function BlogPage() {
             href="/#pricing"
             className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
           >
-            Get Your Business Plan — From $29
+            Get Your Business Plan - From $29
           </Link>
         </div>
       </section>
