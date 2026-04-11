@@ -63,8 +63,8 @@ function Hero() {
   return (
     <section className="pt-28 pb-20 px-4 bg-hero-pattern">
       <div className="max-w-4xl mx-auto text-center">
-        <div className="inline-block px-4 py-1.5 bg-red-50 text-red-700 text-sm font-medium rounded-full mb-6 border border-red-100">
-          New from BizPlan Genius
+        <div className="inline-block px-4 py-1.5 bg-green-50 text-green-700 text-sm font-medium rounded-full mb-6 border border-green-100">
+          100% Money-Back Guarantee
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
           Spy on Your{' '}
@@ -101,6 +101,12 @@ function Hero() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
             PDF delivered in under 3 minutes
+          </span>
+          <span className="flex items-center gap-1">
+            <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            Money-back guarantee
           </span>
         </div>
       </div>
@@ -381,6 +387,11 @@ function SpyForm() {
               <span>|</span>
               <span>PDF in under 3 min</span>
             </div>
+            <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg text-center">
+              <p className="text-sm text-green-800 font-medium">
+                100% Money-Back Guarantee. If your report doesn't contain real competitor data, we'll refund you. No questions asked.
+              </p>
+            </div>
           </div>
         </form>
       </div>
@@ -486,6 +497,10 @@ function FAQ() {
     {
       q: 'Is this a subscription?',
       a: 'No. One payment of $19, one report. No recurring charges, no hidden fees. If you need another report for a different market, just purchase again.',
+    },
+    {
+      q: 'What if I\'m not happy with the report?',
+      a: 'We offer a 100% money-back guarantee. If your report doesn\'t contain real competitor data, just email us and we\'ll refund you. No questions asked.',
     },
   ];
 
