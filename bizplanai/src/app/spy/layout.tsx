@@ -1,18 +1,18 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Competitor Spy Tool | Find Your Competitors\' Weaknesses for $19',
+  title: 'Competitor Analysis Tool - Find Competitor Weaknesses for $19 | BizPlan Genius',
   description:
-    'Enter your business idea and get 10-15 real competitors analyzed with pricing, SWOT analysis, vulnerability audit, and a 90-day tactical roadmap. One-time $19 payment. PDF delivered in minutes.',
+    'Get 10-15 real competitors analyzed with pricing, SWOT analysis, vulnerability audit, and 90-day tactical roadmap. One-time $19 payment. Full PDF report in minutes.',
   keywords:
-    'competitor analysis tool, competitive intelligence, SWOT analysis, competitor research, business competitor spy, market analysis',
+    'competitor analysis tool, competitive intelligence, SWOT analysis, competitor research, business competitor spy, market analysis, competitor pricing analysis',
   alternates: {
     canonical: '/spy',
   },
   openGraph: {
-    title: 'Competitor Spy Tool | Know Your Competitors\' Weaknesses',
+    title: 'Competitor Analysis Tool - Real Competitor Data for $19',
     description:
-      'Get 10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and 90-day action plan. $19 one-time. PDF in minutes.',
+      'Get 10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and 90-day action plan. $19 one-time. Full PDF report in minutes.',
     url: 'https://www.bizplangenius.com/spy',
     siteName: 'BizPlan Genius',
     type: 'website',
@@ -20,5 +20,33 @@ export const metadata: Metadata = {
 };
 
 export default function SpyLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Competitor Spy - Competitive Analysis Report",
+            "description": "AI-powered competitive analysis tool. Get 10-15 real competitors analyzed with pricing, SWOT analysis, vulnerability audit, and 90-day tactical roadmap.",
+            "url": "https://www.bizplangenius.com/spy",
+            "brand": {
+              "@type": "Brand",
+              "name": "BizPlan Genius"
+            },
+            "offers": {
+              "@type": "Offer",
+              "price": "19.00",
+              "priceCurrency": "USD",
+              "availability": "https://schema.org/InStock",
+              "priceValidUntil": "2026-12-31",
+              "url": "https://www.bizplangenius.com/spy"
+            }
+          })
+        }}
+      />
+      {children}
+    </>
+  );
 }

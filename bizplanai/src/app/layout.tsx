@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.bizplangenius.com',
   },
-  title: 'BizPlan Genius | AI Business Plan Generator with Real Market Research',
-  description: 'Generate investor-ready business plans with real competitor analysis and market data. Powered by AI. Get your professional business plan in minutes, not weeks.',
-  keywords: 'AI business plan generator, business plan writer, competitor analysis, market research, startup business plan, business plan template',
+  title: 'AI Business Plan Generator with Real Competitor Research | BizPlan Genius',
+  description: 'AI business plan generator with real competitor data and market research. Investor-ready PDF in minutes. From $29, one-time payment. No subscription.',
+  keywords: 'AI business plan generator, business plan writer, competitor analysis, market research, startup business plan, investor ready business plan, business plan PDF',
   openGraph: {
-    title: 'BizPlan Genius | Professional Business Plans in Minutes',
-    description: 'AI-powered business plans with real competitor research and market analysis. From $29, one-time payment.',
+    title: 'AI Business Plan Generator - Real Competitor Research in Minutes',
+    description: 'Generate investor-ready business plans with real competitor data and market analysis. From $29, one-time. PDF delivered in minutes.',
     url: 'https://www.bizplangenius.com',
     siteName: 'BizPlan Genius',
     type: 'website',
@@ -31,6 +31,46 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "BizPlan Genius",
+              "applicationCategory": "BusinessApplication",
+              "description": "AI business plan generator with real competitor research and market data. Investor-ready plans with 3-year financial projections.",
+              "url": "https://www.bizplangenius.com",
+              "operatingSystem": "Web",
+              "offers": [
+                {
+                  "@type": "Offer",
+                  "name": "Starter Plan",
+                  "price": "29.00",
+                  "priceCurrency": "USD",
+                  "description": "7-section AI business plan with real competitor data and PDF download",
+                  "url": "https://www.bizplangenius.com/generate"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Pro Plan",
+                  "price": "49.00",
+                  "priceCurrency": "USD",
+                  "description": "Complete AI business plan with Operations Plan, Risk Analysis, and Money-Back Guarantee",
+                  "url": "https://www.bizplangenius.com/generate"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Competitor Spy",
+                  "price": "19.00",
+                  "priceCurrency": "USD",
+                  "description": "10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and 90-day tactical roadmap",
+                  "url": "https://www.bizplangenius.com/spy"
+                }
+              ],
+            })
+          }}
+        />
         <Script id="fb-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
