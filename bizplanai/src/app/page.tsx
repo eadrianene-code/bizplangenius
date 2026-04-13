@@ -77,12 +77,12 @@ const FAQS = [
 function PHBanner() {
   return (
     <a
-      href="https://www.producthunt.com/products/bizplan-genius"
+      href="https://www.producthunt.com/products/competitor-spy"
       target="_blank"
       rel="noopener noreferrer"
       className="block w-full bg-gradient-to-r from-orange-500 to-red-500 text-white text-center text-sm font-semibold py-2 px-4 hover:from-orange-600 hover:to-red-600 transition"
     >
-      We just launched Competitor Spy on Product Hunt. Tap to support us, takes 5 seconds 🧡
+      Competitor Spy launches on Product Hunt tomorrow. Tap to get notified and support us 🧡
     </a>
   );
 }
