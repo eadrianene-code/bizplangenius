@@ -33,6 +33,7 @@ function Header() {
           <a href="/" className="text-sm text-gray-600 hover:text-brand-600 transition">Business Plans</a>
           <a href="/spy" className="text-sm text-brand-600 font-semibold">Competitor Spy</a>
           <a href="/blog" className="text-sm text-gray-600 hover:text-brand-600 transition">Blog</a>
+          <a href="/methodology" className="text-sm text-gray-600 hover:text-brand-600 transition">Methodology</a>
           <a href="#how-it-works" className="text-sm text-gray-600 hover:text-brand-600 transition">How It Works</a>
           <a href="#pricing" className="text-sm text-gray-600 hover:text-brand-600 transition">Pricing</a>
           <a href="#get-started" className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20">
@@ -50,6 +51,7 @@ function Header() {
           <a href="/" className="block text-gray-600 hover:text-brand-600 py-2">Business Plans</a>
           <a href="/spy" className="block text-brand-600 font-semibold py-2">Competitor Spy</a>
           <a href="/blog" className="block text-gray-600 hover:text-brand-600 py-2">Blog</a>
+          <a href="/methodology" className="block text-gray-600 hover:text-brand-600 py-2">Methodology</a>
           <a href="#how-it-works" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2">How It Works</a>
           <a href="#pricing" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2">Pricing</a>
           <a href="#get-started" className="block w-full text-center px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-lg">
@@ -69,13 +71,16 @@ function Hero() {
           100% Money-Back Guarantee
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-          Spy on Your{' '}
-          <span className="text-gradient">Competitors</span>
+          Real competitor intelligence for{' '}
+          <span className="text-gradient">$19 once.</span>
         </h1>
-        <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-          Enter a company name or describe your industry. Our AI researches real competitors,
-          analyzes their pricing, strengths, and weaknesses, and delivers a professional
-          competitive analysis report in minutes.
+        <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-4 leading-relaxed">
+          The cheapest enterprise alternative is $1,000+ per month. We deliver the same depth as a one-time PDF,
+          powered by Google Gemini 2.5 with live web search.
+        </p>
+        <p className="text-base text-gray-500 max-w-2xl mx-auto mb-10">
+          Enter a company name or describe your industry. Get 10 to 15 real competitors, pricing, SWOT, vulnerabilities,
+          and a 90-day attack plan in under 3 minutes.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="#get-started" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
@@ -117,28 +122,51 @@ function Hero() {
 }
 
 function ComparisonBanner() {
+  const rows = [
+    { name: 'Crayon', price: '$1,000+/mo', model: 'Annual subscription', built: 'Enterprise CI teams' },
+    { name: 'Klue', price: '$1,200+/mo', model: 'Annual subscription', built: 'Sales enablement teams' },
+    { name: 'Kompyte', price: 'Custom (4-figure/mo)', model: 'Annual subscription', built: 'Mid-market and enterprise' },
+    { name: 'Hiring a consultant', price: '$500-2,000', model: 'One-time, 1-2 weeks', built: 'Single project' },
+    { name: 'Competitor Spy', price: '$19', model: 'One-time, under 3 min', built: 'Founders, solopreneurs, agencies', highlight: true },
+  ];
   return (
     <section className="py-16 px-4 bg-gray-50">
       <div className="max-w-5xl mx-auto">
-        <h2 className="text-2xl font-bold text-center mb-8">Why Pay $99+/Month When You Just Need One Report?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl p-6 border border-gray-200">
-            <div className="text-sm font-semibold text-gray-400 mb-2">TYPICAL CI TOOLS</div>
-            <div className="text-3xl font-bold text-gray-800 mb-2">$99-295<span className="text-lg text-gray-500">/mo</span></div>
-            <p className="text-gray-600 text-sm">Monthly subscriptions. Built for teams that need ongoing monitoring. Overkill for most entrepreneurs.</p>
-          </div>
-          <div className="bg-white rounded-xl p-6 border border-gray-200">
-            <div className="text-sm font-semibold text-gray-400 mb-2">HIRING A CONSULTANT</div>
-            <div className="text-3xl font-bold text-gray-800 mb-2">$500-2,000</div>
-            <p className="text-gray-600 text-sm">One-time but expensive. Takes 1-2 weeks. Often uses the same public data you could find yourself.</p>
-          </div>
-          <div className="bg-brand-50 rounded-xl p-6 border-2 border-brand-500 relative">
-            <div className="absolute -top-3 left-4 px-3 py-0.5 bg-brand-600 text-white text-xs font-bold rounded-full">BEST VALUE</div>
-            <div className="text-sm font-semibold text-brand-600 mb-2">COMPETITOR SPY</div>
-            <div className="text-3xl font-bold text-brand-700 mb-2">$19<span className="text-lg text-brand-500"> once</span></div>
-            <p className="text-brand-800 text-sm">One report, one payment. Real competitor data. Professional PDF in under 3 minutes.</p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3">Stop paying $1,000+ a month for data you only need once.</h2>
+        <p className="text-center text-gray-600 max-w-2xl mx-auto mb-10">
+          Enterprise competitive intelligence platforms charge yearly contracts for ongoing monitoring. Most founders just
+          need one solid report. Here is what the market actually charges.
+        </p>
+        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead className="bg-gray-50 border-b border-gray-200">
+                <tr>
+                  <th className="px-4 sm:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Tool</th>
+                  <th className="px-4 sm:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Price</th>
+                  <th className="px-4 sm:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Model</th>
+                  <th className="px-4 sm:px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider hidden sm:table-cell">Built for</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {rows.map((r, i) => (
+                  <tr key={i} className={r.highlight ? 'bg-brand-50' : ''}>
+                    <td className={`px-4 sm:px-6 py-4 font-semibold ${r.highlight ? 'text-brand-700' : 'text-gray-800'}`}>
+                      {r.name}
+                      {r.highlight && <span className="ml-2 inline-block px-2 py-0.5 bg-brand-600 text-white text-xs font-bold rounded-full align-middle">YOU</span>}
+                    </td>
+                    <td className={`px-4 sm:px-6 py-4 font-bold ${r.highlight ? 'text-brand-700' : 'text-gray-800'}`}>{r.price}</td>
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-600">{r.model}</td>
+                    <td className="px-4 sm:px-6 py-4 text-sm text-gray-600 hidden sm:table-cell">{r.built}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
+        <p className="text-center text-xs text-gray-400 mt-4">
+          Competitor pricing accurate as of public listings on each company website. We are not affiliated with any of these tools.
+        </p>
       </div>
     </section>
   );
@@ -546,6 +574,7 @@ function Footer() {
           <a href="/" className="hover:text-white transition">Business Plans</a>
           <a href="/spy" className="hover:text-white transition">Competitor Spy</a>
           <a href="/blog" className="hover:text-white transition">Blog</a>
+          <a href="/methodology" className="hover:text-white transition">Methodology</a>
           <a href="/privacy" className="hover:text-white transition">Privacy</a>
           <a href="/terms" className="hover:text-white transition">Terms</a>
         </div>

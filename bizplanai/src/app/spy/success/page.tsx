@@ -314,10 +314,18 @@ function generatePDF(data: ReportData): Promise<void> {
             margin: [0, 0, 0, 40],
           },
           {
-            text: `Prepared on ${dateStr}`,
+            text: `Last updated: ${dateStr}`,
             fontSize: 12,
             alignment: 'center',
             color: TEXT_LIGHT,
+            margin: [0, 0, 0, 8],
+          },
+          {
+            text: 'Data sourced live via Google Search grounding',
+            fontSize: 9,
+            alignment: 'center',
+            color: TEXT_LIGHT,
+            italics: true,
             margin: [0, 0, 0, 60],
           },
           {
@@ -1723,6 +1731,42 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
           Download Full Report (PDF)
         </button>
         {data.disclaimer && <p className="text-xs text-gray-400 mt-3 text-center">{data.disclaimer}</p>}
+      </div>
+
+      {/* Review Request CTA */}
+      <div className="border-t pt-8">
+        <div className="bg-gradient-to-br from-yellow-50 to-amber-50 border border-amber-200 rounded-2xl p-6 text-center">
+          <div className="text-3xl mb-2">⭐⭐⭐⭐⭐</div>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">Did this report help you?</h3>
+          <p className="text-gray-700 mb-4 max-w-xl mx-auto">
+            We are a tiny bootstrapped team. A 30-second review on G2 or Trustpilot helps more business owners find us
+            and tells us what to build next. Thank you.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="https://www.g2.com/products/bizplan-genius/reviews/start"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-6 py-3 bg-amber-500 text-white font-semibold rounded-lg hover:bg-amber-600 transition"
+            >
+              Leave a G2 Review
+            </a>
+            <a
+              href="https://www.trustpilot.com/evaluate/bizplangenius.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition"
+            >
+              Leave a Trustpilot Review
+            </a>
+            <a
+              href="mailto:support@bizplangenius.com?subject=Feedback%20on%20my%20Competitor%20Spy%20Report"
+              className="inline-block px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-gray-400 transition"
+            >
+              Email Feedback
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );

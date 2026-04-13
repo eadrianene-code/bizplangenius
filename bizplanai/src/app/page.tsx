@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { href: '#pricing', label: 'Pricing' },
   { href: '/spy', label: 'Competitor Spy' },
   { href: '/blog', label: 'Blog' },
+  { href: '/methodology', label: 'Methodology' },
   { href: '/about', label: 'About' },
 ];
 
@@ -118,10 +119,14 @@ function Hero() {
           Business Plans with{' '}
           <span className="text-gradient">Real Market Research</span>
         </h1>
-        <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-4 leading-relaxed">
           Describe your business idea. Our AI researches your actual competitors,
           analyzes real market data, and generates an investor-ready business plan
           in minutes, not weeks.
+        </p>
+        <p className="text-sm text-gray-500 max-w-2xl mx-auto mb-10">
+          Powered by Google Gemini 2.5 with live web search.{' '}
+          <a href="/methodology" className="text-brand-600 hover:text-brand-700 underline">See how it works</a>.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="#pricing" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
@@ -147,6 +152,32 @@ function Hero() {
   );
 }
 
+function TrustBar() {
+  const items = [
+    { icon: '🔎', title: 'Real-time web data', desc: 'Live Google Search grounding on every plan' },
+    { icon: '⚡', title: '8 minutes, not 8 weeks', desc: 'Full investor-ready PDF in under 10 min' },
+    { icon: '💸', title: 'One-time payment', desc: 'No subscriptions, no upsells, no surprises' },
+    { icon: '🛡️', title: 'Money-back guarantee', desc: 'Refund if the data is not real, no questions' },
+  ];
+  return (
+    <section className="py-10 bg-white border-y border-gray-100">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          {items.map((it, i) => (
+            <div key={i} className="text-center md:text-left flex md:items-start gap-3 flex-col md:flex-row">
+              <div className="text-2xl mx-auto md:mx-0">{it.icon}</div>
+              <div>
+                <p className="font-semibold text-gray-900 text-sm">{it.title}</p>
+                <p className="text-xs text-gray-500 mt-0.5 leading-snug">{it.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ComparisonBanner() {
   return (
     <section className="py-12 bg-gray-50 border-y border-gray-100">
@@ -161,7 +192,7 @@ function ComparisonBanner() {
             <p className="text-gray-500 mt-1">DIY with templates</p>
           </div>
           <div>
-            <p className="text-3xl font-bold text-accent-500">From $29 · 10 min</p>
+            <p className="text-3xl font-bold text-accent-500">From $29, 10 min</p>
             <p className="text-gray-500 mt-1">BizPlan Genius</p>
           </div>
         </div>
@@ -506,6 +537,7 @@ function Footer() {
             <p className="font-semibold text-gray-900 mb-3">Company</p>
             <div className="space-y-2">
               <a href="/about" className="block text-sm text-gray-500 hover:text-gray-700">About</a>
+              <a href="/methodology" className="block text-sm text-gray-500 hover:text-gray-700">Methodology</a>
               <a href="/blog" className="block text-sm text-gray-500 hover:text-gray-700">Blog</a>
               <a href="mailto:support@bizplangenius.com" className="block text-sm text-gray-500 hover:text-gray-700">Contact</a>
               <a href="/privacy" className="block text-sm text-gray-500 hover:text-gray-700">Privacy Policy</a>
@@ -528,6 +560,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <TrustBar />
         <SamplePlan />
         <ComparisonBanner />
         <Features />
