@@ -127,7 +127,25 @@ export default async function BlogPostPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 
-        {/* CTA Box */}
+        {/* CTA Box - dynamic based on post topic */}
+        {post.keywords.some(k => ['competitor analysis', 'competitive intelligence', 'competitor weaknesses', 'competitor research', 'SWOT analysis', 'competitive advantage', 'competitor vulnerabilities'].includes(k)) ? (
+        <div className="mt-16 bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl p-8 text-center text-white">
+          <h2 className="text-2xl font-bold mb-3">
+            Spy on your competitors for $19
+          </h2>
+          <p className="text-orange-100 mb-6 max-w-lg mx-auto">
+            Get 10-15 real competitors analyzed with pricing, strengths,
+            weaknesses, vulnerability audit, and a 90-day plan to beat them.
+            One-time payment. Results in 5 minutes.
+          </p>
+          <Link
+            href="/spy"
+            className="inline-block bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors"
+          >
+            Run Your Competitor Spy Report
+          </Link>
+        </div>
+        ) : (
         <div className="mt-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-3">
             Ready to create your business plan?
@@ -143,6 +161,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             Get Your Plan - From $29
           </Link>
         </div>
+        )}
       </article>
 
       {/* Article Schema */}
