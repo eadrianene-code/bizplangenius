@@ -74,10 +74,24 @@ const FAQS = [
   },
 ];
 
+function PHBanner() {
+  return (
+    <a
+      href="https://www.producthunt.com/products/bizplan-genius"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="block w-full bg-gradient-to-r from-orange-500 to-red-500 text-white text-center text-sm font-semibold py-2 px-4 hover:from-orange-600 hover:to-red-600 transition"
+    >
+      We just launched Competitor Spy on Product Hunt. Tap to support us, takes 5 seconds 🧡
+    </a>
+  );
+}
+
 function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50">
+      <PHBanner />
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <a href="/" className="text-xl font-bold text-gradient">BizPlan Genius</a>
         <nav className="hidden md:flex items-center gap-8">
