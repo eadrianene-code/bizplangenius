@@ -589,9 +589,61 @@ function FAQ() {
   );
 }
 
+function NewsletterForm({ theme = 'dark' }: { theme?: 'light' | 'dark' }) {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || status === 'loading') return;
+    setStatus('loading');
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: typeof window !== 'undefined' ? window.location.pathname : 'unknown' }),
+      });
+      if (res.ok) { setStatus('done'); setEmail(''); }
+      else { setStatus('error'); }
+    } catch { setStatus('error'); }
+  };
+  const inputBase = 'flex-1 px-3 py-2 rounded-lg text-sm outline-none border';
+  const inputClass = theme === 'dark'
+    ? `${inputBase} bg-gray-800 text-white border-gray-700 focus:border-brand-400 placeholder-gray-500`
+    : `${inputBase} bg-white text-gray-900 border-gray-200 focus:border-brand-400 placeholder-gray-400`;
+  return (
+    <form onSubmit={onSubmit} className="w-full max-w-sm">
+      <p className={`text-sm font-semibold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Get founder tactics by email</p>
+      <p className={`text-xs mb-3 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>Competitor research and business plan playbooks. No fluff, unsubscribe anytime.</p>
+      <div className="flex gap-2">
+        <input
+          type="email"
+          required
+          placeholder="you@company.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className={inputClass}
+          disabled={status === 'loading' || status === 'done'}
+        />
+        <button
+          type="submit"
+          disabled={status === 'loading' || status === 'done'}
+          className="px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition disabled:opacity-60"
+        >
+          {status === 'loading' ? '...' : status === 'done' ? 'Got it!' : 'Subscribe'}
+        </button>
+      </div>
+      {status === 'error' && <p className="text-xs text-red-500 mt-2">Something went wrong. Try again.</p>}
+      {status === 'done' && <p className={`text-xs mt-2 ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`}>Subscribed. Check your inbox soon.</p>}
+    </form>
+  );
+}
+
 function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-400 py-12 px-4">
+      <div className="max-w-6xl mx-auto mb-10 flex justify-center">
+        <NewsletterForm theme="dark" />
+      </div>
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
           <span className="text-white font-bold text-lg">BizPlan Genius</span>
