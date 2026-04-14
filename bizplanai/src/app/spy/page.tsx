@@ -461,6 +461,33 @@ function SampleSpyReport() {
             </a>
           </div>
           <div className="p-6 sm:p-8">
+            <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-4">Real pages from the report:</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              {[1, 2, 3, 4].map((n) => (
+                <a
+                  key={n}
+                  href="/sample-spy-report.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block group relative overflow-hidden rounded-lg border border-gray-200 shadow-sm hover:shadow-lg hover:border-brand-300 transition"
+                >
+                  <img
+                    src={`/sample-spy-preview/page-0${n}.png`}
+                    alt={`Sample Competitor Spy report page ${n}`}
+                    className="w-full h-auto block"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-brand-600/0 group-hover:bg-brand-600/10 transition flex items-end justify-center pb-2">
+                    <span className="opacity-0 group-hover:opacity-100 text-xs font-semibold bg-white px-2 py-1 rounded shadow text-brand-700 transition">
+                      Page {n}
+                    </span>
+                  </div>
+                </a>
+              ))}
+            </div>
+            <p className="text-center text-sm text-gray-500 mb-6">
+              First 4 pages shown. Click any page to open the full 38-page sample report.
+            </p>
             <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-4">What's inside this report:</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
