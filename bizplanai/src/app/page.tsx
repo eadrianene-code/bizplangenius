@@ -129,6 +129,20 @@ function Hero() {
         <div className="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-medium rounded-full mb-6 border border-brand-100">
           AI-Powered Business Plans with Real Data
         </div>
+        <div className="flex justify-center mb-6">
+          <a
+            href="https://www.producthunt.com/products/competitor-spy?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-competitor-spy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              alt="Competitor Spy - Know exactly how to beat your competitors for $19 | Product Hunt"
+              width={250}
+              height={54}
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1122669&theme=dark&t=1776151861733"
+            />
+          </a>
+        </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
           Business Plans with{' '}
           <span className="text-gradient">Real Market Research</span>
@@ -561,6 +575,18 @@ function Footer() {
         </div>
         <div className="pt-8 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-gray-400">&copy; {new Date().getFullYear()} BizPlan Genius. All rights reserved.</p>
+          <a
+            href="https://www.producthunt.com/products/competitor-spy?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-competitor-spy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              alt="Competitor Spy - Know exactly how to beat your competitors for $19 | Product Hunt"
+              width={200}
+              height={43}
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1122669&theme=light&t=1776151861733"
+            />
+          </a>
           <p className="text-sm text-gray-400">Built by Adi</p>
         </div>
       </div>

@@ -70,6 +70,20 @@ function Hero() {
         <div className="inline-block px-4 py-1.5 bg-green-50 text-green-700 text-sm font-medium rounded-full mb-6 border border-green-100">
           100% Money-Back Guarantee
         </div>
+        <div className="flex justify-center mb-6">
+          <a
+            href="https://www.producthunt.com/products/competitor-spy?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-competitor-spy"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              alt="Competitor Spy - Know exactly how to beat your competitors for $19 | Product Hunt"
+              width={250}
+              height={54}
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1122669&theme=dark&t=1776151861733"
+            />
+          </a>
+        </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
           Real competitor intelligence for{' '}
           <span className="text-gradient">$19 once.</span>
@@ -570,6 +584,18 @@ function Footer() {
           <span className="text-white font-bold text-lg">BizPlan Genius</span>
           <p className="text-sm mt-1">AI-powered business intelligence tools</p>
         </div>
+        <a
+          href="https://www.producthunt.com/products/competitor-spy?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-competitor-spy"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            alt="Competitor Spy - Know exactly how to beat your competitors for $19 | Product Hunt"
+            width={200}
+            height={43}
+            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1122669&theme=dark&t=1776151861733"
+          />
+        </a>
         <div className="flex gap-6 text-sm">
           <a href="/" className="hover:text-white transition">Business Plans</a>
           <a href="/spy" className="hover:text-white transition">Competitor Spy</a>
