@@ -414,88 +414,6 @@ function BuildWebsiteInner() {
             </div>
           </div>
 
-          {/* Payment Integration */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <h2 className="font-bold text-gray-900 mb-2">Payment Integration</h2>
-            <p className="text-sm text-gray-500 mb-4">How will your customers pay you? We'll add real payment buttons to your website.</p>
-
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4">
-              {([
-                { key: 'none', label: 'Skip for now', desc: 'Add later' },
-                { key: 'stripe', label: 'Stripe', desc: 'Payment link' },
-                { key: 'paypal', label: 'PayPal', desc: 'PayPal.me or button' },
-                { key: 'square', label: 'Square', desc: 'Checkout link' },
-                { key: 'other', label: 'Other', desc: 'Any payment URL' },
-              ] as const).map(opt => (
-                <button key={opt.key} type="button" onClick={() => setPaymentType(opt.key)}
-                  className={`p-3 rounded-xl border-2 text-center transition ${
-                    paymentType === opt.key ? 'border-brand-600 bg-brand-50' : 'border-gray-200 hover:border-gray-300'
-                  }`}>
-                  <p className="text-sm font-bold text-gray-900">{opt.label}</p>
-                  <p className="text-[10px] text-gray-500">{opt.desc}</p>
-                </button>
-              ))}
-            </div>
-
-            {paymentType !== 'none' && (
-              <div className="space-y-4">
-                {/* Single vs Multiple toggle */}
-                <div className="flex items-center gap-3">
-                  <button type="button" onClick={() => setMultipleProducts(false)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition ${!multipleProducts ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600'}`}>
-                    One link for everything
-                  </button>
-                  <button type="button" onClick={() => setMultipleProducts(true)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium transition ${multipleProducts ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600'}`}>
-                    Different link per product/price
-                  </button>
-                </div>
-
-                {!multipleProducts ? (
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Payment Link</label>
-                    <input type="url" value={paymentLink} onChange={e => setPaymentLink(e.target.value)}
-                      placeholder={paymentType === 'stripe' ? 'https://buy.stripe.com/your-link' : paymentType === 'paypal' ? 'https://paypal.me/yourname' : 'https://...'}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition" />
-                  </div>
-                ) : (
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Your products/services with payment links</label>
-                    <div className="space-y-2">
-                      {productLinks.map((pl, i) => (
-                        <div key={i} className="flex gap-2 items-start">
-                          <input type="text" value={pl.name} onChange={e => { const next = [...productLinks]; next[i].name = e.target.value; setProductLinks(next); }}
-                            placeholder="Product name" className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-brand-400" />
-                          <input type="text" value={pl.price} onChange={e => { const next = [...productLinks]; next[i].price = e.target.value; setProductLinks(next); }}
-                            placeholder="Price" className="w-24 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-brand-400" />
-                          <input type="url" value={pl.link} onChange={e => { const next = [...productLinks]; next[i].link = e.target.value; setProductLinks(next); }}
-                            placeholder="Payment link" className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:border-brand-400" />
-                          {productLinks.length > 1 && (
-                            <button type="button" onClick={() => setProductLinks(productLinks.filter((_, j) => j !== i))}
-                              className="p-2 text-gray-400 hover:text-red-500 transition"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg></button>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                    <button type="button" onClick={() => setProductLinks([...productLinks, { name: '', price: '', link: '' }])}
-                      className="mt-2 text-sm text-brand-600 font-medium hover:text-brand-700">+ Add another product</button>
-                  </div>
-                )}
-
-                <div className="p-3 bg-brand-50 rounded-lg border border-brand-100">
-                  <p className="text-xs text-brand-800">
-                    <span className="font-bold">How to get your link:</span>
-                    {paymentType === 'stripe' && ' Go to dashboard.stripe.com > Payment Links > Create a link for each product/price. Copy the links.'}
-                    {paymentType === 'paypal' && ' Go to paypal.me or create PayPal buttons from your dashboard for each product.'}
-                    {paymentType === 'square' && ' Go to Square Dashboard > Online Checkout > Create a link per product.'}
-                    {paymentType === 'other' && ' Paste payment URLs for each product.'}
-                  </p>
-                  <p className="text-xs text-brand-700 mt-1">Don't have links yet? Select "Skip for now" and add them later via the website editor.</p>
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* Extra Instructions + Email */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
             <div>
@@ -651,6 +569,7 @@ function DeviceToggle({ iframeRef }: { iframeRef: React.RefObject<HTMLIFrameElem
 interface SitePageType { id: string; name: string; filename: string; html: string; }
 
 const QUICK_EDITS = [
+  { label: 'Add payment links', instruction: 'I want to add payment links to my pricing buttons and CTA buttons. Ask me for my payment URL (Stripe, PayPal, or other) and wire it into all Buy/Order/Get Started buttons. Open links in new tab.', icon: '💳' },
   { label: 'Change prices', instruction: 'I want to update the pricing section.', icon: '💰' },
   { label: 'Edit hero text', instruction: 'I want to change the hero headline and subheadline.', icon: '✏️' },
   { label: 'Update services', instruction: 'I want to edit the services/features section.', icon: '🔧' },
