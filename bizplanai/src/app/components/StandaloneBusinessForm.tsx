@@ -35,7 +35,7 @@ export default function StandaloneBusinessForm({ productName, productPrice, chec
       const res = await fetch(checkoutEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, ...extraFields }),
+        body: JSON.stringify({ ...form, ...extraFields, language: typeof window !== 'undefined' ? localStorage.getItem('bizplan-language') || 'en' : 'en' }),
       });
       const data = await res.json();
       if (data.url) window.location.href = data.url;

@@ -106,5 +106,18 @@ export function buildCheckoutMetadata(body: any): Record<string, string> {
   if (body.targetMarket) meta.targetMarket = (body.targetMarket || '').substring(0, 500);
   if (body.revenueModel) meta.revenueModel = body.revenueModel;
   if (body.location) meta.location = body.location;
+  if (body.language) meta.language = body.language;
   return meta;
+}
+
+export function getLanguageInstruction(langCode: string): string {
+  if (!langCode || langCode === 'en') return '';
+  const names: Record<string, string> = {
+    es: 'Spanish', pt: 'Portuguese', fr: 'French', de: 'German', it: 'Italian',
+    nl: 'Dutch', pl: 'Polish', ro: 'Romanian', tr: 'Turkish', ar: 'Arabic',
+    hi: 'Hindi', zh: 'Chinese', ja: 'Japanese', ko: 'Korean', id: 'Indonesian',
+    th: 'Thai', vi: 'Vietnamese', ru: 'Russian', uk: 'Ukrainian',
+  };
+  const name = names[langCode] || langCode;
+  return `\n\nIMPORTANT: Generate ALL content in ${name}. All text, headings, descriptions must be in ${name}. Keep JSON keys and HTML tags in English.`;
 }

@@ -64,6 +64,7 @@ export async function POST(req: NextRequest) {
         investment: body.investment || '',
         competitors: (body.competitors || '').substring(0, 500),
         email: body.email || '',
+        language: body.language || 'en',
       },
     });
 

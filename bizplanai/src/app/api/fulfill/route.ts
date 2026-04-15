@@ -33,7 +33,10 @@ function buildResearchPrompt(meta: Record<string, string>): string {
    - Likelihood and impact assessment
    - Concrete mitigation strategies` : '';
 
-  return `You are a world-class business strategy researcher. Research the following business idea and its market using real, current data from the web.
+  const langCode = meta.language || 'en';
+  const langInstruction = langCode !== 'en' ? `\n\nIMPORTANT: Write ALL content in ${langCode === 'es' ? 'Spanish' : langCode === 'pt' ? 'Portuguese' : langCode === 'fr' ? 'French' : langCode === 'de' ? 'German' : langCode === 'it' ? 'Italian' : langCode === 'nl' ? 'Dutch' : langCode === 'pl' ? 'Polish' : langCode === 'ro' ? 'Romanian' : langCode === 'tr' ? 'Turkish' : langCode === 'ar' ? 'Arabic' : langCode === 'hi' ? 'Hindi' : langCode === 'zh' ? 'Chinese' : langCode === 'ja' ? 'Japanese' : langCode === 'ko' ? 'Korean' : langCode === 'id' ? 'Indonesian' : langCode === 'th' ? 'Thai' : langCode === 'vi' ? 'Vietnamese' : langCode === 'ru' ? 'Russian' : langCode === 'uk' ? 'Ukrainian' : langCode} language. All analysis, descriptions, and text must be in this language. Keep JSON keys in English.` : '';
+
+  return `You are a world-class business strategy researcher. Research the following business idea and its market using real, current data from the web.${langInstruction}
 
 BUSINESS DETAILS:
 - Business Name: ${meta.businessName}

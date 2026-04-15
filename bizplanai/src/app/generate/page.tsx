@@ -78,10 +78,11 @@ function GeneratePageInner() {
         });
       }
 
+      const language = typeof window !== 'undefined' ? localStorage.getItem('bizplan-language') || 'en' : 'en';
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, tier }),
+        body: JSON.stringify({ ...form, tier, language }),
       });
 
       const data = await res.json();

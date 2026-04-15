@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import LanguageSelector from './LanguageSelector';
 
 export default function GlobalNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function GlobalNav() {
           <a href="/pricing" className="text-sm text-gray-600 hover:text-brand-600 transition">Pricing</a>
           <a href="/free-competitor-check" className="text-sm text-gray-600 hover:text-brand-600 transition">Free Tools</a>
           <a href="/blog" className="text-sm text-gray-600 hover:text-brand-600 transition">Blog</a>
+          <LanguageSelector />
           <a href="/generate" className="px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-sm">
             Get Started
           </a>
