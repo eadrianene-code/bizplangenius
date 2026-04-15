@@ -1128,23 +1128,24 @@ export default function SuccessPage() {
           </div>
         </div>
 
-        {/* Website Builder Cross-Sell */}
+        {/* Next Steps Cross-Sell */}
         <div className="max-w-3xl mx-auto px-4 print-hide">
-          <div className="mt-8 p-6 sm:p-8 rounded-2xl border-2 border-accent-200 bg-gradient-to-br from-accent-50 to-white shadow-sm">
-            <div className="text-center">
-              <p className="text-xs font-semibold text-accent-600 uppercase tracking-wider mb-2">New: Website Builder</p>
-              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Turn this plan into a live website</h3>
-              <p className="text-gray-600 mb-4 max-w-lg mx-auto">
-                Your business plan is ready. Now get a professional, custom website built from your plan data -- designed to match your business, your market, and your brand. Ready in 2 minutes.
-              </p>
-              <a
-                href={`/build-website?plan_session_id=${currentSessionId}`}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-accent-600 text-white font-semibold rounded-xl hover:bg-accent-700 transition shadow-md"
-              >
-                Build My Website - From $99
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-              </a>
-            </div>
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-10 mb-4">What's next for your business</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <a href={`/build-website?plan_session_id=${currentSessionId}`}
+              className="p-6 rounded-2xl border-2 border-accent-200 bg-gradient-to-br from-accent-50 to-white hover:border-accent-400 transition block">
+              <p className="text-xs font-bold text-accent-600 uppercase mb-1">Website Builder</p>
+              <h3 className="text-lg font-bold text-gray-900 mb-1">Build your website</h3>
+              <p className="text-sm text-gray-600 mb-3">Custom website generated from your plan. Ready in 2 minutes.</p>
+              <span className="text-lg font-extrabold text-accent-600">From $99</span>
+            </a>
+            <a href={`/pitch-deck?plan_session_id=${currentSessionId}`}
+              className="p-6 rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-white hover:border-purple-400 transition block">
+              <p className="text-xs font-bold text-purple-600 uppercase mb-1">Pitch Deck</p>
+              <h3 className="text-lg font-bold text-gray-900 mb-1">Pitch to investors</h3>
+              <p className="text-sm text-gray-600 mb-3">12-slide deck with speaker notes. Built from your plan data.</p>
+              <span className="text-lg font-extrabold text-purple-600">$39</span>
+            </a>
           </div>
         </div>
 

@@ -499,6 +499,45 @@ function SpyCrossSell() {
   );
 }
 
+function MoreTools() {
+  return (
+    <section className="py-16 px-4 bg-gray-50">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Go From Idea to Launch</h2>
+          <p className="text-gray-600">Everything you need to start your business, powered by AI</p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <a href="/free-competitor-check" className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition block">
+            <p className="text-xs font-bold text-green-600 uppercase mb-2">Free</p>
+            <h3 className="font-bold text-gray-900 mb-1">Competitor Check</h3>
+            <p className="text-xs text-gray-500 mb-3">Find your top 3 competitors instantly</p>
+            <p className="text-lg font-extrabold text-green-600">$0</p>
+          </a>
+          <a href="/spy" className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition block">
+            <p className="text-xs font-bold text-brand-600 uppercase mb-2">Research</p>
+            <h3 className="font-bold text-gray-900 mb-1">Competitor Spy</h3>
+            <p className="text-xs text-gray-500 mb-3">Deep analysis of 10-15 real competitors</p>
+            <p className="text-lg font-extrabold text-brand-600">$19</p>
+          </a>
+          <a href="/build-website" className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition block">
+            <p className="text-xs font-bold text-accent-600 uppercase mb-2">Build</p>
+            <h3 className="font-bold text-gray-900 mb-1">Website Builder</h3>
+            <p className="text-xs text-gray-500 mb-3">Custom website from your business plan</p>
+            <p className="text-lg font-extrabold text-accent-600">From $99</p>
+          </a>
+          <a href="/pitch-deck" className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition block">
+            <p className="text-xs font-bold text-purple-600 uppercase mb-2">Fundraise</p>
+            <h3 className="font-bold text-gray-900 mb-1">Pitch Deck</h3>
+            <p className="text-xs text-gray-500 mb-3">12-slide investor deck with speaker notes</p>
+            <p className="text-lg font-extrabold text-purple-600">$39</p>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CTA() {
   return (
     <section className="py-20 px-4 bg-brand-600">
@@ -636,6 +675,7 @@ export default function Home() {
         <Pricing />
         <FAQ />
         <SpyCrossSell />
+        <MoreTools />
         <CTA />
       </main>
       <Footer />
