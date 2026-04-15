@@ -34,6 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
           ...blogUrls,
       {
+                url: `${baseUrl}/dashboard`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: 0.6,
+      },
+      {
                 url: `${baseUrl}/free-competitor-check`,
                 lastModified: new Date(),
                 changeFrequency: 'weekly',

@@ -1958,7 +1958,14 @@ function SpySuccessContent() {
             </div>
           </div>
         ) : reportData ? (
-          <ReportPreview data={reportData} onDownloadPDF={handleDownloadPDF} />
+          <>
+            <ReportPreview data={reportData} onDownloadPDF={handleDownloadPDF} />
+            <div className="text-center py-6 text-xs text-gray-400">
+              <a href={`/dashboard?session_id=${sessionId}`} className="text-brand-600 hover:text-brand-700 underline text-sm">
+                View your full toolkit &amp; available products
+              </a>
+            </div>
+          </>
         ) : null}
       </main>
     </div>

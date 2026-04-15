@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { href: '/spy', label: 'Competitor Spy' },
   { href: '/free-competitor-check', label: 'Free Tool' },
   { href: '/blog', label: 'Blog' },
-  { href: '/about', label: 'About' },
+  { href: '/dashboard', label: 'My Toolkit' },
 ];
 
 const FEATURES = [
