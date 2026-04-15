@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import SamplePdfGate from './components/SamplePdfGate';
+import LiveCounter from './components/LiveCounter';
 
 
 const FEATURES = [
@@ -822,6 +823,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <LiveCounter />
         <TrustBar />
         <SamplePlan />
         <ComparisonBanner />

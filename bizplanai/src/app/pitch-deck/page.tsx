@@ -161,6 +161,24 @@ function PitchDeckInner() {
           </div>
           <div className="flex items-center gap-3">
             <button
+              onClick={() => {
+                if (!deck) return;
+                const content = deck.slides.map(s =>
+                  `SLIDE ${s.slideNumber}: ${s.title}\n${s.content}\n\nBullets:\n${(s.bullets || []).map(b => `- ${b}`).join('\n')}\n\nSpeaker Notes:\n${s.speakerNotes}\n\n---\n`
+                ).join('\n');
+                const blob = new Blob([`${deck.title}\n${businessName}\n\n${content}`], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${businessName.toLowerCase().replace(/\s+/g, '-')}-pitch-deck.txt`;
+                a.click();
+                URL.revokeObjectURL(url);
+              }}
+              className="px-3 py-1.5 text-xs font-medium rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 transition"
+            >
+              Download Text
+            </button>
+            <button
               onClick={() => setShowNotes(!showNotes)}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${showNotes ? 'bg-brand-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
             >
