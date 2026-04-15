@@ -67,6 +67,14 @@ export default function RootLayout({
                   "priceCurrency": "USD",
                   "description": "10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and 90-day tactical roadmap",
                   "url": "https://www.bizplangenius.com/spy"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "AI Website Builder",
+                  "price": "99.00",
+                  "priceCurrency": "USD",
+                  "description": "AI generates a custom, professional website from your business plan. Full HTML/CSS source code included.",
+                  "url": "https://www.bizplangenius.com/build-website"
                 }
               ],
             })

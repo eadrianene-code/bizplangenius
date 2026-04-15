@@ -66,6 +66,9 @@ export async function POST(req: NextRequest) {
       if (meta.tier === 'starter' || meta.tier === 'pro') {
         product = 'business_plan';
         tier = meta.tier;
+      } else if (meta.product === 'website_builder') {
+        product = 'website_builder';
+        tier = meta.websiteType || 'landing';
       } else if (meta.companyName || meta.industryDescription || meta.mode) {
         product = 'spy_report';
         tier = 'standard';
@@ -127,16 +130,30 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Website builder -- available if they have a plan
+    const hasWebsite = purchases.some(p => p.product === 'website_builder');
+    const planSession = purchases.find(p => p.product === 'business_plan');
+    if (!hasWebsite && hasPlan && planSession) {
+      available.push({
+        product: 'website_builder',
+        name: 'Website Builder',
+        description: 'AI generates a custom, professional website from your business plan. Full source code included.',
+        price: 99,
+        url: `/build-website?plan_session_id=${planSession.sessionId}`,
+        recommended: true,
+      });
+    } else if (!hasWebsite && !hasPlan) {
+      available.push({
+        product: 'website_builder',
+        name: 'Website Builder',
+        description: 'AI generates a working website based on your business plan. Get a business plan first.',
+        price: 99,
+        url: '/generate',
+        recommended: false,
+      });
+    }
+
     // Future products (coming soon)
-    available.push({
-      product: 'website_builder',
-      name: 'Website Builder',
-      description: 'AI generates a working website based on your business plan',
-      price: 99,
-      url: '#',
-      recommended: false,
-      comingSoon: true,
-    });
 
     available.push({
       product: 'pitch_deck',
