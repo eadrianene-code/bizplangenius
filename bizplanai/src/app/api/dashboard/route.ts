@@ -75,6 +75,9 @@ export async function POST(req: NextRequest) {
       } else if (meta.product === 'social_media_pack') {
         product = 'social_media_pack';
         tier = 'standard';
+      } else if (meta.product === 'brand_kit') {
+        product = 'brand_kit';
+        tier = 'standard';
       } else if (meta.companyName || meta.industryDescription || meta.mode) {
         product = 'spy_report';
         tier = 'standard';
@@ -203,17 +206,27 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Future products (coming soon)
-
-    available.push({
-      product: 'logo_brand_kit',
-      name: 'Logo & Brand Kit',
-      description: 'AI-generated logo, color palette, and brand guidelines',
-      price: 29,
-      url: '#',
-      recommended: false,
-      comingSoon: true,
-    });
+    // Brand kit
+    const hasBrandKit = purchases.some(p => p.product === 'brand_kit');
+    if (!hasBrandKit && hasPlan && planSession) {
+      available.push({
+        product: 'brand_kit',
+        name: 'Logo & Brand Kit',
+        description: 'AI-generated logo concepts, color palette, typography, and brand voice guidelines',
+        price: 29,
+        url: `/brand-kit?plan_session_id=${planSession.sessionId}`,
+        recommended: false,
+      });
+    } else if (!hasBrandKit && !hasPlan) {
+      available.push({
+        product: 'brand_kit',
+        name: 'Logo & Brand Kit',
+        description: 'Brand identity kit. Get a business plan first.',
+        price: 29,
+        url: '/generate',
+        recommended: false,
+      });
+    }
 
     return NextResponse.json({
       email: customerEmail.toLowerCase(),

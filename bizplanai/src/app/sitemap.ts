@@ -34,6 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
           ...blogUrls,
       {
+                url: `${baseUrl}/brand-kit`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: 0.7,
+      },
+      {
                 url: `${baseUrl}/social-pack`,
                 lastModified: new Date(),
                 changeFrequency: 'weekly',
