@@ -151,6 +151,18 @@ function Header() {
                       <span className="text-xs font-bold text-indigo-600">$19</span>
                     </div>
                   </a>
+                  <a href="/legal-pages" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-semibold text-gray-900">Legal Pages</p><p className="text-xs text-gray-500">Terms, Privacy, Cookies</p></div>
+                      <span className="text-xs font-bold text-gray-600">$19</span>
+                    </div>
+                  </a>
+                  <a href="/ad-copy" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-semibold text-gray-900">Ad Copy</p><p className="text-xs text-gray-500">Google + Facebook + Instagram</p></div>
+                      <span className="text-xs font-bold text-red-600">$19</span>
+                    </div>
+                  </a>
                   <div className="border-t border-gray-100 mt-1 pt-1">
                     <a href="/bundles" className="block px-3 py-2.5 rounded-lg hover:bg-brand-50 transition">
                       <div className="flex items-center justify-between">
@@ -775,6 +787,8 @@ function Footer() {
               <a href="/social-pack" className="block text-sm text-gray-500 hover:text-gray-700">Social Media Pack</a>
               <a href="/brand-kit" className="block text-sm text-gray-500 hover:text-gray-700">Logo & Brand Kit</a>
               <a href="/investor-emails" className="block text-sm text-gray-500 hover:text-gray-700">Investor Emails</a>
+              <a href="/legal-pages" className="block text-sm text-gray-500 hover:text-gray-700">Legal Pages</a>
+              <a href="/ad-copy" className="block text-sm text-gray-500 hover:text-gray-700">Ad Copy</a>
               <a href="/bundles" className="block text-sm text-gray-500 hover:text-gray-700">Bundles</a>
               <a href="/monitoring" className="block text-sm text-gray-500 hover:text-gray-700">Subscriptions</a>
             </div>

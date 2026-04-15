@@ -112,6 +112,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 priority: 0.8,
       },
       {
+                url: `${baseUrl}/legal-pages`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: 0.7,
+      },
+      {
+                url: `${baseUrl}/ad-copy`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: 0.7,
+      },
+      {
                 url: `${baseUrl}/affiliates`,
                 lastModified: new Date(),
                 changeFrequency: 'monthly',
