@@ -57,11 +57,68 @@ export async function POST(req: NextRequest) {
     const targetMarket = planData.targetMarket || '';
     const revenueModel = planData.revenueModel || '';
     const location = planData.location || '';
+    const investment = planData.investment || '';
+    const competitors = planData.competitors || '';
 
     const colorInstructions = getColorInstructions(colorScheme);
     const typeInstructions = getTypeInstructions(websiteType);
 
-    const prompt = `You are an expert web developer and designer. Generate a complete, production-ready, single-page website for the following business.
+    // Step 1: Research the business and its market to get rich context
+    const researchPrompt = `You are a business researcher. Research the following business idea and return detailed insights for building their website.
+
+BUSINESS: ${businessName}
+INDUSTRY: ${industry}
+DESCRIPTION: ${description}
+TARGET MARKET: ${targetMarket}
+REVENUE MODEL: ${revenueModel}
+LOCATION: ${location}
+BUDGET: ${investment}
+KNOWN COMPETITORS: ${competitors}
+
+Research this business using the web and return a JSON object:
+{
+  "uniqueSellingPoints": ["USP 1", "USP 2", "USP 3"],
+  "servicesList": ["Service/product 1 with brief description", "Service 2", "Service 3", "Service 4", "Service 5", "Service 6"],
+  "pricingSuggestions": [
+    {"name": "Basic/Starter", "price": "$X/mo or one-time", "features": ["feature 1", "feature 2", "feature 3"]},
+    {"name": "Pro/Premium", "price": "$X/mo or one-time", "features": ["feature 1", "feature 2", "feature 3"]},
+    {"name": "Enterprise/Custom", "price": "Contact us", "features": ["feature 1", "feature 2", "feature 3"]}
+  ],
+  "competitorInsights": "What competitors are doing that this business should differentiate from",
+  "heroHeadline": "A compelling hero headline for the website",
+  "heroSubheadline": "A supporting subheadline",
+  "aboutStory": "A 3-4 sentence brand story for the About section",
+  "ctaText": "Primary call-to-action button text",
+  "targetAudienceDescription": "Detailed description of the ideal customer for website copy",
+  "socialProofIdeas": ["Testimonial idea 1 relevant to this business", "Testimonial idea 2", "Testimonial idea 3"],
+  "faqItems": [
+    {"question": "Industry-specific FAQ 1", "answer": "Answer"},
+    {"question": "Industry-specific FAQ 2", "answer": "Answer"},
+    {"question": "Industry-specific FAQ 3", "answer": "Answer"}
+  ]
+}
+
+Use REAL market data. Make pricing realistic for the industry. Return ONLY valid JSON.`;
+
+    const researchResponse = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: researchPrompt,
+      config: {
+        tools: [{ googleSearch: {} }],
+        responseMimeType: 'application/json',
+      },
+    });
+
+    let researchData: any = {};
+    try {
+      researchData = JSON.parse(researchResponse.text || '{}');
+    } catch {
+      const match = (researchResponse.text || '').match(/\{[\s\S]*\}/);
+      if (match) researchData = JSON.parse(match[0]);
+    }
+
+    // Step 2: Generate the website using the rich research data
+    const prompt = `You are an expert web developer and designer. Generate a complete, production-ready, single-page website for the following business. Use ALL the research data below to make every section specific and compelling.
 
 BUSINESS DETAILS:
 - Business Name: ${businessName}
@@ -70,6 +127,20 @@ BUSINESS DETAILS:
 - Target Market: ${targetMarket}
 - Revenue Model: ${revenueModel}
 - Location: ${location}
+- Known Competitors: ${competitors}
+
+RESEARCH DATA (use this for website content):
+- Hero Headline: ${researchData.heroHeadline || ''}
+- Hero Subheadline: ${researchData.heroSubheadline || ''}
+- Unique Selling Points: ${JSON.stringify(researchData.uniqueSellingPoints || [])}
+- Services/Products: ${JSON.stringify(researchData.servicesList || [])}
+- Pricing Tiers: ${JSON.stringify(researchData.pricingSuggestions || [])}
+- About Story: ${researchData.aboutStory || ''}
+- CTA Text: ${researchData.ctaText || 'Get Started'}
+- Target Audience: ${researchData.targetAudienceDescription || ''}
+- Testimonial Ideas: ${JSON.stringify(researchData.socialProofIdeas || [])}
+- FAQ Items: ${JSON.stringify(researchData.faqItems || [])}
+- Competitor Insights: ${researchData.competitorInsights || ''}
 
 WEBSITE TYPE: ${typeInstructions}
 
@@ -79,30 +150,33 @@ DESIGN REQUIREMENTS:
 - Modern, clean, professional design
 - Fully responsive (mobile-first)
 - Smooth scroll behavior
-- Include a favicon link (use a generic one)
 - Include meta tags for SEO (title, description, og tags)
 
 ${extraInstructions ? `ADDITIONAL INSTRUCTIONS: ${extraInstructions}` : ''}
 
-SECTIONS TO INCLUDE:
-1. Navigation bar with business name and smooth-scroll links
-2. Hero section with compelling headline, subheadline, and CTA button
-3. Features/Services section (3-6 items based on the business)
-4. About section with the business story
-5. Pricing section (based on the revenue model)
-6. Testimonials section (generate 3 realistic but clearly marked as example testimonials)
-7. Contact section with a form (name, email, message) and business location
-8. Footer with links and copyright
+SECTIONS TO INCLUDE (use the research data for content):
+1. Navigation bar with business name, smooth-scroll links, and CTA button
+2. Hero section with the researched headline, subheadline, and CTA
+3. Features/Services section using the researched services list (use icons or emojis)
+4. Social proof / stats bar (e.g., "500+ customers served", "4.9 star rating")
+5. About section using the researched brand story
+6. Pricing section using the researched pricing tiers with feature lists
+7. Testimonials section using the researched testimonial ideas (mark as examples)
+8. FAQ section using the researched FAQ items (use accordion style)
+9. Contact section with form (name, email, phone, message) and business location
+10. Footer with business name, quick links, social media icon placeholders, and copyright
 
 IMPORTANT RULES:
 - Return ONLY the complete HTML document, starting with <!DOCTYPE html> and ending with </html>
 - Do NOT wrap in markdown code blocks
-- Do NOT include any explanation text before or after the HTML
-- Make all content specific to this business, not generic placeholders
-- Include realistic, industry-appropriate copy
-- The contact form should have action="#" (placeholder)
-- Add subtle animations using Tailwind (hover effects, transitions)
-- Make it look like a $5,000 custom website`;
+- Make ALL content specific to THIS business using the research data above
+- Use the exact headlines, services, pricing, and FAQs from the research
+- Include hover effects, transitions, and smooth animations
+- Add gradient backgrounds, card shadows, and modern UI patterns
+- The site should look like a $5,000-$10,000 custom website
+- Include a sticky navigation bar
+- Add a "Back to top" button
+- Make the pricing section visually compelling with a highlighted "popular" tier`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
