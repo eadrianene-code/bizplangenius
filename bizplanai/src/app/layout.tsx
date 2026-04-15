@@ -4,6 +4,7 @@ import './globals.css';
 import ExitIntentPopup from './components/ExitIntentPopup';
 import StickyMobileCTA from './components/StickyMobileCTA';
 import SocialProofToast from './components/SocialProofToast';
+import ReviewRequest from './components/ReviewRequest';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bizplangenius.com'),
@@ -162,6 +163,7 @@ export default function RootLayout({
         <ExitIntentPopup />
         <StickyMobileCTA />
         <SocialProofToast />
+        <ReviewRequest />
       </body>
     </html>
   );
