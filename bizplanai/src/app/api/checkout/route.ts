@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
       mode: 'payment',
       allow_promotion_codes: true,
       success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/generate`,
+      cancel_url: `${baseUrl}/generate?cancelled=true`,
       metadata: {
         tier,
         businessName,

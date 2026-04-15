@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       ],
       mode: 'payment',
       success_url: `${baseUrl}/spy/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/spy`,
+      cancel_url: `${baseUrl}/spy?cancelled=true`,
       allow_promotion_codes: true,
       metadata: {
         product: 'competitor_spy',

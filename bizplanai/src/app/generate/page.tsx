@@ -48,10 +48,14 @@ function GeneratePageInner() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showRecovery, setShowRecovery] = useState(false);
 
   useEffect(() => {
     const t = searchParams.get('tier');
     if (t === 'starter' || t === 'pro') setTier(t);
+    if (searchParams.get('cancelled') === 'true') setShowRecovery(true);
+    const ind = searchParams.get('industry');
+    if (ind) update('industry' as any, ind);
   }, [searchParams]);
 
   const update = (field: keyof FormData, value: string) => setForm(prev => ({ ...prev, [field]: value }));
@@ -104,6 +108,43 @@ function GeneratePageInner() {
       </header>
 
       <main className="max-w-3xl mx-auto px-4 py-12">
+        {/* Abandoned checkout recovery */}
+        {showRecovery && (
+          <div className="mb-6 p-5 rounded-xl bg-amber-50 border-2 border-amber-200 relative">
+            <button onClick={() => setShowRecovery(false)} className="absolute top-3 right-3 text-amber-400 hover:text-amber-600">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <h3 className="font-bold text-amber-900 mb-1">Still thinking it over?</h3>
+            <p className="text-sm text-amber-800 mb-3">
+              You were one step away from your business plan. No worries -- your form data is still here. If you're not ready to commit, try our free tool first:
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <a href="/free-competitor-check" className="px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition">
+                Free Competitor Check
+              </a>
+              <a href="/bundles" className="px-4 py-2 border border-amber-300 text-amber-800 text-sm font-semibold rounded-lg hover:bg-amber-100 transition">
+                See Bundle Deals
+              </a>
+            </div>
+          </div>
+        )}
+
+        {/* Social proof */}
+        <div className="flex items-center justify-center gap-6 mb-8 text-sm text-gray-500">
+          <div className="flex items-center gap-1.5">
+            <div className="flex -space-x-2">
+              {['bg-blue-400', 'bg-green-400', 'bg-purple-400', 'bg-orange-400'].map((c, i) => (
+                <div key={i} className={`w-6 h-6 rounded-full ${c} border-2 border-white`} />
+              ))}
+            </div>
+            <span className="font-medium text-gray-700">87% choose Pro</span>
+          </div>
+          <span className="text-gray-300">|</span>
+          <span>Plans delivered in 3-8 min</span>
+          <span className="text-gray-300 hidden sm:inline">|</span>
+          <span className="hidden sm:inline">Real data, not AI guesses</span>
+        </div>
+
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold mb-3">Tell Us About Your Business</h1>
           <p className="text-gray-600 text-lg">
