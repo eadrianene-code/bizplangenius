@@ -204,19 +204,40 @@ export default function FreeCompetitorCheck() {
                 This was just a taste. Our full Competitor Spy report includes pricing analysis, SWOT breakdowns, vulnerability audits, and a 90-day tactical roadmap to beat them all.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <a
-                  href="/spy"
-                  className="inline-block px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25"
-                >
-                  Full Competitor Spy Report - $19
+                <a href="/spy" className="inline-block px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
+                  Full Spy Report - $19
                 </a>
-                <a
-                  href="/generate"
-                  className="inline-block px-8 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition"
-                >
-                  Full Business Plan - $29
+                <a href="/generate" className="inline-block px-8 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">
+                  Business Plan - $29
+                </a>
+                <a href="/bundles" className="inline-block px-8 py-3 border-2 border-accent-300 text-accent-700 font-semibold rounded-lg hover:bg-accent-50 transition">
+                  Bundle & Save - $59
                 </a>
               </div>
+            </div>
+
+            {/* More products */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <a href="/build-website" className="p-4 bg-white rounded-xl border hover:shadow-md transition block text-center">
+                <p className="text-xs font-bold text-accent-600 uppercase mb-1">Build</p>
+                <p className="font-bold text-gray-900 text-sm">Website</p>
+                <p className="text-xs text-gray-500">From $99</p>
+              </a>
+              <a href="/pitch-deck" className="p-4 bg-white rounded-xl border hover:shadow-md transition block text-center">
+                <p className="text-xs font-bold text-purple-600 uppercase mb-1">Fundraise</p>
+                <p className="font-bold text-gray-900 text-sm">Pitch Deck</p>
+                <p className="text-xs text-gray-500">$39</p>
+              </a>
+              <a href="/brand-kit" className="p-4 bg-white rounded-xl border hover:shadow-md transition block text-center">
+                <p className="text-xs font-bold text-orange-600 uppercase mb-1">Brand</p>
+                <p className="font-bold text-gray-900 text-sm">Brand Kit</p>
+                <p className="text-xs text-gray-500">$29</p>
+              </a>
+              <a href="/social-pack" className="p-4 bg-white rounded-xl border hover:shadow-md transition block text-center">
+                <p className="text-xs font-bold text-pink-600 uppercase mb-1">Grow</p>
+                <p className="font-bold text-gray-900 text-sm">Social Pack</p>
+                <p className="text-xs text-gray-500">$29</p>
+              </a>
             </div>
 
             {/* Try Again */}
