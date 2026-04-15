@@ -8,8 +8,8 @@ const NAV_LINKS = [
   { href: '#how-it-works', label: 'How It Works' },
   { href: '#pricing', label: 'Pricing' },
   { href: '/spy', label: 'Competitor Spy' },
+  { href: '/bundles', label: 'Bundles' },
   { href: '/free-competitor-check', label: 'Free Tool' },
-  { href: '/blog', label: 'Blog' },
   { href: '/dashboard', label: 'My Toolkit' },
 ];
 
@@ -507,30 +507,48 @@ function MoreTools() {
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Go From Idea to Launch</h2>
           <p className="text-gray-600">Everything you need to start your business, powered by AI</p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <a href="/free-competitor-check" className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition block">
-            <p className="text-xs font-bold text-green-600 uppercase mb-2">Free</p>
-            <h3 className="font-bold text-gray-900 mb-1">Competitor Check</h3>
-            <p className="text-xs text-gray-500 mb-3">Find your top 3 competitors instantly</p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <a href="/free-competitor-check" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
+            <p className="text-[10px] font-bold text-green-600 uppercase mb-1">Free</p>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Competitor Check</h3>
+            <p className="text-xs text-gray-500 mb-2">Find top 3 competitors</p>
             <p className="text-lg font-extrabold text-green-600">$0</p>
           </a>
-          <a href="/spy" className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition block">
-            <p className="text-xs font-bold text-brand-600 uppercase mb-2">Research</p>
-            <h3 className="font-bold text-gray-900 mb-1">Competitor Spy</h3>
-            <p className="text-xs text-gray-500 mb-3">Deep analysis of 10-15 real competitors</p>
+          <a href="/spy" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
+            <p className="text-[10px] font-bold text-brand-600 uppercase mb-1">Research</p>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Competitor Spy</h3>
+            <p className="text-xs text-gray-500 mb-2">10-15 competitors analyzed</p>
             <p className="text-lg font-extrabold text-brand-600">$19</p>
           </a>
-          <a href="/build-website" className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition block">
-            <p className="text-xs font-bold text-accent-600 uppercase mb-2">Build</p>
-            <h3 className="font-bold text-gray-900 mb-1">Website Builder</h3>
-            <p className="text-xs text-gray-500 mb-3">Custom website from your business plan</p>
-            <p className="text-lg font-extrabold text-accent-600">From $99</p>
+          <a href="/build-website" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
+            <p className="text-[10px] font-bold text-accent-600 uppercase mb-1">Build</p>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Website</h3>
+            <p className="text-xs text-gray-500 mb-2">Custom site from plan</p>
+            <p className="text-lg font-extrabold text-accent-600">$99</p>
           </a>
-          <a href="/pitch-deck" className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition block">
-            <p className="text-xs font-bold text-purple-600 uppercase mb-2">Fundraise</p>
-            <h3 className="font-bold text-gray-900 mb-1">Pitch Deck</h3>
-            <p className="text-xs text-gray-500 mb-3">12-slide investor deck with speaker notes</p>
+          <a href="/pitch-deck" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
+            <p className="text-[10px] font-bold text-purple-600 uppercase mb-1">Fundraise</p>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Pitch Deck</h3>
+            <p className="text-xs text-gray-500 mb-2">12 investor slides</p>
             <p className="text-lg font-extrabold text-purple-600">$39</p>
+          </a>
+          <a href="/social-pack" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
+            <p className="text-[10px] font-bold text-pink-600 uppercase mb-1">Grow</p>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Social Pack</h3>
+            <p className="text-xs text-gray-500 mb-2">30 days of posts</p>
+            <p className="text-lg font-extrabold text-pink-600">$29</p>
+          </a>
+          <a href="/brand-kit" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
+            <p className="text-[10px] font-bold text-orange-600 uppercase mb-1">Brand</p>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Brand Kit</h3>
+            <p className="text-xs text-gray-500 mb-2">Logo, colors, voice</p>
+            <p className="text-lg font-extrabold text-orange-600">$29</p>
+          </a>
+        </div>
+        <div className="text-center mt-6">
+          <a href="/bundles" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
+            Save with bundles -- from $59
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
         </div>
       </div>
