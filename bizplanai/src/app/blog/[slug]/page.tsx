@@ -33,6 +33,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       publishedTime: post.date,
       authors: [post.author],
       url: `https://www.bizplangenius.com/blog/${slug}`,
+      siteName: "BizPlan Genius",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
     },
   };
 }
@@ -262,12 +268,32 @@ export default async function BlogPostPage({ params }: PageProps) {
             author: {
               "@type": "Person",
               name: post.author,
+              url: "https://www.bizplangenius.com/about",
             },
             publisher: {
               "@type": "Organization",
               name: "BizPlan Genius",
-              url: "https://bizplangenius.com",
+              url: "https://www.bizplangenius.com",
             },
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://www.bizplangenius.com/blog/${slug}`,
+            },
+          }),
+        }}
+      />
+      {/* BreadcrumbList Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.bizplangenius.com" },
+              { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.bizplangenius.com/blog" },
+              { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://www.bizplangenius.com/blog/${slug}` },
+            ],
           }),
         }}
       />

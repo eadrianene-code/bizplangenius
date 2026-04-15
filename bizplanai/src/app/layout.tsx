@@ -21,6 +21,11 @@ export const metadata: Metadata = {
     siteName: 'BizPlan Genius',
     type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Business Plan Generator - Real Competitor Research | BizPlan Genius',
+    description: 'Generate investor-ready business plans with real competitor data. From $29, one-time payment.',
+  },
   robots: {
     index: true,
     follow: true,
