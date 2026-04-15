@@ -490,6 +490,8 @@ function WebsiteEditor({
   const [editInstruction, setEditInstruction] = useState('');
   const [addingPage, setAddingPage] = useState(false);
   const [newPageCustomPrompt, setNewPageCustomPrompt] = useState('');
+  const [renamingPageId, setRenamingPageId] = useState<string | null>(null);
+  const [renameValue, setRenameValue] = useState('');
   const [editLoading, setEditLoading] = useState(false);
   const [editError, setEditError] = useState('');
   const [history, setHistory] = useState<string[]>([html]);
@@ -523,6 +525,39 @@ function WebsiteEditor({
     } finally {
       setEditLoading(false);
     }
+  };
+
+  const handleRename = (pageId: string, newName: string) => {
+    if (!newName.trim()) return;
+    const newFilename = pageId === 'home' ? 'index.html' : newName.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.html';
+    onRenamePage(pageId, newName.trim(), newFilename);
+    setRenamingPageId(null);
+    setRenameValue('');
+  };
+
+  const updateAllNavigation = async () => {
+    // When user is ready, update nav links across all pages
+    const navItems = pages.map(p => `${p.name} (${p.filename})`).join(', ');
+    setEditLoading(true);
+    try {
+      const res = await fetch('/api/edit-website', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          currentHtml: html,
+          editInstruction: `Update the navigation bar to include links to these pages in this order: ${navItems}. Use the filenames as href values. Keep the same nav design style.`,
+          editType: 'section_edit',
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.html) {
+        const newHistory = [...history.slice(0, historyIndex + 1), data.html];
+        setHistory(newHistory);
+        setHistoryIndex(newHistory.length - 1);
+        onUpdate(data.html);
+      }
+    } catch {}
+    setEditLoading(false);
   };
 
   const addNewPage = async (template: typeof NEW_PAGE_TEMPLATES[0]) => {
@@ -615,12 +650,28 @@ IMPORTANT:
       <div className="bg-white border-b px-4 py-2 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-1 overflow-x-auto">
           {pages.map(page => (
-            <button key={page.id} onClick={() => onSelectPage(page.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition whitespace-nowrap ${
-                activePageId === page.id ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}>
-              {page.name}
-            </button>
+            renamingPageId === page.id ? (
+              <form key={page.id} onSubmit={e => { e.preventDefault(); handleRename(page.id, renameValue); }} className="flex items-center">
+                <input
+                  autoFocus
+                  value={renameValue}
+                  onChange={e => setRenameValue(e.target.value)}
+                  onBlur={() => { if (renameValue.trim()) handleRename(page.id, renameValue); else setRenamingPageId(null); }}
+                  onKeyDown={e => { if (e.key === 'Escape') setRenamingPageId(null); }}
+                  className="px-2 py-1 rounded-lg text-xs font-medium border-2 border-brand-400 outline-none w-24"
+                />
+              </form>
+            ) : (
+              <button key={page.id}
+                onClick={() => onSelectPage(page.id)}
+                onDoubleClick={() => { setRenamingPageId(page.id); setRenameValue(page.name); }}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition whitespace-nowrap ${
+                  activePageId === page.id ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+                title="Double-click to rename">
+                {page.name}
+              </button>
+            )
           ))}
           <button onClick={() => { setEditorOpen(true); setEditorTab('pages'); }}
             className="px-2 py-1.5 rounded-lg text-xs font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition" title="Add page">
@@ -670,20 +721,45 @@ IMPORTANT:
                       <div key={page.id} className={`flex items-center justify-between p-3 rounded-lg border transition ${
                         activePageId === page.id ? 'border-brand-300 bg-brand-50' : 'border-gray-100 hover:border-gray-200'
                       }`}>
-                        <button onClick={() => { onSelectPage(page.id); setEditorTab('edit'); }} className="text-left flex-1">
-                          <p className="text-sm font-medium text-gray-900">{page.name}</p>
-                          <p className="text-xs text-gray-400">{page.filename}</p>
-                        </button>
-                        {page.id !== 'home' && (
-                          <button onClick={() => { if (confirm(`Delete "${page.name}"?`)) onDeletePage(page.id); }}
-                            className="p-1 text-gray-400 hover:text-red-500 transition" title="Delete page">
-                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
+                        {renamingPageId === page.id ? (
+                          <form onSubmit={e => { e.preventDefault(); handleRename(page.id, renameValue); }} className="flex-1 mr-2">
+                            <input autoFocus value={renameValue} onChange={e => setRenameValue(e.target.value)}
+                              onBlur={() => { if (renameValue.trim()) handleRename(page.id, renameValue); else setRenamingPageId(null); }}
+                              onKeyDown={e => { if (e.key === 'Escape') setRenamingPageId(null); }}
+                              className="w-full px-2 py-1 text-sm border-2 border-brand-400 rounded-lg outline-none" />
+                          </form>
+                        ) : (
+                          <button onClick={() => { onSelectPage(page.id); setEditorTab('edit'); }} className="text-left flex-1">
+                            <p className="text-sm font-medium text-gray-900">{page.name}</p>
+                            <p className="text-xs text-gray-400">{page.filename}</p>
                           </button>
                         )}
+                        <div className="flex items-center gap-1">
+                          <button onClick={() => { setRenamingPageId(page.id); setRenameValue(page.name); }}
+                            className="p-1 text-gray-400 hover:text-brand-600 transition" title="Rename page">
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                          </button>
+                          {page.id !== 'home' && (
+                            <button onClick={() => { if (confirm(`Delete "${page.name}"?`)) onDeletePage(page.id); }}
+                              className="p-1 text-gray-400 hover:text-red-500 transition" title="Delete page">
+                              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          )}
+                        </div>
                       </div>
                     ))}
+
+                    {/* Update nav button */}
+                    {pages.length > 1 && (
+                      <button onClick={updateAllNavigation} disabled={editLoading}
+                        className="w-full mt-3 px-3 py-2 text-xs font-medium text-brand-600 border border-brand-200 rounded-lg hover:bg-brand-50 transition disabled:opacity-50">
+                        {editLoading ? 'Updating...' : 'Sync navigation across pages'}
+                      </button>
+                    )}
                   </div>
                 </div>
 
