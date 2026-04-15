@@ -162,10 +162,80 @@ function DashboardInner() {
       <Header />
       <main className="max-w-3xl mx-auto px-4 py-8">
         {/* Welcome */}
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Your Business Toolkit</h1>
           <p className="text-gray-500 text-sm mt-1">{data.email}</p>
         </div>
+
+        {/* Launch Progress Tracker */}
+        {(() => {
+          const launchSteps = [
+            { key: 'research', label: 'Research', desc: 'Competitor Spy Report', done: data.stats.hasSpy, href: '/spy', icon: '🔍' },
+            { key: 'plan', label: 'Plan', desc: 'Business Plan', done: data.stats.hasPlan, href: '/generate', icon: '📋' },
+            { key: 'brand', label: 'Brand', desc: 'Logo & Brand Kit', done: data.purchases.some((p: Purchase) => p.product === 'brand_kit'), href: '/brand-kit', icon: '🎨' },
+            { key: 'legal', label: 'Legal', desc: 'Terms & Privacy', done: data.purchases.some((p: Purchase) => p.product === 'legal_pages'), href: '/legal-pages', icon: '📜' },
+            { key: 'website', label: 'Website', desc: 'Business Website', done: data.purchases.some((p: Purchase) => p.product === 'website_builder'), href: '/build-website', icon: '🌐' },
+            { key: 'content', label: 'Content', desc: 'Social Media Pack', done: data.purchases.some((p: Purchase) => p.product === 'social_media_pack'), href: '/social-pack', icon: '📱' },
+            { key: 'ads', label: 'Advertise', desc: 'Ad Copy', done: data.purchases.some((p: Purchase) => p.product === 'ad_copy'), href: '/ad-copy', icon: '📢' },
+          ];
+          const completed = launchSteps.filter(s => s.done).length;
+          const percent = Math.round((completed / launchSteps.length) * 100);
+          const nextStep = launchSteps.find(s => !s.done);
+
+          return (
+            <div className="mb-8 bg-white rounded-2xl border shadow-sm p-6">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <h2 className="font-bold text-gray-900 text-sm">Launch Progress</h2>
+                  <p className="text-xs text-gray-500">{completed} of {launchSteps.length} steps completed</p>
+                </div>
+                <span className={`text-2xl font-extrabold ${percent === 100 ? 'text-green-600' : 'text-brand-600'}`}>{percent}%</span>
+              </div>
+
+              {/* Progress bar */}
+              <div className="w-full bg-gray-100 rounded-full h-3 mb-4">
+                <div className={`h-3 rounded-full transition-all duration-500 ${percent === 100 ? 'bg-green-500' : 'bg-brand-600'}`} style={{ width: `${percent}%` }} />
+              </div>
+
+              {/* Step indicators */}
+              <div className="flex justify-between mb-4">
+                {launchSteps.map((step, i) => (
+                  <a key={step.key} href={step.done ? undefined : step.href} className={`flex flex-col items-center gap-1 group ${step.done ? '' : 'cursor-pointer'}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm transition ${
+                      step.done ? 'bg-green-100' : 'bg-gray-100 group-hover:bg-brand-50'
+                    }`}>
+                      {step.done ? (
+                        <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
+                      ) : (
+                        <span>{step.icon}</span>
+                      )}
+                    </div>
+                    <span className={`text-[10px] font-medium ${step.done ? 'text-green-600' : 'text-gray-400 group-hover:text-brand-600'}`}>{step.label}</span>
+                  </a>
+                ))}
+              </div>
+
+              {/* Next step CTA */}
+              {nextStep && percent < 100 && (
+                <a href={nextStep.href} className="flex items-center justify-between p-3 bg-brand-50 rounded-xl border border-brand-100 hover:bg-brand-100 transition">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">{nextStep.icon}</span>
+                    <div>
+                      <p className="text-sm font-bold text-brand-900">Next: {nextStep.desc}</p>
+                      <p className="text-xs text-brand-700">Complete this step to continue your launch</p>
+                    </div>
+                  </div>
+                  <svg className="w-5 h-5 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                </a>
+              )}
+              {percent === 100 && (
+                <div className="p-3 bg-green-50 rounded-xl border border-green-100 text-center">
+                  <p className="text-sm font-bold text-green-800">You're ready to launch! All steps completed.</p>
+                </div>
+              )}
+            </div>
+          );
+        })()}
 
         {/* Unlock banner when no plan */}
         {!data.stats.hasPlan && data.purchases.length > 0 && (
