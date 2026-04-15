@@ -647,6 +647,7 @@ function Footer() {
               <a href="/bundles" className="block text-sm text-gray-500 hover:text-gray-700">Bundles</a>
               <a href="/free-competitor-check" className="block text-sm text-gray-500 hover:text-gray-700">Free Competitor Check</a>
               <a href="/business-name-generator" className="block text-sm text-gray-500 hover:text-gray-700">Free Name Generator</a>
+              <a href="/startup-cost-calculator" className="block text-sm text-gray-500 hover:text-gray-700">Free Cost Calculator</a>
             </div>
           </div>
           <div>
