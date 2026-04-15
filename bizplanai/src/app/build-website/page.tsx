@@ -31,6 +31,8 @@ function BuildWebsiteInner() {
   const urlType = searchParams.get('type');
   const urlColor = searchParams.get('color');
 
+  interface SitePage { id: string; name: string; filename: string; html: string; }
+
   // State
   const [step, setStep] = useState<'configure' | 'generating' | 'preview'>('configure');
   const [websiteType, setWebsiteType] = useState(urlType || 'landing');
@@ -39,8 +41,15 @@ function BuildWebsiteInner() {
   const [extraInstructions, setExtraInstructions] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [generatedHtml, setGeneratedHtml] = useState('');
+  const [pages, setPages] = useState<SitePage[]>([]);
+  const [activePageId, setActivePageId] = useState('');
   const [businessName, setBusinessName] = useState('');
+
+  // Backwards compat
+  const generatedHtml = pages.find(p => p.id === activePageId)?.html || '';
+  const setGeneratedHtml = (html: string) => {
+    setPages(prev => prev.map(p => p.id === activePageId ? { ...p, html } : p));
+  };
 
   // If we have a session_id (paid), auto-generate
   useEffect(() => {
@@ -70,7 +79,9 @@ function BuildWebsiteInner() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Generation failed');
 
-      setGeneratedHtml(data.html);
+      const homePage: SitePage = { id: 'home', name: 'Home', filename: 'index.html', html: data.html };
+      setPages([homePage]);
+      setActivePageId('home');
       setBusinessName(data.businessName);
       setStep('preview');
     } catch (err: any) {
@@ -112,14 +123,28 @@ function BuildWebsiteInner() {
   };
 
   const handleDownload = () => {
-    if (!generatedHtml) return;
-    const blob = new Blob([generatedHtml], { type: 'text/html' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${(businessName || 'website').toLowerCase().replace(/\s+/g, '-')}.html`;
-    a.click();
-    URL.revokeObjectURL(url);
+    if (pages.length === 0) return;
+    if (pages.length === 1) {
+      // Single file download
+      const blob = new Blob([pages[0].html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${(businessName || 'website').toLowerCase().replace(/\s+/g, '-')}.html`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } else {
+      // Multi-page: download each file (zip would need a library)
+      pages.forEach(page => {
+        const blob = new Blob([page.html], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = page.filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
   };
 
   const handleCopyHtml = () => {
@@ -171,7 +196,7 @@ function BuildWebsiteInner() {
   }
 
   // Preview state with editor
-  if (step === 'preview' && generatedHtml) {
+  if (step === 'preview' && pages.length > 0) {
     return <WebsiteEditor
       html={generatedHtml}
       businessName={businessName}
@@ -180,6 +205,24 @@ function BuildWebsiteInner() {
       onDownload={handleDownload}
       onCopy={handleCopyHtml}
       iframeRef={iframeRef}
+      pages={pages}
+      activePageId={activePageId}
+      onSelectPage={setActivePageId}
+      onAddPage={(name: string, filename: string, html: string) => {
+        const id = name.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now();
+        setPages(prev => [...prev, { id, name, filename, html }]);
+        setActivePageId(id);
+      }}
+      onDeletePage={(id: string) => {
+        if (pages.length <= 1) return;
+        setPages(prev => prev.filter(p => p.id !== id));
+        if (activePageId === id) setActivePageId(pages.find(p => p.id !== id)?.id || '');
+      }}
+      onRenamePage={(id: string, name: string, filename: string) => {
+        setPages(prev => prev.map(p => p.id === id ? { ...p, name, filename } : p));
+      }}
+      planSessionId={planSessionId || ''}
+      colorScheme={urlColor || colorScheme}
     />;
   }
 
@@ -398,17 +441,33 @@ function DeviceToggle({ iframeRef }: { iframeRef: React.RefObject<HTMLIFrameElem
   );
 }
 
+interface SitePageType { id: string; name: string; filename: string; html: string; }
+
 const QUICK_EDITS = [
   { label: 'Change prices', instruction: 'I want to update the pricing section.', icon: '💰' },
   { label: 'Edit hero text', instruction: 'I want to change the hero headline and subheadline.', icon: '✏️' },
   { label: 'Update services', instruction: 'I want to edit the services/features section.', icon: '🔧' },
   { label: 'Change about', instruction: 'I want to rewrite the about section.', icon: '📝' },
   { label: 'Edit contact', instruction: 'I want to update the contact section details.', icon: '📞' },
-  { label: 'Add section', instruction: 'I want to add a new section to the website.', icon: '➕' },
+  { label: 'Add section', instruction: 'I want to add a new section to this page.', icon: '➕' },
+];
+
+const NEW_PAGE_TEMPLATES = [
+  { name: 'About Us', filename: 'about.html', prompt: 'an About Us page with team bios, company story, mission, and values' },
+  { name: 'Services', filename: 'services.html', prompt: 'a detailed Services page listing all services with descriptions and pricing' },
+  { name: 'Contact', filename: 'contact.html', prompt: 'a Contact page with a form, map placeholder, business hours, and address' },
+  { name: 'Blog', filename: 'blog.html', prompt: 'a Blog listing page with 3 sample article cards and sidebar' },
+  { name: 'Pricing', filename: 'pricing.html', prompt: 'a dedicated Pricing page with comparison table and FAQ' },
+  { name: 'FAQ', filename: 'faq.html', prompt: 'a FAQ page with 10 accordion-style questions and answers' },
+  { name: 'Portfolio', filename: 'portfolio.html', prompt: 'a Portfolio/Gallery page showcasing work examples with descriptions' },
+  { name: 'Testimonials', filename: 'testimonials.html', prompt: 'a Testimonials page with detailed customer reviews and case studies' },
+  { name: 'Custom Page', filename: 'custom.html', prompt: '' },
 ];
 
 function WebsiteEditor({
-  html, businessName, sessionId, onUpdate, onDownload, onCopy, iframeRef
+  html, businessName, sessionId, onUpdate, onDownload, onCopy, iframeRef,
+  pages, activePageId, onSelectPage, onAddPage, onDeletePage, onRenamePage,
+  planSessionId, colorScheme,
 }: {
   html: string;
   businessName: string;
@@ -417,9 +476,20 @@ function WebsiteEditor({
   onDownload: () => void;
   onCopy: () => void;
   iframeRef: React.RefObject<HTMLIFrameElement | null>;
+  pages: SitePageType[];
+  activePageId: string;
+  onSelectPage: (id: string) => void;
+  onAddPage: (name: string, filename: string, html: string) => void;
+  onDeletePage: (id: string) => void;
+  onRenamePage: (id: string, name: string, filename: string) => void;
+  planSessionId: string;
+  colorScheme: string;
 }) {
   const [editorOpen, setEditorOpen] = useState(false);
+  const [editorTab, setEditorTab] = useState<'edit' | 'pages'>('edit');
   const [editInstruction, setEditInstruction] = useState('');
+  const [addingPage, setAddingPage] = useState(false);
+  const [newPageCustomPrompt, setNewPageCustomPrompt] = useState('');
   const [editLoading, setEditLoading] = useState(false);
   const [editError, setEditError] = useState('');
   const [history, setHistory] = useState<string[]>([html]);
@@ -452,6 +522,47 @@ function WebsiteEditor({
       setEditError(err.message || 'Failed to apply edit');
     } finally {
       setEditLoading(false);
+    }
+  };
+
+  const addNewPage = async (template: typeof NEW_PAGE_TEMPLATES[0]) => {
+    setAddingPage(true);
+    setEditError('');
+    try {
+      const pagePrompt = template.prompt || newPageCustomPrompt;
+      if (!pagePrompt) { setEditError('Describe what the page should contain'); setAddingPage(false); return; }
+
+      // Get nav links from existing pages
+      const navLinks = pages.map(p => `<a href="${p.filename}">${p.name}</a>`).join(' | ');
+
+      const res = await fetch('/api/edit-website', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          currentHtml: pages[0]?.html || '',
+          editInstruction: `Generate a COMPLETELY NEW, separate HTML page for: ${pagePrompt}
+
+This is for the business "${businessName}". Match the SAME design style, colors, fonts, and layout as the existing homepage HTML provided.
+
+IMPORTANT:
+- This is a NEW page, not an edit of the existing one
+- Include the same navigation bar with links to: ${pages.map(p => p.name).join(', ')}, and this new page "${template.name}"
+- Include the same footer as the homepage
+- Use the same Tailwind CSS CDN and color scheme
+- Make it a complete standalone HTML document
+- Navigation links should use relative hrefs (e.g., index.html, about.html)`,
+          editType: 'full_regenerate',
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      onAddPage(template.name, template.filename, data.html);
+      setNewPageCustomPrompt('');
+    } catch (err: any) {
+      setEditError(err.message || 'Failed to create page');
+    } finally {
+      setAddingPage(false);
     }
   };
 
@@ -500,10 +611,26 @@ function WebsiteEditor({
         </div>
       </header>
 
-      {/* Device toggle */}
-      <div className="bg-white border-b px-4 py-2 flex items-center justify-center gap-2 flex-shrink-0">
-        <DeviceToggle iframeRef={iframeRef} />
-        <span className="text-xs text-gray-400 ml-4">Version {historyIndex + 1} of {history.length}</span>
+      {/* Page tabs + Device toggle */}
+      <div className="bg-white border-b px-4 py-2 flex items-center justify-between flex-shrink-0">
+        <div className="flex items-center gap-1 overflow-x-auto">
+          {pages.map(page => (
+            <button key={page.id} onClick={() => onSelectPage(page.id)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition whitespace-nowrap ${
+                activePageId === page.id ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}>
+              {page.name}
+            </button>
+          ))}
+          <button onClick={() => { setEditorOpen(true); setEditorTab('pages'); }}
+            className="px-2 py-1.5 rounded-lg text-xs font-medium text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition" title="Add page">
+            +
+          </button>
+        </div>
+        <div className="flex items-center gap-2 flex-shrink-0 ml-4">
+          <DeviceToggle iframeRef={iframeRef} />
+          <span className="text-xs text-gray-400 ml-2 hidden sm:inline">v{historyIndex + 1}/{history.length}</span>
+        </div>
       </div>
 
       <div className="flex-1 flex overflow-hidden">
@@ -521,8 +648,88 @@ function WebsiteEditor({
         {/* Editor panel */}
         {editorOpen && (
           <div className="w-80 bg-white border-l border-gray-200 flex flex-col flex-shrink-0 overflow-hidden">
+            {/* Editor tabs */}
+            <div className="flex border-b border-gray-100">
+              <button onClick={() => setEditorTab('edit')}
+                className={`flex-1 px-4 py-3 text-sm font-medium transition ${editorTab === 'edit' ? 'text-brand-600 border-b-2 border-brand-600' : 'text-gray-500 hover:text-gray-700'}`}>
+                Edit Page
+              </button>
+              <button onClick={() => setEditorTab('pages')}
+                className={`flex-1 px-4 py-3 text-sm font-medium transition ${editorTab === 'pages' ? 'text-brand-600 border-b-2 border-brand-600' : 'text-gray-500 hover:text-gray-700'}`}>
+                Pages ({pages.length})
+              </button>
+            </div>
+
+            {editorTab === 'pages' ? (
+              <div className="flex-1 overflow-y-auto">
+                {/* Existing pages */}
+                <div className="p-4">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Your Pages</p>
+                  <div className="space-y-2">
+                    {pages.map(page => (
+                      <div key={page.id} className={`flex items-center justify-between p-3 rounded-lg border transition ${
+                        activePageId === page.id ? 'border-brand-300 bg-brand-50' : 'border-gray-100 hover:border-gray-200'
+                      }`}>
+                        <button onClick={() => { onSelectPage(page.id); setEditorTab('edit'); }} className="text-left flex-1">
+                          <p className="text-sm font-medium text-gray-900">{page.name}</p>
+                          <p className="text-xs text-gray-400">{page.filename}</p>
+                        </button>
+                        {page.id !== 'home' && (
+                          <button onClick={() => { if (confirm(`Delete "${page.name}"?`)) onDeletePage(page.id); }}
+                            className="p-1 text-gray-400 hover:text-red-500 transition" title="Delete page">
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Add new page */}
+                <div className="p-4 border-t border-gray-100">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Add New Page</p>
+                  <div className="space-y-1.5">
+                    {NEW_PAGE_TEMPLATES.filter(t => t.name !== 'Custom Page').map((tmpl, i) => {
+                      const exists = pages.some(p => p.filename === tmpl.filename);
+                      return (
+                        <button key={i} onClick={() => !exists && !addingPage && addNewPage(tmpl)} disabled={exists || addingPage}
+                          className={`w-full text-left p-2.5 rounded-lg border text-sm transition ${
+                            exists ? 'border-gray-100 text-gray-300 cursor-not-allowed' : 'border-gray-200 hover:border-brand-300 hover:bg-brand-50'
+                          }`}>
+                          <span className="font-medium">{tmpl.name}</span>
+                          {exists && <span className="text-xs text-gray-400 ml-2">(added)</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Custom page */}
+                  <div className="mt-4 pt-4 border-t border-gray-100">
+                    <p className="text-xs font-semibold text-gray-700 mb-2">Custom Page</p>
+                    <textarea
+                      value={newPageCustomPrompt}
+                      onChange={e => setNewPageCustomPrompt(e.target.value)}
+                      placeholder="Describe your custom page, e.g., 'A team page with 4 team members and their bios'"
+                      rows={3}
+                      className="w-full px-3 py-2 border border-gray-200 rounded-lg text-xs outline-none resize-none focus:border-brand-400"
+                    />
+                    <button
+                      onClick={() => addNewPage({ name: 'Custom', filename: `custom-${Date.now()}.html`, prompt: newPageCustomPrompt })}
+                      disabled={addingPage || !newPageCustomPrompt.trim()}
+                      className="mt-2 w-full px-4 py-2 bg-brand-600 text-white text-sm font-bold rounded-lg hover:bg-brand-700 transition disabled:opacity-50">
+                      {addingPage ? 'Generating page...' : 'Create Custom Page'}
+                    </button>
+                  </div>
+
+                  {editError && <p className="text-xs text-red-600 mt-2">{editError}</p>}
+                </div>
+              </div>
+            ) : (
+            <>
             <div className="p-4 border-b border-gray-100">
-              <h3 className="font-bold text-gray-900 text-sm">Edit Your Website</h3>
+              <h3 className="font-bold text-gray-900 text-sm">Edit: {pages.find(p => p.id === activePageId)?.name || 'Page'}</h3>
               <p className="text-xs text-gray-500 mt-1">Describe what you want to change. AI will update the website.</p>
             </div>
 
@@ -581,6 +788,8 @@ function WebsiteEditor({
                 <li>Use Undo if you don't like a change</li>
               </ul>
             </div>
+            </>
+            )}
           </div>
         )}
       </div>
