@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { buildCheckoutMetadata } from '@/lib/product-utils';
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -9,14 +10,22 @@ function getStripe() {
 
 export async function POST(req: NextRequest) {
   try {
-    const { planSessionId, email, platforms } = await req.json();
+    const body = await req.json();
+    const { email } = body;
 
-    if (!planSessionId || !email) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    if (!email) {
+      return NextResponse.json({ error: 'Email required' }, { status: 400 });
+    }
+
+    // Must have either planSessionId or direct business details
+    if (!body.planSessionId && !body.businessName) {
+      return NextResponse.json({ error: 'Business details or plan session required' }, { status: 400 });
     }
 
     const origin = req.headers.get('origin') || req.headers.get('referer')?.replace(/\/[^/]*$/, '') || 'https://www.bizplangenius.com';
     const baseUrl = origin.replace(/\/$/, '');
+
+    const planParam = body.planSessionId ? `&plan_session_id=${body.planSessionId}` : '';
 
     const stripe = getStripe();
     const session = await stripe.checkout.sessions.create({
@@ -28,22 +37,20 @@ export async function POST(req: NextRequest) {
             currency: 'usd',
             product_data: {
               name: 'Social Media Starter Pack - 30 Days',
-              description: '30 days of ready-to-post social media content for Twitter, LinkedIn, Instagram, and Facebook. Tailored to your business.',
+              description: '30 days of ready-to-post social media content for Twitter, LinkedIn, Instagram, and Facebook.',
             },
-            unit_amount: 2900, // $29
+            unit_amount: 2900,
           },
           quantity: 1,
         },
       ],
       mode: 'payment',
       allow_promotion_codes: true,
-      success_url: `${baseUrl}/social-pack?session_id={CHECKOUT_SESSION_ID}&plan_session_id=${planSessionId}`,
-      cancel_url: `${baseUrl}/social-pack?plan_session_id=${planSessionId}`,
+      success_url: `${baseUrl}/social-pack?session_id={CHECKOUT_SESSION_ID}${planParam}`,
+      cancel_url: `${baseUrl}/social-pack`,
       metadata: {
         product: 'social_media_pack',
-        planSessionId,
-        email,
-        platforms: (platforms || []).join(','),
+        ...buildCheckoutMetadata(body),
       },
     });
 

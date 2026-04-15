@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import StandaloneBusinessForm from '../components/StandaloneBusinessForm';
 
 interface EmailTemplate {
   id: number;
@@ -93,10 +94,12 @@ function InvestorEmailsInner() {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
-        <main className="max-w-2xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-3xl font-bold mb-4">Investor Email Templates</h1>
-          <p className="text-gray-600 mb-8">Personalized fundraising emails. You need a business plan first.</p>
-          <a href="/generate" className="px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition">Generate a Business Plan First</a>
+        <main className="max-w-2xl mx-auto px-4 py-12">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-3">Investor Email Templates</h1>
+            <p className="text-gray-600 text-lg">10 personalized fundraising emails with subject lines and tips.</p>
+          </div>
+          <StandaloneBusinessForm productName="Investor Emails" productPrice={19} checkoutEndpoint="/api/investor-emails-checkout" />
         </main>
       </div>
     );

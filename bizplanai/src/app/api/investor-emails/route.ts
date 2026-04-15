@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenAI } from '@google/genai';
+import { getBusinessDetailsFromSession } from '@/lib/product-utils';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 function getStripe() {
-  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2025-02-24.acacia',
-  });
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-02-24.acacia' });
 }
 
 export const maxDuration = 120;
@@ -15,37 +14,21 @@ export const maxDuration = 120;
 export async function POST(req: NextRequest) {
   try {
     const { sessionId, planSessionId } = await req.json();
-
-    if (!sessionId || !planSessionId) {
-      return NextResponse.json({ error: 'Missing required session IDs' }, { status: 400 });
-    }
+    if (!sessionId) return NextResponse.json({ error: 'Missing session ID' }, { status: 400 });
 
     const stripe = getStripe();
-
-    let emailSession;
     try {
-      emailSession = await stripe.checkout.sessions.retrieve(sessionId);
-      if (emailSession.payment_status !== 'paid') {
-        return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
-      }
-    } catch {
-      return NextResponse.json({ error: 'Invalid session' }, { status: 400 });
-    }
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      if (session.payment_status !== 'paid') return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
+    } catch { return NextResponse.json({ error: 'Invalid session' }, { status: 400 }); }
 
-    let planData;
-    try {
-      const planSession = await stripe.checkout.sessions.retrieve(planSessionId);
-      planData = planSession.metadata || {};
-    } catch {
-      return NextResponse.json({ error: 'Invalid plan session' }, { status: 400 });
-    }
-
-    const businessName = planData.businessName || 'My Business';
-    const industry = planData.industry || '';
-    const description = planData.description || '';
-    const targetMarket = planData.targetMarket || '';
-    const revenueModel = planData.revenueModel || '';
-    const investment = planData.investment || '';
+    const biz = await getBusinessDetailsFromSession(sessionId, planSessionId);
+    const businessName = biz.businessName;
+    const industry = biz.industry;
+    const description = biz.description;
+    const targetMarket = biz.targetMarket;
+    const revenueModel = biz.revenueModel;
+    const investment = '';
 
     const prompt = `You are an expert startup fundraising advisor who has helped founders raise millions. Create investor outreach email templates for the following business.
 

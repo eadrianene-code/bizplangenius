@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenAI } from '@google/genai';
+import { getBusinessDetailsFromSession } from '@/lib/product-utils';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
@@ -16,36 +17,28 @@ export async function POST(req: NextRequest) {
   try {
     const { sessionId, planSessionId } = await req.json();
 
-    if (!sessionId || !planSessionId) {
-      return NextResponse.json({ error: 'Missing required session IDs' }, { status: 400 });
+    if (!sessionId) {
+      return NextResponse.json({ error: 'Missing session ID' }, { status: 400 });
     }
 
     const stripe = getStripe();
 
     // Verify payment
-    let packSession;
     try {
-      packSession = await stripe.checkout.sessions.retrieve(sessionId);
-      if (packSession.payment_status !== 'paid') {
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      if (session.payment_status !== 'paid') {
         return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
       }
     } catch {
       return NextResponse.json({ error: 'Invalid session' }, { status: 400 });
     }
 
-    // Get plan data
-    let planData;
-    try {
-      const planSession = await stripe.checkout.sessions.retrieve(planSessionId);
-      planData = planSession.metadata || {};
-    } catch {
-      return NextResponse.json({ error: 'Invalid plan session' }, { status: 400 });
-    }
-
-    const businessName = planData.businessName || 'My Business';
-    const industry = planData.industry || '';
-    const description = planData.description || '';
-    const targetMarket = planData.targetMarket || '';
+    // Get business details (from checkout metadata or plan session)
+    const biz = await getBusinessDetailsFromSession(sessionId, planSessionId);
+    const businessName = biz.businessName;
+    const industry = biz.industry;
+    const description = biz.description;
+    const targetMarket = biz.targetMarket;
 
     const prompt = `You are a social media marketing expert. Generate a 30-day social media content calendar for the following business.
 

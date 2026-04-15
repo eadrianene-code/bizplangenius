@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import StandaloneBusinessForm from '../components/StandaloneBusinessForm';
 
 interface Slide {
   slideNumber: number;
@@ -115,14 +116,12 @@ function PitchDeckInner() {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
-        <main className="max-w-2xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-3xl font-bold mb-4">AI Pitch Deck Generator</h1>
-          <p className="text-gray-600 mb-8">
-            Generate an investor-ready pitch deck from your business plan. You need a business plan first.
-          </p>
-          <a href="/generate" className="px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition">
-            Generate a Business Plan First
-          </a>
+        <main className="max-w-2xl mx-auto px-4 py-12">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-3">AI Pitch Deck Generator</h1>
+            <p className="text-gray-600 text-lg">12-slide investor-ready pitch deck with speaker notes.</p>
+          </div>
+          <StandaloneBusinessForm productName="Pitch Deck" productPrice={39} checkoutEndpoint="/api/pitch-deck-checkout" />
         </main>
       </div>
     );
