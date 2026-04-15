@@ -13,17 +13,19 @@ function getStripe() {
 export const maxDuration = 120;
 
 interface WebsiteRequest {
-  sessionId: string; // The website-checkout session ID (proof of payment)
-  planSessionId: string; // The original business plan session ID (for data)
+  sessionId: string;
+  planSessionId: string;
   websiteType: string;
   colorScheme: string;
   extraInstructions: string;
+  paymentType?: string;
+  paymentLink?: string;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body: WebsiteRequest = await req.json();
-    const { sessionId, planSessionId, websiteType, colorScheme, extraInstructions } = body;
+    const { sessionId, planSessionId, websiteType, colorScheme, extraInstructions, paymentType, paymentLink } = body;
 
     if (!sessionId || !planSessionId) {
       return NextResponse.json({ error: 'Missing required session IDs' }, { status: 400 });
@@ -153,6 +155,17 @@ DESIGN REQUIREMENTS:
 - Include meta tags for SEO (title, description, og tags)
 
 ${extraInstructions ? `ADDITIONAL INSTRUCTIONS: ${extraInstructions}` : ''}
+
+${paymentType && paymentLink ? `PAYMENT INTEGRATION:
+The business uses ${paymentType === 'stripe' ? 'Stripe' : paymentType === 'paypal' ? 'PayPal' : paymentType === 'square' ? 'Square' : paymentType} for payments.
+Payment URL: ${paymentLink}
+
+IMPORTANT: Make ALL pricing buttons, CTA buttons, and "Buy Now"/"Get Started"/"Book Now"/"Order Now" buttons link to this payment URL: ${paymentLink}
+- Pricing section: each tier's button should link to the payment URL
+- Hero CTA button should link to the payment URL
+- Any "Add to Cart" or purchase buttons should link to the payment URL
+- Open payment links in a new tab (target="_blank")
+- Make buttons visually prominent and action-oriented` : `PAYMENT NOTE: No payment link provided. Use action="#" for all purchase/CTA buttons. Add a comment in the HTML: <!-- Replace # with your payment link (Stripe, PayPal, etc.) -->`}
 
 SECTIONS TO INCLUDE (use the research data for content):
 1. Navigation bar with business name, smooth-scroll links, and CTA button

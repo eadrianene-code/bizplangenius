@@ -69,6 +69,8 @@ export async function POST(req: NextRequest) {
         planSessionId,
         email,
         extraInstructions: (extraInstructions || '').substring(0, 500),
+        paymentType: body.paymentType || '',
+        paymentLink: body.paymentLink || '',
       },
     });
 

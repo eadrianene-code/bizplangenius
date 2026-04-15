@@ -51,6 +51,8 @@ function BuildWebsiteInner() {
   const [colorScheme, setColorScheme] = useState(urlColor || 'blue');
   const [email, setEmail] = useState('');
   const [extraInstructions, setExtraInstructions] = useState('');
+  const [paymentType, setPaymentType] = useState<'none' | 'stripe' | 'paypal' | 'square' | 'other'>('none');
+  const [paymentLink, setPaymentLink] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [pages, setPages] = useState<SitePage[]>([]);
@@ -85,6 +87,8 @@ function BuildWebsiteInner() {
           websiteType: urlType || websiteType,
           colorScheme: urlColor || colorScheme,
           extraInstructions,
+          paymentType: paymentType !== 'none' ? paymentType : undefined,
+          paymentLink: paymentLink || undefined,
         }),
       });
 
@@ -375,6 +379,61 @@ function BuildWebsiteInner() {
                 </button>
               ))}
             </div>
+          </div>
+
+          {/* Payment Integration */}
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            <h2 className="font-bold text-gray-900 mb-2">Payment Integration</h2>
+            <p className="text-sm text-gray-500 mb-4">How will your customers pay you? We'll add real payment buttons to your website.</p>
+
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4">
+              {([
+                { key: 'none', label: 'Skip for now', desc: 'Add later' },
+                { key: 'stripe', label: 'Stripe', desc: 'Payment link' },
+                { key: 'paypal', label: 'PayPal', desc: 'PayPal.me or button' },
+                { key: 'square', label: 'Square', desc: 'Checkout link' },
+                { key: 'other', label: 'Other', desc: 'Any payment URL' },
+              ] as const).map(opt => (
+                <button key={opt.key} type="button" onClick={() => setPaymentType(opt.key)}
+                  className={`p-3 rounded-xl border-2 text-center transition ${
+                    paymentType === opt.key ? 'border-brand-600 bg-brand-50' : 'border-gray-200 hover:border-gray-300'
+                  }`}>
+                  <p className="text-sm font-bold text-gray-900">{opt.label}</p>
+                  <p className="text-[10px] text-gray-500">{opt.desc}</p>
+                </button>
+              ))}
+            </div>
+
+            {paymentType !== 'none' && (
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                  {paymentType === 'stripe' ? 'Stripe Payment Link' :
+                   paymentType === 'paypal' ? 'PayPal Link (paypal.me/yourname or button URL)' :
+                   paymentType === 'square' ? 'Square Checkout Link' : 'Payment URL'}
+                </label>
+                <input
+                  type="url"
+                  value={paymentLink}
+                  onChange={e => setPaymentLink(e.target.value)}
+                  placeholder={
+                    paymentType === 'stripe' ? 'https://buy.stripe.com/your-link' :
+                    paymentType === 'paypal' ? 'https://paypal.me/yourname' :
+                    paymentType === 'square' ? 'https://square.link/your-link' : 'https://...'
+                  }
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition"
+                />
+                <div className="mt-3 p-3 bg-brand-50 rounded-lg border border-brand-100">
+                  <p className="text-xs text-brand-800">
+                    <span className="font-bold">How to get your link:</span>
+                    {paymentType === 'stripe' && ' Go to dashboard.stripe.com > Payment Links > Create. Copy the link.'}
+                    {paymentType === 'paypal' && ' Go to paypal.me and create your link, or use PayPal buttons from your PayPal dashboard.'}
+                    {paymentType === 'square' && ' Go to Square Dashboard > Online Checkout > Create link. Copy the URL.'}
+                    {paymentType === 'other' && ' Paste any payment URL. We\'ll link your pricing buttons and CTAs to it.'}
+                  </p>
+                  <p className="text-xs text-brand-700 mt-1">Don't have one yet? Select "Skip for now" -- you can edit your website later and add it.</p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Extra Instructions + Email */}
