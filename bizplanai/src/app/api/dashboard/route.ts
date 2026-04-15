@@ -258,6 +258,26 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Subscriptions
+    available.push({
+      product: 'monitoring_subscription',
+      name: 'Competitor Monitoring (Monthly)',
+      description: 'Auto-updated spy report every 30 days. New competitor alerts. Market trends.',
+      price: 15,
+      url: '/monitoring',
+      recommended: hasSpy,
+      isSubscription: true,
+    });
+    available.push({
+      product: 'social_subscription',
+      name: 'Monthly Social Media Pack',
+      description: '30 new platform-specific posts delivered every month. Always fresh content.',
+      price: 19,
+      url: '/monitoring',
+      recommended: false,
+      isSubscription: true,
+    });
+
     return NextResponse.json({
       email: customerEmail.toLowerCase(),
       purchases,

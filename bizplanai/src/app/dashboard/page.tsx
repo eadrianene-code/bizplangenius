@@ -21,6 +21,7 @@ interface AvailableProduct {
   recommended?: boolean;
   comingSoon?: boolean;
   requiresPlan?: boolean;
+  isSubscription?: boolean;
 }
 
 interface DashboardData {
@@ -257,7 +258,7 @@ function DashboardInner() {
                       <p className="text-sm text-gray-500">{a.description}</p>
                     </div>
                     <div className="text-right flex-shrink-0 ml-4">
-                      <p className="text-xl font-extrabold text-gray-900">${a.price}</p>
+                      <p className="text-xl font-extrabold text-gray-900">${a.price}{a.isSubscription ? <span className="text-sm font-semibold text-gray-400">/mo</span> : ''}</p>
                     </div>
                   </div>
                 </a>

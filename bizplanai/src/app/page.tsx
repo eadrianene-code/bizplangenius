@@ -152,6 +152,11 @@ function Header() {
                         <div><p className="text-sm font-semibold text-brand-600">Bundles -- Save up to $68</p><p className="text-xs text-gray-500">Get everything from $59</p></div>
                       </div>
                     </a>
+                    <a href="/monitoring" className="block px-3 py-2.5 rounded-lg hover:bg-accent-50 transition">
+                      <div className="flex items-center justify-between">
+                        <div><p className="text-sm font-semibold text-accent-600">Subscriptions</p><p className="text-xs text-gray-500">Monthly monitoring & social from $9/mo</p></div>
+                      </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -185,6 +190,7 @@ function Header() {
           <a href="/brand-kit" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Brand Kit -- $29</a>
           <a href="/investor-emails" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Investor Emails -- $19</a>
           <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles -- Save up to $68</a>
+          <a href="/monitoring" onClick={() => setMobileOpen(false)} className="block text-accent-600 font-semibold py-2 px-2">Subscriptions -- from $9/mo</a>
           <div className="border-t border-gray-100 my-2" />
           <a href="/#pricing" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pricing</a>
           <a href="/blog" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Blog</a>
@@ -764,6 +770,7 @@ function Footer() {
               <a href="/brand-kit" className="block text-sm text-gray-500 hover:text-gray-700">Logo & Brand Kit</a>
               <a href="/investor-emails" className="block text-sm text-gray-500 hover:text-gray-700">Investor Emails</a>
               <a href="/bundles" className="block text-sm text-gray-500 hover:text-gray-700">Bundles</a>
+              <a href="/monitoring" className="block text-sm text-gray-500 hover:text-gray-700">Subscriptions</a>
             </div>
           </div>
           <div>

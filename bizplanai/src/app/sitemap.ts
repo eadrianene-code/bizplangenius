@@ -94,6 +94,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 priority: 0.8,
       },
       {
+                url: `${baseUrl}/monitoring`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: 0.8,
+      },
+      {
                 url: `${baseUrl}/refer`,
                 lastModified: new Date(),
                 changeFrequency: 'monthly',

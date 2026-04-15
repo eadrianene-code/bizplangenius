@@ -1826,6 +1826,19 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
               <p className="text-xs text-green-600 font-bold">Free</p>
             </a>
           </div>
+
+          {/* Subscription upsell */}
+          <div className="mt-4 p-4 rounded-xl border-2 border-accent-200 bg-accent-50/50">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-bold text-gray-900 text-sm">Want this report updated every month?</p>
+                <p className="text-xs text-gray-500">Get alerts when competitors change pricing, launch features, or enter your market.</p>
+              </div>
+              <a href="/monitoring" className="px-4 py-2 bg-accent-600 text-white text-sm font-bold rounded-lg hover:bg-accent-700 transition flex-shrink-0 ml-4">
+                $15/mo
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
