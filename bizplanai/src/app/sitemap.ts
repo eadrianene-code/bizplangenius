@@ -34,6 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
           ...blogUrls,
       {
+                url: `${baseUrl}/domain-guide`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: 0.7,
+      },
+      {
                 url: `${baseUrl}/launch-checklist`,
                 lastModified: new Date(),
                 changeFrequency: 'weekly',

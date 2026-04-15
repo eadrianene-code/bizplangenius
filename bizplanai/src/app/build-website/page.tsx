@@ -822,6 +822,9 @@ IMPORTANT:
           <button onClick={onDownload} className="px-4 py-2 text-sm font-medium text-white bg-brand-600 rounded-lg hover:bg-brand-700 transition">
             Download
           </button>
+          <a href="/domain-guide" className="px-4 py-2 text-sm font-medium text-accent-600 bg-accent-50 rounded-lg hover:bg-accent-100 transition hidden sm:block">
+            Go Live
+          </a>
         </div>
       </header>
 

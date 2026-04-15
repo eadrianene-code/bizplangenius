@@ -806,6 +806,7 @@ function Footer() {
               <a href="/startup-cost-calculator" className="block text-sm text-gray-500 hover:text-gray-700">Free Cost Calculator</a>
               <a href="/validate-idea" className="block text-sm text-gray-500 hover:text-gray-700">Free Idea Validator</a>
               <a href="/launch-checklist" className="block text-sm text-gray-500 hover:text-gray-700">Free Launch Checklist</a>
+              <a href="/domain-guide" className="block text-sm text-gray-500 hover:text-gray-700">Free Domain Guide</a>
             </div>
           </div>
           <div>
