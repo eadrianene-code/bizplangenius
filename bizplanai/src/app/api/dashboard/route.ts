@@ -72,6 +72,9 @@ export async function POST(req: NextRequest) {
       } else if (meta.product === 'pitch_deck') {
         product = 'pitch_deck';
         tier = 'standard';
+      } else if (meta.product === 'social_media_pack') {
+        product = 'social_media_pack';
+        tier = 'standard';
       } else if (meta.companyName || meta.industryDescription || meta.mode) {
         product = 'spy_report';
         tier = 'standard';
@@ -178,16 +181,29 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Social media pack
+    const hasSocialPack = purchases.some(p => p.product === 'social_media_pack');
+    if (!hasSocialPack && hasPlan && planSession) {
+      available.push({
+        product: 'social_media_pack',
+        name: 'Social Media Starter Pack',
+        description: '30 days of ready-to-post content for Twitter, LinkedIn, Instagram, and Facebook',
+        price: 29,
+        url: `/social-pack?plan_session_id=${planSession.sessionId}`,
+        recommended: false,
+      });
+    } else if (!hasSocialPack && !hasPlan) {
+      available.push({
+        product: 'social_media_pack',
+        name: 'Social Media Starter Pack',
+        description: '30 days of social posts for your business. Get a business plan first.',
+        price: 29,
+        url: '/generate',
+        recommended: false,
+      });
+    }
+
     // Future products (coming soon)
-    available.push({
-      product: 'social_media_pack',
-      name: 'Social Media Starter Pack',
-      description: '30 days of platform-specific social posts for your business',
-      price: 29,
-      url: '#',
-      recommended: false,
-      comingSoon: true,
-    });
 
     available.push({
       product: 'logo_brand_kit',
