@@ -286,17 +286,44 @@ function PitchDeckInner() {
 
         {/* What's included */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-          <h3 className="font-bold text-gray-900 mb-4">12 Slides Included</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            {['Cover', 'Problem', 'Solution', 'Market Size', 'Product', 'Business Model',
-              'Traction', 'Competition', 'Team', 'Financials', 'The Ask', 'Closing'].map((s, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                <svg className="w-4 h-4 text-accent-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                {s}
+          <h3 className="font-bold text-gray-900 mb-4">12 Slides -- Here's Exactly What You Get</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { num: '1', name: 'Cover', desc: 'Business name, tagline, and your value proposition' },
+              { num: '2', name: 'Problem', desc: 'The pain point your business solves, with market evidence' },
+              { num: '3', name: 'Solution', desc: 'How your product/service solves the problem' },
+              { num: '4', name: 'Market Size', desc: 'TAM, SAM, SOM with real industry numbers' },
+              { num: '5', name: 'Product', desc: 'What it looks like and how it works' },
+              { num: '6', name: 'Business Model', desc: 'Revenue streams, pricing, and unit economics' },
+              { num: '7', name: 'Traction', desc: 'Milestones achieved or planned timeline' },
+              { num: '8', name: 'Competition', desc: 'Competitive landscape and your advantages' },
+              { num: '9', name: 'Team', desc: 'Founder background and key roles' },
+              { num: '10', name: 'Financials', desc: '3-year revenue, costs, and profit projections' },
+              { num: '11', name: 'The Ask', desc: 'Funding amount and how it will be used' },
+              { num: '12', name: 'Closing', desc: 'Contact info and call to action' },
+            ].map((s, i) => (
+              <div key={i} className="flex items-start gap-3 p-2">
+                <span className="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center text-xs font-bold text-purple-700 flex-shrink-0">{s.num}</span>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900">{s.name}</p>
+                  <p className="text-xs text-gray-500">{s.desc}</p>
+                </div>
               </div>
             ))}
+          </div>
+          <div className="mt-4 pt-4 border-t border-gray-100 grid grid-cols-3 gap-4 text-center">
+            <div>
+              <p className="font-bold text-gray-900 text-sm">Speaker Notes</p>
+              <p className="text-xs text-gray-500">Every slide includes notes on what to say</p>
+            </div>
+            <div>
+              <p className="font-bold text-gray-900 text-sm">Keyboard Nav</p>
+              <p className="text-xs text-gray-500">Arrow keys to present like a pro</p>
+            </div>
+            <div>
+              <p className="font-bold text-gray-900 text-sm">Download</p>
+              <p className="text-xs text-gray-500">Export as text file with all content</p>
+            </div>
           </div>
         </div>
 

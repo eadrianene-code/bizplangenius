@@ -205,18 +205,31 @@ function InvestorEmailsInner() {
           <p className="text-gray-600 text-lg">10 personalized fundraising emails built from your business plan. Cold outreach, follow-ups, intros, and more.</p>
         </div>
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-          <h3 className="font-bold text-gray-900 mb-4">10 templates included</h3>
-          <div className="grid grid-cols-2 gap-2">
-            {['Cold outreach to VCs', 'Cold outreach to angels', 'Warm intro request', 'Follow-up (no response)',
-              'Post-meeting follow-up', 'Monthly investor update', 'Pitch deck share', 'Meeting request',
-              'Thank you (after funding)', 'Rejection response'].map((item, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                <svg className="w-4 h-4 text-accent-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                {item}
+          <h3 className="font-bold text-gray-900 mb-4">10 Email Templates -- What You Get</h3>
+          <div className="space-y-3">
+            {[
+              { num: '1', name: 'Cold Outreach to VCs', desc: 'Formal, data-driven email to venture capital partners. Includes your market size and traction.', tag: 'cold' },
+              { num: '2', name: 'Cold Outreach to Angels', desc: 'Casual, story-driven email to angel investors. Personal and compelling.', tag: 'cold' },
+              { num: '3', name: 'Warm Intro Request', desc: 'Ask a mutual connection to introduce you to an investor. Polite and easy to forward.', tag: 'warm' },
+              { num: '4', name: 'Follow-up (No Response)', desc: 'Gentle nudge 1 week after initial outreach. Adds new value without being pushy.', tag: 'follow' },
+              { num: '5', name: 'Post-Meeting Follow-up', desc: 'Send within 24 hours of a call/meeting. Recaps key points and next steps.', tag: 'follow' },
+              { num: '6', name: 'Monthly Investor Update', desc: 'Keep investors informed with metrics, wins, and asks. Builds trust over time.', tag: 'update' },
+              { num: '7', name: 'Pitch Deck Share', desc: 'Attach your pitch deck with a compelling one-paragraph summary.', tag: 'cold' },
+              { num: '8', name: 'Meeting Request', desc: 'Specific ask for a 15-minute call with a clear agenda.', tag: 'cold' },
+              { num: '9', name: 'Thank You (After Funding)', desc: 'Gracious thank you after receiving investment. Sets the tone for the relationship.', tag: 'update' },
+              { num: '10', name: 'Rejection Response', desc: 'Professional response that keeps the door open for future rounds.', tag: 'follow' },
+            ].map((t, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <span className="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center text-xs font-bold text-indigo-700 flex-shrink-0">{t.num}</span>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-gray-900">{t.name}</p>
+                  <p className="text-xs text-gray-500">{t.desc}</p>
+                </div>
               </div>
             ))}
+          </div>
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <p className="text-xs text-gray-500 text-center">Every template includes: subject line, full email body, [INVESTOR_NAME] placeholders, and a usage tip</p>
           </div>
         </div>
         <form onSubmit={handleCheckout} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">

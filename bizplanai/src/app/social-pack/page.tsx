@@ -242,23 +242,58 @@ function SocialPackInner() {
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-          <h3 className="font-bold text-gray-900 mb-4">What's included</h3>
+          <h3 className="font-bold text-gray-900 mb-4">What you'll receive -- 30 days of content</h3>
+
+          {/* Platforms */}
+          <div className="grid grid-cols-4 gap-3 mb-5">
+            {[
+              { name: 'Twitter / X', desc: 'Short, punchy, hashtags', posts: '~8 posts', color: 'bg-gray-900 text-white' },
+              { name: 'LinkedIn', desc: 'Professional, storytelling', posts: '~8 posts', color: 'bg-blue-700 text-white' },
+              { name: 'Instagram', desc: 'Captions + image ideas', posts: '~7 posts', color: 'bg-pink-600 text-white' },
+              { name: 'Facebook', desc: 'Conversational, engaging', posts: '~7 posts', color: 'bg-blue-600 text-white' },
+            ].map((p, i) => (
+              <div key={i} className={`${p.color} rounded-xl p-3 text-center`}>
+                <p className="text-xs font-bold">{p.name}</p>
+                <p className="text-[10px] opacity-75">{p.posts}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Post types */}
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Content mix</p>
+          <div className="grid grid-cols-2 gap-2 mb-5">
+            {[
+              { type: 'Educational (40%)', desc: 'Tips, how-tos, industry insights that build trust' },
+              { type: 'Engagement (25%)', desc: 'Questions, polls, conversation starters' },
+              { type: 'Promotional (20%)', desc: 'Product features, offers, CTAs' },
+              { type: 'Storytelling (15%)', desc: 'Behind-the-scenes, founder journey, case studies' },
+            ].map((t, i) => (
+              <div key={i} className="bg-gray-50 rounded-lg p-3">
+                <p className="text-xs font-semibold text-gray-900">{t.type}</p>
+                <p className="text-[10px] text-gray-500">{t.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Per post */}
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Every post includes</p>
           <div className="grid grid-cols-2 gap-3">
             {[
-              '30 unique posts (1 per day)',
-              '4 platforms covered',
-              'Mix of educational, promo, engagement',
-              'Hashtags for each post',
-              'Image/graphic suggestions',
-              'Best posting times',
-              'CSV download for scheduling',
-              'Copy button for each post',
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                <svg className="w-4 h-4 text-accent-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              { item: 'Ready-to-paste text', desc: 'Copy and post directly -- no editing needed' },
+              { item: 'Relevant hashtags', desc: 'Platform-specific hashtags for reach' },
+              { item: 'Image/graphic idea', desc: 'Description of what visual to pair with the post' },
+              { item: 'Best posting time', desc: 'Suggested day and time for max engagement' },
+              { item: 'Copy button', desc: 'One click to copy text + hashtags' },
+              { item: 'CSV export', desc: 'Download all 30 posts for scheduling tools' },
+            ].map((f, i) => (
+              <div key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                <svg className="w-4 h-4 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                {item}
+                <div>
+                  <span className="font-medium text-gray-900 text-xs">{f.item}</span>
+                  <p className="text-[10px] text-gray-500">{f.desc}</p>
+                </div>
               </div>
             ))}
           </div>

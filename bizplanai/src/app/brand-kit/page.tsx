@@ -266,15 +266,22 @@ function BrandKitInner() {
           <p className="text-gray-600 text-lg">AI-generated brand identity tailored to your business. Logo concepts, colors, typography, and voice guidelines.</p>
         </div>
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-          <h3 className="font-bold text-gray-900 mb-4">What's included</h3>
-          <div className="grid grid-cols-2 gap-3">
-            {['3 logo concepts with previews', 'Full color palette (5 colors)', 'Typography recommendations', 'Brand voice guidelines',
-              'Do/Don\'t say examples', 'Elevator pitch', 'Social media bio', 'Visual style guide'].map((item, i) => (
-              <div key={i} className="flex items-center gap-2 text-sm text-gray-600">
-                <svg className="w-4 h-4 text-accent-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-                {item}
+          <h3 className="font-bold text-gray-900 mb-4">What you'll receive</h3>
+          <div className="space-y-4">
+            {[
+              { title: '3 Logo Concepts', desc: 'Three distinct logo designs with different styles (minimalist, modern, classic). Each shows your business name styled with colors and icons. Preview them side by side and pick your favorite.', icon: '🎨' },
+              { title: '5-Color Brand Palette', desc: 'Primary, secondary, accent, dark, and light colors with hex codes. Each color includes usage guidelines (e.g., "Use for headings", "Use for CTA buttons").', icon: '🎨' },
+              { title: 'Typography Pairing', desc: 'Recommended heading and body fonts (Google Fonts compatible). Includes rationale for why these fonts match your brand personality.', icon: '🔤' },
+              { title: 'Brand Voice Guidelines', desc: 'Your brand\'s tone defined in 3 adjectives. Includes "Do Say" examples (phrases to use) and "Don\'t Say" examples (phrases to avoid).', icon: '🗣️' },
+              { title: 'Elevator Pitch', desc: 'A ready-to-use 30-second pitch for your business. Perfect for networking, investor meetings, and social bios.', icon: '🎤' },
+              { title: 'Social Media Kit', desc: 'Ready-to-paste profile bio (160 chars), posting tone guide, and visual style recommendations for consistency across platforms.', icon: '📱' },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <span className="text-xl flex-shrink-0">{item.icon}</span>
+                <div>
+                  <p className="font-semibold text-gray-900 text-sm">{item.title}</p>
+                  <p className="text-xs text-gray-500">{item.desc}</p>
+                </div>
               </div>
             ))}
           </div>

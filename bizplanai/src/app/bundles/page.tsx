@@ -18,8 +18,8 @@ const BUNDLES = [
     savings: 9,
     tagline: 'Research + Plan',
     products: [
-      'Competitor Spy Report (10-15 competitors)',
-      'Pro Business Plan (full 9-section)',
+      { name: 'Competitor Spy Report', desc: '10-15 real competitors with SWOT, pricing comparison, vulnerability audit, and 90-day tactical roadmap', solo: '$19' },
+      { name: 'Pro Business Plan', desc: '9-section investor-ready PDF: executive summary, competitor analysis, market sizing, financials, operations, risk analysis', solo: '$49' },
     ],
     color: 'border-brand-300 bg-brand-50',
     buttonColor: 'bg-brand-600 hover:bg-brand-700',
@@ -33,10 +33,10 @@ const BUNDLES = [
     tagline: 'Research + Plan + Website + Pitch',
     popular: true,
     products: [
-      'Competitor Spy Report',
-      'Pro Business Plan',
-      'Landing Page Website',
-      'Investor Pitch Deck (12 slides)',
+      { name: 'Competitor Spy Report', desc: '10-15 competitors analyzed with real data from the web', solo: '$19' },
+      { name: 'Pro Business Plan', desc: '9-section plan with 3-year financial projections and money-back guarantee', solo: '$49' },
+      { name: 'Website (Landing Page)', desc: 'Multi-page, responsive, editable website with full source code download', solo: '$99' },
+      { name: 'Investor Pitch Deck', desc: '12 slides with speaker notes: problem, solution, market, financials, the ask', solo: '$39' },
     ],
     color: 'border-accent-300 bg-accent-50',
     buttonColor: 'bg-accent-600 hover:bg-accent-700',
@@ -49,12 +49,12 @@ const BUNDLES = [
     savings: 25,
     tagline: 'Everything you need to launch',
     products: [
-      'Competitor Spy Report',
-      'Pro Business Plan',
-      'Landing Page Website',
-      'Investor Pitch Deck',
-      'Social Media Pack (30 days)',
-      'Logo & Brand Kit',
+      { name: 'Competitor Spy Report', desc: '10-15 competitors, SWOT, pricing, vulnerability audit, 90-day roadmap', solo: '$19' },
+      { name: 'Pro Business Plan', desc: '9-section investor-ready PDF with operations and risk analysis', solo: '$49' },
+      { name: 'Website', desc: '6 types available (e-commerce, restaurant, SaaS, etc.), multi-page, editable', solo: '$99' },
+      { name: 'Investor Pitch Deck', desc: '12 slides with speaker notes for investor meetings', solo: '$39' },
+      { name: 'Social Media Pack', desc: '30 days of posts for Twitter, LinkedIn, Instagram, Facebook with hashtags', solo: '$29' },
+      { name: 'Logo & Brand Kit', desc: '3 logo concepts, 5-color palette, typography, brand voice, social bio', solo: '$29' },
     ],
     color: 'border-purple-300 bg-purple-50',
     buttonColor: 'bg-purple-600 hover:bg-purple-700',
@@ -126,16 +126,22 @@ export default function BundlesPage() {
                   <span className="text-lg text-gray-400 line-through">${b.originalPrice}</span>
                   <span className="text-sm font-bold text-green-600">Save ${b.savings}</span>
                 </div>
-                <ul className="space-y-2 mb-6">
+                <div className="space-y-3 mb-6">
                   {b.products.map((p, i) => (
-                    <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
-                      <svg className="w-4 h-4 text-accent-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <div key={i} className="flex items-start gap-2">
+                      <svg className="w-4 h-4 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                       </svg>
-                      {p}
-                    </li>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-semibold text-gray-900">{p.name}</span>
+                          <span className="text-xs text-gray-400 line-through">{p.solo}</span>
+                        </div>
+                        <p className="text-xs text-gray-500">{p.desc}</p>
+                      </div>
+                    </div>
                   ))}
-                </ul>
+                </div>
                 <button
                   onClick={() => setSelectedBundle(b.key)}
                   className={`w-full px-6 py-3 text-white font-bold rounded-xl transition shadow-lg ${b.buttonColor}`}
