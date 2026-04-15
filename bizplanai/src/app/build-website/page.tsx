@@ -170,45 +170,17 @@ function BuildWebsiteInner() {
     );
   }
 
-  // Preview state
+  // Preview state with editor
   if (step === 'preview' && generatedHtml) {
-    return (
-      <div className="min-h-screen bg-gray-100 flex flex-col">
-        <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-4">
-            <a href="/" className="text-lg font-bold text-gradient">BizPlan Genius</a>
-            <span className="text-sm text-gray-500">Website Preview: {businessName}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <button onClick={handleCopyHtml} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition">
-              Copy HTML
-            </button>
-            <button onClick={handleDownload} className="px-4 py-2 text-sm font-medium text-white bg-brand-600 rounded-lg hover:bg-brand-700 transition">
-              Download HTML
-            </button>
-            <a href={`/dashboard?session_id=${sessionId}`} className="px-4 py-2 text-sm font-medium text-brand-600 hover:text-brand-700">
-              My Toolkit
-            </a>
-          </div>
-        </header>
-
-        {/* Device toggle */}
-        <div className="bg-white border-b px-4 py-2 flex items-center justify-center gap-2 flex-shrink-0">
-          <DeviceToggle iframeRef={iframeRef} />
-        </div>
-
-        {/* Preview iframe */}
-        <div className="flex-1 flex items-start justify-center p-4 overflow-auto">
-          <iframe
-            ref={iframeRef}
-            srcDoc={generatedHtml}
-            className="bg-white shadow-2xl rounded-lg border transition-all duration-300"
-            style={{ width: '100%', maxWidth: '1200px', height: 'calc(100vh - 140px)' }}
-            title="Website Preview"
-          />
-        </div>
-      </div>
-    );
+    return <WebsiteEditor
+      html={generatedHtml}
+      businessName={businessName}
+      sessionId={sessionId || ''}
+      onUpdate={setGeneratedHtml}
+      onDownload={handleDownload}
+      onCopy={handleCopyHtml}
+      iframeRef={iframeRef}
+    />;
   }
 
   // Configure state (pre-checkout)
@@ -422,6 +394,196 @@ function DeviceToggle({ iframeRef }: { iframeRef: React.RefObject<HTMLIFrameElem
           {d.charAt(0).toUpperCase() + d.slice(1)}
         </button>
       ))}
+    </div>
+  );
+}
+
+const QUICK_EDITS = [
+  { label: 'Change prices', instruction: 'I want to update the pricing section.', icon: '💰' },
+  { label: 'Edit hero text', instruction: 'I want to change the hero headline and subheadline.', icon: '✏️' },
+  { label: 'Update services', instruction: 'I want to edit the services/features section.', icon: '🔧' },
+  { label: 'Change about', instruction: 'I want to rewrite the about section.', icon: '📝' },
+  { label: 'Edit contact', instruction: 'I want to update the contact section details.', icon: '📞' },
+  { label: 'Add section', instruction: 'I want to add a new section to the website.', icon: '➕' },
+];
+
+function WebsiteEditor({
+  html, businessName, sessionId, onUpdate, onDownload, onCopy, iframeRef
+}: {
+  html: string;
+  businessName: string;
+  sessionId: string;
+  onUpdate: (html: string) => void;
+  onDownload: () => void;
+  onCopy: () => void;
+  iframeRef: React.RefObject<HTMLIFrameElement | null>;
+}) {
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [editInstruction, setEditInstruction] = useState('');
+  const [editLoading, setEditLoading] = useState(false);
+  const [editError, setEditError] = useState('');
+  const [history, setHistory] = useState<string[]>([html]);
+  const [historyIndex, setHistoryIndex] = useState(0);
+
+  const applyEdit = async (instruction: string) => {
+    if (!instruction.trim() || editLoading) return;
+    setEditLoading(true);
+    setEditError('');
+
+    try {
+      const res = await fetch('/api/edit-website', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          currentHtml: html,
+          editInstruction: instruction,
+          editType: 'section_edit',
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      const newHistory = [...history.slice(0, historyIndex + 1), data.html];
+      setHistory(newHistory);
+      setHistoryIndex(newHistory.length - 1);
+      onUpdate(data.html);
+      setEditInstruction('');
+    } catch (err: any) {
+      setEditError(err.message || 'Failed to apply edit');
+    } finally {
+      setEditLoading(false);
+    }
+  };
+
+  const undo = () => {
+    if (historyIndex > 0) {
+      setHistoryIndex(historyIndex - 1);
+      onUpdate(history[historyIndex - 1]);
+    }
+  };
+
+  const redo = () => {
+    if (historyIndex < history.length - 1) {
+      setHistoryIndex(historyIndex + 1);
+      onUpdate(history[historyIndex + 1]);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+      {/* Top bar */}
+      <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between flex-shrink-0">
+        <div className="flex items-center gap-4">
+          <a href="/" className="text-lg font-bold text-gradient">BizPlan Genius</a>
+          <span className="text-sm text-gray-500 hidden sm:inline">{businessName}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <button onClick={undo} disabled={historyIndex === 0}
+            className="px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg disabled:opacity-30 transition" title="Undo">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a5 5 0 015 5v2M3 10l4-4m-4 4l4 4" /></svg>
+          </button>
+          <button onClick={redo} disabled={historyIndex === history.length - 1}
+            className="px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded-lg disabled:opacity-30 transition" title="Redo">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 10H11a5 5 0 00-5 5v2m15-7l-4-4m4 4l-4 4" /></svg>
+          </button>
+          <div className="w-px h-6 bg-gray-200 mx-1" />
+          <button onClick={() => setEditorOpen(!editorOpen)}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition ${editorOpen ? 'bg-brand-600 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>
+            {editorOpen ? 'Close Editor' : 'Edit Website'}
+          </button>
+          <button onClick={onCopy} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition hidden sm:block">
+            Copy HTML
+          </button>
+          <button onClick={onDownload} className="px-4 py-2 text-sm font-medium text-white bg-brand-600 rounded-lg hover:bg-brand-700 transition">
+            Download
+          </button>
+        </div>
+      </header>
+
+      {/* Device toggle */}
+      <div className="bg-white border-b px-4 py-2 flex items-center justify-center gap-2 flex-shrink-0">
+        <DeviceToggle iframeRef={iframeRef} />
+        <span className="text-xs text-gray-400 ml-4">Version {historyIndex + 1} of {history.length}</span>
+      </div>
+
+      <div className="flex-1 flex overflow-hidden">
+        {/* Preview */}
+        <div className="flex-1 flex items-start justify-center p-4 overflow-auto">
+          <iframe
+            ref={iframeRef as any}
+            srcDoc={html}
+            className="bg-white shadow-2xl rounded-lg border transition-all duration-300"
+            style={{ width: '100%', maxWidth: '1200px', height: 'calc(100vh - 140px)' }}
+            title="Website Preview"
+          />
+        </div>
+
+        {/* Editor panel */}
+        {editorOpen && (
+          <div className="w-80 bg-white border-l border-gray-200 flex flex-col flex-shrink-0 overflow-hidden">
+            <div className="p-4 border-b border-gray-100">
+              <h3 className="font-bold text-gray-900 text-sm">Edit Your Website</h3>
+              <p className="text-xs text-gray-500 mt-1">Describe what you want to change. AI will update the website.</p>
+            </div>
+
+            {/* Quick edits */}
+            <div className="p-4 border-b border-gray-100">
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Quick Edits</p>
+              <div className="grid grid-cols-2 gap-1.5">
+                {QUICK_EDITS.map((edit, i) => (
+                  <button key={i} onClick={() => setEditInstruction(edit.instruction)}
+                    className="text-left p-2 rounded-lg border border-gray-100 hover:border-brand-300 hover:bg-brand-50 transition text-xs">
+                    <span className="block">{edit.icon} {edit.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Edit input */}
+            <div className="flex-1 p-4 flex flex-col">
+              <textarea
+                value={editInstruction}
+                onChange={e => setEditInstruction(e.target.value)}
+                placeholder="e.g., Change the pricing to: Basic $29/mo, Pro $59/mo, Enterprise $149/mo. Update the hero headline to 'Fresh Food, Fast Delivery'..."
+                rows={6}
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none resize-none focus:border-brand-400 flex-1"
+              />
+
+              {editError && <p className="text-xs text-red-600 mt-2">{editError}</p>}
+
+              <button
+                onClick={() => applyEdit(editInstruction)}
+                disabled={editLoading || !editInstruction.trim()}
+                className="mt-3 w-full px-4 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition disabled:opacity-50 text-sm"
+              >
+                {editLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Applying changes...
+                  </span>
+                ) : 'Apply Changes'}
+              </button>
+
+              <p className="text-[10px] text-gray-400 text-center mt-2">
+                {history.length > 1 ? `${history.length - 1} edit${history.length > 2 ? 's' : ''} applied. Undo available.` : 'No edits yet.'}
+              </p>
+            </div>
+
+            {/* Tips */}
+            <div className="p-4 border-t border-gray-100 bg-gray-50">
+              <p className="text-[10px] font-bold text-gray-400 uppercase mb-1">Tips</p>
+              <ul className="text-[10px] text-gray-500 space-y-1">
+                <li>Be specific: "Change Basic price to $29/mo"</li>
+                <li>You can edit multiple things at once</li>
+                <li>Use Undo if you don't like a change</li>
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
