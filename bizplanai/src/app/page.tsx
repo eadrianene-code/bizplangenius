@@ -97,6 +97,10 @@ function Header() {
                     <p className="text-sm font-semibold text-gray-900">Cost Calculator</p>
                     <p className="text-xs text-gray-500">Estimate your startup costs</p>
                   </a>
+                  <a href="/validate-idea" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <p className="text-sm font-semibold text-gray-900">Idea Validator</p>
+                    <p className="text-xs text-gray-500">Score your idea with real data</p>
+                  </a>
                 </div>
               </div>
             )}
@@ -182,6 +186,7 @@ function Header() {
           <a href="/free-competitor-check" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Competitor Check</a>
           <a href="/business-name-generator" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Name Generator</a>
           <a href="/startup-cost-calculator" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Cost Calculator</a>
+          <a href="/validate-idea" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Idea Validator</a>
           <div className="border-t border-gray-100 my-2" />
           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider px-2">Products</p>
           <a href="/spy" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Competitor Spy -- $19</a>
@@ -780,6 +785,7 @@ function Footer() {
               <a href="/free-competitor-check" className="block text-sm text-gray-500 hover:text-gray-700">Free Competitor Check</a>
               <a href="/business-name-generator" className="block text-sm text-gray-500 hover:text-gray-700">Free Name Generator</a>
               <a href="/startup-cost-calculator" className="block text-sm text-gray-500 hover:text-gray-700">Free Cost Calculator</a>
+              <a href="/validate-idea" className="block text-sm text-gray-500 hover:text-gray-700">Free Idea Validator</a>
             </div>
           </div>
           <div>
