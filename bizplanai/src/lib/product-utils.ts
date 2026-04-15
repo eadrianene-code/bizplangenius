@@ -110,6 +110,67 @@ export function buildCheckoutMetadata(body: any): Record<string, string> {
   return meta;
 }
 
+/**
+ * Check if a Stripe session grants access to a specific product
+ * (either direct purchase or via bundle)
+ */
+export async function verifyProductAccess(sessionId: string, productKey: string, planSessionId?: string): Promise<{ verified: boolean; businessDetails: BusinessDetails }> {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-02-24.acacia' });
+
+  let verified = false;
+  let bizDetails: BusinessDetails = { businessName: 'My Business', industry: '', description: '', targetMarket: '', revenueModel: '', location: '' };
+
+  const sessionsToCheck = [sessionId, planSessionId].filter(Boolean) as string[];
+
+  // Bundle product mappings
+  const bundleContents: Record<string, string[]> = {
+    starter: ['spy_report', 'business_plan_pro'],
+    launch: ['spy_report', 'business_plan_pro', 'website_landing', 'pitch_deck'],
+    full: ['spy_report', 'business_plan_pro', 'website_landing', 'pitch_deck', 'social_media_pack', 'brand_kit'],
+  };
+
+  for (const sid of sessionsToCheck) {
+    try {
+      const session = await stripe.checkout.sessions.retrieve(sid);
+      if (session.payment_status === 'paid') {
+        const meta = session.metadata || {};
+
+        // Direct product purchase
+        if (meta.product === productKey) {
+          verified = true;
+        }
+
+        // Bundle purchase
+        if (meta.product === 'bundle' && meta.bundle) {
+          const contents = bundleContents[meta.bundle] || [];
+          if (contents.some(p => p.includes(productKey) || productKey.includes(p))) {
+            verified = true;
+          }
+        }
+
+        // Collect business details
+        if (meta.businessName) {
+          bizDetails = {
+            businessName: meta.businessName,
+            industry: meta.industry || '',
+            description: meta.description || '',
+            targetMarket: meta.targetMarket || '',
+            revenueModel: meta.revenueModel || '',
+            location: meta.location || '',
+          };
+        }
+      }
+    } catch {}
+  }
+
+  // If not verified via sessions, try getBusinessDetailsFromSession for data
+  if (!bizDetails.businessName || bizDetails.businessName === 'My Business') {
+    bizDetails = await getBusinessDetailsFromSession(sessionId, planSessionId);
+  }
+
+  return { verified, businessDetails: bizDetails };
+}
+
 export function getLanguageInstruction(langCode: string): string {
   if (!langCode || langCode === 'en') return '';
   const names: Record<string, string> = {

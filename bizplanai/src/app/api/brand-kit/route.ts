@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenAI } from '@google/genai';
-import { getBusinessDetailsFromSession } from '@/lib/product-utils';
+import { verifyProductAccess } from '@/lib/product-utils';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
@@ -16,13 +16,8 @@ export async function POST(req: NextRequest) {
     const { sessionId, planSessionId } = await req.json();
     if (!sessionId) return NextResponse.json({ error: 'Missing session ID' }, { status: 400 });
 
-    const stripe = getStripe();
-    try {
-      const session = await stripe.checkout.sessions.retrieve(sessionId);
-      if (session.payment_status !== 'paid') return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
-    } catch { return NextResponse.json({ error: 'Invalid session' }, { status: 400 }); }
-
-    const biz = await getBusinessDetailsFromSession(sessionId, planSessionId);
+    const { verified, businessDetails: biz } = await verifyProductAccess(sessionId, 'brand_kit', planSessionId);
+    if (!verified) return NextResponse.json({ error: 'Payment not completed. Purchase a brand kit or a bundle that includes it.' }, { status: 402 });
     const businessName = biz.businessName;
     const industry = biz.industry;
     const description = biz.description;
