@@ -1768,29 +1768,45 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
           </div>
         </div>
 
-        {/* Business Plan Cross-Sell */}
-        <div className="mt-12 p-8 rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white">
-          <div className="text-center max-w-2xl mx-auto">
-            <p className="text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Recommended Next Step</p>
-            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Turn this research into a full business plan</h3>
-            <p className="text-gray-600 mb-6">
-              You now know the gaps in your market. Get an investor-ready business plan that exploits them -- with real financial projections, marketing strategy, and a roadmap built on the competitor data you just uncovered.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <a
-                href="/generate?tier=pro"
-                className="inline-block px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25"
-              >
-                Generate My Business Plan - $49
-              </a>
-              <a
-                href="/generate?tier=starter"
-                className="inline-block px-8 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition"
-              >
-                Starter Plan - $29
-              </a>
+        {/* Next Steps */}
+        <div className="mt-12">
+          <p className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">What to do next with your research</p>
+
+          {/* Primary CTA -- Business Plan */}
+          <div className="p-6 sm:p-8 rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white mb-4">
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="flex-1">
+                <p className="text-xs font-bold text-brand-600 uppercase mb-1">Recommended</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-1">Turn this research into a full business plan</h3>
+                <p className="text-sm text-gray-600">Investor-ready plan with financials, strategy, and a roadmap built on this competitor data.</p>
+              </div>
+              <div className="flex gap-2 flex-shrink-0">
+                <a href="/generate?tier=pro" className="px-6 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition text-sm">Pro Plan - $49</a>
+                <a href="/generate?tier=starter" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition text-sm">Starter - $29</a>
+              </div>
             </div>
-            <p className="text-xs text-gray-400 mt-3">One-time payment. Pro plan includes money-back guarantee.</p>
+          </div>
+
+          {/* Secondary CTAs */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <a href="/bundles" className="p-4 rounded-xl border border-accent-200 bg-accent-50 hover:border-accent-400 transition block">
+              <p className="text-xs font-bold text-accent-600 uppercase mb-1">Best Value</p>
+              <h4 className="font-bold text-gray-900 text-sm mb-1">Launch Pack Bundle</h4>
+              <p className="text-xs text-gray-500">Plan + website + pitch deck</p>
+              <p className="text-sm font-extrabold text-accent-600 mt-2">$199 <span className="text-xs text-gray-400 line-through font-normal">$206</span></p>
+            </a>
+            <a href="/brand-kit" className="p-4 rounded-xl border border-orange-200 bg-orange-50 hover:border-orange-400 transition block">
+              <p className="text-xs font-bold text-orange-600 uppercase mb-1">Brand</p>
+              <h4 className="font-bold text-gray-900 text-sm mb-1">Logo & Brand Kit</h4>
+              <p className="text-xs text-gray-500">Logo, colors, voice guide</p>
+              <p className="text-sm font-extrabold text-orange-600 mt-2">$29</p>
+            </a>
+            <a href="/social-pack" className="p-4 rounded-xl border border-pink-200 bg-pink-50 hover:border-pink-400 transition block">
+              <p className="text-xs font-bold text-pink-600 uppercase mb-1">Grow</p>
+              <h4 className="font-bold text-gray-900 text-sm mb-1">Social Media Pack</h4>
+              <p className="text-xs text-gray-500">30 days of content</p>
+              <p className="text-sm font-extrabold text-pink-600 mt-2">$29</p>
+            </a>
           </div>
         </div>
       </div>
