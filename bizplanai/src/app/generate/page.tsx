@@ -109,6 +109,25 @@ function GeneratePageInner() {
           <p className="text-gray-600 text-lg">
             The more detail you provide, the more specific and actionable your business plan will be.
           </p>
+          {/* Trust signals */}
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-4 text-xs text-gray-500">
+            <span className="flex items-center gap-1">
+              <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              Real competitor data
+            </span>
+            <span className="flex items-center gap-1">
+              <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              Ready in under 10 minutes
+            </span>
+            <span className="flex items-center gap-1">
+              <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              PDF download included
+            </span>
+            <span className="flex items-center gap-1">
+              <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+              One-time payment
+            </span>
+          </div>
         </div>
 
         {/* Tier Selector */}
@@ -321,6 +340,30 @@ function GeneratePageInner() {
             </div>
           </div>
         </form>
+
+        {/* What you'll receive */}
+        <div className="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <h3 className="font-bold text-gray-900 mb-3 text-center">What you'll receive in under 10 minutes</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+            <div className="p-3">
+              <p className="text-2xl font-extrabold text-brand-600">5-10</p>
+              <p className="text-xs text-gray-500">Real competitors analyzed</p>
+            </div>
+            <div className="p-3">
+              <p className="text-2xl font-extrabold text-brand-600">3-Year</p>
+              <p className="text-xs text-gray-500">Financial projections</p>
+            </div>
+            <div className="p-3">
+              <p className="text-2xl font-extrabold text-brand-600">PDF</p>
+              <p className="text-xs text-gray-500">Investor-ready download</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Not ready? */}
+        <div className="mt-6 text-center text-sm text-gray-500">
+          Not ready to buy? <a href="/free-competitor-check" className="text-brand-600 underline hover:text-brand-700">Try our free competitor check first</a>
+        </div>
       </main>
     </div>
   );
