@@ -64,6 +64,8 @@ function BuildWebsiteInner() {
   const [businessName, setBusinessName] = useState('');
   const [planBusinessName, setPlanBusinessName] = useState('');
   const [planIndustry, setPlanIndustry] = useState('');
+  const [hasWebsiteAccess, setHasWebsiteAccess] = useState(false);
+  const [bundleSessionId, setBundleSessionId] = useState('');
 
   // Backwards compat
   const generatedHtml = pages.find(p => p.id === activePageId)?.html || '';
@@ -71,7 +73,7 @@ function BuildWebsiteInner() {
     setPages(prev => prev.map(p => p.id === activePageId ? { ...p, html } : p));
   };
 
-  // If we have a plan session, fetch business name for display
+  // If we have a plan session, fetch business name and check for bundle access
   useEffect(() => {
     if (planSessionId && !sessionId) {
       fetch('/api/dashboard', {
@@ -84,6 +86,22 @@ function BuildWebsiteInner() {
           if (plan) {
             setPlanBusinessName(plan.metadata?.businessName || '');
             setPlanIndustry(plan.metadata?.industry || '');
+          }
+          // Check if any purchase is a bundle that includes website
+          const bundle = data.purchases.find((p: any) => {
+            const meta = p.metadata || {};
+            if (meta.product === 'bundle' && (meta.bundle === 'launch' || meta.bundle === 'full')) return true;
+            if (meta.bundleProducts && meta.bundleProducts.includes('website')) return true;
+            return false;
+          });
+          // Also check for direct website purchase
+          const websitePurchase = data.purchases.find((p: any) => p.product === 'website_builder');
+          if (bundle) {
+            setHasWebsiteAccess(true);
+            setBundleSessionId(bundle.sessionId);
+          } else if (websitePurchase) {
+            setHasWebsiteAccess(true);
+            setBundleSessionId(websitePurchase.sessionId);
           }
         }
       }).catch(() => {});
@@ -134,10 +152,40 @@ function BuildWebsiteInner() {
 
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!planSessionId || !email) return;
     setLoading(true);
     setError('');
 
+    // If they already have access (bundle or previous purchase), skip payment
+    if (hasWebsiteAccess && bundleSessionId) {
+      try {
+        const res = await fetch('/api/build-website', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId: bundleSessionId,
+            planSessionId,
+            websiteType,
+            colorScheme,
+            extraInstructions,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Generation failed');
+        const homePage: SitePage = { id: 'home', name: 'Home', filename: 'index.html', html: data.html };
+        setPages([homePage]);
+        setActivePageId('home');
+        setBusinessName(data.businessName);
+        setStep('preview');
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    // Normal checkout flow
+    if (!email) { setError('Email required'); setLoading(false); return; }
     try {
       const res = await fetch('/api/website-checkout', {
         method: 'POST',
@@ -445,15 +493,24 @@ function BuildWebsiteInner() {
 
           {/* Submit */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            {hasWebsiteAccess && (
+              <div className="mb-3 p-3 bg-green-50 rounded-lg border border-green-200 text-center">
+                <p className="text-sm font-bold text-green-800">Included in your bundle -- no extra charge</p>
+              </div>
+            )}
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg disabled:opacity-60"
+              className={`w-full px-8 py-4 font-bold rounded-xl transition shadow-lg text-lg disabled:opacity-60 ${
+                hasWebsiteAccess
+                  ? 'bg-accent-600 text-white hover:bg-accent-700 shadow-accent-600/25'
+                  : 'bg-brand-600 text-white hover:bg-brand-700 shadow-brand-600/25'
+              }`}
             >
-              {loading ? 'Processing...' : `Build My Website - $${price}`}
+              {loading ? 'Processing...' : hasWebsiteAccess ? 'Build My Website -- Included' : `Build My Website - $${price}`}
             </button>
             <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-500">
-              <span>One-time payment</span>
+              <span>{hasWebsiteAccess ? 'Already paid' : 'One-time payment'}</span>
               <span>|</span>
               <span>Full source code included</span>
               <span>|</span>

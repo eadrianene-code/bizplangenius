@@ -28,30 +28,48 @@ export async function POST(req: NextRequest) {
     const body: WebsiteRequest = await req.json();
     const { sessionId, planSessionId, websiteType, colorScheme, extraInstructions, paymentType, paymentLink, productLinks } = body;
 
-    if (!sessionId || !planSessionId) {
+    if (!sessionId && !planSessionId) {
       return NextResponse.json({ error: 'Missing required session IDs' }, { status: 400 });
     }
 
     const stripe = getStripe();
 
-    // Verify website payment
-    let websiteSession;
-    try {
-      websiteSession = await stripe.checkout.sessions.retrieve(sessionId);
-      if (websiteSession.payment_status !== 'paid') {
-        return NextResponse.json({ error: 'Payment not completed' }, { status: 402 });
-      }
-    } catch {
-      return NextResponse.json({ error: 'Invalid website session' }, { status: 400 });
+    // Verify payment -- accept website checkout, bundle checkout, or plan checkout that includes website
+    let verified = false;
+    let planData: Record<string, string> = {};
+
+    // Check all provided session IDs for valid payment
+    const sessionsToCheck = [sessionId, planSessionId].filter(Boolean) as string[];
+    for (const sid of sessionsToCheck) {
+      try {
+        const session = await stripe.checkout.sessions.retrieve(sid);
+        if (session.payment_status === 'paid') {
+          const meta = session.metadata || {};
+          // Direct website purchase
+          if (meta.product === 'website_builder') {
+            verified = true;
+          }
+          // Bundle that includes website
+          if (meta.product === 'bundle') {
+            const bundleProducts = meta.bundleProducts || '';
+            if (bundleProducts.includes('website')) {
+              verified = true;
+            }
+            // Launch and Full bundles always include website
+            if (meta.bundle === 'launch' || meta.bundle === 'full') {
+              verified = true;
+            }
+          }
+          // Collect plan data from whichever session has it
+          if (meta.businessName) {
+            planData = meta;
+          }
+        }
+      } catch {}
     }
 
-    // Get business plan data from the original session
-    let planData;
-    try {
-      const planSession = await stripe.checkout.sessions.retrieve(planSessionId);
-      planData = planSession.metadata || {};
-    } catch {
-      return NextResponse.json({ error: 'Invalid plan session' }, { status: 400 });
+    if (!verified) {
+      return NextResponse.json({ error: 'Payment not completed. Purchase a website builder or a bundle that includes it.' }, { status: 402 });
     }
 
     const businessName = planData.businessName || 'My Business';
@@ -227,15 +245,16 @@ IMPORTANT RULES:
 
     // Store the generated website in the session metadata for later retrieval
     try {
-      await stripe.checkout.sessions.update(sessionId, {
-        metadata: {
-          ...websiteSession.metadata,
-          websiteGenerated: 'true',
-          websiteType,
-          colorScheme,
-          businessName,
+      if (sessionId) {
+        await stripe.checkout.sessions.update(sessionId, {
+          metadata: {
+            websiteGenerated: 'true',
+            websiteType,
+            colorScheme,
+            businessName,
         },
-      });
+        });
+      }
     } catch {
       // Non-critical, continue
     }
