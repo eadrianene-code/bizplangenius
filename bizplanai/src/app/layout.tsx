@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
 import ExitIntentPopup from './components/ExitIntentPopup';
+import StickyMobileCTA from './components/StickyMobileCTA';
+import SocialProofToast from './components/SocialProofToast';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bizplangenius.com'),
@@ -107,6 +109,8 @@ export default function RootLayout({
       <body className="antialiased text-gray-900 bg-white">
         {children}
         <ExitIntentPopup />
+        <StickyMobileCTA />
+        <SocialProofToast />
       </body>
     </html>
   );
