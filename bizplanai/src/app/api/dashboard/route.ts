@@ -158,10 +158,11 @@ export async function POST(req: NextRequest) {
       available.push({
         product: 'website_builder',
         name: 'Website Builder',
-        description: 'AI generates a working website based on your business plan. Get a business plan first.',
+        description: 'AI generates a working website based on your business plan. Requires a business plan.',
         price: 99,
-        url: '/generate',
+        url: '/build-website',
         recommended: false,
+        requiresPlan: true,
       });
     }
 
@@ -174,16 +175,17 @@ export async function POST(req: NextRequest) {
         description: '12-slide investor-ready pitch deck with speaker notes, built from your plan data',
         price: 39,
         url: `/pitch-deck?plan_session_id=${planSession.sessionId}`,
-        recommended: hasWebsite, // recommend if they already have a website
+        recommended: hasWebsite,
       });
     } else if (!hasDeck && !hasPlan) {
       available.push({
         product: 'pitch_deck',
         name: 'Pitch Deck Generator',
-        description: 'Investor-ready slide deck generated from your business plan. Get a business plan first.',
+        description: 'Investor-ready slide deck generated from your business plan. Requires a business plan.',
         price: 39,
-        url: '/generate',
+        url: '/pitch-deck',
         recommended: false,
+        requiresPlan: true,
       });
     }
 
@@ -202,10 +204,11 @@ export async function POST(req: NextRequest) {
       available.push({
         product: 'social_media_pack',
         name: 'Social Media Starter Pack',
-        description: '30 days of social posts for your business. Get a business plan first.',
+        description: '30 days of social posts for your business. Requires a business plan.',
         price: 29,
-        url: '/generate',
+        url: '/social-pack',
         recommended: false,
+        requiresPlan: true,
       });
     }
 
@@ -224,10 +227,11 @@ export async function POST(req: NextRequest) {
       available.push({
         product: 'brand_kit',
         name: 'Logo & Brand Kit',
-        description: 'Brand identity kit. Get a business plan first.',
+        description: 'Brand identity kit. Requires a business plan.',
         price: 29,
-        url: '/generate',
+        url: '/brand-kit',
         recommended: false,
+        requiresPlan: true,
       });
     }
 
@@ -241,6 +245,16 @@ export async function POST(req: NextRequest) {
         price: 19,
         url: `/investor-emails?plan_session_id=${planSession.sessionId}`,
         recommended: false,
+      });
+    } else if (!hasInvestorEmails && !hasPlan) {
+      available.push({
+        product: 'investor_emails',
+        name: 'Investor Email Templates',
+        description: '10 fundraising email templates. Requires a business plan.',
+        price: 19,
+        url: '/investor-emails',
+        recommended: false,
+        requiresPlan: true,
       });
     }
 

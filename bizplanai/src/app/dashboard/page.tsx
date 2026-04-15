@@ -20,6 +20,7 @@ interface AvailableProduct {
   url: string;
   recommended?: boolean;
   comingSoon?: boolean;
+  requiresPlan?: boolean;
 }
 
 interface DashboardData {
@@ -165,6 +166,26 @@ function DashboardInner() {
           <p className="text-gray-500 text-sm mt-1">{data.email}</p>
         </div>
 
+        {/* Unlock banner when no plan */}
+        {!data.stats.hasPlan && data.purchases.length > 0 && (
+          <div className="mb-8 p-5 rounded-xl bg-amber-50 border border-amber-200">
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg className="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-amber-900 text-sm">Unlock all products with a business plan</p>
+                <p className="text-xs text-amber-700 mt-1">Website Builder, Pitch Deck, Social Pack, Brand Kit, and Investor Emails all use your business plan data to generate personalized results.</p>
+                <a href="/generate" className="inline-block mt-3 px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition">
+                  Generate a Business Plan - From $29
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Purchased Products */}
         {data.purchases.length > 0 && (
           <section className="mb-10">
@@ -227,7 +248,12 @@ function DashboardInner() {
                 <a key={i} href={a.url} className="block bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:border-brand-300 transition">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-semibold text-gray-900">{a.name}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="font-semibold text-gray-900">{a.name}</p>
+                        {a.requiresPlan && (
+                          <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Needs plan first</span>
+                        )}
+                      </div>
                       <p className="text-sm text-gray-500">{a.description}</p>
                     </div>
                     <div className="text-right flex-shrink-0 ml-4">
