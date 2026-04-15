@@ -34,6 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
           ...blogUrls,
       {
+                url: `${baseUrl}/investor-emails`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: 0.7,
+      },
+      {
                 url: `${baseUrl}/bundles`,
                 lastModified: new Date(),
                 changeFrequency: 'weekly',

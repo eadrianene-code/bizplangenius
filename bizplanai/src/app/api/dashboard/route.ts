@@ -78,6 +78,9 @@ export async function POST(req: NextRequest) {
       } else if (meta.product === 'brand_kit') {
         product = 'brand_kit';
         tier = 'standard';
+      } else if (meta.product === 'investor_emails') {
+        product = 'investor_emails';
+        tier = 'standard';
       } else if (meta.companyName || meta.industryDescription || meta.mode) {
         product = 'spy_report';
         tier = 'standard';
@@ -224,6 +227,19 @@ export async function POST(req: NextRequest) {
         description: 'Brand identity kit. Get a business plan first.',
         price: 29,
         url: '/generate',
+        recommended: false,
+      });
+    }
+
+    // Investor emails
+    const hasInvestorEmails = purchases.some(p => p.product === 'investor_emails');
+    if (!hasInvestorEmails && hasPlan && planSession) {
+      available.push({
+        product: 'investor_emails',
+        name: 'Investor Email Templates',
+        description: '10 personalized fundraising emails: cold outreach, follow-ups, intros, and updates',
+        price: 19,
+        url: `/investor-emails?plan_session_id=${planSession.sessionId}`,
         recommended: false,
       });
     }
