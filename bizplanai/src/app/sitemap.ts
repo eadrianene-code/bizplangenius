@@ -111,6 +111,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 changeFrequency: 'monthly',
                 priority: 0.6,
       },
+      ...['restaurant-business-plan', 'coffee-shop-business-plan', 'saas-business-plan', 'food-truck-business-plan', 'gym-business-plan', 'salon-business-plan', 'ecommerce-business-plan', 'cleaning-business-plan'].map(slug => ({
+                url: `${baseUrl}/plans/${slug}`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly' as const,
+                priority: 0.8,
+      })),
       {
                 url: `${baseUrl}/about`,
                 lastModified: new Date(),
