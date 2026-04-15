@@ -6,6 +6,7 @@ import StickyMobileCTA from './components/StickyMobileCTA';
 import SocialProofToast from './components/SocialProofToast';
 import ReviewRequest from './components/ReviewRequest';
 import ChatWidget from './components/ChatWidget';
+import GlobalNav from './components/GlobalNav';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bizplangenius.com'),
@@ -179,7 +180,10 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className="antialiased text-gray-900 bg-white">
+        <GlobalNav />
+        <div className="pt-14">
         {children}
+        </div>
         <ExitIntentPopup />
         <StickyMobileCTA />
         <SocialProofToast />

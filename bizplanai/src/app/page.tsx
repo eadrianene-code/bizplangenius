@@ -228,7 +228,7 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="pt-28 pb-16 px-4 bg-hero-pattern">
+    <section className="pt-14 pb-16 px-4 bg-hero-pattern">
       <div className="max-w-4xl mx-auto text-center">
         <div className="inline-block px-4 py-1.5 bg-accent-50 text-accent-700 text-sm font-medium rounded-full mb-6 border border-accent-200">
           The only platform that takes you from idea to running business
@@ -896,7 +896,6 @@ function Footer() {
 export default function Home() {
   return (
     <>
-      <Header />
       <main>
         <Hero />
         <WhatYouLeaveWith />
