@@ -1131,20 +1131,42 @@ export default function SuccessPage() {
         {/* Next Steps Cross-Sell */}
         <div className="max-w-3xl mx-auto px-4 print-hide">
           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-10 mb-4">What's next for your business</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             <a href={`/build-website?plan_session_id=${currentSessionId}`}
-              className="p-6 rounded-2xl border-2 border-accent-200 bg-gradient-to-br from-accent-50 to-white hover:border-accent-400 transition block">
+              className="p-5 rounded-2xl border-2 border-accent-200 bg-gradient-to-br from-accent-50 to-white hover:border-accent-400 transition block">
               <p className="text-xs font-bold text-accent-600 uppercase mb-1">Website Builder</p>
               <h3 className="text-lg font-bold text-gray-900 mb-1">Build your website</h3>
-              <p className="text-sm text-gray-600 mb-3">Custom website generated from your plan. Ready in 2 minutes.</p>
+              <p className="text-xs text-gray-600 mb-2">Custom website from your plan. Ready in 2 min.</p>
               <span className="text-lg font-extrabold text-accent-600">From $99</span>
             </a>
             <a href={`/pitch-deck?plan_session_id=${currentSessionId}`}
-              className="p-6 rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-white hover:border-purple-400 transition block">
+              className="p-5 rounded-2xl border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-white hover:border-purple-400 transition block">
               <p className="text-xs font-bold text-purple-600 uppercase mb-1">Pitch Deck</p>
               <h3 className="text-lg font-bold text-gray-900 mb-1">Pitch to investors</h3>
-              <p className="text-sm text-gray-600 mb-3">12-slide deck with speaker notes. Built from your plan data.</p>
+              <p className="text-xs text-gray-600 mb-2">12-slide deck with speaker notes.</p>
               <span className="text-lg font-extrabold text-purple-600">$39</span>
+            </a>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <a href={`/brand-kit?plan_session_id=${currentSessionId}`} className="p-4 rounded-xl border border-orange-200 bg-orange-50 hover:border-orange-400 transition block text-center">
+              <p className="text-xs font-bold text-orange-600 uppercase mb-1">Brand</p>
+              <p className="font-bold text-gray-900 text-sm">Brand Kit</p>
+              <p className="text-sm font-extrabold text-orange-600 mt-1">$29</p>
+            </a>
+            <a href={`/social-pack?plan_session_id=${currentSessionId}`} className="p-4 rounded-xl border border-pink-200 bg-pink-50 hover:border-pink-400 transition block text-center">
+              <p className="text-xs font-bold text-pink-600 uppercase mb-1">Grow</p>
+              <p className="font-bold text-gray-900 text-sm">Social Pack</p>
+              <p className="text-sm font-extrabold text-pink-600 mt-1">$29</p>
+            </a>
+            <a href={`/investor-emails?plan_session_id=${currentSessionId}`} className="p-4 rounded-xl border border-indigo-200 bg-indigo-50 hover:border-indigo-400 transition block text-center">
+              <p className="text-xs font-bold text-indigo-600 uppercase mb-1">Outreach</p>
+              <p className="font-bold text-gray-900 text-sm">Investor Emails</p>
+              <p className="text-sm font-extrabold text-indigo-600 mt-1">$19</p>
+            </a>
+            <a href="/bundles" className="p-4 rounded-xl border border-brand-200 bg-brand-50 hover:border-brand-400 transition block text-center">
+              <p className="text-xs font-bold text-brand-600 uppercase mb-1">Save</p>
+              <p className="font-bold text-gray-900 text-sm">Bundles</p>
+              <p className="text-sm font-extrabold text-brand-600 mt-1">From $59</p>
             </a>
           </div>
         </div>

@@ -40,6 +40,20 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "BizPlan Genius",
+              "url": "https://www.bizplangenius.com",
+              "description": "AI-powered business launch platform. Business plans, competitor research, websites, pitch decks, and more.",
+              "email": "support@bizplangenius.com",
+              "sameAs": []
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               "name": "BizPlan Genius",
               "applicationCategory": "BusinessApplication",

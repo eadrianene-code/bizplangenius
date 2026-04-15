@@ -175,7 +175,7 @@ export default function BusinessNameGenerator() {
               <p className="text-gray-600 mb-6 max-w-lg mx-auto">
                 Get a full business plan, competitor analysis, website, pitch deck, and brand kit -- all powered by AI.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
                 <a href="/free-competitor-check" className="px-6 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
                   Free Competitor Check
                 </a>
@@ -186,6 +186,31 @@ export default function BusinessNameGenerator() {
                   Bundle & Save
                 </a>
               </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-6 border-t border-gray-100">
+                <a href="/brand-kit" className="p-3 rounded-lg hover:bg-gray-50 transition text-center">
+                  <p className="font-bold text-gray-900 text-sm">Brand Kit</p>
+                  <p className="text-xs text-orange-600 font-bold">$29</p>
+                </a>
+                <a href="/build-website" className="p-3 rounded-lg hover:bg-gray-50 transition text-center">
+                  <p className="font-bold text-gray-900 text-sm">Website</p>
+                  <p className="text-xs text-accent-600 font-bold">$99</p>
+                </a>
+                <a href="/social-pack" className="p-3 rounded-lg hover:bg-gray-50 transition text-center">
+                  <p className="font-bold text-gray-900 text-sm">Social Pack</p>
+                  <p className="text-xs text-pink-600 font-bold">$29</p>
+                </a>
+                <a href="/pitch-deck" className="p-3 rounded-lg hover:bg-gray-50 transition text-center">
+                  <p className="font-bold text-gray-900 text-sm">Pitch Deck</p>
+                  <p className="text-xs text-purple-600 font-bold">$39</p>
+                </a>
+              </div>
+            </div>
+
+            {/* Other free tools */}
+            <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
+              <span>More free tools:</span>
+              <a href="/free-competitor-check" className="text-brand-600 underline">Competitor Check</a>
+              <a href="/startup-cost-calculator" className="text-brand-600 underline">Cost Calculator</a>
             </div>
 
             <div className="text-center">

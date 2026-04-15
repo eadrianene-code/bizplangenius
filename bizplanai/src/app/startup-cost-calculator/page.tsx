@@ -194,11 +194,36 @@ export default function StartupCostCalculator() {
             <div className="bg-white rounded-2xl border-2 border-brand-200 p-8 text-center">
               <p className="text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Ready to plan your launch?</p>
               <h3 className="text-xl font-bold text-gray-900 mb-3">Get a full business plan with detailed financial projections</h3>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
                 <a href="/free-competitor-check" className="px-6 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition">Free Competitor Check</a>
                 <a href="/generate" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">Business Plan - $29</a>
                 <a href="/bundles" className="px-6 py-3 border-2 border-accent-300 text-accent-700 font-semibold rounded-lg hover:bg-accent-50 transition">Bundle & Save</a>
               </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-6 border-t border-gray-100">
+                <a href="/investor-emails" className="p-3 rounded-lg hover:bg-gray-50 transition text-center">
+                  <p className="font-bold text-gray-900 text-sm">Investor Emails</p>
+                  <p className="text-xs text-indigo-600 font-bold">$19</p>
+                </a>
+                <a href="/pitch-deck" className="p-3 rounded-lg hover:bg-gray-50 transition text-center">
+                  <p className="font-bold text-gray-900 text-sm">Pitch Deck</p>
+                  <p className="text-xs text-purple-600 font-bold">$39</p>
+                </a>
+                <a href="/build-website" className="p-3 rounded-lg hover:bg-gray-50 transition text-center">
+                  <p className="font-bold text-gray-900 text-sm">Website</p>
+                  <p className="text-xs text-accent-600 font-bold">$99</p>
+                </a>
+                <a href="/brand-kit" className="p-3 rounded-lg hover:bg-gray-50 transition text-center">
+                  <p className="font-bold text-gray-900 text-sm">Brand Kit</p>
+                  <p className="text-xs text-orange-600 font-bold">$29</p>
+                </a>
+              </div>
+            </div>
+
+            {/* Other free tools */}
+            <div className="flex items-center justify-center gap-4 text-sm text-gray-500">
+              <span>More free tools:</span>
+              <a href="/free-competitor-check" className="text-brand-600 underline">Competitor Check</a>
+              <a href="/business-name-generator" className="text-brand-600 underline">Name Generator</a>
             </div>
 
             <div className="text-center">

@@ -6,8 +6,9 @@ export const metadata: Metadata = {
     'Create a professional business plan with real competitor research and market data. AI-powered, investor-ready PDF. Starter $29, Pro $49. One-time payment.',
   keywords:
     'generate business plan, AI business plan, business plan generator, investor ready business plan, business plan PDF, startup business plan',
-  alternates: {
-    canonical: '/generate',
+  robots: {
+    index: false,
+    follow: true,
   },
   openGraph: {
     title: 'Generate Your AI Business Plan - Ready in Minutes',

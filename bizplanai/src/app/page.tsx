@@ -507,7 +507,7 @@ function MoreTools() {
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Go From Idea to Launch</h2>
           <p className="text-gray-600">Everything you need to start your business, powered by AI</p>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
           <a href="/free-competitor-check" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
             <p className="text-[10px] font-bold text-green-600 uppercase mb-1">Free</p>
             <h3 className="font-bold text-gray-900 text-sm mb-1">Competitor Check</h3>
@@ -520,6 +520,12 @@ function MoreTools() {
             <p className="text-xs text-gray-500 mb-2">10-15 competitors analyzed</p>
             <p className="text-lg font-extrabold text-brand-600">$19</p>
           </a>
+          <a href="/generate" className="bg-white rounded-xl border-2 border-brand-200 p-4 hover:shadow-md transition block bg-brand-50/30">
+            <p className="text-[10px] font-bold text-brand-600 uppercase mb-1">Plan</p>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Business Plan</h3>
+            <p className="text-xs text-gray-500 mb-2">Investor-ready with real data</p>
+            <p className="text-lg font-extrabold text-brand-600">$29</p>
+          </a>
           <a href="/build-website" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
             <p className="text-[10px] font-bold text-accent-600 uppercase mb-1">Build</p>
             <h3 className="font-bold text-gray-900 text-sm mb-1">Website</h3>
@@ -531,6 +537,12 @@ function MoreTools() {
             <h3 className="font-bold text-gray-900 text-sm mb-1">Pitch Deck</h3>
             <p className="text-xs text-gray-500 mb-2">12 investor slides</p>
             <p className="text-lg font-extrabold text-purple-600">$39</p>
+          </a>
+          <a href="/investor-emails" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
+            <p className="text-[10px] font-bold text-indigo-600 uppercase mb-1">Outreach</p>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Investor Emails</h3>
+            <p className="text-xs text-gray-500 mb-2">10 fundraising templates</p>
+            <p className="text-lg font-extrabold text-indigo-600">$19</p>
           </a>
           <a href="/social-pack" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
             <p className="text-[10px] font-bold text-pink-600 uppercase mb-1">Grow</p>
@@ -644,7 +656,16 @@ function Footer() {
               <a href="/#pricing" className="block text-sm text-gray-500 hover:text-gray-700">Business Plan Generator</a>
               <a href="/spy" className="block text-sm text-gray-500 hover:text-gray-700">Competitor Spy Tool</a>
               <a href="/build-website" className="block text-sm text-gray-500 hover:text-gray-700">Website Builder</a>
+              <a href="/pitch-deck" className="block text-sm text-gray-500 hover:text-gray-700">Pitch Deck Generator</a>
+              <a href="/social-pack" className="block text-sm text-gray-500 hover:text-gray-700">Social Media Pack</a>
+              <a href="/brand-kit" className="block text-sm text-gray-500 hover:text-gray-700">Logo & Brand Kit</a>
+              <a href="/investor-emails" className="block text-sm text-gray-500 hover:text-gray-700">Investor Emails</a>
               <a href="/bundles" className="block text-sm text-gray-500 hover:text-gray-700">Bundles</a>
+            </div>
+          </div>
+          <div>
+            <p className="font-semibold text-gray-900 mb-3">Free Tools</p>
+            <div className="space-y-2">
               <a href="/free-competitor-check" className="block text-sm text-gray-500 hover:text-gray-700">Free Competitor Check</a>
               <a href="/business-name-generator" className="block text-sm text-gray-500 hover:text-gray-700">Free Name Generator</a>
               <a href="/startup-cost-calculator" className="block text-sm text-gray-500 hover:text-gray-700">Free Cost Calculator</a>
