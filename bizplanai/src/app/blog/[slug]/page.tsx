@@ -1,4 +1,4 @@
-import { getPostBySlug, getAllSlugs } from "@/lib/blog";
+import { getPostBySlug, getAllSlugs, getRelatedPosts } from "@/lib/blog";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Metadata } from "next";
@@ -48,6 +48,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   if (!post) notFound();
 
   const contentHtml = await markdownToHtml(post.content);
+  const relatedPosts = getRelatedPosts(slug, 3);
 
   return (
     <div className="min-h-screen bg-white">
@@ -168,6 +169,36 @@ export default async function BlogPostPage({ params }: PageProps) {
       {/* Newsletter */}
       <div className="max-w-2xl mx-auto mt-12">
         <NewsletterSignup />
+      </div>
+
+      {/* Related Posts */}
+      {relatedPosts.length > 0 && (
+        <div className="max-w-3xl mx-auto mt-12 mb-8">
+          <h3 className="text-xl font-bold text-gray-900 mb-4">Related Guides</h3>
+          <div className="grid gap-4 md:grid-cols-3">
+            {relatedPosts.map((rp) => (
+              <Link
+                key={rp.slug}
+                href={`/blog/${rp.slug}`}
+                className="group block border rounded-xl p-4 hover:shadow-md transition-shadow"
+              >
+                <h4 className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors mb-2 line-clamp-2">
+                  {rp.title}
+                </h4>
+                <p className="text-xs text-gray-500 line-clamp-2">{rp.description}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Free Tool CTA */}
+      <div className="max-w-3xl mx-auto mb-12 p-6 bg-gray-50 rounded-xl border text-center">
+        <p className="font-bold text-gray-900 mb-1">Free: Find your top 3 competitors in 30 seconds</p>
+        <p className="text-sm text-gray-500 mb-3">Try our AI-powered competitor check. No payment required.</p>
+        <Link href="/free-competitor-check" className="inline-block px-6 py-2 bg-brand-600 text-white text-sm font-bold rounded-lg hover:bg-brand-700 transition">
+          Free Competitor Check
+        </Link>
       </div>
 
       {/* Article Schema */}

@@ -56,6 +56,33 @@ export function getPostBySlug(slug: string): BlogPost | null {
   };
 }
 
+export function getRelatedPosts(currentSlug: string, limit: number = 3): BlogPost[] {
+  const allPosts = getAllPosts();
+  const current = allPosts.find(p => p.slug === currentSlug);
+  if (!current) return allPosts.slice(0, limit);
+
+  const currentKeywords = new Set(current.keywords.map(k => k.toLowerCase()));
+
+  // Score each post by keyword overlap
+  const scored = allPosts
+    .filter(p => p.slug !== currentSlug)
+    .map(post => {
+      const postKeywords = post.keywords.map(k => k.toLowerCase());
+      const overlap = postKeywords.filter(k => currentKeywords.has(k)).length;
+      // Bonus for industry-specific posts linking to each other
+      const isIndustryPlan = post.slug.includes('business-plan') && current.slug.includes('business-plan');
+      const isCompetitorContent = (post.keywords.some(k => k.toLowerCase().includes('competitor')) &&
+        current.keywords.some(k => k.toLowerCase().includes('competitor')));
+      return {
+        post,
+        score: overlap + (isIndustryPlan ? 1 : 0) + (isCompetitorContent ? 1 : 0),
+      };
+    })
+    .sort((a, b) => b.score - a.score);
+
+  return scored.slice(0, limit).map(s => s.post);
+}
+
 export function getAllSlugs(): string[] {
   if (!fs.existsSync(BLOG_DIR)) return [];
   return fs
