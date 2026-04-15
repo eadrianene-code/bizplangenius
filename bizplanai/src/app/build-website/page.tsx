@@ -62,12 +62,33 @@ function BuildWebsiteInner() {
   const [pages, setPages] = useState<SitePage[]>([]);
   const [activePageId, setActivePageId] = useState('');
   const [businessName, setBusinessName] = useState('');
+  const [planBusinessName, setPlanBusinessName] = useState('');
+  const [planIndustry, setPlanIndustry] = useState('');
 
   // Backwards compat
   const generatedHtml = pages.find(p => p.id === activePageId)?.html || '';
   const setGeneratedHtml = (html: string) => {
     setPages(prev => prev.map(p => p.id === activePageId ? { ...p, html } : p));
   };
+
+  // If we have a plan session, fetch business name for display
+  useEffect(() => {
+    if (planSessionId && !sessionId) {
+      fetch('/api/dashboard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: planSessionId }),
+      }).then(r => r.json()).then(data => {
+        if (data.purchases) {
+          const plan = data.purchases.find((p: any) => p.product === 'business_plan');
+          if (plan) {
+            setPlanBusinessName(plan.metadata?.businessName || '');
+            setPlanIndustry(plan.metadata?.industry || '');
+          }
+        }
+      }).catch(() => {});
+    }
+  }, [planSessionId, sessionId]);
 
   // If we have a session_id (paid), auto-generate
   useEffect(() => {
@@ -313,9 +334,16 @@ function BuildWebsiteInner() {
       <main className="max-w-3xl mx-auto px-4 py-12">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold mb-3">Build Your Business Website</h1>
-          <p className="text-gray-600 text-lg">
-            Our AI will create a custom, professional website based on your business plan data. Ready in under 2 minutes.
-          </p>
+          {planSessionId && planBusinessName ? (
+            <div className="inline-block bg-accent-50 border border-accent-200 rounded-xl px-5 py-3 mb-2">
+              <p className="text-accent-800 text-sm">Building website for <span className="font-bold">{planBusinessName}</span></p>
+              <p className="text-accent-600 text-xs">All your business plan data will be used automatically</p>
+            </div>
+          ) : (
+            <p className="text-gray-600 text-lg">
+              Our AI will create a custom, professional website. Ready in under 2 minutes.
+            </p>
+          )}
         </div>
 
         <form onSubmit={handleCheckout} className="space-y-6">
