@@ -1,6 +1,7 @@
 import { getAllPosts } from "@/lib/blog";
 import Link from "next/link";
 import { Metadata } from "next";
+import NewsletterSignup from "../components/NewsletterSignup";
 
 export const metadata: Metadata = {
   title: "Blog - BizPlan Genius | Business Planning Tips & Guides",
@@ -25,6 +26,9 @@ export default function BlogPage() {
           <nav className="flex gap-6 items-center">
             <Link href="/blog" className="text-sm font-medium text-blue-600">
               Blog
+            </Link>
+            <Link href="/free-competitor-check" className="text-sm font-medium text-gray-600 hover:text-gray-900">
+              Free Tool
             </Link>
             <Link
               href="/#pricing"
@@ -83,6 +87,11 @@ export default function BlogPage() {
           </div>
         )}
       </main>
+
+      {/* Newsletter */}
+      <section className="max-w-2xl mx-auto px-6 pb-12">
+        <NewsletterSignup />
+      </section>
 
       {/* CTA */}
       <section className="bg-blue-50 border-t">

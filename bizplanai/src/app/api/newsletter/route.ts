@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
-
-// Newsletter signup handler.
-// TODO (2026-04-15): Wire to Resend audience once RESEND_API_KEY is added to Vercel env.
-// For now we log the email + source to Vercel logs so nothing is lost.
+import fs from 'fs';
+import path from 'path';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -14,6 +12,22 @@ export async function POST(request: Request) {
 
     if (!email || !EMAIL_RE.test(email)) {
       return NextResponse.json({ ok: false, error: 'Invalid email' }, { status: 400 });
+    }
+
+    // Save to collected-emails.json
+    const dataDir = path.join(process.cwd(), 'data');
+    const filePath = path.join(dataDir, 'collected-emails.json');
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    let emails: Array<{ email: string; source: string; timestamp: string }> = [];
+    if (fs.existsSync(filePath)) {
+      emails = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    }
+    const exists = emails.some(e => e.email.toLowerCase() === email.toLowerCase());
+    if (!exists) {
+      emails.push({ email, source: `newsletter_${source}`, timestamp: new Date().toISOString() });
+      fs.writeFileSync(filePath, JSON.stringify(emails, null, 2));
     }
 
     // Log to Vercel so we can harvest signups until Resend is wired up.
