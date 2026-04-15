@@ -34,6 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       },
           ...blogUrls,
       {
+                url: `${baseUrl}/business-name-generator`,
+                lastModified: new Date(),
+                changeFrequency: 'weekly',
+                priority: 0.8,
+      },
+      {
                 url: `${baseUrl}/compare`,
                 lastModified: new Date(),
                 changeFrequency: 'monthly',

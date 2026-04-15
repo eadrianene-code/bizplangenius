@@ -643,7 +643,10 @@ function Footer() {
             <div className="space-y-2">
               <a href="/#pricing" className="block text-sm text-gray-500 hover:text-gray-700">Business Plan Generator</a>
               <a href="/spy" className="block text-sm text-gray-500 hover:text-gray-700">Competitor Spy Tool</a>
-              <SamplePdfGate pdfUrl="/sample-business-plan.pdf" label="Sample Business Plan" className="block text-sm text-gray-500 hover:text-gray-700">Sample Plan (PDF)</SamplePdfGate>
+              <a href="/build-website" className="block text-sm text-gray-500 hover:text-gray-700">Website Builder</a>
+              <a href="/bundles" className="block text-sm text-gray-500 hover:text-gray-700">Bundles</a>
+              <a href="/free-competitor-check" className="block text-sm text-gray-500 hover:text-gray-700">Free Competitor Check</a>
+              <a href="/business-name-generator" className="block text-sm text-gray-500 hover:text-gray-700">Free Name Generator</a>
             </div>
           </div>
           <div>
