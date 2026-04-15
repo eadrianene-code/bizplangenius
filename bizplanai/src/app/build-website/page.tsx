@@ -4,12 +4,24 @@ import { useState, useEffect, Suspense, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 const WEBSITE_TYPES = [
-  { key: 'landing', label: 'Landing Page', price: 99, desc: 'Single-page marketing site with strong CTAs' },
-  { key: 'ecommerce', label: 'E-commerce', price: 149, desc: 'Product showcase with shopping experience' },
-  { key: 'booking', label: 'Booking Site', price: 129, desc: 'Service booking with appointment scheduling UI' },
-  { key: 'restaurant', label: 'Restaurant', price: 129, desc: 'Menu, hours, location, and reservations' },
-  { key: 'portfolio', label: 'Portfolio', price: 99, desc: 'Visual showcase of work and case studies' },
-  { key: 'saas', label: 'SaaS Product', price: 199, desc: 'Feature-rich product page with pricing tiers' },
+  { key: 'landing', label: 'Landing Page', price: 99, desc: 'Single-page marketing site with strong CTAs', icon: '🚀',
+    features: ['Hero with headline & CTA', 'Features/services section', 'Pricing table', 'Testimonials', 'Contact form', 'FAQ section'],
+    bestFor: 'New businesses, product launches, service providers' },
+  { key: 'ecommerce', label: 'E-commerce Store', price: 149, desc: 'Product showcase with shopping experience', icon: '🛒',
+    features: ['Product grid with cards', 'Add-to-cart buttons', 'Featured products', 'Category navigation', 'Customer reviews', 'Shipping info'],
+    bestFor: 'Online stores, DTC brands, product sellers' },
+  { key: 'booking', label: 'Booking / Services', price: 129, desc: 'Service booking with appointment scheduling', icon: '📅',
+    features: ['Service packages & pricing', 'Booking calendar UI', 'Staff/team profiles', 'Availability display', 'Testimonials', 'Location & hours'],
+    bestFor: 'Salons, consultants, clinics, coaches, repair services' },
+  { key: 'restaurant', label: 'Restaurant / Food', price: 129, desc: 'Menu, hours, location, and reservations', icon: '🍽️',
+    features: ['Full menu with categories', 'Pricing & descriptions', 'Photo gallery', 'Reservation CTA', 'Hours & location', 'Reviews section'],
+    bestFor: 'Restaurants, cafes, bakeries, food trucks, catering' },
+  { key: 'portfolio', label: 'Portfolio / Agency', price: 99, desc: 'Visual showcase of work and case studies', icon: '🎨',
+    features: ['Project gallery grid', 'Case study cards', 'Client logos', 'About/team section', 'Skills & expertise', 'Contact & hire CTA'],
+    bestFor: 'Designers, developers, photographers, agencies, freelancers' },
+  { key: 'saas', label: 'SaaS / Tech Product', price: 199, desc: 'Feature-rich product page with pricing tiers', icon: '💻',
+    features: ['Feature comparison grid', 'Pricing tiers with toggle', 'Integration logos', 'Dashboard screenshot area', 'Customer logos', 'API/docs CTA'],
+    bestFor: 'Software products, apps, APIs, tech startups' },
 ];
 
 const COLOR_SCHEMES = [
@@ -154,23 +166,82 @@ function BuildWebsiteInner() {
   const selectedType = WEBSITE_TYPES.find(t => t.key === websiteType);
   const price = selectedType?.price || 99;
 
-  // No plan session -- show error
+  // No plan session -- show showcase page
   if (!planSessionId && !sessionId) {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
-        <main className="max-w-2xl mx-auto px-4 py-20 text-center">
-          <h1 className="text-3xl font-bold mb-4">Build Your Business Website</h1>
-          <p className="text-gray-600 mb-8">
-            To build a website, you need a business plan first. The AI uses your plan data to create a website tailored to your specific business.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <a href="/generate" className="px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition">
-              Generate a Business Plan First
-            </a>
-            <a href="/free-competitor-check" className="px-8 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">
-              Try Free Competitor Check
-            </a>
+        <main className="max-w-5xl mx-auto px-4 py-12">
+          <div className="text-center mb-12">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-3">AI Website Builder</h1>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto mb-2">
+              Our AI generates a complete, professional website tailored to your business.
+              Choose from 6 website types, each designed for your specific industry.
+            </p>
+            <p className="text-sm text-gray-500">Multi-page support. Edit everything. Download the source code.</p>
+          </div>
+
+          {/* Website types showcase */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
+            {WEBSITE_TYPES.map(type => (
+              <div key={type.key} className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-lg transition">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-3xl">{type.icon}</span>
+                  <div>
+                    <h3 className="font-bold text-gray-900">{type.label}</h3>
+                    <p className="text-xs text-gray-500">{type.desc}</p>
+                  </div>
+                </div>
+                <div className="space-y-1.5 mb-4">
+                  {type.features.map((f, i) => (
+                    <div key={i} className="flex items-center gap-2 text-sm text-gray-600">
+                      <svg className="w-3.5 h-3.5 text-accent-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                      {f}
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-gray-400 mb-3">Best for: {type.bestFor}</p>
+                <p className="text-xl font-extrabold text-brand-600">${type.price}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* What's included in every website */}
+          <div className="bg-white rounded-2xl border p-8 mb-12">
+            <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Every website includes</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+              {[
+                { title: 'Multi-page', desc: 'Add About, Services, Contact, and more' },
+                { title: 'Fully editable', desc: 'Change text, prices, sections -- anything' },
+                { title: 'Responsive', desc: 'Looks great on desktop, tablet, and mobile' },
+                { title: 'Source code', desc: 'Download HTML/CSS and host anywhere' },
+                { title: 'SEO ready', desc: 'Meta tags, titles, and descriptions included' },
+                { title: 'Custom colors', desc: '6 color schemes or match your brand' },
+                { title: 'Rename pages', desc: 'Call them whatever you want' },
+                { title: 'Undo/redo', desc: 'Full edit history, never lose changes' },
+              ].map((f, i) => (
+                <div key={i}>
+                  <p className="font-bold text-gray-900 text-sm">{f.title}</p>
+                  <p className="text-xs text-gray-500">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center bg-brand-50 rounded-2xl p-8 border border-brand-100">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Ready to build your website?</h2>
+            <p className="text-gray-600 mb-6">You need a business plan first -- the AI uses your plan data to create a website tailored to your specific business.</p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <a href="/generate" className="px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
+                Generate a Business Plan - $29
+              </a>
+              <a href="/bundles" className="px-8 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">
+                Get Plan + Website Bundle
+              </a>
+            </div>
           </div>
         </main>
       </div>
@@ -241,24 +312,41 @@ function BuildWebsiteInner() {
         <form onSubmit={handleCheckout} className="space-y-6">
           {/* Website Type */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <h2 className="font-bold text-gray-900 mb-4">Choose Your Website Type</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <h2 className="font-bold text-gray-900 mb-2">Choose Your Website Type</h2>
+            <p className="text-sm text-gray-500 mb-4">Each type is specifically designed for your industry with relevant sections and layouts.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {WEBSITE_TYPES.map(type => (
                 <button
                   key={type.key}
                   type="button"
                   onClick={() => setWebsiteType(type.key)}
-                  className={`p-4 rounded-xl border-2 text-left transition ${
+                  className={`p-5 rounded-xl border-2 text-left transition ${
                     websiteType === type.key
-                      ? 'border-brand-600 bg-brand-50'
+                      ? 'border-brand-600 bg-brand-50 ring-1 ring-brand-200'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
-                  <div className="flex items-baseline justify-between mb-1">
-                    <span className="font-bold text-sm">{type.label}</span>
-                    <span className="text-lg font-extrabold">${type.price}</span>
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">{type.icon}</span>
+                      <div>
+                        <span className="font-bold text-gray-900">{type.label}</span>
+                        <p className="text-xs text-gray-500">{type.desc}</p>
+                      </div>
+                    </div>
+                    <span className="text-lg font-extrabold text-brand-600 flex-shrink-0 ml-2">${type.price}</span>
                   </div>
-                  <p className="text-xs text-gray-500">{type.desc}</p>
+                  <div className="grid grid-cols-2 gap-1 mt-3">
+                    {type.features.map((f, i) => (
+                      <div key={i} className="flex items-center gap-1 text-[11px] text-gray-600">
+                        <svg className="w-3 h-3 text-accent-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                        </svg>
+                        {f}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-[10px] text-gray-400 mt-2">Best for: {type.bestFor}</p>
                 </button>
               ))}
             </div>

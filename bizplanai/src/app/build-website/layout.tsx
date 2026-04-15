@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'AI Website Builder - Custom Website From Your Business Plan | BizPlan Genius',
-  description: 'AI generates a custom, professional website from your business plan. 6 website types: landing page, e-commerce, booking, restaurant, portfolio, SaaS. Full source code. From $99.',
+  title: 'AI Website Builder - 6 Types: E-commerce, Restaurant, SaaS & More | BizPlan Genius',
+  description: 'AI builds your website from your business plan. Choose from 6 types: landing page ($99), e-commerce store ($149), booking site ($129), restaurant ($129), portfolio ($99), SaaS product ($199). Multi-page, editable, downloadable source code.',
   openGraph: {
     title: 'AI Website Builder - Custom Website in 2 Minutes',
     description: 'Get a professional website built from your business plan data. Responsive, custom design, full HTML/CSS source code included.',

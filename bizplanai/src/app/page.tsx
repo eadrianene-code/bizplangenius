@@ -643,9 +643,9 @@ function MoreTools() {
           </a>
           <a href="/build-website" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
             <p className="text-[10px] font-bold text-accent-600 uppercase mb-1">Build</p>
-            <h3 className="font-bold text-gray-900 text-sm mb-1">Website</h3>
-            <p className="text-xs text-gray-500 mb-2">Custom site from plan</p>
-            <p className="text-lg font-extrabold text-accent-600">$99</p>
+            <h3 className="font-bold text-gray-900 text-sm mb-1">Website Builder</h3>
+            <p className="text-xs text-gray-500 mb-2">6 types: store, booking, restaurant, SaaS, portfolio, landing</p>
+            <p className="text-lg font-extrabold text-accent-600">From $99</p>
           </a>
           <a href="/pitch-deck" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
             <p className="text-[10px] font-bold text-purple-600 uppercase mb-1">Fundraise</p>
