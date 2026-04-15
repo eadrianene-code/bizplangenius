@@ -5,6 +5,7 @@ import ExitIntentPopup from './components/ExitIntentPopup';
 import StickyMobileCTA from './components/StickyMobileCTA';
 import SocialProofToast from './components/SocialProofToast';
 import ReviewRequest from './components/ReviewRequest';
+import ChatWidget from './components/ChatWidget';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bizplangenius.com'),
@@ -183,6 +184,7 @@ export default function RootLayout({
         <StickyMobileCTA />
         <SocialProofToast />
         <ReviewRequest />
+        <ChatWidget />
       </body>
     </html>
   );
