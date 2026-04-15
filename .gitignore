@@ -27,3 +27,4 @@ next-env.d.ts
 
 # collected data
 **/data/collected-emails.json
+**/data/referrals.json

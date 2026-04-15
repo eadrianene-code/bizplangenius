@@ -652,6 +652,8 @@ function Footer() {
               <a href="/about" className="block text-sm text-gray-500 hover:text-gray-700">About</a>
               <a href="/methodology" className="block text-sm text-gray-500 hover:text-gray-700">Methodology</a>
               <a href="/blog" className="block text-sm text-gray-500 hover:text-gray-700">Blog</a>
+              <a href="/compare" className="block text-sm text-gray-500 hover:text-gray-700">Compare</a>
+              <a href="/refer" className="block text-sm text-gray-500 hover:text-gray-700">Refer & Earn</a>
               <a href="mailto:support@bizplangenius.com" className="block text-sm text-gray-500 hover:text-gray-700">Contact</a>
               <a href="/privacy" className="block text-sm text-gray-500 hover:text-gray-700">Privacy Policy</a>
               <a href="/terms" className="block text-sm text-gray-500 hover:text-gray-700">Terms of Service</a>
