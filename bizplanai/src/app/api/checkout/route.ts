@@ -29,8 +29,11 @@ export async function POST(req: NextRequest) {
 
     // Create a Stripe Checkout session
     const stripe = getStripe();
+    const customerEmail = body.email || undefined;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
+      customer_email: customerEmail,
       line_items: [
         {
           price_data: {
@@ -60,6 +63,7 @@ export async function POST(req: NextRequest) {
         location: body.location || '',
         investment: body.investment || '',
         competitors: (body.competitors || '').substring(0, 500),
+        email: body.email || '',
       },
     });
 

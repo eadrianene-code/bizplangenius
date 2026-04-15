@@ -12,6 +12,7 @@ interface FormData {
   location: string;
   investment: string;
   competitors: string;
+  email: string;
 }
 
 const INDUSTRIES = [
@@ -43,7 +44,7 @@ function GeneratePageInner() {
   const [tier, setTier] = useState<'starter' | 'pro'>('pro');
   const [form, setForm] = useState<FormData>({
     businessName: '', industry: '', description: '', targetMarket: '',
-    revenueModel: '', location: '', investment: '', competitors: '',
+    revenueModel: '', location: '', investment: '', competitors: '', email: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -279,6 +280,20 @@ function GeneratePageInner() {
               placeholder="List any competitors you know about. We'll find more during our research..."
               className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition resize-none"
             />
+          </div>
+
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1.5">Email Address *</label>
+            <input
+              type="email"
+              required
+              value={form.email}
+              onChange={e => update('email', e.target.value)}
+              placeholder="your@email.com - we'll send your plan here"
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition"
+            />
+            <p className="text-xs text-gray-400 mt-1">Your business plan will be delivered to this email. We never spam.</p>
           </div>
 
           {error && (

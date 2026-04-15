@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
+import ExitIntentPopup from './components/ExitIntentPopup';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bizplangenius.com'),
@@ -97,6 +98,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased text-gray-900 bg-white">
         {children}
+        <ExitIntentPopup />
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import SamplePdfGate from '../components/SamplePdfGate';
 
 const INDUSTRIES = [
   'Technology / SaaS', 'E-commerce / Retail', 'Food & Beverage', 'Health & Wellness',
@@ -451,14 +452,13 @@ function SampleSpyReport() {
                 <p className="text-sm text-gray-500">38-page report with 15 competitors analyzed</p>
               </div>
             </div>
-            <a
-              href="/sample-spy-report.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20"
+            <SamplePdfGate
+              pdfUrl="/sample-spy-report.pdf"
+              label="Sample Spy Report"
+              className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20 inline-block cursor-pointer"
             >
               View Sample Report (PDF)
-            </a>
+            </SamplePdfGate>
           </div>
           <div className="p-6 sm:p-8">
             <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-4">Real pages from the report:</p>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import SamplePdfGate from './components/SamplePdfGate';
 
 const NAV_LINKS = [
   { href: '#features', label: 'Features' },
@@ -143,9 +144,9 @@ function Hero() {
           One-time payment. No subscription. 100% money-back guarantee.
         </div>
         <p className="mt-3 text-sm text-brand-600 font-medium">
-          <a href="/sample-business-plan.pdf" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-700">
+          <SamplePdfGate pdfUrl="/sample-business-plan.pdf" label="Sample Business Plan" className="underline hover:text-brand-700">
             See a real sample plan
-          </a>
+          </SamplePdfGate>
         </p>
       </div>
     </section>
@@ -274,14 +275,13 @@ function SamplePlan() {
                 <p className="text-sm text-gray-500">11-page business plan with real competitor data</p>
               </div>
             </div>
-            <a
-              href="/sample-business-plan.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20"
+            <SamplePdfGate
+              pdfUrl="/sample-business-plan.pdf"
+              label="Sample Business Plan"
+              className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20 inline-block cursor-pointer"
             >
               View Sample Plan (PDF)
-            </a>
+            </SamplePdfGate>
           </div>
           <div className="p-6 sm:p-8">
             <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-4">What's inside this plan:</p>
@@ -582,7 +582,7 @@ function Footer() {
             <div className="space-y-2">
               <a href="/#pricing" className="block text-sm text-gray-500 hover:text-gray-700">Business Plan Generator</a>
               <a href="/spy" className="block text-sm text-gray-500 hover:text-gray-700">Competitor Spy Tool</a>
-              <a href="/sample-business-plan.pdf" target="_blank" rel="noopener noreferrer" className="block text-sm text-gray-500 hover:text-gray-700">Sample Plan (PDF)</a>
+              <SamplePdfGate pdfUrl="/sample-business-plan.pdf" label="Sample Business Plan" className="block text-sm text-gray-500 hover:text-gray-700">Sample Plan (PDF)</SamplePdfGate>
             </div>
           </div>
           <div>
