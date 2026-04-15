@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { remark } from "remark";
 import html from "remark-html";
+import NewsletterSignup from "../../components/NewsletterSignup";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -163,6 +164,11 @@ export default async function BlogPostPage({ params }: PageProps) {
         </div>
         )}
       </article>
+
+      {/* Newsletter */}
+      <div className="max-w-2xl mx-auto mt-12">
+        <NewsletterSignup />
+      </div>
 
       {/* Article Schema */}
       <script
