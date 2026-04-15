@@ -8,8 +8,8 @@ const NAV_LINKS = [
   { href: '#how-it-works', label: 'How It Works' },
   { href: '#pricing', label: 'Pricing' },
   { href: '/spy', label: 'Competitor Spy' },
+  { href: '/free-competitor-check', label: 'Free Tool' },
   { href: '/blog', label: 'Blog' },
-  { href: '/methodology', label: 'Methodology' },
   { href: '/about', label: 'About' },
 ];
 

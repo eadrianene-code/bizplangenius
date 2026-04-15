@@ -1767,6 +1767,32 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
             </a>
           </div>
         </div>
+
+        {/* Business Plan Cross-Sell */}
+        <div className="mt-12 p-8 rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white">
+          <div className="text-center max-w-2xl mx-auto">
+            <p className="text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Recommended Next Step</p>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Turn this research into a full business plan</h3>
+            <p className="text-gray-600 mb-6">
+              You now know the gaps in your market. Get an investor-ready business plan that exploits them -- with real financial projections, marketing strategy, and a roadmap built on the competitor data you just uncovered.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <a
+                href="/generate?tier=pro"
+                className="inline-block px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25"
+              >
+                Generate My Business Plan - $49
+              </a>
+              <a
+                href="/generate?tier=starter"
+                className="inline-block px-8 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition"
+              >
+                Starter Plan - $29
+              </a>
+            </div>
+            <p className="text-xs text-gray-400 mt-3">One-time payment. Pro plan includes money-back guarantee.</p>
+          </div>
+        </div>
       </div>
     </div>
   );
