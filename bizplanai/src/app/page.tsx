@@ -3,15 +3,6 @@
 import { useState } from 'react';
 import SamplePdfGate from './components/SamplePdfGate';
 
-const NAV_LINKS = [
-  { href: '#features', label: 'Features' },
-  { href: '#how-it-works', label: 'How It Works' },
-  { href: '#pricing', label: 'Pricing' },
-  { href: '/spy', label: 'Competitor Spy' },
-  { href: '/bundles', label: 'Bundles' },
-  { href: '/free-competitor-check', label: 'Free Tool' },
-  { href: '/dashboard', label: 'My Toolkit' },
-];
 
 const FEATURES = [
   {
@@ -77,16 +68,100 @@ const FAQS = [
 
 function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [freeOpen, setFreeOpen] = useState(false);
+  const [productsOpen, setProductsOpen] = useState(false);
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <a href="/" className="text-xl font-bold text-gradient">BizPlan Genius</a>
-        <nav className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map(l => (
-            <a key={l.href} href={l.href} className="text-sm text-gray-600 hover:text-brand-600 transition">{l.label}</a>
-          ))}
-          <a href="#pricing" className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20">
-            Generate Your Plan
+        <nav className="hidden md:flex items-center gap-6">
+          {/* Free Tools Dropdown */}
+          <div className="relative" onMouseEnter={() => setFreeOpen(true)} onMouseLeave={() => setFreeOpen(false)}>
+            <button className="text-sm text-gray-600 hover:text-brand-600 transition flex items-center gap-1">
+              Free Tools
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            {freeOpen && (
+              <div className="absolute top-full left-0 pt-2 w-64">
+                <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-2">
+                  <a href="/free-competitor-check" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <p className="text-sm font-semibold text-gray-900">Competitor Check</p>
+                    <p className="text-xs text-gray-500">Find your top 3 competitors</p>
+                  </a>
+                  <a href="/business-name-generator" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <p className="text-sm font-semibold text-gray-900">Name Generator</p>
+                    <p className="text-xs text-gray-500">10 unique business name ideas</p>
+                  </a>
+                  <a href="/startup-cost-calculator" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <p className="text-sm font-semibold text-gray-900">Cost Calculator</p>
+                    <p className="text-xs text-gray-500">Estimate your startup costs</p>
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Products Dropdown */}
+          <div className="relative" onMouseEnter={() => setProductsOpen(true)} onMouseLeave={() => setProductsOpen(false)}>
+            <button className="text-sm text-gray-600 hover:text-brand-600 transition flex items-center gap-1">
+              Products
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            {productsOpen && (
+              <div className="absolute top-full left-0 pt-2 w-72">
+                <div className="bg-white rounded-xl shadow-xl border border-gray-100 p-2">
+                  <a href="/spy" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-semibold text-gray-900">Competitor Spy Report</p><p className="text-xs text-gray-500">10-15 real competitors analyzed</p></div>
+                      <span className="text-xs font-bold text-brand-600">$19</span>
+                    </div>
+                  </a>
+                  <a href="/build-website" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-semibold text-gray-900">Website Builder</p><p className="text-xs text-gray-500">Custom site from your plan</p></div>
+                      <span className="text-xs font-bold text-accent-600">$99</span>
+                    </div>
+                  </a>
+                  <a href="/pitch-deck" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-semibold text-gray-900">Pitch Deck</p><p className="text-xs text-gray-500">12 investor slides</p></div>
+                      <span className="text-xs font-bold text-purple-600">$39</span>
+                    </div>
+                  </a>
+                  <a href="/social-pack" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-semibold text-gray-900">Social Media Pack</p><p className="text-xs text-gray-500">30 days of content</p></div>
+                      <span className="text-xs font-bold text-pink-600">$29</span>
+                    </div>
+                  </a>
+                  <a href="/brand-kit" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-semibold text-gray-900">Logo & Brand Kit</p><p className="text-xs text-gray-500">Colors, fonts, voice guide</p></div>
+                      <span className="text-xs font-bold text-orange-600">$29</span>
+                    </div>
+                  </a>
+                  <a href="/investor-emails" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
+                    <div className="flex items-center justify-between">
+                      <div><p className="text-sm font-semibold text-gray-900">Investor Emails</p><p className="text-xs text-gray-500">10 fundraising templates</p></div>
+                      <span className="text-xs font-bold text-indigo-600">$19</span>
+                    </div>
+                  </a>
+                  <div className="border-t border-gray-100 mt-1 pt-1">
+                    <a href="/bundles" className="block px-3 py-2.5 rounded-lg hover:bg-brand-50 transition">
+                      <div className="flex items-center justify-between">
+                        <div><p className="text-sm font-semibold text-brand-600">Bundles -- Save up to $68</p><p className="text-xs text-gray-500">Get everything from $59</p></div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <a href="/#pricing" className="text-sm text-gray-600 hover:text-brand-600 transition">Pricing</a>
+          <a href="/blog" className="text-sm text-gray-600 hover:text-brand-600 transition">Blog</a>
+          <a href="/generate" className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20">
+            Generate My Plan - $29
           </a>
         </nav>
         <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2">
@@ -96,12 +171,25 @@ function Header() {
         </button>
       </div>
       {mobileOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 py-4 px-4 space-y-3">
-          {NAV_LINKS.map(l => (
-            <a key={l.href} href={l.href} onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2">{l.label}</a>
-          ))}
-          <a href="#pricing" className="block w-full text-center px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-lg">
-            Generate Your Plan
+        <div className="md:hidden bg-white border-t border-gray-100 py-4 px-4 space-y-1 max-h-[80vh] overflow-y-auto">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider px-2 pt-2">Free Tools</p>
+          <a href="/free-competitor-check" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Competitor Check</a>
+          <a href="/business-name-generator" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Name Generator</a>
+          <a href="/startup-cost-calculator" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Cost Calculator</a>
+          <div className="border-t border-gray-100 my-2" />
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wider px-2">Products</p>
+          <a href="/spy" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Competitor Spy -- $19</a>
+          <a href="/build-website" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Website Builder -- $99</a>
+          <a href="/pitch-deck" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pitch Deck -- $39</a>
+          <a href="/social-pack" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Social Pack -- $29</a>
+          <a href="/brand-kit" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Brand Kit -- $29</a>
+          <a href="/investor-emails" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Investor Emails -- $19</a>
+          <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles -- Save up to $68</a>
+          <div className="border-t border-gray-100 my-2" />
+          <a href="/#pricing" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pricing</a>
+          <a href="/blog" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Blog</a>
+          <a href="/generate" className="block w-full text-center px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-lg mt-3">
+            Generate My Plan - $29
           </a>
         </div>
       )}
@@ -114,27 +202,38 @@ function Hero() {
     <section className="pt-28 pb-20 px-4 bg-hero-pattern">
       <div className="max-w-4xl mx-auto text-center">
         <div className="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-medium rounded-full mb-6 border border-brand-100">
-          AI-Powered Business Plans with Real Data
+          Go from idea to launch with AI
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-          Business Plans with{' '}
-          <span className="text-gradient">Real Market Research</span>
+          Your Business Plan.{' '}
+          <span className="text-gradient">Real Data. Ready in 8 Minutes.</span>
         </h1>
         <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-4 leading-relaxed">
-          Describe your business idea. Our AI researches your actual competitors,
-          analyzes real market data, and generates an investor-ready business plan
-          in minutes, not weeks.
+          Describe your idea. Our AI researches your real competitors, builds an investor-ready
+          plan, generates your website, pitch deck, and brand -- everything you need to launch.
         </p>
-        <p className="text-sm text-gray-500 max-w-2xl mx-auto mb-10">
-          Powered by Google Gemini 2.5 with live web search.{' '}
-          <a href="/methodology" className="text-brand-600 hover:text-brand-700 underline">See how it works</a>.
-        </p>
+
+        {/* Idea to Launch Steps */}
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 my-8 text-sm">
+          <span className="px-3 py-1.5 bg-green-50 text-green-700 font-semibold rounded-full border border-green-200">Idea</span>
+          <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          <span className="px-3 py-1.5 bg-brand-50 text-brand-700 font-semibold rounded-full border border-brand-200">Research</span>
+          <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          <span className="px-3 py-1.5 bg-brand-50 text-brand-700 font-semibold rounded-full border border-brand-200">Plan</span>
+          <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          <span className="px-3 py-1.5 bg-accent-50 text-accent-700 font-semibold rounded-full border border-accent-200">Website</span>
+          <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          <span className="px-3 py-1.5 bg-purple-50 text-purple-700 font-semibold rounded-full border border-purple-200">Pitch</span>
+          <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+          <span className="px-3 py-1.5 bg-orange-50 text-orange-700 font-semibold rounded-full border border-orange-200">Launch</span>
+        </div>
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="#pricing" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
-            Generate My Business Plan - Starting at $29
+          <a href="/generate" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
+            Generate My Business Plan - $29
           </a>
-          <a href="#how-it-works" className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition text-lg">
-            See How It Works
+          <a href="/free-competitor-check" className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition text-lg">
+            Try Free Competitor Check
           </a>
         </div>
         <div className="mt-4 inline-flex items-center gap-2 text-sm text-gray-500">
@@ -143,13 +242,17 @@ function Hero() {
           </svg>
           One-time payment. No subscription. 100% money-back guarantee.
         </div>
-        <div className="mt-3 flex items-center gap-4 text-sm font-medium">
+        <div className="mt-3 flex items-center justify-center gap-4 text-sm font-medium">
           <SamplePdfGate pdfUrl="/sample-business-plan.pdf" label="Sample Business Plan" className="text-brand-600 underline hover:text-brand-700">
             See a real sample plan
           </SamplePdfGate>
           <span className="text-gray-300">|</span>
-          <a href="/free-competitor-check" className="text-brand-600 underline hover:text-brand-700">
-            Try free competitor check
+          <a href="/bundles" className="text-brand-600 underline hover:text-brand-700">
+            Save with bundles
+          </a>
+          <span className="text-gray-300">|</span>
+          <a href="/compare" className="text-brand-600 underline hover:text-brand-700">
+            Compare us
           </a>
         </div>
       </div>
