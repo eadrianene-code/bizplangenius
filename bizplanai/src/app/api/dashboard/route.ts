@@ -69,6 +69,9 @@ export async function POST(req: NextRequest) {
       } else if (meta.product === 'website_builder') {
         product = 'website_builder';
         tier = meta.websiteType || 'landing';
+      } else if (meta.product === 'pitch_deck') {
+        product = 'pitch_deck';
+        tier = 'standard';
       } else if (meta.companyName || meta.industryDescription || meta.mode) {
         product = 'spy_report';
         tier = 'standard';
@@ -153,18 +156,29 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    // Pitch deck -- available if they have a plan
+    const hasDeck = purchases.some(p => p.product === 'pitch_deck');
+    if (!hasDeck && hasPlan && planSession) {
+      available.push({
+        product: 'pitch_deck',
+        name: 'Pitch Deck Generator',
+        description: '12-slide investor-ready pitch deck with speaker notes, built from your plan data',
+        price: 39,
+        url: `/pitch-deck?plan_session_id=${planSession.sessionId}`,
+        recommended: hasWebsite, // recommend if they already have a website
+      });
+    } else if (!hasDeck && !hasPlan) {
+      available.push({
+        product: 'pitch_deck',
+        name: 'Pitch Deck Generator',
+        description: 'Investor-ready slide deck generated from your business plan. Get a business plan first.',
+        price: 39,
+        url: '/generate',
+        recommended: false,
+      });
+    }
+
     // Future products (coming soon)
-
-    available.push({
-      product: 'pitch_deck',
-      name: 'Pitch Deck Generator',
-      description: 'Investor-ready slide deck generated from your business plan',
-      price: 39,
-      url: '#',
-      recommended: false,
-      comingSoon: true,
-    });
-
     available.push({
       product: 'social_media_pack',
       name: 'Social Media Starter Pack',
