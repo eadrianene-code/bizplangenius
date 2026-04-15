@@ -163,7 +163,7 @@ function Header() {
             )}
           </div>
 
-          <a href="/#pricing" className="text-sm text-gray-600 hover:text-brand-600 transition">Pricing</a>
+          <a href="/pricing" className="text-sm text-gray-600 hover:text-brand-600 transition">Pricing</a>
           <a href="/blog" className="text-sm text-gray-600 hover:text-brand-600 transition">Blog</a>
           <a href="/generate" className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20">
             Generate My Plan - $29
@@ -192,7 +192,7 @@ function Header() {
           <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles -- Save up to $68</a>
           <a href="/monitoring" onClick={() => setMobileOpen(false)} className="block text-accent-600 font-semibold py-2 px-2">Subscriptions -- from $9/mo</a>
           <div className="border-t border-gray-100 my-2" />
-          <a href="/#pricing" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pricing</a>
+          <a href="/pricing" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pricing</a>
           <a href="/blog" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Blog</a>
           <a href="/generate" className="block w-full text-center px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-lg mt-3">
             Generate My Plan - $29

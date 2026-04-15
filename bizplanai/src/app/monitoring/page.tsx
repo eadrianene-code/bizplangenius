@@ -235,6 +235,61 @@ export default function MonitoringPage() {
           </div>
         </div>
 
+        {/* Website Hosting */}
+        <div className="mb-12">
+          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">Website Hosting</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            <div className="rounded-2xl border-2 border-accent-300 bg-accent-50/30 p-6 relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-accent-600 text-white text-xs font-bold rounded-full uppercase">Most Popular</div>
+              <div className="text-center mb-4">
+                <p className="text-sm text-gray-500 mb-1">Monthly</p>
+                <div className="flex items-baseline justify-center gap-2">
+                  <span className="text-4xl font-extrabold text-gray-900">$19/mo</span>
+                </div>
+              </div>
+              <ul className="space-y-2 mb-6">
+                {['Your AI-generated website, hosted and live', 'Custom domain support', 'SSL certificate included', 'Fast global CDN', '99.9% uptime', 'Cancel anytime'].map((f, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                    <svg className="w-4 h-4 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => handleSubscribe('hosting_monthly')} disabled={loading === 'hosting_monthly'}
+                className="w-full px-6 py-3 bg-accent-600 text-white font-bold rounded-xl hover:bg-accent-700 transition disabled:opacity-60">
+                {loading === 'hosting_monthly' ? 'Processing...' : 'Subscribe - $19/mo'}
+              </button>
+            </div>
+            <div className="rounded-2xl border-2 border-accent-200 bg-accent-50/20 p-6 relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-accent-700 text-white text-xs font-bold rounded-full uppercase">Save 37%</div>
+              <div className="text-center mb-4">
+                <p className="text-sm text-gray-500 mb-1">Yearly</p>
+                <div className="flex items-baseline justify-center gap-2">
+                  <span className="text-4xl font-extrabold text-gray-900">$12/mo</span>
+                  <span className="text-gray-400 line-through">$19/mo</span>
+                </div>
+                <p className="text-xs text-gray-500 mt-1">Billed $144/year</p>
+              </div>
+              <ul className="space-y-2 mb-6">
+                {['Everything in monthly, plus:', 'Save $84/year', 'Priority support', 'Monthly performance report'].map((f, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                    <svg className="w-4 h-4 text-accent-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                    </svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => handleSubscribe('hosting_yearly')} disabled={loading === 'hosting_yearly'}
+                className="w-full px-6 py-3 bg-accent-600 text-white font-bold rounded-xl hover:bg-accent-700 transition disabled:opacity-60">
+                {loading === 'hosting_yearly' ? 'Processing...' : 'Subscribe - $12/mo yearly'}
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Compare */}
         <div className="max-w-3xl mx-auto mb-12 bg-white rounded-2xl border p-6">
           <h3 className="font-bold text-gray-900 mb-4 text-center">One-time vs Subscription</h3>

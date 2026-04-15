@@ -278,6 +278,19 @@ export async function POST(req: NextRequest) {
       isSubscription: true,
     });
 
+    const hasWebsiteProduct = purchases.some(p => p.product === 'website_builder');
+    if (hasWebsiteProduct) {
+      available.push({
+        product: 'hosting_subscription',
+        name: 'Website Hosting',
+        description: 'Your AI-generated website hosted live with custom domain and SSL.',
+        price: 19,
+        url: '/monitoring',
+        recommended: true,
+        isSubscription: true,
+      });
+    }
+
     return NextResponse.json({
       email: customerEmail.toLowerCase(),
       purchases,

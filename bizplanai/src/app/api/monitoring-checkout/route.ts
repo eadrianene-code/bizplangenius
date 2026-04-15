@@ -39,6 +39,16 @@ export async function POST(req: NextRequest) {
         price: 14400, // $144/year ($12/month equivalent)
         interval: 'year',
       },
+      hosting_monthly: {
+        name: 'Website Hosting',
+        price: 1900, // $19/month
+        interval: 'month',
+      },
+      hosting_yearly: {
+        name: 'Website Hosting - Yearly',
+        price: 14400, // $144/year ($12/month equivalent)
+        interval: 'year',
+      },
     };
 
     const selectedPlan = plans[plan];
