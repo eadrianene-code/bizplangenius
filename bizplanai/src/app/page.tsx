@@ -228,61 +228,109 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="pt-28 pb-20 px-4 bg-hero-pattern">
+    <section className="pt-28 pb-16 px-4 bg-hero-pattern">
       <div className="max-w-4xl mx-auto text-center">
-        <div className="inline-block px-4 py-1.5 bg-brand-50 text-brand-700 text-sm font-medium rounded-full mb-6 border border-brand-100">
-          Go from idea to launch with AI
+        <div className="inline-block px-4 py-1.5 bg-accent-50 text-accent-700 text-sm font-medium rounded-full mb-6 border border-accent-200">
+          The only platform that takes you from idea to running business
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-          Your Business Plan.{' '}
-          <span className="text-gradient">Real Data. Ready in 8 Minutes.</span>
+          Walk in With an Idea.{' '}
+          <span className="text-gradient">Leave With a Business.</span>
         </h1>
-        <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-4 leading-relaxed">
-          Describe your idea. Our AI researches your real competitors, builds an investor-ready
-          plan, generates your website, pitch deck, and brand -- everything you need to launch.
+        <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
+          Describe your business idea once. Our AI builds everything you need to launch:
+          business plan, website, brand, pitch deck, legal pages, ad copy, and social content.
+          All with real market data. All in one place.
         </p>
 
-        {/* Idea to Launch Steps */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 my-8 text-sm">
-          <span className="px-3 py-1.5 bg-green-50 text-green-700 font-semibold rounded-full border border-green-200">Idea</span>
-          <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-          <span className="px-3 py-1.5 bg-brand-50 text-brand-700 font-semibold rounded-full border border-brand-200">Research</span>
-          <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-          <span className="px-3 py-1.5 bg-brand-50 text-brand-700 font-semibold rounded-full border border-brand-200">Plan</span>
-          <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-          <span className="px-3 py-1.5 bg-accent-50 text-accent-700 font-semibold rounded-full border border-accent-200">Website</span>
-          <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-          <span className="px-3 py-1.5 bg-purple-50 text-purple-700 font-semibold rounded-full border border-purple-200">Pitch</span>
-          <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-          <span className="px-3 py-1.5 bg-orange-50 text-orange-700 font-semibold rounded-full border border-orange-200">Launch</span>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
           <a href="/generate" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
-            Generate My Business Plan - $29
+            Start Building My Business
           </a>
           <a href="/free-competitor-check" className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition text-lg">
-            Try Free Competitor Check
+            Try Free -- No Payment
           </a>
         </div>
-        <div className="mt-4 inline-flex items-center gap-2 text-sm text-gray-500">
+
+        <div className="inline-flex items-center gap-2 text-sm text-gray-500 mb-4">
           <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
           One-time payment. No subscription. 100% money-back guarantee.
         </div>
-        <div className="mt-3 flex items-center justify-center gap-4 text-sm font-medium">
-          <SamplePdfGate pdfUrl="/sample-business-plan.pdf" label="Sample Business Plan" className="text-brand-600 underline hover:text-brand-700">
-            See a real sample plan
-          </SamplePdfGate>
-          <span className="text-gray-300">|</span>
-          <a href="/bundles" className="text-brand-600 underline hover:text-brand-700">
-            Save with bundles
-          </a>
-          <span className="text-gray-300">|</span>
-          <a href="/compare" className="text-brand-600 underline hover:text-brand-700">
-            Compare us
-          </a>
+      </div>
+    </section>
+  );
+}
+
+function WhatYouLeaveWith() {
+  return (
+    <section className="py-16 px-4 bg-white border-b border-gray-100">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Everything You Need to Launch -- From One Description</h2>
+          <p className="text-gray-600">Describe your business once. AI builds all of this for you.</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
+          {[
+            { icon: '🔍', title: 'Competitor Research', desc: '10-15 real competitors analyzed with pricing, SWOT, and vulnerabilities', price: '$19', href: '/spy', color: 'border-brand-200 bg-brand-50/50' },
+            { icon: '📋', title: 'Business Plan', desc: 'Investor-ready PDF with real market data and 3-year financial projections', price: '$29', href: '/generate', color: 'border-brand-200 bg-brand-50/50' },
+            { icon: '🌐', title: 'Website That Takes Payments', desc: '6 types (store, restaurant, SaaS...). Multi-page, editable, with payment buttons wired in', price: '$99', href: '/build-website', color: 'border-accent-200 bg-accent-50/50' },
+            { icon: '🎨', title: 'Logo & Brand Identity', desc: '3 logo concepts, color palette, fonts, brand voice, and social media bio', price: '$29', href: '/brand-kit', color: 'border-orange-200 bg-orange-50/50' },
+            { icon: '📜', title: 'Legal Pages', desc: 'Terms of Service, Privacy Policy, Cookie Policy. GDPR + CCPA compliant', price: '$19', href: '/legal-pages', color: 'border-gray-200 bg-gray-50/50' },
+            { icon: '🎯', title: 'Pitch Deck', desc: '12 investor slides with speaker notes. Problem, solution, market, financials, the ask', price: '$39', href: '/pitch-deck', color: 'border-purple-200 bg-purple-50/50' },
+            { icon: '📱', title: '30 Days of Social Posts', desc: 'Twitter, LinkedIn, Instagram, Facebook. Hashtags, image ideas, posting times', price: '$29', href: '/social-pack', color: 'border-pink-200 bg-pink-50/50' },
+            { icon: '📢', title: 'Ad Copy for 3 Platforms', desc: '15 ads for Google, Facebook, and Instagram. Headlines, copy, targeting, creative ideas', price: '$19', href: '/ad-copy', color: 'border-red-200 bg-red-50/50' },
+            { icon: '📧', title: 'Investor Email Templates', desc: '10 fundraising emails: cold outreach, follow-ups, intros, updates, rejection response', price: '$19', href: '/investor-emails', color: 'border-indigo-200 bg-indigo-50/50' },
+          ].map((item, i) => (
+            <a key={i} href={item.href} className={`p-5 rounded-xl border ${item.color} hover:shadow-md transition block`}>
+              <div className="flex items-start justify-between mb-2">
+                <span className="text-2xl">{item.icon}</span>
+                <span className="text-sm font-extrabold text-gray-900">{item.price}</span>
+              </div>
+              <h3 className="font-bold text-gray-900 text-sm mb-1">{item.title}</h3>
+              <p className="text-xs text-gray-600">{item.desc}</p>
+            </a>
+          ))}
+        </div>
+
+        {/* The pitch */}
+        <div className="bg-gray-900 rounded-2xl p-8 sm:p-10 text-center text-white">
+          <p className="text-accent-400 text-sm font-bold uppercase tracking-wider mb-3">Or get everything at once</p>
+          <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Full Business Kit -- $349</h3>
+          <p className="text-gray-400 mb-2 max-w-lg mx-auto">
+            Plan + website + brand + pitch deck + social pack + competitor research.
+            Describe your business once, get everything generated. Launch this week.
+          </p>
+          <p className="text-green-400 text-sm font-bold mb-6">You save $25+ vs buying separately</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a href="/bundles" className="px-8 py-3 bg-white text-gray-900 font-bold rounded-xl hover:bg-gray-100 transition">
+              See All Bundles -- From $59
+            </a>
+            <a href="/pricing" className="px-8 py-3 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-gray-400 hover:text-white transition">
+              View Full Pricing
+            </a>
+          </div>
+        </div>
+
+        {/* Free tools callout */}
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-500 mb-3">Not ready to buy? Start free:</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            {[
+              { name: 'Competitor Check', href: '/free-competitor-check' },
+              { name: 'Idea Validator', href: '/validate-idea' },
+              { name: 'Name Generator', href: '/business-name-generator' },
+              { name: 'Cost Calculator', href: '/startup-cost-calculator' },
+              { name: 'Launch Checklist', href: '/launch-checklist' },
+              { name: 'Domain Guide', href: '/domain-guide' },
+            ].map((tool, i) => (
+              <a key={i} href={tool.href} className="px-3 py-1.5 bg-green-50 text-green-700 text-xs font-semibold rounded-full border border-green-200 hover:bg-green-100 transition">
+                {tool.name} -- Free
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -851,6 +899,7 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <WhatYouLeaveWith />
         <LiveCounter />
         <TrustBar />
         <SamplePlan />
