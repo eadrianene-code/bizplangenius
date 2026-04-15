@@ -1788,24 +1788,42 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
           </div>
 
           {/* Secondary CTAs */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
             <a href="/bundles" className="p-4 rounded-xl border border-accent-200 bg-accent-50 hover:border-accent-400 transition block">
               <p className="text-xs font-bold text-accent-600 uppercase mb-1">Best Value</p>
               <h4 className="font-bold text-gray-900 text-sm mb-1">Launch Pack Bundle</h4>
               <p className="text-xs text-gray-500">Plan + website + pitch deck</p>
-              <p className="text-sm font-extrabold text-accent-600 mt-2">$199 <span className="text-xs text-gray-400 line-through font-normal">$206</span></p>
+              <p className="text-sm font-extrabold text-accent-600 mt-2">$199</p>
             </a>
-            <a href="/brand-kit" className="p-4 rounded-xl border border-orange-200 bg-orange-50 hover:border-orange-400 transition block">
-              <p className="text-xs font-bold text-orange-600 uppercase mb-1">Brand</p>
-              <h4 className="font-bold text-gray-900 text-sm mb-1">Logo & Brand Kit</h4>
-              <p className="text-xs text-gray-500">Logo, colors, voice guide</p>
-              <p className="text-sm font-extrabold text-orange-600 mt-2">$29</p>
+            <a href="/build-website" className="p-4 rounded-xl border border-accent-200 bg-accent-50/50 hover:border-accent-400 transition block">
+              <p className="text-xs font-bold text-accent-600 uppercase mb-1">Build</p>
+              <h4 className="font-bold text-gray-900 text-sm mb-1">Website Builder</h4>
+              <p className="text-xs text-gray-500">Custom site from plan</p>
+              <p className="text-sm font-extrabold text-accent-600 mt-2">From $99</p>
             </a>
-            <a href="/social-pack" className="p-4 rounded-xl border border-pink-200 bg-pink-50 hover:border-pink-400 transition block">
-              <p className="text-xs font-bold text-pink-600 uppercase mb-1">Grow</p>
-              <h4 className="font-bold text-gray-900 text-sm mb-1">Social Media Pack</h4>
-              <p className="text-xs text-gray-500">30 days of content</p>
-              <p className="text-sm font-extrabold text-pink-600 mt-2">$29</p>
+            <a href="/pitch-deck" className="p-4 rounded-xl border border-purple-200 bg-purple-50 hover:border-purple-400 transition block">
+              <p className="text-xs font-bold text-purple-600 uppercase mb-1">Fundraise</p>
+              <h4 className="font-bold text-gray-900 text-sm mb-1">Pitch Deck</h4>
+              <p className="text-xs text-gray-500">12 investor slides</p>
+              <p className="text-sm font-extrabold text-purple-600 mt-2">$39</p>
+            </a>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <a href="/brand-kit" className="p-3 rounded-xl border border-orange-200 bg-orange-50 hover:border-orange-400 transition block text-center">
+              <p className="font-bold text-gray-900 text-sm">Brand Kit</p>
+              <p className="text-xs text-orange-600 font-bold">$29</p>
+            </a>
+            <a href="/social-pack" className="p-3 rounded-xl border border-pink-200 bg-pink-50 hover:border-pink-400 transition block text-center">
+              <p className="font-bold text-gray-900 text-sm">Social Pack</p>
+              <p className="text-xs text-pink-600 font-bold">$29</p>
+            </a>
+            <a href="/investor-emails" className="p-3 rounded-xl border border-indigo-200 bg-indigo-50 hover:border-indigo-400 transition block text-center">
+              <p className="font-bold text-gray-900 text-sm">Investor Emails</p>
+              <p className="text-xs text-indigo-600 font-bold">$19</p>
+            </a>
+            <a href="/business-name-generator" className="p-3 rounded-xl border border-green-200 bg-green-50 hover:border-green-400 transition block text-center">
+              <p className="font-bold text-gray-900 text-sm">Name Generator</p>
+              <p className="text-xs text-green-600 font-bold">Free</p>
             </a>
           </div>
         </div>

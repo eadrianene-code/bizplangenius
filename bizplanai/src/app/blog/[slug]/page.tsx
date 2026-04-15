@@ -129,41 +129,89 @@ export default async function BlogPostPage({ params }: PageProps) {
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 
-        {/* CTA Box - dynamic based on post topic */}
-        {post.keywords.some(k => ['competitor analysis', 'competitive intelligence', 'competitor weaknesses', 'competitor research', 'SWOT analysis', 'competitive advantage', 'competitor vulnerabilities'].includes(k)) ? (
-        <div className="mt-16 bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl p-8 text-center text-white">
-          <h2 className="text-2xl font-bold mb-3">
-            Spy on your competitors for $19
-          </h2>
-          <p className="text-orange-100 mb-6 max-w-lg mx-auto">
-            Get 10-15 real competitors analyzed with pricing, strengths,
-            weaknesses, vulnerability audit, and a 90-day plan to beat them.
-            One-time payment. Results in 5 minutes.
-          </p>
-          <Link
-            href="/spy"
-            className="inline-block bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors"
-          >
-            Run Your Competitor Spy Report
-          </Link>
-        </div>
-        ) : (
-        <div className="mt-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-center text-white">
-          <h2 className="text-2xl font-bold mb-3">
-            Ready to create your business plan?
-          </h2>
-          <p className="text-blue-100 mb-6 max-w-lg mx-auto">
-            BizPlan Genius researches real competitors and market data for your
-            specific business. Plans from $29. Get an investor-ready plan in minutes.
-          </p>
-          <Link
-            href="/#pricing"
-            className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
-          >
-            Get Your Plan - From $29
-          </Link>
-        </div>
-        )}
+        {/* Context-aware CTAs based on post topic */}
+        {(() => {
+          const kw = post.keywords.map(k => k.toLowerCase()).join(' ');
+          const isCompetitor = kw.includes('competitor') || kw.includes('competitive') || kw.includes('swot');
+          const isFundraising = kw.includes('investor') || kw.includes('pitch') || kw.includes('funding') || kw.includes('raise');
+          const isMarketing = kw.includes('marketing') || kw.includes('social media') || kw.includes('brand');
+          const isCost = kw.includes('cost') || kw.includes('startup cost') || kw.includes('budget');
+
+          return (
+            <>
+              {/* Primary CTA */}
+              {isCompetitor ? (
+                <div className="mt-16 bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl p-8 text-center text-white">
+                  <h2 className="text-2xl font-bold mb-3">Spy on your competitors for $19</h2>
+                  <p className="text-orange-100 mb-6 max-w-lg mx-auto">Get 10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and a 90-day plan to beat them.</p>
+                  <Link href="/spy" className="inline-block bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors">Run Your Competitor Spy Report</Link>
+                </div>
+              ) : (
+                <div className="mt-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-center text-white">
+                  <h2 className="text-2xl font-bold mb-3">Ready to create your business plan?</h2>
+                  <p className="text-blue-100 mb-6 max-w-lg mx-auto">BizPlan Genius researches real competitors and market data for your specific business. Plans from $29.</p>
+                  <Link href="/#pricing" className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">Get Your Plan - From $29</Link>
+                </div>
+              )}
+
+              {/* Secondary contextual CTAs */}
+              <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {isFundraising && (
+                  <>
+                    <Link href="/pitch-deck" className="p-3 rounded-xl border border-purple-200 bg-purple-50 hover:border-purple-400 transition text-center">
+                      <p className="font-bold text-gray-900 text-sm">Pitch Deck</p>
+                      <p className="text-xs text-purple-600 font-bold">$39</p>
+                    </Link>
+                    <Link href="/investor-emails" className="p-3 rounded-xl border border-indigo-200 bg-indigo-50 hover:border-indigo-400 transition text-center">
+                      <p className="font-bold text-gray-900 text-sm">Investor Emails</p>
+                      <p className="text-xs text-indigo-600 font-bold">$19</p>
+                    </Link>
+                  </>
+                )}
+                {isMarketing && (
+                  <>
+                    <Link href="/social-pack" className="p-3 rounded-xl border border-pink-200 bg-pink-50 hover:border-pink-400 transition text-center">
+                      <p className="font-bold text-gray-900 text-sm">Social Pack</p>
+                      <p className="text-xs text-pink-600 font-bold">$29</p>
+                    </Link>
+                    <Link href="/brand-kit" className="p-3 rounded-xl border border-orange-200 bg-orange-50 hover:border-orange-400 transition text-center">
+                      <p className="font-bold text-gray-900 text-sm">Brand Kit</p>
+                      <p className="text-xs text-orange-600 font-bold">$29</p>
+                    </Link>
+                  </>
+                )}
+                {isCost && (
+                  <Link href="/startup-cost-calculator" className="p-3 rounded-xl border border-green-200 bg-green-50 hover:border-green-400 transition text-center">
+                    <p className="font-bold text-gray-900 text-sm">Cost Calculator</p>
+                    <p className="text-xs text-green-600 font-bold">Free</p>
+                  </Link>
+                )}
+                {!isFundraising && !isMarketing && (
+                  <>
+                    <Link href="/build-website" className="p-3 rounded-xl border border-accent-200 bg-accent-50 hover:border-accent-400 transition text-center">
+                      <p className="font-bold text-gray-900 text-sm">Website</p>
+                      <p className="text-xs text-accent-600 font-bold">$99</p>
+                    </Link>
+                    <Link href="/brand-kit" className="p-3 rounded-xl border border-orange-200 bg-orange-50 hover:border-orange-400 transition text-center">
+                      <p className="font-bold text-gray-900 text-sm">Brand Kit</p>
+                      <p className="text-xs text-orange-600 font-bold">$29</p>
+                    </Link>
+                  </>
+                )}
+                <Link href="/bundles" className="p-3 rounded-xl border border-brand-200 bg-brand-50 hover:border-brand-400 transition text-center">
+                  <p className="font-bold text-gray-900 text-sm">Bundles</p>
+                  <p className="text-xs text-brand-600 font-bold">From $59</p>
+                </Link>
+                {!isCompetitor && (
+                  <Link href="/free-competitor-check" className="p-3 rounded-xl border border-green-200 bg-green-50 hover:border-green-400 transition text-center">
+                    <p className="font-bold text-gray-900 text-sm">Competitor Check</p>
+                    <p className="text-xs text-green-600 font-bold">Free</p>
+                  </Link>
+                )}
+              </div>
+            </>
+          );
+        })()}
       </article>
 
       {/* Newsletter */}
