@@ -143,11 +143,15 @@ function Hero() {
           </svg>
           One-time payment. No subscription. 100% money-back guarantee.
         </div>
-        <p className="mt-3 text-sm text-brand-600 font-medium">
-          <SamplePdfGate pdfUrl="/sample-business-plan.pdf" label="Sample Business Plan" className="underline hover:text-brand-700">
+        <div className="mt-3 flex items-center gap-4 text-sm font-medium">
+          <SamplePdfGate pdfUrl="/sample-business-plan.pdf" label="Sample Business Plan" className="text-brand-600 underline hover:text-brand-700">
             See a real sample plan
           </SamplePdfGate>
-        </p>
+          <span className="text-gray-300">|</span>
+          <a href="/free-competitor-check" className="text-brand-600 underline hover:text-brand-700">
+            Try free competitor check
+          </a>
+        </div>
       </div>
     </section>
   );
