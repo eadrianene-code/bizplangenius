@@ -20,12 +20,13 @@ interface WebsiteRequest {
   extraInstructions: string;
   paymentType?: string;
   paymentLink?: string;
+  productLinks?: Array<{ name: string; price: string; link: string }>;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body: WebsiteRequest = await req.json();
-    const { sessionId, planSessionId, websiteType, colorScheme, extraInstructions, paymentType, paymentLink } = body;
+    const { sessionId, planSessionId, websiteType, colorScheme, extraInstructions, paymentType, paymentLink, productLinks } = body;
 
     if (!sessionId || !planSessionId) {
       return NextResponse.json({ error: 'Missing required session IDs' }, { status: 400 });
@@ -156,16 +157,28 @@ DESIGN REQUIREMENTS:
 
 ${extraInstructions ? `ADDITIONAL INSTRUCTIONS: ${extraInstructions}` : ''}
 
-${paymentType && paymentLink ? `PAYMENT INTEGRATION:
+${productLinks && productLinks.length > 0 ? `PAYMENT INTEGRATION (MULTIPLE PRODUCTS):
+The business uses ${paymentType === 'stripe' ? 'Stripe' : paymentType === 'paypal' ? 'PayPal' : paymentType === 'square' ? 'Square' : paymentType} for payments.
+
+Products with individual payment links:
+${productLinks.map(p => `- "${p.name}" at ${p.price} -> Payment link: ${p.link}`).join('\n')}
+
+IMPORTANT:
+- Create the pricing section with EXACTLY these products, names, and prices
+- Each product's "Buy Now"/"Get Started"/"Order" button MUST link to its specific payment URL
+- Open all payment links in a new tab (target="_blank")
+- The hero CTA should link to the first product's payment link or a general "view pricing" scroll
+- Make each pricing card visually distinct with the product name and price shown` :
+paymentType && paymentLink ? `PAYMENT INTEGRATION (SINGLE LINK):
 The business uses ${paymentType === 'stripe' ? 'Stripe' : paymentType === 'paypal' ? 'PayPal' : paymentType === 'square' ? 'Square' : paymentType} for payments.
 Payment URL: ${paymentLink}
 
 IMPORTANT: Make ALL pricing buttons, CTA buttons, and "Buy Now"/"Get Started"/"Book Now"/"Order Now" buttons link to this payment URL: ${paymentLink}
 - Pricing section: each tier's button should link to the payment URL
 - Hero CTA button should link to the payment URL
-- Any "Add to Cart" or purchase buttons should link to the payment URL
 - Open payment links in a new tab (target="_blank")
-- Make buttons visually prominent and action-oriented` : `PAYMENT NOTE: No payment link provided. Use action="#" for all purchase/CTA buttons. Add a comment in the HTML: <!-- Replace # with your payment link (Stripe, PayPal, etc.) -->`}
+- Make buttons visually prominent and action-oriented` :
+`PAYMENT NOTE: No payment link provided. Use action="#" for all purchase/CTA buttons. Add a comment in the HTML: <!-- Replace # with your payment link (Stripe, PayPal, etc.) -->`}
 
 SECTIONS TO INCLUDE (use the research data for content):
 1. Navigation bar with business name, smooth-scroll links, and CTA button
