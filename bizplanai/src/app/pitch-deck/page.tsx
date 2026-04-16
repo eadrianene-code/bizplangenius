@@ -285,7 +285,7 @@ function PitchDeckInner() {
 
         {/* What's included */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-          <h3 className="font-bold text-gray-900 mb-4">12 Slides -- Here's Exactly What You Get</h3>
+          <h3 className="font-bold text-gray-900 mb-4">12 Slides: Here's Exactly What You Get</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
               { num: '1', name: 'Cover', desc: 'Business name, tagline, and your value proposition' },

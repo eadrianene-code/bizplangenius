@@ -68,7 +68,7 @@ function LegalPagesInner() {
         <main className="max-w-2xl mx-auto px-4 py-12">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-3">Legal Pages Generator</h1>
-            <p className="text-gray-600 text-lg">Terms of Service, Privacy Policy, and Cookie Policy -- tailored to your business. GDPR + CCPA compliant.</p>
+            <p className="text-gray-600 text-lg">Terms of Service, Privacy Policy, and Cookie Policy, tailored to your business. GDPR + CCPA compliant.</p>
           </div>
 
           <div className="bg-white rounded-2xl border p-6 mb-6">

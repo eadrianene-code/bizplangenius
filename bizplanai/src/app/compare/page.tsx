@@ -163,7 +163,7 @@ export default function ComparePage() {
         {/* CTA */}
         <div className="text-center bg-brand-50 rounded-2xl p-8 sm:p-12 border border-brand-100">
           <h2 className="text-2xl font-bold text-gray-900 mb-3">Ready to try it yourself?</h2>
-          <p className="text-gray-600 mb-6 max-w-lg mx-auto">Start with our free competitor check -- no payment required. See the quality of our AI before you commit.</p>
+          <p className="text-gray-600 mb-6 max-w-lg mx-auto">Start with our free competitor check. No payment required. See the quality of our AI before you commit.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/free-competitor-check" className="px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
               Free Competitor Check

@@ -45,7 +45,7 @@ export default function ExitIntentPopup() {
         body: JSON.stringify({ email, source: 'exit_intent' }),
       });
     } catch {
-      // Silent fail -- we still show the success state
+      // Silent fail - we still show the success state
     }
 
     setSubmitted(true);
@@ -83,7 +83,7 @@ export default function ExitIntentPopup() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Wait -- before you go!</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Wait, before you go!</h2>
               <p className="text-gray-600">
                 Get a <span className="font-bold text-brand-600">free sample business plan</span> and see exactly what you'll receive. No payment required.
               </p>

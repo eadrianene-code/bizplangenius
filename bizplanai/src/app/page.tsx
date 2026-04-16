@@ -209,7 +209,7 @@ function Header() {
                   <div className="border-t border-gray-100 mt-1 pt-1">
                     <a href="/bundles" className="block px-3 py-2.5 rounded-lg hover:bg-brand-50 transition">
                       <div className="flex items-center justify-between">
-                        <div><p className="text-sm font-semibold text-brand-600">Bundles -- Save up to $68</p><p className="text-xs text-gray-500">Get everything from $59</p></div>
+                        <div><p className="text-sm font-semibold text-brand-600">Bundles: Save up to $68</p><p className="text-xs text-gray-500">Get everything from $59</p></div>
                       </div>
                     </a>
                     <a href="/monitoring" className="block px-3 py-2.5 rounded-lg hover:bg-accent-50 transition">
@@ -245,14 +245,14 @@ function Header() {
           <a href="/launch-checklist" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Launch Checklist</a>
           <div className="border-t border-gray-100 my-2" />
           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider px-2">Products</p>
-          <a href="/spy" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Competitor Spy -- $19</a>
-          <a href="/build-website" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Website Builder -- $99</a>
-          <a href="/pitch-deck" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pitch Deck -- $39</a>
-          <a href="/social-pack" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Social Pack -- $29</a>
-          <a href="/brand-kit" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Brand Kit -- $29</a>
-          <a href="/investor-emails" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Investor Emails -- $19</a>
-          <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles -- Save up to $68</a>
-          <a href="/monitoring" onClick={() => setMobileOpen(false)} className="block text-accent-600 font-semibold py-2 px-2">Subscriptions -- from $9/mo</a>
+          <a href="/spy" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Competitor Spy: $19</a>
+          <a href="/build-website" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Website Builder: $99</a>
+          <a href="/pitch-deck" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pitch Deck: $39</a>
+          <a href="/social-pack" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Social Pack: $29</a>
+          <a href="/brand-kit" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Brand Kit: $29</a>
+          <a href="/investor-emails" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Investor Emails: $19</a>
+          <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles: Save up to $68</a>
+          <a href="/monitoring" onClick={() => setMobileOpen(false)} className="block text-accent-600 font-semibold py-2 px-2">Subscriptions: from $9/mo</a>
           <div className="border-t border-gray-100 my-2" />
           <a href="/pricing" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pricing</a>
           <a href="/blog" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Blog</a>
@@ -307,7 +307,7 @@ function WhatYouLeaveWith() {
     <section className="py-16 px-4 bg-white border-b border-gray-100">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Everything You Need to Launch -- From One Description</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Everything You Need to Launch, From One Description</h2>
           <p className="text-gray-600">Describe your business once. AI builds all of this for you.</p>
         </div>
 
@@ -337,7 +337,7 @@ function WhatYouLeaveWith() {
         {/* The pitch */}
         <div className="bg-gray-900 rounded-2xl p-8 sm:p-10 text-center text-white">
           <p className="text-accent-400 text-sm font-bold uppercase tracking-wider mb-3">Or get everything at once</p>
-          <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Full Business Kit -- $349</h3>
+          <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Full Business Kit: $349</h3>
           <p className="text-gray-400 mb-2 max-w-lg mx-auto">
             Plan + website + brand + pitch deck + social pack + competitor research.
             Describe your business once, get everything generated. Launch this week.
@@ -345,7 +345,7 @@ function WhatYouLeaveWith() {
           <p className="text-green-400 text-sm font-bold mb-6">You save $25+ vs buying separately</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a href="/bundles" className="px-8 py-3 bg-white text-gray-900 font-bold rounded-xl hover:bg-gray-100 transition">
-              See All Bundles -- From $59
+              See All Bundles: From $59
             </a>
             <a href="/pricing" className="px-8 py-3 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-gray-400 hover:text-white transition">
               View Full Pricing
@@ -366,7 +366,7 @@ function WhatYouLeaveWith() {
               { name: 'Domain Guide', href: '/domain-guide' },
             ].map((tool, i) => (
               <a key={i} href={tool.href} className="px-3 py-1.5 bg-green-50 text-green-700 text-xs font-semibold rounded-full border border-green-200 hover:bg-green-100 transition">
-                {tool.name} -- Free
+                {tool.name} (Free)
               </a>
             ))}
           </div>
@@ -851,7 +851,7 @@ function MoreTools() {
         </div>
         <div className="text-center mt-6">
           <a href="/bundles" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
-            Save with bundles -- from $59
+            Save with bundles: from $59
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
         </div>

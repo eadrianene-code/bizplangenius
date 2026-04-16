@@ -133,7 +133,7 @@ function InvestorEmailsInner() {
         <main className="max-w-3xl mx-auto px-4 py-8">
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900">Investor Email Templates</h1>
-            <p className="text-gray-500 text-sm">{pack.businessName} -- {pack.emails.length} templates ready</p>
+            <p className="text-gray-500 text-sm">{pack.businessName}: {pack.emails.length} templates ready</p>
           </div>
 
           <div className="space-y-3">
@@ -208,7 +208,7 @@ function InvestorEmailsInner() {
           <p className="text-gray-600 text-lg">10 personalized fundraising emails built from your business plan. Cold outreach, follow-ups, intros, and more.</p>
         </div>
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-          <h3 className="font-bold text-gray-900 mb-4">10 Email Templates -- What You Get</h3>
+          <h3 className="font-bold text-gray-900 mb-4">10 Email Templates: What You Get</h3>
           <div className="space-y-3">
             {[
               { num: '1', name: 'Cold Outreach to VCs', desc: 'Formal, data-driven email to venture capital partners. Includes your market size and traction.', tag: 'cold' },

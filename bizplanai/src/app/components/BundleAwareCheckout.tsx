@@ -95,7 +95,7 @@ export default function BundleAwareCheckout({
     <div>
       {hasAccess && (
         <div className="mb-3 p-3 bg-green-50 rounded-lg border border-green-200 text-center">
-          <p className="text-sm font-bold text-green-800">Included in your bundle -- no extra charge</p>
+          <p className="text-sm font-bold text-green-800">Included in your bundle, no extra charge</p>
         </div>
       )}
       {children}
@@ -108,7 +108,7 @@ export default function BundleAwareCheckout({
             : 'bg-brand-600 text-white hover:bg-brand-700 shadow-brand-600/25'
         }`}
       >
-        {loading ? 'Processing...' : hasAccess ? `Get ${productName} -- Included` : `Get ${productName} - $${price}`}
+        {loading ? 'Processing...' : hasAccess ? `Get ${productName} (Included)` : `Get ${productName} - $${price}`}
       </button>
       <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-500">
         <span>{hasAccess ? 'Already paid' : 'One-time payment'}</span>

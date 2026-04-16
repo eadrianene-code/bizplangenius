@@ -48,7 +48,7 @@ function AdCopyInner() {
           </div>
 
           <div className="bg-white rounded-2xl border p-6 mb-6">
-            <h3 className="font-bold text-gray-900 mb-4">What you'll receive -- 15 ads across 3 platforms</h3>
+            <h3 className="font-bold text-gray-900 mb-4">What you'll receive: 15 ads across 3 platforms</h3>
             <div className="grid grid-cols-3 gap-4 mb-5">
               {[
                 { name: 'Google Ads', count: '5 ads', desc: 'Search, Display, Performance Max', color: 'bg-blue-500', icon: '🔍' },

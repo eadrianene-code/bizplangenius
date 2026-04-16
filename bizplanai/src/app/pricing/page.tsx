@@ -103,7 +103,7 @@ export default function PricingPage() {
 
         {/* Bundles */}
         <section className="mb-16">
-          <h2 className="text-sm font-bold text-brand-600 uppercase tracking-wider mb-4">Bundles -- Save More</h2>
+          <h2 className="text-sm font-bold text-brand-600 uppercase tracking-wider mb-4">Bundles: Save More</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {BUNDLES.map((b, i) => (
               <Link key={i} href={b.href} className={`p-6 rounded-xl border-2 hover:shadow-md transition block ${(b as any).popular ? 'border-brand-400 bg-brand-50/50 ring-1 ring-brand-200' : 'border-gray-200'}`}>

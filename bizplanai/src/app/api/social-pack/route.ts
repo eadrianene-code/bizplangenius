@@ -57,7 +57,7 @@ RULES:
 - Include relevant hashtags for each platform
 - Suggest best posting times
 - Make content specific to this business, not generic
-- Never be overly salesy -- lead with value
+- Never be overly salesy - lead with value
 - Include calls to action naturally
 - Posts should build on each other to tell a brand story over 30 days
 - Return ONLY valid JSON`;

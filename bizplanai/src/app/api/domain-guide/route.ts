@@ -61,7 +61,7 @@ Return a JSON object:
 
 RULES FOR WRITING INSTRUCTIONS:
 - Write like you're explaining to someone who has NEVER done this before
-- Never assume they know technical terms -- explain everything
+- Never assume they know technical terms - explain everything
 - Use exact button names: "Click the blue button that says 'Add to Cart'"
 - Tell them what they should see on the screen after each step
 - Include "If something goes wrong" tips

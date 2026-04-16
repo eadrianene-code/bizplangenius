@@ -346,7 +346,7 @@ function DashboardInner() {
                 <div key={i} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 opacity-70">
                   <p className="font-semibold text-gray-900 mb-1">{a.name}</p>
                   <p className="text-xs text-gray-500 mb-2">{a.description}</p>
-                  <p className="text-sm font-bold text-gray-400">${a.price} -- coming soon</p>
+                  <p className="text-sm font-bold text-gray-400">${a.price} (coming soon)</p>
                 </div>
               ))}
             </div>
@@ -363,7 +363,7 @@ function DashboardInner() {
                 Free Competitor Check
               </a>
               <a href="/spy" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">
-                Spy Report -- $19
+                Spy Report: $19
               </a>
             </div>
           </div>

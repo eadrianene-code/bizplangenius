@@ -158,7 +158,7 @@ export default function BundlesPage() {
           <div className="max-w-3xl mx-auto">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-xl font-bold text-gray-900">{bundle.name} -- ${bundle.price}</h2>
+                <h2 className="text-xl font-bold text-gray-900">{bundle.name}: ${bundle.price}</h2>
                 <p className="text-sm text-gray-500">{bundle.products.length} products included</p>
               </div>
               <button onClick={() => setSelectedBundle(null)} className="text-sm text-gray-500 underline hover:text-gray-700">
@@ -221,7 +221,7 @@ export default function BundlesPage() {
 
               <button type="submit" disabled={loading}
                 className="w-full px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg disabled:opacity-60">
-                {loading ? 'Processing...' : `Get ${bundle.name} -- $${bundle.price}`}
+                {loading ? 'Processing...' : `Get ${bundle.name}: $${bundle.price}`}
               </button>
               <div className="flex items-center justify-center gap-4 text-xs text-gray-500">
                 <span>One-time payment</span><span>|</span><span>All {bundle.products.length} products generated</span><span>|</span><span>Secure checkout</span>

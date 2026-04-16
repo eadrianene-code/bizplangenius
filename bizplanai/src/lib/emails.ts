@@ -29,7 +29,7 @@ export function abandonedCheckoutEmail(businessName: string): { subject: string;
 
   <p>You started creating a business plan for <strong>${businessName}</strong> but didn't finish checkout.</p>
 
-  <p>Your business idea deserves a real plan with real competitor data -- not guesses.</p>
+  <p>Your business idea deserves a real plan with real competitor data, not guesses.</p>
 
   <div style="background: #f0f7ff; border-radius: 12px; padding: 20px; margin: 24px 0;">
     <p style="margin: 0 0 8px 0; font-weight: bold; color: #1a1a2e;">What you'll get:</p>
@@ -51,7 +51,7 @@ export function abandonedCheckoutEmail(businessName: string): { subject: string;
 
   <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
   <p style="color: #aaa; font-size: 11px; text-align: center;">
-    BizPlan Genius -- bizplangenius.com<br>
+    BizPlan Genius | bizplangenius.com<br>
     <a href="https://www.bizplangenius.com" style="color: #aaa;">Unsubscribe</a>
   </p>
 </body></html>`,
@@ -60,7 +60,7 @@ export function abandonedCheckoutEmail(businessName: string): { subject: string;
 
 export function welcomeEmail1(): { subject: string; html: string } {
   return {
-    subject: 'Welcome to BizPlan Genius -- here\'s what you can do',
+    subject: 'Welcome to BizPlan Genius: here\'s what you can do',
     html: `
 <!DOCTYPE html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>
@@ -71,7 +71,7 @@ export function welcomeEmail1(): { subject: string; html: string } {
 
   <h2 style="font-size: 22px; color: #1a1a2e;">Thanks for trying our free tool!</h2>
 
-  <p>You've taken the first step. Here's what else you can do -- all powered by AI with real market data:</p>
+  <p>You've taken the first step. Here's what else you can do - all powered by AI with real market data:</p>
 
   <div style="background: #f0fdf4; border-radius: 12px; padding: 20px; margin: 20px 0;">
     <p style="margin: 0 0 4px 0; font-weight: bold; color: #166534;">More free tools:</p>
@@ -95,7 +95,7 @@ export function welcomeEmail1(): { subject: string; html: string } {
   <p style="color: #888; font-size: 13px;">Reply to this email if you have any questions. We read every message.</p>
 
   <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
-  <p style="color: #aaa; font-size: 11px; text-align: center;">BizPlan Genius -- bizplangenius.com</p>
+  <p style="color: #aaa; font-size: 11px; text-align: center;">BizPlan Genius | bizplangenius.com</p>
 </body></html>`,
   };
 }
@@ -135,7 +135,7 @@ export function welcomeEmail2(): { subject: string; html: string } {
   </div>
 
   <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
-  <p style="color: #aaa; font-size: 11px; text-align: center;">BizPlan Genius -- bizplangenius.com</p>
+  <p style="color: #aaa; font-size: 11px; text-align: center;">BizPlan Genius | bizplangenius.com</p>
 </body></html>`,
   };
 }
@@ -176,7 +176,7 @@ export function welcomeEmail3(): { subject: string; html: string } {
 
   <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
   <p style="color: #aaa; font-size: 11px; text-align: center;">
-    BizPlan Genius -- bizplangenius.com<br>
+    BizPlan Genius | bizplangenius.com<br>
     This is the last email in this sequence. We won't email you again unless you purchase.
   </p>
 </body></html>`,

@@ -127,7 +127,7 @@ function GeneratePageInner() {
             </button>
             <h3 className="font-bold text-amber-900 mb-1">Still thinking it over?</h3>
             <p className="text-sm text-amber-800 mb-3">
-              You were one step away from your business plan. No worries -- your form data is still here. If you're not ready to commit, try our free tool first:
+              You were one step away from your business plan. No worries, your form data is still here. If you're not ready to commit, try our free tool first:
             </p>
             <div className="flex flex-wrap gap-2">
               <a href="/free-competitor-check" className="px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition">
