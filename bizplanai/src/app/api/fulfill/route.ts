@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenAI } from '@google/genai';
 import OpenAI from 'openai';
+import { sendPlanDeliveryEmail } from '@/lib/email';
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -324,6 +325,16 @@ export async function POST(req: NextRequest) {
         console.error('Failed to parse. Full response:', rawText.substring(0, 2000));
         throw new Error('Failed to parse AI response');
       }
+    }
+
+    // Send delivery confirmation email (fire and forget)
+    const customerEmail = meta.email || session.customer_email || '';
+    if (customerEmail) {
+      sendPlanDeliveryEmail({
+        to: customerEmail,
+        businessName: meta.businessName || 'Your Business',
+        tier: (meta.tier === 'pro' ? 'pro' : 'starter') as 'starter' | 'pro',
+      }).catch(err => console.error('Email send failed:', err));
     }
 
     return NextResponse.json({ plan, businessName: meta.businessName || 'Business Plan' });
