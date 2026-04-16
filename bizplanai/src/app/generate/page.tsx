@@ -157,12 +157,53 @@ function GeneratePageInner() {
         </div>
 
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-bold mb-3">Tell Us About Your Business</h1>
-          <p className="text-gray-600 text-lg">
-            The more detail you provide, the more specific and actionable your business plan will be.
+          <h1 className="text-3xl font-bold mb-3">Describe Your Idea. We Build Your Business.</h1>
+          <p className="text-gray-600 text-lg max-w-xl mx-auto">
+            Your business plan is just the beginning. Fill this out once, and it powers everything.
           </p>
+
+          {/* The pipeline explanation */}
+          <div className="mt-6 bg-white rounded-xl border border-gray-200 p-5 max-w-xl mx-auto text-left">
+            <p className="text-xs font-bold text-brand-600 uppercase tracking-wider mb-3">Here is what happens next</p>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center text-sm font-extrabold">1</div>
+                <div>
+                  <p className="text-sm font-bold text-gray-900">We spy on your competitors</p>
+                  <p className="text-xs text-gray-500">We find real businesses in your market, analyze their pricing, strengths, and weaknesses</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-brand-100 text-brand-600 flex items-center justify-center text-sm font-extrabold">2</div>
+                <div>
+                  <p className="text-sm font-bold text-gray-900">We write your business plan using that intelligence</p>
+                  <p className="text-xs text-gray-500">Financial projections, marketing strategy, and a roadmap built on real data, not guesses</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-accent-100 text-accent-600 flex items-center justify-center text-sm font-extrabold">3</div>
+                <div>
+                  <p className="text-sm font-bold text-gray-900">One click: we build your website from the plan</p>
+                  <p className="text-xs text-gray-500">Your site already speaks to your market because it was built from real competitive research</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 w-7 h-7 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center text-sm font-extrabold">4</div>
+                <div>
+                  <p className="text-sm font-bold text-gray-900">One click: pitch deck, brand kit, ad copy, and more</p>
+                  <p className="text-xs text-gray-500">Everything is connected. Describe your business once, build everything from it</p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 pt-3 border-t border-gray-100">
+              <p className="text-xs text-gray-500 text-center">
+                Or just use the plan on its own for investors, banks, or to guide your launch. It works either way.
+              </p>
+            </div>
+          </div>
+
           {/* Trust signals */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-4 text-xs text-gray-500">
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-6 text-xs text-gray-500">
             <span className="flex items-center gap-1">
               <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
               Real competitor data
@@ -173,7 +214,7 @@ function GeneratePageInner() {
             </span>
             <span className="flex items-center gap-1">
               <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-              PDF download included
+              Powers your website + pitch deck
             </span>
             <span className="flex items-center gap-1">
               <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
@@ -395,8 +436,8 @@ function GeneratePageInner() {
 
         {/* What you'll receive */}
         <div className="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h3 className="font-bold text-gray-900 mb-3 text-center">What you'll receive in under 10 minutes</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+          <h3 className="font-bold text-gray-900 mb-3 text-center">What you get in under 10 minutes</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center mb-4">
             <div className="p-3">
               <p className="text-2xl font-extrabold text-brand-600">5-10</p>
               <p className="text-xs text-gray-500">Real competitors analyzed</p>
@@ -408,6 +449,16 @@ function GeneratePageInner() {
             <div className="p-3">
               <p className="text-2xl font-extrabold text-brand-600">PDF</p>
               <p className="text-xs text-gray-500">Investor-ready download</p>
+            </div>
+          </div>
+          <div className="pt-4 border-t border-gray-100">
+            <p className="text-xs font-bold text-center text-gray-700 mb-2">Then, from your dashboard, one click to:</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              <span className="px-3 py-1 bg-accent-50 text-accent-700 text-xs font-semibold rounded-full border border-accent-200">Build Your Website</span>
+              <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-semibold rounded-full border border-purple-200">Create Pitch Deck</span>
+              <span className="px-3 py-1 bg-orange-50 text-orange-700 text-xs font-semibold rounded-full border border-orange-200">Generate Brand Kit</span>
+              <span className="px-3 py-1 bg-pink-50 text-pink-700 text-xs font-semibold rounded-full border border-pink-200">Get Social Content</span>
+              <span className="px-3 py-1 bg-red-50 text-red-700 text-xs font-semibold rounded-full border border-red-200">Write Ad Copy</span>
             </div>
           </div>
         </div>
