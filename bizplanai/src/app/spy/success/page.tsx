@@ -1772,7 +1772,7 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
         <div className="mt-12">
           <p className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">What to do next with your research</p>
 
-          {/* Primary CTA -- Business Plan */}
+          {/* Primary CTA: Business Plan */}
           <div className="p-6 sm:p-8 rounded-2xl border-2 border-brand-200 bg-gradient-to-br from-brand-50 to-white mb-4">
             <div className="flex flex-col sm:flex-row items-center gap-4">
               <div className="flex-1">

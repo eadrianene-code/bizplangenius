@@ -100,7 +100,7 @@ function BrandKitInner() {
         <main className="max-w-2xl mx-auto px-4 py-12">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-3">Logo & Brand Kit</h1>
-            <p className="text-gray-600 text-lg">3 logo concepts, color palette, typography, and brand voice -- tailored to your business.</p>
+            <p className="text-gray-600 text-lg">3 logo concepts, color palette, typography, and brand voice, tailored to your business.</p>
           </div>
           <StandaloneBusinessForm productName="Brand Kit" productPrice={29} checkoutEndpoint="/api/brand-kit-checkout" />
         </main>

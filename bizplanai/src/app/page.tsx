@@ -44,6 +44,45 @@ const STEPS = [
   { num: '3', title: 'Get Your Business Plan', desc: 'Download a complete, investor-ready business plan as a professional PDF. Ready in minutes.' },
 ];
 
+const JOURNEY_STEPS = [
+  {
+    num: '01',
+    icon: '🔍',
+    title: 'We Spy on Your Competition',
+    desc: 'Enter your business idea. Our AI finds 10-15 real competitors in your market, analyzes their pricing, strengths, weaknesses, and the gaps you can exploit.',
+    detail: 'This intelligence feeds into everything else we build for you.',
+    color: 'border-purple-300 bg-purple-50',
+    numColor: 'bg-purple-500',
+  },
+  {
+    num: '02',
+    icon: '📋',
+    title: 'We Write Your Business Plan',
+    desc: 'Using that competitive intelligence and real market data, we generate a full investor-ready business plan with 3-year financial projections.',
+    detail: 'Your plan already knows who you are up against and how to win.',
+    color: 'border-brand-300 bg-brand-50',
+    numColor: 'bg-brand-600',
+  },
+  {
+    num: '03',
+    icon: '🌐',
+    title: 'One Click: We Build Your Website',
+    desc: 'Click "Build My Website" and we generate a complete, multi-page website designed around your business plan and competitive positioning.',
+    detail: 'Your site already speaks to your market because it was built from real research.',
+    color: 'border-accent-300 bg-accent-50',
+    numColor: 'bg-accent-500',
+  },
+  {
+    num: '04',
+    icon: '🎤',
+    title: 'One Click: We Build Your Pitch Deck',
+    desc: 'Need funding? Click "Build Pitch Deck" and your business plan turns into 12 polished investor slides with the financials already baked in.',
+    detail: 'No copy-pasting between tools. Everything is already connected.',
+    color: 'border-orange-300 bg-orange-50',
+    numColor: 'bg-orange-500',
+  },
+];
+
 const FAQS = [
   {
     q: 'How is this different from ChatGPT?',
@@ -170,7 +209,7 @@ function Header() {
                   <div className="border-t border-gray-100 mt-1 pt-1">
                     <a href="/bundles" className="block px-3 py-2.5 rounded-lg hover:bg-brand-50 transition">
                       <div className="flex items-center justify-between">
-                        <div><p className="text-sm font-semibold text-brand-600">Bundles -- Save up to $68</p><p className="text-xs text-gray-500">Get everything from $59</p></div>
+                        <div><p className="text-sm font-semibold text-brand-600">Bundles: Save up to $68</p><p className="text-xs text-gray-500">Get everything from $59</p></div>
                       </div>
                     </a>
                     <a href="/monitoring" className="block px-3 py-2.5 rounded-lg hover:bg-accent-50 transition">
@@ -206,14 +245,14 @@ function Header() {
           <a href="/launch-checklist" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Launch Checklist</a>
           <div className="border-t border-gray-100 my-2" />
           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider px-2">Products</p>
-          <a href="/spy" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Competitor Spy -- $19</a>
-          <a href="/build-website" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Website Builder -- $99</a>
-          <a href="/pitch-deck" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pitch Deck -- $39</a>
-          <a href="/social-pack" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Social Pack -- $29</a>
-          <a href="/brand-kit" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Brand Kit -- $29</a>
-          <a href="/investor-emails" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Investor Emails -- $19</a>
-          <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles -- Save up to $68</a>
-          <a href="/monitoring" onClick={() => setMobileOpen(false)} className="block text-accent-600 font-semibold py-2 px-2">Subscriptions -- from $9/mo</a>
+          <a href="/spy" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Competitor Spy: $19</a>
+          <a href="/build-website" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Website Builder: $99</a>
+          <a href="/pitch-deck" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pitch Deck: $39</a>
+          <a href="/social-pack" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Social Pack: $29</a>
+          <a href="/brand-kit" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Brand Kit: $29</a>
+          <a href="/investor-emails" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Investor Emails: $19</a>
+          <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles: Save up to $68</a>
+          <a href="/monitoring" onClick={() => setMobileOpen(false)} className="block text-accent-600 font-semibold py-2 px-2">Subscriptions: from $9/mo</a>
           <div className="border-t border-gray-100 my-2" />
           <a href="/pricing" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pricing</a>
           <a href="/blog" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Blog</a>
@@ -247,8 +286,8 @@ function Hero() {
           <a href="/generate" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
             Start Building My Business
           </a>
-          <a href="/free-competitor-check" className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition text-lg">
-            Try Free -- No Payment
+          <a href="#journey" className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition text-lg">
+            See How It All Connects
           </a>
         </div>
 
@@ -268,7 +307,7 @@ function WhatYouLeaveWith() {
     <section className="py-16 px-4 bg-white border-b border-gray-100">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Everything You Need to Launch -- From One Description</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Everything You Need to Launch, From One Description</h2>
           <p className="text-gray-600">Describe your business once. AI builds all of this for you.</p>
         </div>
 
@@ -298,7 +337,7 @@ function WhatYouLeaveWith() {
         {/* The pitch */}
         <div className="bg-gray-900 rounded-2xl p-8 sm:p-10 text-center text-white">
           <p className="text-accent-400 text-sm font-bold uppercase tracking-wider mb-3">Or get everything at once</p>
-          <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Full Business Kit -- $349</h3>
+          <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Full Business Kit: $349</h3>
           <p className="text-gray-400 mb-2 max-w-lg mx-auto">
             Plan + website + brand + pitch deck + social pack + competitor research.
             Describe your business once, get everything generated. Launch this week.
@@ -306,7 +345,7 @@ function WhatYouLeaveWith() {
           <p className="text-green-400 text-sm font-bold mb-6">You save $25+ vs buying separately</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a href="/bundles" className="px-8 py-3 bg-white text-gray-900 font-bold rounded-xl hover:bg-gray-100 transition">
-              See All Bundles -- From $59
+              See All Bundles: From $59
             </a>
             <a href="/pricing" className="px-8 py-3 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-gray-400 hover:text-white transition">
               View Full Pricing
@@ -327,9 +366,82 @@ function WhatYouLeaveWith() {
               { name: 'Domain Guide', href: '/domain-guide' },
             ].map((tool, i) => (
               <a key={i} href={tool.href} className="px-3 py-1.5 bg-green-50 text-green-700 text-xs font-semibold rounded-full border border-green-200 hover:bg-green-100 transition">
-                {tool.name} -- Free
+                {tool.name} (Free)
               </a>
             ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function JourneyPipeline() {
+  return (
+    <section id="journey" className="py-20 px-4 bg-white">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-4">
+          <p className="text-brand-600 text-sm font-bold uppercase tracking-wider mb-2">This is why we are different</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4">
+            Everything Connects. Nothing Is Wasted.
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Other tools hand you a PDF and wish you luck. Here, every step feeds the next.
+            Your competitive research powers your business plan. Your plan powers your website.
+            Your website speaks to your market because it was built from real data.
+          </p>
+        </div>
+
+        <div className="mt-14 relative">
+          {/* Vertical connector line */}
+          <div className="absolute left-[23px] sm:left-[31px] top-6 bottom-6 w-0.5 bg-gradient-to-b from-purple-300 via-brand-300 via-accent-300 to-orange-300 z-0" />
+
+          <div className="space-y-6">
+            {JOURNEY_STEPS.map((step, i) => (
+              <div key={i} className="relative z-10">
+                <div className={`flex gap-4 sm:gap-6 items-start p-5 sm:p-6 rounded-2xl border-2 ${step.color} transition hover:shadow-lg`}>
+                  <div className={`flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-xl ${step.numColor} flex items-center justify-center text-white text-lg sm:text-2xl font-extrabold shadow-lg`}>
+                    {step.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-1 flex-wrap">
+                      <span className="text-xs font-extrabold text-gray-400 uppercase tracking-widest">Step {step.num}</span>
+                      {i > 0 && (
+                        <span className="text-[11px] font-bold text-white bg-gradient-to-r from-brand-500 to-accent-500 px-2.5 py-0.5 rounded-full">
+                          Automatic from Step {String(i).padStart(2, '0')}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="text-lg sm:text-xl font-extrabold text-gray-900 mb-1.5">{step.title}</h3>
+                    <p className="text-gray-600 leading-relaxed text-sm sm:text-base">{step.desc}</p>
+                    <p className="text-sm font-semibold text-gray-800 mt-2 bg-white/60 inline-block px-3 py-1 rounded-lg">{step.detail}</p>
+                  </div>
+                </div>
+                {i < JOURNEY_STEPS.length - 1 && (
+                  <div className="flex justify-center my-1">
+                    <svg className="w-6 h-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10 text-center p-8 bg-gray-900 rounded-2xl text-white">
+          <p className="text-xl sm:text-2xl font-extrabold mb-3">You describe your business once. We build everything.</p>
+          <p className="text-gray-400 max-w-lg mx-auto mb-6">
+            No switching tools. No starting over. Every product already knows your market,
+            your competitors, and your numbers.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a href="/generate" className="px-8 py-4 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-600 transition shadow-lg text-lg">
+              Start with a Business Plan - $29
+            </a>
+            <a href="/free-competitor-check" className="px-8 py-4 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-gray-400 hover:text-white transition text-lg">
+              Or Try Free First
+            </a>
           </div>
         </div>
       </div>
@@ -739,7 +851,7 @@ function MoreTools() {
         </div>
         <div className="text-center mt-6">
           <a href="/bundles" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
-            Save with bundles -- from $59
+            Save with bundles: from $59
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
         </div>
@@ -753,14 +865,14 @@ function CTA() {
     <section className="py-20 px-4 bg-brand-600">
       <div className="max-w-3xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-          Stop Writing Business Plans the Hard Way
+          Your Idea Deserves More Than a Template
         </h2>
         <p className="text-lg text-brand-100 mb-8 max-w-xl mx-auto">
-          Get a professional business plan backed by real competitor data and market research.
-          Ready in minutes, not weeks.
+          Competitor intelligence. Business plan. Website. Pitch deck. Everything you need to launch,
+          built from one idea, backed by real data. Start in the next 60 seconds.
         </p>
         <a href="/generate" className="inline-block px-8 py-4 bg-white text-brand-700 font-bold rounded-xl hover:bg-gray-50 transition shadow-lg text-lg">
-          Generate My Business Plan - Starting at $29
+          Start Building My Business - From $29
         </a>
       </div>
     </section>
@@ -898,6 +1010,7 @@ export default function Home() {
     <>
       <main>
         <Hero />
+        <JourneyPipeline />
         <WhatYouLeaveWith />
         <LiveCounter />
         <TrustBar />

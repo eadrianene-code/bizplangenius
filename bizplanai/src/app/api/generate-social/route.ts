@@ -6,7 +6,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
-  // Simple auth check -- require a secret key in the header
+  // Simple auth check - require a secret key in the header
   const authKey = req.headers.get('x-tools-key');
   if (authKey !== process.env.TOOLS_SECRET_KEY) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
 INPUT:
 ${input}
 
-Generate social media posts for ALL 4 platforms below. Each post should have a different angle/hook -- don't just reformat the same text.
+Generate social media posts for ALL 4 platforms below. Each post should have a different angle/hook - don't just reformat the same text.
 
 Return a JSON object with this exact structure:
 {

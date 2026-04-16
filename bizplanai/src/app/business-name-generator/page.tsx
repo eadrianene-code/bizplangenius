@@ -173,7 +173,7 @@ export default function BusinessNameGenerator() {
               <p className="text-sm font-bold text-brand-600 uppercase tracking-wider mb-2">Found a name you love?</p>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">Now build the business around it</h3>
               <p className="text-gray-600 mb-6 max-w-lg mx-auto">
-                Get a full business plan, competitor analysis, website, pitch deck, and brand kit -- all powered by AI.
+                Get a full business plan, competitor analysis, website, pitch deck, and brand kit - all powered by AI.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
                 <a href="/free-competitor-check" className="px-6 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">

@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
 
     const stripe = getStripe();
 
-    // Verify payment -- accept website checkout, bundle checkout, or plan checkout that includes website
+    // Verify payment - accept website checkout, bundle checkout, or plan checkout that includes website
     let verified = false;
     let planData: Record<string, string> = {};
 

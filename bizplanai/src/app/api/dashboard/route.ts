@@ -142,7 +142,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Website builder -- available if they have a plan
+    // Website builder - available if they have a plan
     const hasWebsite = purchases.some(p => p.product === 'website_builder');
     const planSession = purchases.find(p => p.product === 'business_plan');
     if (!hasWebsite && hasPlan && planSession) {
@@ -166,7 +166,7 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Pitch deck -- available if they have a plan
+    // Pitch deck - available if they have a plan
     const hasDeck = purchases.some(p => p.product === 'pitch_deck');
     if (!hasDeck && hasPlan && planSession) {
       available.push({

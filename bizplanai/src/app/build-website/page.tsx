@@ -244,7 +244,7 @@ function BuildWebsiteInner() {
   const selectedType = WEBSITE_TYPES.find(t => t.key === websiteType);
   const price = selectedType?.price || 99;
 
-  // No plan session -- show showcase page
+  // No plan session - show showcase page
   if (!planSessionId && !sessionId) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -292,7 +292,7 @@ function BuildWebsiteInner() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
               {[
                 { title: 'Multi-page', desc: 'Add About, Services, Contact, and more' },
-                { title: 'Fully editable', desc: 'Change text, prices, sections -- anything' },
+                { title: 'Fully editable', desc: 'Change text, prices, sections, anything' },
                 { title: 'Responsive', desc: 'Looks great on desktop, tablet, and mobile' },
                 { title: 'Source code', desc: 'Download HTML/CSS and host anywhere' },
                 { title: 'SEO ready', desc: 'Meta tags, titles, and descriptions included' },
@@ -311,7 +311,7 @@ function BuildWebsiteInner() {
           {/* CTA */}
           <div className="text-center bg-brand-50 rounded-2xl p-8 border border-brand-100">
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Ready to build your website?</h2>
-            <p className="text-gray-600 mb-6">You need a business plan first -- the AI uses your plan data to create a website tailored to your specific business.</p>
+            <p className="text-gray-600 mb-6">You need a business plan first. The AI uses your plan data to create a website tailored to your specific business.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a href="/generate" className="px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
                 Generate a Business Plan - $29
@@ -495,7 +495,7 @@ function BuildWebsiteInner() {
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
             {hasWebsiteAccess && (
               <div className="mb-3 p-3 bg-green-50 rounded-lg border border-green-200 text-center">
-                <p className="text-sm font-bold text-green-800">Included in your bundle -- no extra charge</p>
+                <p className="text-sm font-bold text-green-800">Included in your bundle, no extra charge</p>
               </div>
             )}
             <button
@@ -507,7 +507,7 @@ function BuildWebsiteInner() {
                   : 'bg-brand-600 text-white hover:bg-brand-700 shadow-brand-600/25'
               }`}
             >
-              {loading ? 'Processing...' : hasWebsiteAccess ? 'Build My Website -- Included' : `Build My Website - $${price}`}
+              {loading ? 'Processing...' : hasWebsiteAccess ? 'Build My Website (Included)' : `Build My Website - $${price}`}
             </button>
             <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-500">
               <span>{hasWebsiteAccess ? 'Already paid' : 'One-time payment'}</span>

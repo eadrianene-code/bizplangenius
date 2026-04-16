@@ -106,7 +106,7 @@ function SocialPackInner() {
     URL.revokeObjectURL(url);
   };
 
-  // No plan session -- show standalone purchase form
+  // No plan session - show standalone purchase form
   if (!planSessionId && !sessionId) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -161,7 +161,7 @@ function SocialPackInner() {
         <main className="max-w-5xl mx-auto px-4 py-8">
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-gray-900">30-Day Social Media Plan</h1>
-            <p className="text-gray-500 text-sm">{businessName} -- {pack.posts.length} posts ready to go</p>
+            <p className="text-gray-500 text-sm">{businessName}: {pack.posts.length} posts ready to go</p>
           </div>
 
           {/* Platform filter */}
@@ -243,7 +243,7 @@ function SocialPackInner() {
         </div>
 
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-6">
-          <h3 className="font-bold text-gray-900 mb-4">What you'll receive -- 30 days of content</h3>
+          <h3 className="font-bold text-gray-900 mb-4">What you'll receive: 30 days of content</h3>
 
           {/* Platforms */}
           <div className="grid grid-cols-4 gap-3 mb-5">
@@ -280,7 +280,7 @@ function SocialPackInner() {
           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Every post includes</p>
           <div className="grid grid-cols-2 gap-3">
             {[
-              { item: 'Ready-to-paste text', desc: 'Copy and post directly -- no editing needed' },
+              { item: 'Ready-to-paste text', desc: 'Copy and post directly, no editing needed' },
               { item: 'Relevant hashtags', desc: 'Platform-specific hashtags for reach' },
               { item: 'Image/graphic idea', desc: 'Description of what visual to pair with the post' },
               { item: 'Best posting time', desc: 'Suggested day and time for max engagement' },

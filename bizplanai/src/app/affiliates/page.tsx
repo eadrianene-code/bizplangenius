@@ -19,7 +19,7 @@ interface Affiliate {
 const PROMO_MESSAGES = [
   'I found an AI tool that creates business plans with real competitor data in minutes. Use my link for the best deal:',
   'If you\'re starting a business, check out BizPlan Genius. They research your actual competitors and build an investor-ready plan. Here\'s my link:',
-  'This tool saved me weeks of work -- AI business plans, websites, pitch decks, all from one description. Try it:',
+  'This tool saved me weeks of work. AI business plans, websites, pitch decks, all from one description. Try it:',
 ];
 
 export default function AffiliatesPage() {
@@ -140,7 +140,7 @@ export default function AffiliatesPage() {
           {/* CTA */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button onClick={() => setView('apply')} className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
-              Apply Now -- It's Free
+              Apply Now (It's Free)
             </button>
             <button onClick={() => setView('dashboard')} className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 transition text-lg">
               Already an affiliate? Login
