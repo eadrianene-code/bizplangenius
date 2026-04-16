@@ -223,7 +223,7 @@ function Header() {
             )}
           </div>
 
-          <a href="/pricing" className="text-sm text-gray-600 hover:text-brand-600 transition">Pricing</a>
+          <a href="/products" className="text-sm text-gray-600 hover:text-brand-600 transition">All Products</a>
           <a href="/blog" className="text-sm text-gray-600 hover:text-brand-600 transition">Blog</a>
           <a href="/generate" className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20">
             Generate My Plan - $29
@@ -254,7 +254,7 @@ function Header() {
           <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles: Save up to $68</a>
           <a href="/monitoring" onClick={() => setMobileOpen(false)} className="block text-accent-600 font-semibold py-2 px-2">Subscriptions: from $9/mo</a>
           <div className="border-t border-gray-100 my-2" />
-          <a href="/pricing" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pricing</a>
+          <a href="/products" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">All Products</a>
           <a href="/blog" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Blog</a>
           <a href="/generate" className="block w-full text-center px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-lg mt-3">
             Generate My Plan - $29
@@ -347,8 +347,8 @@ function WhatYouLeaveWith() {
             <a href="/bundles" className="px-8 py-3 bg-white text-gray-900 font-bold rounded-xl hover:bg-gray-100 transition">
               See All Bundles: From $59
             </a>
-            <a href="/pricing" className="px-8 py-3 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-gray-400 hover:text-white transition">
-              View Full Pricing
+            <a href="/products" className="px-8 py-3 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-gray-400 hover:text-white transition">
+              View All Products
             </a>
           </div>
         </div>
@@ -718,6 +718,24 @@ function Pricing() {
             </div>
           </div>
         </div>
+
+        {/* View All Products CTA */}
+        <div className="mt-12 text-center">
+          <div className="bg-gradient-to-r from-brand-50 to-blue-50 rounded-2xl border border-brand-100 p-8">
+            <p className="text-lg text-gray-700 mb-2">Looking for more than a business plan?</p>
+            <p className="text-gray-600 mb-6">We offer 12+ tools: competitor research, pitch decks, websites, ad copy, legal pages, brand kits, and more.</p>
+            <a
+              href="/products"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg"
+            >
+              Browse All Products
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+            <p className="mt-3 text-sm text-gray-500">Save up to 60% with bundles</p>
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -945,7 +963,7 @@ function Footer() {
           <div>
             <p className="font-semibold text-gray-900 mb-3">Products</p>
             <div className="space-y-2">
-              <a href="/#pricing" className="block text-sm text-gray-500 hover:text-gray-700">Business Plan Generator</a>
+              <a href="/products" className="block text-sm text-gray-500 hover:text-gray-700">All Products</a>
               <a href="/spy" className="block text-sm text-gray-500 hover:text-gray-700">Competitor Spy Tool</a>
               <a href="/build-website" className="block text-sm text-gray-500 hover:text-gray-700">Website Builder</a>
               <a href="/pitch-deck" className="block text-sm text-gray-500 hover:text-gray-700">Pitch Deck Generator</a>
