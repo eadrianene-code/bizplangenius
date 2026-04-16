@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenAI } from '@google/genai';
 import OpenAI from 'openai';
+import { sendSpyDeliveryEmail } from '@/lib/email';
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -485,6 +486,17 @@ export async function POST(req: NextRequest) {
     report.disclaimer = 'This report reflects publicly available information gathered via real-time web research. We recommend verifying pricing and company details directly on competitor websites before making strategic decisions.';
 
     console.log('Spy report generated successfully for:', reportName);
+
+    // Send delivery confirmation email (fire and forget)
+    const customerEmail = meta.email || session.customer_email || '';
+    if (customerEmail && reportName) {
+      sendSpyDeliveryEmail({
+        to: customerEmail,
+        reportName,
+        mode: (meta.mode === 'company' ? 'company' : 'industry') as 'company' | 'industry',
+      }).catch(err => console.error('Spy email send failed:', err));
+    }
+
     return NextResponse.json({ report, reportName });
   } catch (error: any) {
     console.error('Spy fulfill error:', error);

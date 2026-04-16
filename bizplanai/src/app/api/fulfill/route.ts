@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { GoogleGenAI } from '@google/genai';
 import OpenAI from 'openai';
+import { sendPlanDeliveryEmail } from '@/lib/email';
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -326,9 +327,16 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Cancel abandoned checkout email since they completed purchase
-    const customerEmail = meta.email || session.customer_details?.email;
+    // Send delivery confirmation email (fire and forget)
+    const customerEmail = meta.email || session.customer_email || '';
     if (customerEmail) {
+      sendPlanDeliveryEmail({
+        to: customerEmail,
+        businessName: meta.businessName || 'Your Business',
+        tier: (meta.tier === 'pro' ? 'pro' : 'starter') as 'starter' | 'pro',
+      }).catch(err => console.error('Email send failed:', err));
+
+      // Cancel abandoned checkout email since they completed purchase
       try {
         await fetch(new URL('/api/email-scheduler', req.url).toString(), {
           method: 'POST',
