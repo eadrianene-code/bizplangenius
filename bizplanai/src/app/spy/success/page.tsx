@@ -1006,6 +1006,13 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
         <p className="text-gray-500 mt-2">
           Generated on {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
+        <button
+          onClick={onDownloadPDF}
+          className="mt-4 px-6 py-3 rounded-lg text-white font-semibold text-base transition-all hover:opacity-90 shadow-md"
+          style={{ backgroundColor: ACCENT }}
+        >
+          Download Full Report (PDF)
+        </button>
       </div>
 
       {/* Executive Summary */}

@@ -9,7 +9,8 @@ import {
   welcomeEmail3,
 } from '@/lib/emails';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+// Use /tmp on Vercel (serverless filesystem is read-only except /tmp)
+const DATA_DIR = path.join('/tmp', 'bizplan-email-data');
 const QUEUE_FILE = path.join(DATA_DIR, 'email-queue.json');
 
 interface QueuedEmail {

@@ -487,14 +487,22 @@ export async function POST(req: NextRequest) {
 
     console.log('Spy report generated successfully for:', reportName);
 
-    // Send delivery confirmation email (fire and forget)
+    // Send delivery confirmation email (must await or Vercel kills the promise)
     const customerEmail = meta.email || session.customer_email || '';
+    console.log('Attempting email delivery to:', customerEmail, 'for:', reportName);
     if (customerEmail && reportName) {
-      sendSpyDeliveryEmail({
-        to: customerEmail,
-        reportName,
-        mode: (meta.mode === 'company' ? 'company' : 'industry') as 'company' | 'industry',
-      }).catch(err => console.error('Spy email send failed:', err));
+      try {
+        await sendSpyDeliveryEmail({
+          to: customerEmail,
+          reportName,
+          mode: (meta.mode === 'company' ? 'company' : 'industry') as 'company' | 'industry',
+        });
+        console.log('Email delivery completed for:', customerEmail);
+      } catch (err) {
+        console.error('Spy email send failed:', err);
+      }
+    } else {
+      console.log('Skipping email: no email address or report name');
     }
 
     return NextResponse.json({ report, reportName });

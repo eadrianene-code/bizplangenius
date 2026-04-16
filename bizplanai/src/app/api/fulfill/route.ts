@@ -327,14 +327,20 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Send delivery confirmation email (fire and forget)
+    // Send delivery confirmation email (must await or Vercel kills the promise)
     const customerEmail = meta.email || session.customer_email || '';
+    console.log('Attempting email delivery to:', customerEmail);
     if (customerEmail) {
-      sendPlanDeliveryEmail({
-        to: customerEmail,
-        businessName: meta.businessName || 'Your Business',
-        tier: (meta.tier === 'pro' ? 'pro' : 'starter') as 'starter' | 'pro',
-      }).catch(err => console.error('Email send failed:', err));
+      try {
+        await sendPlanDeliveryEmail({
+          to: customerEmail,
+          businessName: meta.businessName || 'Your Business',
+          tier: (meta.tier === 'pro' ? 'pro' : 'starter') as 'starter' | 'pro',
+        });
+        console.log('Email delivery completed for:', customerEmail);
+      } catch (err) {
+        console.error('Email send failed:', err);
+      }
 
       // Cancel abandoned checkout email since they completed purchase
       try {
@@ -344,6 +350,8 @@ export async function POST(req: NextRequest) {
           body: JSON.stringify({ action: 'cancel_abandoned', email: customerEmail }),
         });
       } catch {}
+    } else {
+      console.log('Skipping email: no customer email found');
     }
 
     return NextResponse.json({ plan, businessName: meta.businessName || 'Business Plan' });
