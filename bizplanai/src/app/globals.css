@@ -25,6 +25,13 @@ body {
   }
 }
 
+/* Hide sub-page duplicate headers -- GlobalNav handles all navigation.
+   Targets: direct header children of min-h-screen containers inside pt-14 */
+.pt-14 > div > header:first-child,
+.pt-14 > div > div > header:first-child {
+  display: none !important;
+}
+
 @keyframes slideIn {
   from {
     opacity: 0;
