@@ -14,11 +14,11 @@ export const metadata: Metadata = {
     canonical: 'https://www.bizplangenius.com',
   },
   title: 'Walk In With an Idea. Leave With a Business. | BizPlan Genius',
-  description: 'Describe your business idea once. AI builds everything you need to launch: business plan, website, brand, pitch deck, legal pages, ad copy, and social content. All with real market data.',
+  description: 'Describe your business idea once and AI builds everything you need to launch: a business plan with real competitor data, a website that takes payments, brand identity, pitch deck, social media content, legal pages, and ad copy. Start free or get the full kit for $349.',
   keywords: 'AI business plan generator, website builder, launch a business, startup tools, business plan, competitor analysis, pitch deck generator, brand kit, business launch platform',
   openGraph: {
     title: 'Walk In With an Idea. Leave With a Business.',
-    description: 'AI builds your business plan, website, brand, pitch deck, legal pages, ad copy, and social content. Describe your idea once -- launch this week. From $29.',
+    description: 'Describe your business idea once and AI builds everything: plan, website, brand, pitch deck, legal pages, ad copy, and 30 days of social content. Real market data, not guesses. Start free.',
     url: 'https://www.bizplangenius.com',
     siteName: 'BizPlan Genius',
     type: 'website',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Walk In With an Idea. Leave With a Business.',
-    description: 'AI builds everything you need to launch: plan, website, brand, pitch deck, and more. From $29.',
+    description: 'AI builds your business plan, website, brand, pitch deck, and everything else you need to launch. Start free or get the full kit.',
   },
   robots: {
     index: true,

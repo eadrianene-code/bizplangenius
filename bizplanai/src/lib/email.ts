@@ -1,9 +1,10 @@
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const FROM_EMAIL = 'BizPlan Genius <hello@send.bizplangenius.com>';
 const REPLY_TO = 'support@bizplangenius.com';
+
+async function getResend() {
+  const { Resend } = await import('resend');
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 /* ------------------------------------------------------------------ */
 /*  Business Plan delivery email                                       */
@@ -23,6 +24,7 @@ export async function sendPlanDeliveryEmail({
   const planLabel = tier === 'pro' ? 'Pro' : 'Starter';
 
   try {
+    const resend = await getResend();
     await resend.emails.send({
       from: FROM_EMAIL,
       to,
@@ -153,6 +155,7 @@ export async function sendSpyDeliveryEmail({
   const subjectName = mode === 'company' ? reportName : `the ${reportName} industry`;
 
   try {
+    const resend = await getResend();
     await resend.emails.send({
       from: FROM_EMAIL,
       to,
