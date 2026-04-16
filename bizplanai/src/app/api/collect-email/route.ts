@@ -35,6 +35,18 @@ export async function POST(req: NextRequest) {
         timestamp: new Date().toISOString(),
       });
       fs.writeFileSync(filePath, JSON.stringify(emails, null, 2));
+
+      // Schedule welcome email sequence for new signups from free tools
+      const freeToolSources = ['free_competitor_check', 'validate_idea', 'business_name_generator', 'startup_cost_calculator', 'launch_checklist', 'exit_intent'];
+      if (freeToolSources.some(s => (source || '').includes(s))) {
+        try {
+          await fetch(new URL('/api/email-scheduler', req.url).toString(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'schedule_welcome', email: email.toLowerCase() }),
+          });
+        } catch {}
+      }
     }
 
     return NextResponse.json({ success: true });

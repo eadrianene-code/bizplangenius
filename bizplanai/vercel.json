@@ -1,3 +1,9 @@
 {
-  "trailingSlash": false
+  "trailingSlash": false,
+  "crons": [
+    {
+      "path": "/api/email-scheduler",
+      "schedule": "*/15 * * * *"
+    }
+  ]
 }

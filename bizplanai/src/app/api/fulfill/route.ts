@@ -326,6 +326,18 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Cancel abandoned checkout email since they completed purchase
+    const customerEmail = meta.email || session.customer_details?.email;
+    if (customerEmail) {
+      try {
+        await fetch(new URL('/api/email-scheduler', req.url).toString(), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'cancel_abandoned', email: customerEmail }),
+        });
+      } catch {}
+    }
+
     return NextResponse.json({ plan, businessName: meta.businessName || 'Business Plan' });
   } catch (error: any) {
     console.error('Fulfill error:', error);

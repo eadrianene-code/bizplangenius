@@ -79,6 +79,16 @@ function GeneratePageInner() {
       }
 
       const language = typeof window !== 'undefined' ? localStorage.getItem('bizplan-language') || 'en' : 'en';
+
+      // Schedule abandoned checkout email (cancelled if they complete purchase)
+      if (form.email) {
+        fetch('/api/email-scheduler', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'schedule_abandoned', email: form.email, businessName: form.businessName }),
+        }).catch(() => {});
+      }
+
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
