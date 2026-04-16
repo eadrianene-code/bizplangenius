@@ -13,20 +13,20 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.bizplangenius.com',
   },
-  title: 'AI Business Plan Generator with Real Competitor Research | BizPlan Genius',
-  description: 'AI business plan generator with real competitor data and market research. Investor-ready PDF in minutes. From $29, one-time payment. No subscription.',
-  keywords: 'AI business plan generator, business plan writer, competitor analysis, market research, startup business plan, investor ready business plan, business plan PDF',
+  title: 'Walk In With an Idea. Leave With a Business. | BizPlan Genius',
+  description: 'Describe your business idea once. AI builds everything you need to launch: business plan, website, brand, pitch deck, legal pages, ad copy, and social content. All with real market data.',
+  keywords: 'AI business plan generator, website builder, launch a business, startup tools, business plan, competitor analysis, pitch deck generator, brand kit, business launch platform',
   openGraph: {
-    title: 'AI Business Plan Generator - Real Competitor Research in Minutes',
-    description: 'Generate investor-ready business plans with real competitor data and market analysis. From $29, one-time. PDF delivered in minutes.',
+    title: 'Walk In With an Idea. Leave With a Business.',
+    description: 'AI builds your business plan, website, brand, pitch deck, legal pages, ad copy, and social content. Describe your idea once -- launch this week. From $29.',
     url: 'https://www.bizplangenius.com',
     siteName: 'BizPlan Genius',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AI Business Plan Generator - Real Competitor Research | BizPlan Genius',
-    description: 'Generate investor-ready business plans with real competitor data. From $29, one-time payment.',
+    title: 'Walk In With an Idea. Leave With a Business.',
+    description: 'AI builds everything you need to launch: plan, website, brand, pitch deck, and more. From $29.',
   },
   robots: {
     index: true,
