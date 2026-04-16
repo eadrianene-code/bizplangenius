@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { getProduct, getBundleProducts } from '@/lib/products';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-02-24.acacia',
-});
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2025-02-24.acacia',
+  });
+}
 
 interface CheckoutBody {
   productId: string;
@@ -156,7 +158,7 @@ async function handlePaymentCheckout(
   const cancelUrl = `${baseUrl}${product.pageUrl || '/'}`;
 
   // Create Stripe Checkout session
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     payment_method_types: ['card'],
     customer_email: email,
     line_items: lineItems,
@@ -212,7 +214,7 @@ async function handleSubscriptionCheckout(
   // Add billing cycle to metadata
   metadata.billingCycle = cycle;
 
-  const session = await stripe.checkout.sessions.create({
+  const session = await getStripe().checkout.sessions.create({
     payment_method_types: ['card'],
     customer_email: email,
     line_items: lineItems,
