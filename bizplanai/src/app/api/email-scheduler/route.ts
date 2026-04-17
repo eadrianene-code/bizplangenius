@@ -4,6 +4,8 @@ import path from 'path';
 import {
   sendEmail,
   abandonedCheckoutEmail,
+  abandonedCheckoutEmail2,
+  abandonedCheckoutEmail3,
   welcomeEmail1,
   welcomeEmail2,
   welcomeEmail3,
@@ -15,7 +17,7 @@ const QUEUE_FILE = path.join(DATA_DIR, 'email-queue.json');
 
 interface QueuedEmail {
   email: string;
-  type: 'abandoned_checkout' | 'welcome_1' | 'welcome_2' | 'welcome_3';
+  type: 'abandoned_checkout' | 'abandoned_checkout_2' | 'abandoned_checkout_3' | 'welcome_1' | 'welcome_2' | 'welcome_3';
   businessName?: string;
   scheduledAt: string;
   createdAt: string;
@@ -52,6 +54,8 @@ export async function GET(req: NextRequest) {
     let emailContent;
     switch (item.type) {
       case 'abandoned_checkout': emailContent = abandonedCheckoutEmail(item.businessName || 'your'); break;
+      case 'abandoned_checkout_2': emailContent = abandonedCheckoutEmail2(item.businessName || 'your'); break;
+      case 'abandoned_checkout_3': emailContent = abandonedCheckoutEmail3(item.businessName || 'your'); break;
       case 'welcome_1': emailContent = welcomeEmail1(); break;
       case 'welcome_2': emailContent = welcomeEmail2(); break;
       case 'welcome_3': emailContent = welcomeEmail3(); break;
@@ -77,26 +81,44 @@ export async function POST(req: NextRequest) {
     const { action, email, businessName, source } = await req.json();
 
     if (action === 'schedule_abandoned') {
-      // Schedule abandoned checkout email for 1 hour from now
+      // Schedule 3-email abandoned checkout sequence: 1h, 24h, 72h
       if (!email || !businessName) return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
 
       const queue = loadQueue();
-      // Don't duplicate
+      // Don't duplicate the sequence (check email 1 of 3)
       if (queue.some(q => q.email === email.toLowerCase() && q.type === 'abandoned_checkout' && !q.sent)) {
         return NextResponse.json({ ok: true, msg: 'Already queued' });
       }
 
-      const sendAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour later
-      queue.push({
-        email: email.toLowerCase(),
-        type: 'abandoned_checkout',
-        businessName,
-        scheduledAt: sendAt.toISOString(),
-        createdAt: new Date().toISOString(),
-        sent: false,
-      });
+      const now = Date.now();
+      const createdAt = new Date().toISOString();
+      queue.push(
+        { email: email.toLowerCase(), type: 'abandoned_checkout',   businessName, scheduledAt: new Date(now + 1 * 60 * 60 * 1000).toISOString(),  createdAt, sent: false },
+        { email: email.toLowerCase(), type: 'abandoned_checkout_2', businessName, scheduledAt: new Date(now + 24 * 60 * 60 * 1000).toISOString(), createdAt, sent: false },
+        { email: email.toLowerCase(), type: 'abandoned_checkout_3', businessName, scheduledAt: new Date(now + 72 * 60 * 60 * 1000).toISOString(), createdAt, sent: false },
+      );
       saveQueue(queue);
-      return NextResponse.json({ ok: true });
+      return NextResponse.json({ ok: true, scheduled: 3 });
+    }
+
+    if (action === 'cancel_abandoned') {
+      // Customer completed checkout: cancel any pending abandoned-cart emails for this email
+      if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 });
+      const queue = loadQueue();
+      let cancelled = 0;
+      const target = email.toLowerCase();
+      for (const item of queue) {
+        if (
+          item.email === target &&
+          !item.sent &&
+          (item.type === 'abandoned_checkout' || item.type === 'abandoned_checkout_2' || item.type === 'abandoned_checkout_3')
+        ) {
+          item.sent = true; // Mark as sent so it never fires
+          cancelled++;
+        }
+      }
+      saveQueue(queue);
+      return NextResponse.json({ ok: true, cancelled });
     }
 
     if (action === 'schedule_welcome') {
@@ -135,6 +157,12 @@ export async function POST(req: NextRequest) {
           case 'abandoned_checkout':
             emailContent = abandonedCheckoutEmail(item.businessName || 'your');
             break;
+          case 'abandoned_checkout_2':
+            emailContent = abandonedCheckoutEmail2(item.businessName || 'your');
+            break;
+          case 'abandoned_checkout_3':
+            emailContent = abandonedCheckoutEmail3(item.businessName || 'your');
+            break;
           case 'welcome_1':
             emailContent = welcomeEmail1();
             break;
@@ -155,19 +183,6 @@ export async function POST(req: NextRequest) {
 
       saveQueue(queue);
       return NextResponse.json({ ok: true, processed: sent });
-    }
-
-    if (action === 'cancel_abandoned') {
-      // Cancel abandoned checkout emails when someone completes purchase
-      if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 });
-      const queue = loadQueue();
-      for (const item of queue) {
-        if (item.email === email.toLowerCase() && item.type === 'abandoned_checkout' && !item.sent) {
-          item.sent = true; // Mark as sent so it won't process
-        }
-      }
-      saveQueue(queue);
-      return NextResponse.json({ ok: true });
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });

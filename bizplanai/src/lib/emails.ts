@@ -14,9 +14,10 @@ export async function sendEmail(to: string, subject: string, html: string) {
   }
 }
 
+// Email 1 of 3 - sent 1 hour after abandonment. Soft nudge, focus on what they miss.
 export function abandonedCheckoutEmail(businessName: string): { subject: string; html: string } {
   return {
-    subject: `You were 1 step away from your ${businessName} business plan`,
+    subject: `Your ${businessName} plan is waiting (and the website builds itself next)`,
     html: `
 <!DOCTYPE html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>
@@ -29,25 +30,129 @@ export function abandonedCheckoutEmail(businessName: string): { subject: string;
 
   <p>You started creating a business plan for <strong>${businessName}</strong> but didn't finish checkout.</p>
 
-  <p>Your business idea deserves a real plan with real competitor data, not guesses.</p>
+  <p>Here's what most people miss: once your plan is generated, one click turns it into your actual website. Homepage copy, pricing page, and about page all built from your plan data. No re-entry. No copywriter. No Squarespace.</p>
 
   <div style="background: #f0f7ff; border-radius: 12px; padding: 20px; margin: 24px 0;">
-    <p style="margin: 0 0 8px 0; font-weight: bold; color: #1a1a2e;">What you'll get:</p>
+    <p style="margin: 0 0 8px 0; font-weight: bold; color: #1a1a2e;">What you get with ${businessName}:</p>
     <ul style="margin: 0; padding-left: 20px; color: #555;">
-      <li>5-10 real competitors analyzed</li>
-      <li>3-year financial projections</li>
+      <li>5-10 real competitors analyzed (not AI-guessed)</li>
+      <li>3-year financial projections based on real industry margins</li>
       <li>Investor-ready PDF download</li>
-      <li>Real market data, not AI hallucinations</li>
+      <li>One-click website generation from the same plan data</li>
     </ul>
   </div>
 
   <div style="text-align: center; margin: 28px 0;">
     <a href="https://www.bizplangenius.com/generate" style="display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-weight: bold; font-size: 16px;">
-      Complete My Business Plan
+      Finish My Business Plan
     </a>
   </div>
 
-  <p style="color: #888; font-size: 13px;">Not ready for a plan? Try our <a href="https://www.bizplangenius.com/free-competitor-check" style="color: #2563eb;">free competitor check</a> first.</p>
+  <p style="color: #888; font-size: 13px;">Not sure yet? See how the plan-to-website flow works at <a href="https://www.bizplangenius.com/build-website" style="color: #2563eb;">bizplangenius.com/build-website</a>.</p>
+
+  <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
+  <p style="color: #aaa; font-size: 11px; text-align: center;">
+    BizPlan Genius | bizplangenius.com<br>
+    <a href="https://www.bizplangenius.com" style="color: #aaa;">Unsubscribe</a>
+  </p>
+</body></html>`,
+  };
+}
+
+// Email 2 of 3 - sent 24 hours after abandonment. Objection-handler: compare to alternatives.
+export function abandonedCheckoutEmail2(businessName: string): { subject: string; html: string } {
+  return {
+    subject: `${businessName}: $49 vs $3,000 (here's what you're actually comparing)`,
+    html: `
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>
+<body style="font-family: system-ui, sans-serif; max-width: 560px; margin: 0 auto; padding: 20px; color: #333;">
+  <div style="text-align: center; margin-bottom: 24px;">
+    <h1 style="font-size: 20px; color: #1a1a2e; margin: 0;">BizPlan Genius</h1>
+  </div>
+
+  <h2 style="font-size: 22px; color: #1a1a2e;">Thought about ${businessName} overnight?</h2>
+
+  <p>Most founders stall on checkout because they're unsure if our \$29-\$49 plan is "real enough." Fair question. Here's the honest comparison:</p>
+
+  <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
+    <tr style="background: #f8fafc;">
+      <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Option</td>
+      <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Cost</td>
+      <td style="padding: 12px; border: 1px solid #e2e8f0; font-weight: bold;">Time</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; border: 1px solid #e2e8f0;">Hire a business plan consultant</td>
+      <td style="padding: 12px; border: 1px solid #e2e8f0;">\$2,000 - \$10,000</td>
+      <td style="padding: 12px; border: 1px solid #e2e8f0;">2 - 4 weeks</td>
+    </tr>
+    <tr style="background: #f8fafc;">
+      <td style="padding: 12px; border: 1px solid #e2e8f0;">Write it yourself + freelancer for website</td>
+      <td style="padding: 12px; border: 1px solid #e2e8f0;">\$500 - \$2,000</td>
+      <td style="padding: 12px; border: 1px solid #e2e8f0;">3 - 6 weeks</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; border: 1px solid #e2e8f0;">ChatGPT prompt + manual cleanup</td>
+      <td style="padding: 12px; border: 1px solid #e2e8f0;">\$20/mo + your time</td>
+      <td style="padding: 12px; border: 1px solid #e2e8f0;">Days of revisions</td>
+    </tr>
+    <tr style="background: #e0f2fe;">
+      <td style="padding: 12px; border: 1px solid #60a5fa; font-weight: bold;">BizPlan Genius Pro + Website</td>
+      <td style="padding: 12px; border: 1px solid #60a5fa; font-weight: bold;">\$148</td>
+      <td style="padding: 12px; border: 1px solid #60a5fa; font-weight: bold;">Under 1 hour</td>
+    </tr>
+  </table>
+
+  <p>We use Google Gemini with live web search grounding. That means the competitor data, pricing benchmarks, and market sizing in your plan are pulled from the actual web at generation time, not from an AI's 2024 training data.</p>
+
+  <div style="text-align: center; margin: 28px 0;">
+    <a href="https://www.bizplangenius.com/generate?tier=pro" style="display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-weight: bold; font-size: 16px;">
+      Get ${businessName} Plan Pro - \$49
+    </a>
+  </div>
+
+  <p style="color: #555; font-size: 14px;">Pro tier includes our 100% money-back guarantee. If the plan isn't usable, you get a full refund.</p>
+
+  <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
+  <p style="color: #aaa; font-size: 11px; text-align: center;">
+    BizPlan Genius | bizplangenius.com<br>
+    <a href="https://www.bizplangenius.com" style="color: #aaa;">Unsubscribe</a>
+  </p>
+</body></html>`,
+  };
+}
+
+// Email 3 of 3 - sent 72 hours after abandonment. Last touch, offer a discount, close the loop.
+export function abandonedCheckoutEmail3(businessName: string): { subject: string; html: string } {
+  return {
+    subject: `Last nudge on ${businessName} (20% off inside)`,
+    html: `
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>
+<body style="font-family: system-ui, sans-serif; max-width: 560px; margin: 0 auto; padding: 20px; color: #333;">
+  <div style="text-align: center; margin-bottom: 24px;">
+    <h1 style="font-size: 20px; color: #1a1a2e; margin: 0;">BizPlan Genius</h1>
+  </div>
+
+  <h2 style="font-size: 22px; color: #1a1a2e;">Last ping about ${businessName}.</h2>
+
+  <p>It's been a few days since you started your plan and didn't finish. No hard sell, just one offer on the way out:</p>
+
+  <div style="background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 24px; margin: 24px 0; text-align: center;">
+    <p style="margin: 0 0 8px 0; font-size: 14px; color: #92400e; text-transform: uppercase; letter-spacing: 1px; font-weight: bold;">One-time code, 7 days to use</p>
+    <p style="margin: 0 0 12px 0; font-size: 28px; font-weight: bold; color: #1a1a2e; letter-spacing: 2px;">SCORE20</p>
+    <p style="margin: 0; font-size: 14px; color: #555;">20% off any business plan tier. Works on Starter, Pro, or the Launch Pack.</p>
+  </div>
+
+  <p>If ${businessName} was a passing thought, feel free to ignore. If it's still rattling around your head at 11pm, that's the idea worth finishing the plan for.</p>
+
+  <div style="text-align: center; margin: 28px 0;">
+    <a href="https://www.bizplangenius.com/generate?tier=pro" style="display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-weight: bold; font-size: 16px;">
+      Finish ${businessName} Plan (20% off)
+    </a>
+  </div>
+
+  <p style="color: #888; font-size: 13px; text-align: center;">This is the last email about this specific plan. You will not get a 4th.</p>
 
   <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
   <p style="color: #aaa; font-size: 11px; text-align: center;">
