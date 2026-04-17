@@ -1,4 +1,4 @@
-const FROM_EMAIL = 'BizPlan Genius <hello@send.bizplangenius.com>';
+const FROM_EMAIL = 'BizPlan Genius <hello@bizplangenius.com>';
 const REPLY_TO = 'support@bizplangenius.com';
 
 async function getResend() {
