@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/startup-cost-calculator',
+  },
   title: 'Free Startup Cost Calculator - Real Estimates for Any Business | BizPlan Genius',
   description: 'Calculate startup costs for any business type. Free AI-powered estimates with cost breakdowns, monthly operating costs, and break-even timeline. Real market data.',
   openGraph: {

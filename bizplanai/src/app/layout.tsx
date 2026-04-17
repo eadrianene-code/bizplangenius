@@ -11,7 +11,7 @@ import GlobalNav from './components/GlobalNav';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.bizplangenius.com'),
   alternates: {
-    canonical: 'https://www.bizplangenius.com',
+    canonical: '/',
   },
   title: 'Walk In With an Idea. Leave With a Business. | BizPlan Genius',
   description: 'Describe your business idea once and AI builds everything you need to launch: a business plan with real competitor data, a website that takes payments, brand identity, pitch deck, social media content, legal pages, and ad copy. Start free or get the full kit for $349.',

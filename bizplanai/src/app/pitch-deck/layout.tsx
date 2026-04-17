@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/pitch-deck',
+  },
   title: 'AI Pitch Deck Generator - 12 Investor Slides From Your Plan | BizPlan Genius',
   description: 'Generate a 12-slide investor-ready pitch deck from your business plan. Includes speaker notes, market data, financial projections, and competitive analysis. $39 one-time.',
   openGraph: {

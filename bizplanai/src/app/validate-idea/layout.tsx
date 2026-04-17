@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/validate-idea',
+  },
   title: 'Free Business Idea Validator - Is Your Idea Worth Pursuing? | BizPlan Genius',
   description: 'Validate your business idea with AI and real market data. Get a score across 5 categories: market demand, competition, revenue potential, barriers, and timing. 100% free.',
   openGraph: {

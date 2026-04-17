@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/ad-copy',
+  },
   title: 'Ad Copy Generator - Google Ads + Facebook + Instagram | BizPlan Genius',
   description: 'Generate 15 ad variations for Google, Facebook, and Instagram. Headlines, copy, keywords, targeting, and creative ideas. Ready to launch. $19.',
   openGraph: {

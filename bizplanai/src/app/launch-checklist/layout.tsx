@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/launch-checklist',
+  },
   title: 'Free Business Launch Checklist - Step-by-Step Guide | BizPlan Genius',
   description: 'Get a personalized checklist to legally start your business. LLC registration, permits, licenses, bank accounts, and marketing - specific to your state and industry. Free.',
   openGraph: {

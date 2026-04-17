@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/affiliates',
+  },
   title: 'Affiliate Program - Earn 20% Commission | BizPlan Genius',
   description: 'Join the BizPlan Genius affiliate program. Earn 20% commission on every sale. Share your unique link, track clicks and conversions, get paid monthly.',
   openGraph: {

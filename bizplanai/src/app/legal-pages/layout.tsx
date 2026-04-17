@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/legal-pages',
+  },
   title: 'Legal Pages Generator - Terms of Service & Privacy Policy | BizPlan Genius',
   description: 'Generate Terms of Service, Privacy Policy, and Cookie Policy for your business website. GDPR + CCPA compliant. Tailored to your industry. $19 one-time.',
   openGraph: {

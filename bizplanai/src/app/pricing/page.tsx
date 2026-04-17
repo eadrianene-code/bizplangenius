@@ -2,6 +2,9 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/pricing',
+  },
   title: 'Pricing - All Products & Subscriptions | BizPlan Genius',
   description: 'BizPlan Genius pricing: free tools, one-time products from $19, bundles from $59, and monthly subscriptions from $9/mo. Everything you need to launch your business.',
   openGraph: {

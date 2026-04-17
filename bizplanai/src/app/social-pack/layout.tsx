@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/social-pack',
+  },
   title: 'Social Media Starter Pack - 30 Days of Posts | BizPlan Genius',
   description: '30 days of ready-to-post social media content for Twitter, LinkedIn, Instagram, and Facebook. Tailored to your business. Hashtags, image ideas, and best posting times included. $29.',
   openGraph: {

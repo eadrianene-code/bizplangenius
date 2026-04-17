@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/monitoring',
+  },
   title: 'Competitor Monitoring & Monthly Social Pack - Subscriptions | BizPlan Genius',
   description: 'Stay ahead with monthly competitor intelligence ($15/mo) and fresh social media content ($19/mo). Auto-updated reports, new competitor alerts, and 30 new posts every month.',
   openGraph: {

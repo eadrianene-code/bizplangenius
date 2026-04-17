@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/investor-emails',
+  },
   title: 'Investor Email Templates - 10 Fundraising Emails | BizPlan Genius',
   description: '10 personalized investor outreach emails: cold VC outreach, angel outreach, warm intros, follow-ups, investor updates, and pitch deck shares. Built from your business plan. $19.',
   openGraph: {

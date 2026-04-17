@@ -270,15 +270,15 @@ function Hero() {
     <section className="pt-14 pb-16 px-4 bg-hero-pattern">
       <div className="max-w-4xl mx-auto text-center">
         <div className="inline-block px-4 py-1.5 bg-accent-50 text-accent-700 text-sm font-medium rounded-full mb-6 border border-accent-200">
-          The only platform that takes you from idea to running business
+          The only AI that writes your plan AND builds your website from it
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
           Walk in With an Idea.{' '}
           <span className="text-gradient">Leave With a Business.</span>
         </h1>
         <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
-          Describe your business idea once. Our AI builds everything you need to launch:
-          business plan, website, brand, pitch deck, legal pages, ad copy, and social content.
+          Describe your business idea once. We generate a full business plan, then with one click turn it into your actual website,
+          with copy, pricing, and brand that match the plan. Plus everything else you need to launch: pitch deck, legal pages, ad copy, and social content.
           All with real market data. All in one place.
         </p>
 

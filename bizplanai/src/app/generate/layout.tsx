@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/generate',
+  },
   title: 'Generate Your AI Business Plan - Investor-Ready in Minutes | BizPlan Genius',
   description:
     'Create a professional business plan with real competitor research and market data. AI-powered, investor-ready PDF. Starter $29, Pro $49. One-time payment.',

@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/bundles',
+  },
   title: 'Bundle Pricing - Save on Business Launch Tools | BizPlan Genius',
   description: 'Save up to $68 with BizPlan Genius bundles. Starter ($59): Spy + Plan. Launch Pack ($199): Spy + Plan + Website + Pitch. Full Kit ($349): Everything you need to launch.',
   openGraph: {

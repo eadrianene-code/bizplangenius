@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/free-competitor-check',
+  },
   title: 'Free Competitor Analysis Tool - Find Your Top 3 Competitors | BizPlan Genius',
   description: 'Find your top 3 competitors in 30 seconds. Free AI-powered competitor analysis tool. See their strengths, weaknesses, and your opportunity to win.',
   openGraph: {

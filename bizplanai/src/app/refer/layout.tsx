@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/refer',
+  },
   title: 'Refer & Earn - BizPlan Genius Referral Program',
   description: 'Share BizPlan Genius with other founders and earn rewards. Get a unique referral link, share on social media, and track your referrals.',
   openGraph: {

@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/privacy',
+  },
   title: 'Privacy Policy - BizPlan Genius',
   description: 'Privacy Policy for BizPlan Genius business plan generator.',
 };

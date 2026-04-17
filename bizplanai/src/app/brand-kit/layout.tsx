@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/brand-kit',
+  },
   title: 'AI Logo & Brand Kit - Complete Brand Identity | BizPlan Genius',
   description: 'AI-generated brand identity: 3 logo concepts, color palette, typography, brand voice guidelines, social media bio, and elevator pitch. Built from your business plan. $29.',
   openGraph: {

@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: '/business-name-generator',
+  },
   title: 'Free AI Business Name Generator - 10 Unique Names in Seconds | BizPlan Genius',
   description: 'Generate 10 unique business name ideas with taglines and domain suggestions. Free AI-powered business name generator. No payment required.',
   openGraph: {
