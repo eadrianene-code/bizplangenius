@@ -13,11 +13,20 @@ export const metadata: Metadata = {
     url: 'https://www.bizplangenius.com/build-website',
     siteName: 'BizPlan Genius',
     type: 'website',
+    images: [
+      {
+        url: '/api/og?title=Your+Business+Plan+Just+Built+Your+Website.&subtitle=One+flow.+Plan+to+live+website.+%24199.&badge=Plan+%E2%86%92+Website',
+        width: 1200,
+        height: 630,
+        alt: 'Your business plan just built your website - BizPlan Genius',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Your Business Plan Just Built Your Website.',
     description: 'The only AI that writes your plan AND turns it into your actual website. One flow. Starts at $99.',
+    images: ['/api/og?title=Your+Business+Plan+Just+Built+Your+Website.&subtitle=One+flow.+Plan+to+live+website.+%24199.&badge=Plan+%E2%86%92+Website'],
   },
 };
 

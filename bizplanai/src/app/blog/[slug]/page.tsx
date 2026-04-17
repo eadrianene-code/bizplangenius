@@ -19,6 +19,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const post = getPostBySlug(slug);
   if (!post) return { title: "Not Found" };
 
+  // Build dynamic OG image URL from post title + description
+  const ogTitle = encodeURIComponent(post.title);
+  const ogSubtitle = encodeURIComponent(post.description);
+  const ogImage = `/api/og?title=${ogTitle}&subtitle=${ogSubtitle}&badge=BizPlan+Genius+Blog`;
+
   return {
     title: `${post.title} - BizPlan Genius`,
     description: post.description,
@@ -34,11 +39,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       authors: [post.author],
       url: `https://www.bizplangenius.com/blog/${slug}`,
       siteName: "BizPlan Genius",
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
+      images: [ogImage],
     },
   };
 }

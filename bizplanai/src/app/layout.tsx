@@ -22,11 +22,20 @@ export const metadata: Metadata = {
     url: 'https://www.bizplangenius.com',
     siteName: 'BizPlan Genius',
     type: 'website',
+    images: [
+      {
+        url: '/api/og',
+        width: 1200,
+        height: 630,
+        alt: 'BizPlan Genius - The only AI that writes your plan AND builds your website from it',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Walk In With an Idea. Leave With a Business.',
     description: 'AI builds your business plan, website, brand, pitch deck, and everything else you need to launch. Start free or get the full kit.',
+    images: ['/api/og'],
   },
   robots: {
     index: true,
