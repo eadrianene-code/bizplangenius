@@ -16,6 +16,20 @@ export const metadata: Metadata = {
     url: 'https://www.bizplangenius.com/spy',
     siteName: 'BizPlan Genius',
     type: 'website',
+    images: [
+      {
+        url: '/api/og?title=Real+Competitor+Research.+%2497.&subtitle=Find+your+10-15+real+competitors.+Get+pricing%2C+weaknesses%2C+and+a+90-day+plan+to+outrank+them.&badge=Competitor+Spy',
+        width: 1200,
+        height: 630,
+        alt: 'BizPlan Genius Competitor Spy - Real competitor research for $97',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Real Competitor Research. $97 one-time.',
+    description: 'Find competitors, pricing, weaknesses, and a 90-day plan in 5 minutes.',
+    images: ['/api/og?title=Real+Competitor+Research.+%2497.&subtitle=Find+your+10-15+real+competitors.+Get+pricing%2C+weaknesses%2C+and+a+90-day+plan+to+outrank+them.&badge=Competitor+Spy'],
   },
 };
 

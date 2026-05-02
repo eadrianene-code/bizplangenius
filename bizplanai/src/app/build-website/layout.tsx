@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/api/og?title=Your+Business+Plan+Just+Built+Your+Website.&subtitle=One+flow.+Plan+to+live+website.+%24199.&badge=Plan+%E2%86%92+Website',
+        url: '/api/og?title=Your+Business+Plan+Just+Built+Your+Website.&subtitle=One+flow.+Plan+to+live+website.+Launch+Pack+%24297.&badge=Plan+-%3E+Website',
         width: 1200,
         height: 630,
         alt: 'Your business plan just built your website - BizPlan Genius',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Your Business Plan Just Built Your Website.',
     description: 'The only AI that writes your plan AND turns it into your actual website. One flow. Starts at $99.',
-    images: ['/api/og?title=Your+Business+Plan+Just+Built+Your+Website.&subtitle=One+flow.+Plan+to+live+website.+%24199.&badge=Plan+%E2%86%92+Website'],
+    images: ['/api/og?title=Your+Business+Plan+Just+Built+Your+Website.&subtitle=One+flow.+Plan+to+live+website.+Launch+Pack+%24297.&badge=Plan+-%3E+Website'],
   },
 };
 

@@ -211,7 +211,7 @@ export async function sendSpyDeliveryEmail({
               <div style="background-color:#eff6ff;border-radius:8px;padding:20px;margin:0 0 24px;">
                 <h3 style="margin:0 0 8px;color:#1e40af;font-size:16px;">Ready to build the full plan? Save $10</h3>
                 <p style="margin:0 0 12px;color:#1e3a5f;font-size:14px;line-height:1.6;">
-                  Turn your competitive insights into an investor-ready business plan with real financial projections and marketing strategy. Use code <strong>SAMPLE10</strong> for $10 off.
+                  Turn your competitive insights into an investor-ready business plan with real financial projections and marketing strategy. Use code <strong>SAMPLE10</strong> for $30 off.
                 </p>
                 <a href="https://www.bizplangenius.com/generate" style="display:inline-block;background-color:#1e40af;color:#ffffff;padding:10px 24px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;">Create Your Business Plan</a>
               </div>

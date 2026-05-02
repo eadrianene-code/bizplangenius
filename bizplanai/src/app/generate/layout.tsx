@@ -20,6 +20,20 @@ export const metadata: Metadata = {
     url: 'https://www.bizplangenius.com/generate',
     siteName: 'BizPlan Genius',
     type: 'website',
+    images: [
+      {
+        url: '/api/og?title=Investor-Ready+Business+Plan&subtitle=Real+competitor+data.+3-year+financials.+PDF+in+10+minutes.+Starter+%2497%2C+Pro+%24147.&badge=Business+Plan',
+        width: 1200,
+        height: 630,
+        alt: 'BizPlan Genius - Investor-ready business plan from $97',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Investor-Ready Business Plan from $97',
+    description: 'Real competitor data + 3-year financials + PDF in 10 minutes.',
+    images: ['/api/og?title=Investor-Ready+Business+Plan&subtitle=Real+competitor+data.+3-year+financials.+PDF+in+10+minutes.+Starter+%2497%2C+Pro+%24147.&badge=Business+Plan'],
   },
 };
 

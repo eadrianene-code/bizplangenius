@@ -1109,16 +1109,16 @@ export default function SuccessPage() {
               </div>
               <div className="flex-1">
                 <p className="text-xs font-semibold text-brand-600 uppercase tracking-wider mb-2">Exclusive offer for plan buyers</p>
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Know exactly who you are up against. $10 off Competitor Spy.</h3>
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Know exactly who you are up against. $30 off Competitor Spy.</h3>
                 <p className="text-gray-600 mb-4">
-                  Your plan is ready. Now see 10 to 15 real competitors ranked, priced, and broken down by vulnerability, with a 90-day tactical roadmap. Normally $97, $87 for you as a plan buyer.
+                  Your plan is ready. Now see 10 to 15 real competitors ranked, priced, and broken down by vulnerability, with a 90-day tactical roadmap. Normally $97, $67 for you as a plan buyer with code SAMPLE10.
                 </p>
                 <div className="flex flex-wrap items-center gap-3">
                   <a
                     href="/spy?coupon=SAMPLE10"
                     className="inline-flex items-center gap-2 px-5 py-3 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 transition shadow-md shadow-brand-600/20"
                   >
-                    Claim my $10 off
+                    Claim my $30 off
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                   </a>
                   <span className="text-xs text-gray-500">Use code <span className="font-mono font-semibold text-gray-700">SAMPLE10</span> at checkout</span>
