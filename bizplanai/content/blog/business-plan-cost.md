@@ -83,7 +83,7 @@ What does matter is your competitive analysis and your numbers. Investors check 
 
 Here is the real tradeoff matrix most guides do not give you.
 
-If you need a plan in under 24 hours and you have under $100 to spend, your only realistic option is an AI generator or a pre-built template.
+If you need a plan in under 24 hours and you have under $200 to spend, your only realistic option is an AI generator or a pre-built template.
 
 If you have $500 to $2,500 and a week, you can hire a writing service. Quality is a coin flip.
 
@@ -107,7 +107,7 @@ Is it as good as a $10,000 consultant plan? For complex venture-scale pitches, n
 
 There is no single right answer to "how much does a business plan cost" because the right option depends on your stakes, your timeline, and your budget.
 
-If you are raising venture capital at scale, pay a consultant. If you have weeks and a tight budget, DIY. If you need a real plan this week for under $50, use an AI generator.
+If you are raising venture capital at scale, pay a consultant. If you have weeks and a tight budget, DIY. If you need a real plan this week for under $150, use an AI generator.
 
 What you should not do is overpay for a template service, or underpay and submit a plan that makes lenders laugh. The middle of the price curve is where the worst value usually lives.
 
