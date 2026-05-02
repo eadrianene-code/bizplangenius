@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     // Determine tier and price
     const tier = body.tier === 'starter' ? 'starter' : 'pro';
     const isStarter = tier === 'starter';
-    const unitAmount = isStarter ? 2900 : 4900; // $29 or $49
+    const unitAmount = isStarter ? 9700 : 14700; // $97 or $147
     const planLabel = isStarter ? 'Starter Business Plan' : 'Pro Business Plan';
 
     // Create a Stripe Checkout session

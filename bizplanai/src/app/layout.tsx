@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   title: 'Walk In With an Idea. Leave With a Business. | BizPlan Genius',
-  description: 'Describe your business idea once and AI builds everything you need to launch: a business plan with real competitor data, a website that takes payments, brand identity, pitch deck, social media content, legal pages, and ad copy. Start free or get the full kit for $349.',
+  description: 'Describe your business idea once and AI builds everything you need to launch: a business plan with real competitor data, a website that takes payments, brand identity, pitch deck, social media content, legal pages, and ad copy. Start free or get the full kit for $447.',
   keywords: 'AI business plan generator, website builder, launch a business, startup tools, business plan, competitor analysis, pitch deck generator, brand kit, business launch platform',
   openGraph: {
     title: 'Walk In With an Idea. Leave With a Business.',
@@ -133,7 +133,7 @@ export default function RootLayout({
                   "name": "How long does it take to generate a business plan?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Most plans are generated in 3-8 minutes. Traditional consultants charge $2,000-$10,000 and take weeks. BizPlan Genius starts at $29."
+                    "text": "Most plans are generated in 3-8 minutes. Traditional consultants charge $2,000-$10,000 and take weeks. BizPlan Genius starts at $97."
                   }
                 },
                 {
@@ -149,7 +149,7 @@ export default function RootLayout({
                   "name": "What products does BizPlan Genius offer?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "BizPlan Genius offers: Free Competitor Check ($0), Competitor Spy Reports ($19), Business Plans ($29-$49), AI Website Builder ($99-$199), Pitch Deck Generator ($39), Social Media Starter Pack ($29), Logo & Brand Kit ($29), and Investor Email Templates ($19). Bundles are available from $59."
+                    "text": "BizPlan Genius offers: Free Competitor Check ($0), Competitor Spy Reports ($97), Business Plans ($97-$147), AI Website Builder ($99-$199), Pitch Deck Generator ($39), Social Media Starter Pack ($29), Logo & Brand Kit ($29), and Investor Email Templates ($19). Bundles are available from $197."
                   }
                 },
                 {

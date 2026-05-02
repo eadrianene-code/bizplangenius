@@ -73,7 +73,7 @@ function Hero() {
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
           Real competitor intelligence for{' '}
-          <span className="text-gradient">$19 once.</span>
+          <span className="text-gradient">$97 once.</span>
         </h1>
         <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-4 leading-relaxed">
           The cheapest enterprise alternative is $1,000+ per month. We deliver the same depth as a one-time PDF,
@@ -85,7 +85,7 @@ function Hero() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="#get-started" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
-            Get Your Competitor Report - $19
+            Get Your Competitor Report - $97
           </a>
           <a href="#sample-report" className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition text-lg">
             See a Sample Report
@@ -128,7 +128,7 @@ function ComparisonBanner() {
     { name: 'Klue', price: '$1,200+/mo', model: 'Annual subscription', built: 'Sales enablement teams' },
     { name: 'Kompyte', price: 'Custom (4-figure/mo)', model: 'Annual subscription', built: 'Mid-market and enterprise' },
     { name: 'Hiring a consultant', price: '$500-2,000', model: 'One-time, 1-2 weeks', built: 'Single project' },
-    { name: 'Competitor Spy', price: '$19', model: 'One-time, under 3 min', built: 'Founders, solopreneurs, agencies', highlight: true },
+    { name: 'Competitor Spy', price: '$97', model: 'One-time, under 3 min', built: 'Founders, solopreneurs, agencies', highlight: true },
   ];
   return (
     <section className="py-16 px-4 bg-gray-50">
@@ -200,7 +200,7 @@ function WhatYouGet() {
 function HowItWorks() {
   const steps = [
     { num: '1', title: 'Enter Your Target', desc: 'Type a company name, website URL, or describe your industry.' },
-    { num: '2', title: 'Pay $19', desc: 'One-time payment via Stripe. No subscription, no hidden fees.' },
+    { num: '2', title: 'Pay $97', desc: 'One-time payment via Stripe. No subscription, no hidden fees.' },
     { num: '3', title: 'Get Your Report', desc: 'AI researches real competitors and delivers your PDF in under 3 minutes.' },
   ];
   return (
@@ -406,7 +406,7 @@ function SpyForm() {
               disabled={loading}
               className="w-full px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? 'Processing...' : 'Get My Competitor Report - $19'}
+              {loading ? 'Processing...' : 'Get My Competitor Report - $97'}
             </button>
             <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-500">
               <span className="flex items-center gap-1">
@@ -521,7 +521,7 @@ function SampleSpyReport() {
         </div>
         <div className="text-center mt-8">
           <a href="#get-started" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg inline-block">
-            Get Your Own Report - $19
+            Get Your Own Report - $97
           </a>
         </div>
       </div>
@@ -553,7 +553,7 @@ function FAQ() {
     },
     {
       q: 'Is this a subscription?',
-      a: 'No. One payment of $19, one report. No recurring charges, no hidden fees. If you need another report for a different market, just purchase again.',
+      a: 'No. One payment of $97, one report. No recurring charges, no hidden fees. If you need another report for a different market, just purchase again.',
     },
     {
       q: 'What if I\'m not happy with the report?',
@@ -655,7 +655,7 @@ function Footer() {
           rel="noopener noreferrer"
         >
           <img
-            alt="Competitor Spy - Know exactly how to beat your competitors for $19 | Product Hunt"
+            alt="Competitor Spy - Know exactly how to beat your competitors for $97 | Product Hunt"
             width={200}
             height={43}
             src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1122669&theme=dark&t=1776151861733"

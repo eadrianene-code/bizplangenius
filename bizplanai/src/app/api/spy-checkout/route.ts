@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
               name: productName,
               description: 'Competitive analysis report with real competitor data, pricing comparison, SWOT analysis, and strategic recommendations.',
             },
-            unit_amount: 1900, // $19.00
+            unit_amount: 9700, // $97.00
           },
           quantity: 1,
         },

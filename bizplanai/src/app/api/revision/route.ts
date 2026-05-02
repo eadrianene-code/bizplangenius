@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
 
     // Check Pro plan
     const amountPaid = session.amount_total || 0;
-    if (amountPaid < 4900) {
+    if (amountPaid < 14700) {
       return NextResponse.json({ error: 'Free revision is only available for Pro plan customers.' }, { status: 403 });
     }
 

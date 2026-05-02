@@ -5,10 +5,10 @@ export const metadata: Metadata = {
     canonical: '/bundles',
   },
   title: 'Bundle Pricing - Save on Business Launch Tools | BizPlan Genius',
-  description: 'Save up to $68 with BizPlan Genius bundles. Starter ($59): Spy + Plan. Launch Pack ($199): Spy + Plan + Website + Pitch. Full Kit ($349): Everything you need to launch.',
+  description: 'Save up to $182 with BizPlan Genius bundles. Starter ($197): Spy + Plan. Launch Pack ($297): Spy + Plan + Website + Pitch. Full Kit ($447): Everything you need to launch.',
   openGraph: {
     title: 'Bundle Pricing - Save More, Launch Faster',
-    description: 'Get everything you need to launch your business at a discount. Bundles from $59.',
+    description: 'Get everything you need to launch your business at a discount. Bundles from $197.',
     url: 'https://www.bizplangenius.com/bundles',
     siteName: 'BizPlan Genius',
   },

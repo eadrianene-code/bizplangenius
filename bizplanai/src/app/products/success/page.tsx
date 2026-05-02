@@ -570,7 +570,7 @@ function ProductSuccessContent() {
           <p className="text-gray-600 text-sm mb-4">Combine products to accelerate growth:</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
-              { name: 'Business Plan Pro', price: '$49', desc: 'Full business plan with operations & risk analysis' },
+              { name: 'Business Plan Pro', price: '$147', desc: 'Full business plan with operations & risk analysis' },
               { name: 'Pitch Deck', price: '$39', desc: 'Investor-ready presentation deck' },
               { name: 'Website Builder', price: '$99', desc: 'Professional website in minutes' },
               { name: 'Logo & Brand Kit', price: '$29', desc: 'Complete brand identity system' },

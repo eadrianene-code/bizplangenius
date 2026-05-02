@@ -1788,8 +1788,8 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
                 <p className="text-sm text-gray-600">Investor-ready plan with financials, strategy, and a roadmap built on this competitor data.</p>
               </div>
               <div className="flex gap-2 flex-shrink-0">
-                <a href="/generate?tier=pro" className="px-6 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition text-sm">Pro Plan - $49</a>
-                <a href="/generate?tier=starter" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition text-sm">Starter - $29</a>
+                <a href="/generate?tier=pro" className="px-6 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition text-sm">Pro Plan - $147</a>
+                <a href="/generate?tier=starter" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition text-sm">Starter - $97</a>
               </div>
             </div>
           </div>
@@ -1800,7 +1800,7 @@ const ReportPreview = ({ data, onDownloadPDF }: { data: ReportData; onDownloadPD
               <p className="text-xs font-bold text-accent-600 uppercase mb-1">Best Value</p>
               <h4 className="font-bold text-gray-900 text-sm mb-1">Launch Pack Bundle</h4>
               <p className="text-xs text-gray-500">Plan + website + pitch deck</p>
-              <p className="text-sm font-extrabold text-accent-600 mt-2">$199</p>
+              <p className="text-sm font-extrabold text-accent-600 mt-2">$297</p>
             </a>
             <a href="/build-website" className="p-4 rounded-xl border border-accent-200 bg-accent-50/50 hover:border-accent-400 transition block">
               <p className="text-xs font-bold text-accent-600 uppercase mb-1">Build</p>

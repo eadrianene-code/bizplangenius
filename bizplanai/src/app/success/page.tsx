@@ -1111,7 +1111,7 @@ export default function SuccessPage() {
                 <p className="text-xs font-semibold text-brand-600 uppercase tracking-wider mb-2">Exclusive offer for plan buyers</p>
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Know exactly who you are up against. $10 off Competitor Spy.</h3>
                 <p className="text-gray-600 mb-4">
-                  Your plan is ready. Now see 10 to 15 real competitors ranked, priced, and broken down by vulnerability, with a 90-day tactical roadmap. Normally $19, $9 for you as a plan buyer.
+                  Your plan is ready. Now see 10 to 15 real competitors ranked, priced, and broken down by vulnerability, with a 90-day tactical roadmap. Normally $97, $87 for you as a plan buyer.
                 </p>
                 <div className="flex flex-wrap items-center gap-3">
                   <a
@@ -1166,7 +1166,7 @@ export default function SuccessPage() {
             <a href="/bundles" className="p-4 rounded-xl border border-brand-200 bg-brand-50 hover:border-brand-400 transition block text-center">
               <p className="text-xs font-bold text-brand-600 uppercase mb-1">Save</p>
               <p className="font-bold text-gray-900 text-sm">Bundles</p>
-              <p className="text-sm font-extrabold text-brand-600 mt-1">From $59</p>
+              <p className="text-sm font-extrabold text-brand-600 mt-1">From $197</p>
             </a>
           </div>
         </div>

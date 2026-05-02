@@ -1,18 +1,18 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Competitor Analysis Tool - Find Competitor Weaknesses for $19 | BizPlan Genius',
+  title: 'Competitor Analysis Tool - Find Competitor Weaknesses for $97 | BizPlan Genius',
   description:
-    'Get 10-15 real competitors analyzed with pricing, SWOT analysis, vulnerability audit, and 90-day tactical roadmap. One-time $19 payment. Full PDF report in minutes.',
+    'Get 10-15 real competitors analyzed with pricing, SWOT analysis, vulnerability audit, and 90-day tactical roadmap. One-time $97 payment. Full PDF report in minutes.',
   keywords:
     'competitor analysis tool, competitive intelligence, SWOT analysis, competitor research, business competitor spy, market analysis, competitor pricing analysis',
   alternates: {
     canonical: '/spy',
   },
   openGraph: {
-    title: 'Competitor Analysis Tool - Real Competitor Data for $19',
+    title: 'Competitor Analysis Tool - Real Competitor Data for $97',
     description:
-      'Get 10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and 90-day action plan. $19 one-time. Full PDF report in minutes.',
+      'Get 10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and 90-day action plan. $97 one-time. Full PDF report in minutes.',
     url: 'https://www.bizplangenius.com/spy',
     siteName: 'BizPlan Genius',
     type: 'website',

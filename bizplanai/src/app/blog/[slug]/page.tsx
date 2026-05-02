@@ -89,7 +89,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               href="/#pricing"
               className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
             >
-              Get Your Plan - From $29
+              Get Your Plan - From $97
             </Link>
           </nav>
         </div>
@@ -162,15 +162,15 @@ export default async function BlogPostPage({ params }: PageProps) {
               {/* Primary CTA */}
               {isCompetitor ? (
                 <div className="mt-16 bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl p-8 text-center text-white">
-                  <h2 className="text-2xl font-bold mb-3">Spy on your competitors for $19</h2>
+                  <h2 className="text-2xl font-bold mb-3">Spy on your competitors for $97</h2>
                   <p className="text-orange-100 mb-6 max-w-lg mx-auto">Get 10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and a 90-day plan to beat them.</p>
                   <Link href="/spy" className="inline-block bg-white text-orange-600 px-8 py-3 rounded-lg font-semibold hover:bg-orange-50 transition-colors">Run Your Competitor Spy Report</Link>
                 </div>
               ) : (
                 <div className="mt-16 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-center text-white">
                   <h2 className="text-2xl font-bold mb-3">Ready to create your business plan?</h2>
-                  <p className="text-blue-100 mb-6 max-w-lg mx-auto">BizPlan Genius researches real competitors and market data for your specific business. Plans from $29.</p>
-                  <Link href="/#pricing" className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">Get Your Plan - From $29</Link>
+                  <p className="text-blue-100 mb-6 max-w-lg mx-auto">BizPlan Genius researches real competitors and market data for your specific business. Plans from $97.</p>
+                  <Link href="/#pricing" className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">Get Your Plan - From $97</Link>
                 </div>
               )}
 
@@ -220,7 +220,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 )}
                 <Link href="/bundles" className="p-3 rounded-xl border border-brand-200 bg-brand-50 hover:border-brand-400 transition text-center">
                   <p className="font-bold text-gray-900 text-sm">Bundles</p>
-                  <p className="text-xs text-brand-600 font-bold">From $59</p>
+                  <p className="text-xs text-brand-600 font-bold">From $197</p>
                 </Link>
                 {!isCompetitor && (
                   <Link href="/free-competitor-check" className="p-3 rounded-xl border border-green-200 bg-green-50 hover:border-green-400 transition text-center">

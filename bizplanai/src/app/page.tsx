@@ -161,7 +161,7 @@ function Header() {
                   <a href="/spy" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
                     <div className="flex items-center justify-between">
                       <div><p className="text-sm font-semibold text-gray-900">Competitor Spy Report</p><p className="text-xs text-gray-500">10-15 real competitors analyzed</p></div>
-                      <span className="text-xs font-bold text-brand-600">$19</span>
+                      <span className="text-xs font-bold text-brand-600">$97</span>
                     </div>
                   </a>
                   <a href="/build-website" className="block px-3 py-2.5 rounded-lg hover:bg-gray-50 transition">
@@ -209,7 +209,7 @@ function Header() {
                   <div className="border-t border-gray-100 mt-1 pt-1">
                     <a href="/bundles" className="block px-3 py-2.5 rounded-lg hover:bg-brand-50 transition">
                       <div className="flex items-center justify-between">
-                        <div><p className="text-sm font-semibold text-brand-600">Bundles: Save up to $68</p><p className="text-xs text-gray-500">Get everything from $59</p></div>
+                        <div><p className="text-sm font-semibold text-brand-600">Bundles: Save up to $182</p><p className="text-xs text-gray-500">Get everything from $197</p></div>
                       </div>
                     </a>
                     <a href="/monitoring" className="block px-3 py-2.5 rounded-lg hover:bg-accent-50 transition">
@@ -226,7 +226,7 @@ function Header() {
           <a href="/products" className="text-sm text-gray-600 hover:text-brand-600 transition">All Products</a>
           <a href="/blog" className="text-sm text-gray-600 hover:text-brand-600 transition">Blog</a>
           <a href="/generate" className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-md shadow-brand-600/20">
-            Generate My Plan - $29
+            Generate My Plan - $97
           </a>
         </nav>
         <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2">
@@ -245,19 +245,19 @@ function Header() {
           <a href="/launch-checklist" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Launch Checklist</a>
           <div className="border-t border-gray-100 my-2" />
           <p className="text-xs font-bold text-gray-400 uppercase tracking-wider px-2">Products</p>
-          <a href="/spy" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Competitor Spy: $19</a>
+          <a href="/spy" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Competitor Spy: $97</a>
           <a href="/build-website" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Website Builder: $99</a>
           <a href="/pitch-deck" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Pitch Deck: $39</a>
           <a href="/social-pack" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Social Pack: $29</a>
           <a href="/brand-kit" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Brand Kit: $29</a>
           <a href="/investor-emails" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Investor Emails: $19</a>
-          <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles: Save up to $68</a>
+          <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles: Save up to $182</a>
           <a href="/monitoring" onClick={() => setMobileOpen(false)} className="block text-accent-600 font-semibold py-2 px-2">Subscriptions: from $9/mo</a>
           <div className="border-t border-gray-100 my-2" />
           <a href="/products" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">All Products</a>
           <a href="/blog" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Blog</a>
           <a href="/generate" className="block w-full text-center px-5 py-2.5 bg-brand-600 text-white font-semibold rounded-lg mt-3">
-            Generate My Plan - $29
+            Generate My Plan - $97
           </a>
         </div>
       )}
@@ -313,8 +313,8 @@ function WhatYouLeaveWith() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-10">
           {[
-            { icon: '🔍', title: 'Competitor Research', desc: '10-15 real competitors analyzed with pricing, SWOT, and vulnerabilities', price: '$19', href: '/spy', color: 'border-brand-200 bg-brand-50/50' },
-            { icon: '📋', title: 'Business Plan', desc: 'Investor-ready PDF with real market data and 3-year financial projections', price: '$29', href: '/generate', color: 'border-brand-200 bg-brand-50/50' },
+            { icon: '🔍', title: 'Competitor Research', desc: '10-15 real competitors analyzed with pricing, SWOT, and vulnerabilities', price: '$97', href: '/spy', color: 'border-brand-200 bg-brand-50/50' },
+            { icon: '📋', title: 'Business Plan', desc: 'Investor-ready PDF with real market data and 3-year financial projections', price: '$147', href: '/generate', color: 'border-brand-200 bg-brand-50/50' },
             { icon: '🌐', title: 'Website That Takes Payments', desc: '6 types (store, restaurant, SaaS...). Multi-page, editable, with payment buttons wired in', price: '$99', href: '/build-website', color: 'border-accent-200 bg-accent-50/50' },
             { icon: '🎨', title: 'Logo & Brand Identity', desc: '3 logo concepts, color palette, fonts, brand voice, and social media bio', price: '$29', href: '/brand-kit', color: 'border-orange-200 bg-orange-50/50' },
             { icon: '📜', title: 'Legal Pages', desc: 'Terms of Service, Privacy Policy, Cookie Policy. GDPR + CCPA compliant', price: '$19', href: '/legal-pages', color: 'border-gray-200 bg-gray-50/50' },
@@ -337,7 +337,7 @@ function WhatYouLeaveWith() {
         {/* The pitch */}
         <div className="bg-gray-900 rounded-2xl p-8 sm:p-10 text-center text-white">
           <p className="text-accent-400 text-sm font-bold uppercase tracking-wider mb-3">Or get everything at once</p>
-          <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Full Business Kit: $349</h3>
+          <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Full Business Kit: $447</h3>
           <p className="text-gray-400 mb-2 max-w-lg mx-auto">
             Plan + website + brand + pitch deck + social pack + competitor research.
             Describe your business once, get everything generated. Launch this week.
@@ -345,7 +345,7 @@ function WhatYouLeaveWith() {
           <p className="text-green-400 text-sm font-bold mb-6">You save $25+ vs buying separately</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a href="/bundles" className="px-8 py-3 bg-white text-gray-900 font-bold rounded-xl hover:bg-gray-100 transition">
-              See All Bundles: From $59
+              See All Bundles: From $197
             </a>
             <a href="/products" className="px-8 py-3 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-gray-400 hover:text-white transition">
               View All Products
@@ -437,7 +437,7 @@ function JourneyPipeline() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a href="/generate" className="px-8 py-4 bg-brand-500 text-white font-bold rounded-xl hover:bg-brand-600 transition shadow-lg text-lg">
-              Start with a Business Plan - $29
+              Start with a Business Plan - $97
             </a>
             <a href="/free-competitor-check" className="px-8 py-4 border border-gray-600 text-gray-300 font-semibold rounded-xl hover:border-gray-400 hover:text-white transition text-lg">
               Or Try Free First
@@ -681,7 +681,7 @@ function Pricing() {
             <div className="text-center">
               <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-2">Pro</p>
               <div className="flex items-baseline justify-center gap-2 mb-2">
-                <span className="text-5xl font-extrabold">$49</span>
+                <span className="text-5xl font-extrabold">$147</span>
                 <span className="text-gray-500 line-through text-lg">$149</span>
               </div>
               <p className="text-sm text-gray-500 mb-6">One-time payment</p>
@@ -869,7 +869,7 @@ function MoreTools() {
         </div>
         <div className="text-center mt-6">
           <a href="/bundles" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
-            Save with bundles: from $59
+            Save with bundles: from $197
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
         </div>
@@ -1010,7 +1010,7 @@ function Footer() {
             rel="noopener noreferrer"
           >
             <img
-              alt="Competitor Spy - Know exactly how to beat your competitors for $19 | Product Hunt"
+              alt="Competitor Spy - Know exactly how to beat your competitors for $97 | Product Hunt"
               width={200}
               height={43}
               src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1122669&theme=light&t=1776151861733"

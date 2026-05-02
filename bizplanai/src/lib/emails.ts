@@ -62,7 +62,7 @@ export function abandonedCheckoutEmail(businessName: string): { subject: string;
 // Email 2 of 3 - sent 24 hours after abandonment. Objection-handler: compare to alternatives.
 export function abandonedCheckoutEmail2(businessName: string): { subject: string; html: string } {
   return {
-    subject: `${businessName}: $49 vs $3,000 (here's what you're actually comparing)`,
+    subject: `${businessName}: $147 vs $3,000 (here's what you're actually comparing)`,
     html: `
 <!DOCTYPE html>
 <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"></head>
@@ -73,7 +73,7 @@ export function abandonedCheckoutEmail2(businessName: string): { subject: string
 
   <h2 style="font-size: 22px; color: #1a1a2e;">Thought about ${businessName} overnight?</h2>
 
-  <p>Most founders stall on checkout because they're unsure if our \$29-\$49 plan is "real enough." Fair question. Here's the honest comparison:</p>
+  <p>Most founders stall on checkout because they're unsure if our \$97-\$147 plan is "real enough." Fair question. Here's the honest comparison:</p>
 
   <table style="width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px;">
     <tr style="background: #f8fafc;">
@@ -98,7 +98,7 @@ export function abandonedCheckoutEmail2(businessName: string): { subject: string
     </tr>
     <tr style="background: #e0f2fe;">
       <td style="padding: 12px; border: 1px solid #60a5fa; font-weight: bold;">BizPlan Genius Pro + Website</td>
-      <td style="padding: 12px; border: 1px solid #60a5fa; font-weight: bold;">\$148</td>
+      <td style="padding: 12px; border: 1px solid #60a5fa; font-weight: bold;">\$246</td>
       <td style="padding: 12px; border: 1px solid #60a5fa; font-weight: bold;">Under 1 hour</td>
     </tr>
   </table>
@@ -107,7 +107,7 @@ export function abandonedCheckoutEmail2(businessName: string): { subject: string
 
   <div style="text-align: center; margin: 28px 0;">
     <a href="https://www.bizplangenius.com/generate?tier=pro" style="display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-weight: bold; font-size: 16px;">
-      Get ${businessName} Plan Pro - \$49
+      Get ${businessName} Plan Pro - \$147
     </a>
   </div>
 
@@ -189,11 +189,11 @@ export function welcomeEmail1(): { subject: string; html: string } {
     </p>
   </div>
 
-  <p>When you're ready to get serious, our business plan starts at <strong>$29</strong> and includes real competitor research, financial projections, and an investor-ready PDF.</p>
+  <p>When you're ready to get serious, our business plan starts at <strong>$97</strong> and includes real competitor research, financial projections, and an investor-ready PDF.</p>
 
   <div style="text-align: center; margin: 24px 0;">
     <a href="https://www.bizplangenius.com/generate" style="display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 12px 28px; border-radius: 10px; font-weight: bold;">
-      Generate My Business Plan - $29
+      Generate My Business Plan - $97
     </a>
   </div>
 
@@ -221,8 +221,8 @@ export function welcomeEmail2(): { subject: string; html: string } {
   <p>BizPlan Genius isn't just a business plan tool. You describe your business once, and our AI builds <strong>everything you need to launch</strong>:</p>
 
   <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
-    <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Competitor Research</td><td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">$19</td></tr>
-    <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Business Plan</td><td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">$29</td></tr>
+    <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Competitor Research</td><td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">$97</td></tr>
+    <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Business Plan</td><td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">$97</td></tr>
     <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Website (takes payments!)</td><td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">$99</td></tr>
     <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Pitch Deck (12 slides)</td><td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">$39</td></tr>
     <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Brand Kit (logo, colors)</td><td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">$29</td></tr>
@@ -231,7 +231,7 @@ export function welcomeEmail2(): { subject: string; html: string } {
     <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Legal pages (Terms, Privacy)</td><td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">$19</td></tr>
   </table>
 
-  <p>Or get everything in the <strong>Full Business Kit for $349</strong> (save $25+).</p>
+  <p>Or get everything in the <strong>Full Business Kit for $447</strong> (save $50+).</p>
 
   <div style="text-align: center; margin: 24px 0;">
     <a href="https://www.bizplangenius.com/bundles" style="display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 12px 28px; border-radius: 10px; font-weight: bold;">
@@ -271,7 +271,7 @@ export function welcomeEmail3(): { subject: string; html: string } {
 
   <div style="text-align: center; margin: 28px 0;">
     <a href="https://www.bizplangenius.com/generate" style="display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-weight: bold; font-size: 16px;">
-      Start My Business Plan - $29
+      Start My Business Plan - $97
     </a>
   </div>
 

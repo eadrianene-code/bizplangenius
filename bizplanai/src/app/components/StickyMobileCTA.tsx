@@ -35,7 +35,7 @@ export default function StickyMobileCTA() {
           href="/generate"
           className="flex-1 py-3 text-center text-sm font-bold text-white bg-brand-600 rounded-xl"
         >
-          Get Plan - $29
+          Get Plan - $97
         </a>
       </div>
     </div>

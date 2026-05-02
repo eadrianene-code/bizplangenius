@@ -10,17 +10,17 @@ function getStripe() {
 const BUNDLES: Record<string, { name: string; price: number; products: string[] }> = {
   starter: {
     name: 'Starter Bundle',
-    price: 5900, // $59 (save $9 vs $19+$49)
+    price: 19700, // $197 (save $47 vs $97+$147)
     products: ['spy_report', 'business_plan_pro'],
   },
   launch: {
     name: 'Launch Pack',
-    price: 19900, // $199 (save $68 vs $19+$49+$99+$39)
+    price: 29700, // $297 (save $85 vs $97+$147+$99+$39)
     products: ['spy_report', 'business_plan_pro', 'website_landing', 'pitch_deck'],
   },
   full: {
     name: 'Full Business Kit',
-    price: 34900, // $349 (save $25+ vs buying all separately)
+    price: 44700, // $447 (save $50 vs buying all separately)
     products: ['spy_report', 'business_plan_pro', 'website_landing', 'pitch_deck', 'social_media_pack', 'brand_kit'],
   },
 };

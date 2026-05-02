@@ -6,7 +6,7 @@ export const metadata: Metadata = {
     canonical: '/pricing',
   },
   title: 'Pricing - All Products & Subscriptions | BizPlan Genius',
-  description: 'BizPlan Genius pricing: free tools, one-time products from $19, bundles from $59, and monthly subscriptions from $9/mo. Everything you need to launch your business.',
+  description: 'BizPlan Genius pricing: free tools, one-time products from $97, bundles from $197, and monthly subscriptions from $9/mo. Everything you need to launch your business.',
   openGraph: {
     title: 'Pricing - BizPlan Genius',
     description: 'See all products, bundles, and subscription plans. Free tools, one-time purchases, and monthly plans.',
@@ -53,7 +53,7 @@ export default function PricingPage() {
           <nav className="flex gap-4 items-center">
             <Link href="/free-competitor-check" className="text-sm text-gray-600 hover:text-gray-900">Free Tool</Link>
             <Link href="/generate" className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-              Generate My Plan - $29
+              Generate My Plan - $97
             </Link>
           </nav>
         </div>
@@ -153,7 +153,7 @@ export default function PricingPage() {
               { q: 'Are there any hidden fees?', a: 'No. One-time products are a single payment. Subscriptions are clearly priced monthly or yearly. Cancel anytime.' },
               { q: 'Can I upgrade from Starter to Pro?', a: 'Yes. You can purchase the Pro plan at any time to get the additional sections (Operations Plan, Risk Analysis).' },
               { q: 'Do subscriptions auto-renew?', a: 'Yes, but you can cancel anytime through the Stripe billing portal. No cancellation fees.' },
-              { q: 'Which bundle should I choose?', a: 'If you want to launch a business, the Launch Pack ($199) has everything you need: research, plan, website, and pitch deck. It saves $68 vs buying separately.' },
+              { q: 'Which bundle should I choose?', a: 'If you want to launch a business, the Launch Pack ($297) has everything you need: research, plan, website, and pitch deck. It saves $85 vs buying separately.' },
             ].map((faq, i) => (
               <div key={i} className="border rounded-xl p-5">
                 <p className="font-semibold text-gray-900 mb-2">{faq.q}</p>

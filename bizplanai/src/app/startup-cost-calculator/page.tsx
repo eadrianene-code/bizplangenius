@@ -196,7 +196,7 @@ export default function StartupCostCalculator() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">Get a full business plan with detailed financial projections</h3>
               <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
                 <a href="/free-competitor-check" className="px-6 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition">Free Competitor Check</a>
-                <a href="/generate" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">Business Plan - $29</a>
+                <a href="/generate" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">Business Plan - $97</a>
                 <a href="/bundles" className="px-6 py-3 border-2 border-accent-300 text-accent-700 font-semibold rounded-lg hover:bg-accent-50 transition">Bundle & Save</a>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-6 border-t border-gray-100">

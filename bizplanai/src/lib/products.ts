@@ -27,7 +27,7 @@ export interface ProductConfig {
 const COMPETITOR_SPY: ProductConfig = {
   id: 'competitor_spy',
   name: 'Competitor Spy Report',
-  price: 1900,
+  price: 9700,
   description:
     'Competitive analysis with real competitor data, pricing, SWOT, and 90-day roadmap',
   category: 'individual',
@@ -39,7 +39,7 @@ const COMPETITOR_SPY: ProductConfig = {
 const BUSINESS_PLAN_STARTER: ProductConfig = {
   id: 'business_plan_starter',
   name: 'Business Plan Starter',
-  price: 2900,
+  price: 9700,
   description:
     '7-section business plan with real competitor research and financial projections',
   category: 'individual',
@@ -51,7 +51,7 @@ const BUSINESS_PLAN_STARTER: ProductConfig = {
 const BUSINESS_PLAN_PRO: ProductConfig = {
   id: 'business_plan_pro',
   name: 'Business Plan Pro',
-  price: 4900,
+  price: 14700,
   description:
     'Complete business plan with operations, risk analysis, and money-back guarantee',
   category: 'individual',
@@ -206,7 +206,7 @@ const WEBSITE_SAAS: ProductConfig = {
 const STARTER_BUNDLE: ProductConfig = {
   id: 'starter_bundle',
   name: 'Starter Bundle',
-  price: 5900,
+  price: 19700,
   description: 'Spy report + Pro business plan',
   category: 'bundle',
   pageUrl: '/starter-bundle',
@@ -218,7 +218,7 @@ const STARTER_BUNDLE: ProductConfig = {
 const LAUNCH_PACK: ProductConfig = {
   id: 'launch_pack',
   name: 'Launch Pack',
-  price: 19900,
+  price: 29700,
   description: 'Everything to launch',
   category: 'bundle',
   pageUrl: '/launch-pack',
@@ -235,7 +235,7 @@ const LAUNCH_PACK: ProductConfig = {
 const FULL_KIT: ProductConfig = {
   id: 'full_kit',
   name: 'Full Business Kit',
-  price: 34900,
+  price: 44700,
   description: 'Complete business launch package',
   category: 'bundle',
   pageUrl: '/full-kit',

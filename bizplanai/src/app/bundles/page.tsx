@@ -18,8 +18,8 @@ const BUNDLES = [
     savings: 9,
     tagline: 'Research + Plan',
     products: [
-      { name: 'Competitor Spy Report', desc: '10-15 real competitors with SWOT, pricing comparison, vulnerability audit, and 90-day tactical roadmap', solo: '$19' },
-      { name: 'Pro Business Plan', desc: '9-section investor-ready PDF: executive summary, competitor analysis, market sizing, financials, operations, risk analysis', solo: '$49' },
+      { name: 'Competitor Spy Report', desc: '10-15 real competitors with SWOT, pricing comparison, vulnerability audit, and 90-day tactical roadmap', solo: '$97' },
+      { name: 'Pro Business Plan', desc: '9-section investor-ready PDF: executive summary, competitor analysis, market sizing, financials, operations, risk analysis', solo: '$147' },
     ],
     color: 'border-brand-300 bg-brand-50',
     buttonColor: 'bg-brand-600 hover:bg-brand-700',
@@ -33,8 +33,8 @@ const BUNDLES = [
     tagline: 'Research + Plan + Website + Pitch',
     popular: true,
     products: [
-      { name: 'Competitor Spy Report', desc: '10-15 competitors analyzed with real data from the web', solo: '$19' },
-      { name: 'Pro Business Plan', desc: '9-section plan with 3-year financial projections and money-back guarantee', solo: '$49' },
+      { name: 'Competitor Spy Report', desc: '10-15 competitors analyzed with real data from the web', solo: '$97' },
+      { name: 'Pro Business Plan', desc: '9-section plan with 3-year financial projections and money-back guarantee', solo: '$147' },
       { name: 'Website (Landing Page)', desc: 'Multi-page, responsive, editable website with full source code download', solo: '$99' },
       { name: 'Investor Pitch Deck', desc: '12 slides with speaker notes: problem, solution, market, financials, the ask', solo: '$39' },
     ],
@@ -49,8 +49,8 @@ const BUNDLES = [
     savings: 25,
     tagline: 'Everything you need to launch',
     products: [
-      { name: 'Competitor Spy Report', desc: '10-15 competitors, SWOT, pricing, vulnerability audit, 90-day roadmap', solo: '$19' },
-      { name: 'Pro Business Plan', desc: '9-section investor-ready PDF with operations and risk analysis', solo: '$49' },
+      { name: 'Competitor Spy Report', desc: '10-15 competitors, SWOT, pricing, vulnerability audit, 90-day roadmap', solo: '$97' },
+      { name: 'Pro Business Plan', desc: '9-section investor-ready PDF with operations and risk analysis', solo: '$147' },
       { name: 'Website', desc: '6 types available (e-commerce, restaurant, SaaS, etc.), multi-page, editable', solo: '$99' },
       { name: 'Investor Pitch Deck', desc: '12 slides with speaker notes for investor meetings', solo: '$39' },
       { name: 'Social Media Pack', desc: '30 days of posts for Twitter, LinkedIn, Instagram, Facebook with hashtags', solo: '$29' },

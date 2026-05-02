@@ -27,7 +27,7 @@ const FAQS = [
   },
   {
     q: 'Do I need a business plan first?',
-    a: 'Yes. The website builder uses your plan data to generate copy, pricing, and positioning that match your brand. You can generate a Business Plan starting at $29, or go straight to the Launch Pack ($199) which bundles the plan and website together.',
+    a: 'Yes. The website builder uses your plan data to generate copy, pricing, and positioning that match your brand. You can generate a Business Plan starting at $97, or go straight to the Launch Pack ($297) which bundles the plan and website together.',
   },
   {
     q: 'Can I edit the website after it is generated?',
@@ -79,10 +79,10 @@ export default function ShowcaseContent() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-4">
               <a href="/generate" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">
-                Generate My Business Plan - $29
+                Generate My Business Plan - $97
               </a>
               <a href="/bundles" className="px-8 py-4 border-2 border-gray-200 text-gray-700 font-semibold rounded-xl hover:border-brand-300 hover:text-brand-600 transition text-lg">
-                Plan + Website Bundle - $199
+                Plan + Website Bundle - $297
               </a>
             </div>
             <p className="text-sm text-gray-500">One hour. One flow. One brand. From idea to launched website.</p>
@@ -185,10 +185,10 @@ export default function ShowcaseContent() {
         <section className="py-16 px-4 bg-brand-600">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Stop starting over.</h2>
-            <p className="text-lg text-brand-50 mb-8">One flow. Plan to live website. $199 gets you both.</p>
+            <p className="text-lg text-brand-50 mb-8">One flow. Plan to live website. $297 gets you both.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="/bundles" className="px-8 py-4 bg-white text-brand-700 font-bold rounded-xl hover:bg-gray-50 transition shadow-lg text-lg">
-                Get the Launch Pack - $199
+                Get the Launch Pack - $297
               </a>
               <a href="/generate" className="px-8 py-4 border-2 border-brand-300 text-white font-semibold rounded-xl hover:bg-brand-700 transition text-lg">
                 Start With Just the Plan - $29

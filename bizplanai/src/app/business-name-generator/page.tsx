@@ -180,7 +180,7 @@ export default function BusinessNameGenerator() {
                   Free Competitor Check
                 </a>
                 <a href="/generate" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">
-                  Business Plan - $29
+                  Business Plan - $97
                 </a>
                 <a href="/bundles" className="px-6 py-3 border-2 border-accent-300 text-accent-700 font-semibold rounded-lg hover:bg-accent-50 transition">
                   Bundle & Save

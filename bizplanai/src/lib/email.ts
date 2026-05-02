@@ -98,7 +98,7 @@ export async function sendPlanDeliveryEmail({
 
               <!-- Spy cross-sell -->
               <div style="background-color:#f5f3ff;border-radius:8px;padding:20px;margin:0 0 24px;">
-                <h3 style="margin:0 0 8px;color:#5b21b6;font-size:16px;">Go deeper with Competitor Spy ($19)</h3>
+                <h3 style="margin:0 0 8px;color:#5b21b6;font-size:16px;">Go deeper with Competitor Spy ($97)</h3>
                 <p style="margin:0 0 12px;color:#6d28d9;font-size:14px;line-height:1.6;">
                   Get a detailed analysis of 10-15 real competitors with SWOT breakdowns, pricing intel, vulnerability audits, and a 90-day tactical roadmap.
                 </p>

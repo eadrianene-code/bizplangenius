@@ -102,10 +102,10 @@ export default function AffiliatesPage() {
             <h3 className="font-bold text-gray-900 mb-4 text-center">What you could earn</h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
               {[
-                { product: 'Spy Report ($19)', commission: '$3.80' },
-                { product: 'Pro Plan ($49)', commission: '$9.80' },
-                { product: 'Launch Pack ($199)', commission: '$39.80' },
-                { product: 'Full Kit ($349)', commission: '$69.80' },
+                { product: 'Spy Report ($97)', commission: '$19.40' },
+                { product: 'Pro Plan ($147)', commission: '$29.40' },
+                { product: 'Launch Pack ($297)', commission: '$59.40' },
+                { product: 'Full Kit ($447)', commission: '$89.40' },
               ].map((p, i) => (
                 <div key={i} className="p-4 bg-gray-50 rounded-xl">
                   <p className="text-xs text-gray-500 mb-1">{p.product}</p>

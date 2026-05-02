@@ -71,13 +71,13 @@ export default function AboutPage() {
           <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4">The Competitor Spy tool</h2>
 
           <p className="text-gray-700 leading-relaxed mb-6">
-            I also built a standalone competitive analysis tool for $19. You tell it your business or idea,
+            I also built a standalone competitive analysis tool for $97. You tell it your business or idea,
             and it finds 10-15 real competitors, analyzes their pricing, runs a SWOT analysis, identifies
             their weak spots, and gives you a 90-day plan to beat them.
           </p>
 
           <p className="text-gray-700 leading-relaxed mb-6">
-            Most competitor analysis tools charge $99+/month as a subscription. This is $19, one time, and
+            Most competitor analysis tools charge $99+/month as a subscription. This is $97, one time, and
             you get a PDF you own forever.
           </p>
 
@@ -85,13 +85,13 @@ export default function AboutPage() {
 
           <p className="text-gray-700 leading-relaxed mb-6">
             If you're not happy with your business plan or spy report, I'll refund you. No questions asked.
-            I'd rather lose $49 than have someone feel like they wasted their money.
+            I'd rather lose $147 than have someone feel like they wasted their money.
           </p>
 
           <div className="mt-12 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-center text-white">
             <h2 className="text-2xl font-bold mb-3">Ready to try it?</h2>
             <p className="text-blue-100 mb-6">
-              Business plans from $29. Competitor reports for $19. Real data, not AI filler.
+              Business plans from $97. Competitor reports for $97. Real data, not AI filler.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a

@@ -11,15 +11,15 @@ PRODUCTS:
 - Free Competitor Check ($0): Find 3 real competitors instantly at /free-competitor-check
 - Free Name Generator ($0): 10 business name ideas at /business-name-generator
 - Free Cost Calculator ($0): Startup cost estimate at /startup-cost-calculator
-- Competitor Spy Report ($19): 10-15 competitors analyzed with SWOT at /spy
+- Competitor Spy Report ($97): 10-15 competitors analyzed with SWOT at /spy
 - Investor Email Templates ($19): 10 fundraising emails at /investor-emails
-- Business Plan Starter ($29): 7-section plan with real data at /generate
-- Business Plan Pro ($49): Full plan + operations + risk + guarantee at /generate
+- Business Plan Starter ($97): 7-section plan with real data at /generate
+- Business Plan Pro ($147): Full plan + operations + risk + guarantee at /generate
 - Social Media Pack ($29): 30 days of posts at /social-pack
 - Logo & Brand Kit ($29): Logo, colors, voice at /brand-kit
 - Pitch Deck ($39): 12 investor slides at /pitch-deck
 - Website Builder ($99-$199): Custom website at /build-website
-- Bundles from $59 at /bundles
+- Bundles from $197 at /bundles
 - Subscriptions: Competitor Monitoring $15/mo, Social Pack $19/mo, Hosting $19/mo at /monitoring
 
 KEY FACTS:

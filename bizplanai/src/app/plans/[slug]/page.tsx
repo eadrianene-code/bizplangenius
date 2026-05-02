@@ -41,7 +41,7 @@ export default async function IndustryPage({ params }: PageProps) {
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="text-xl font-bold text-gray-900">BizPlan Genius</Link>
           <Link href={`/generate?tier=pro&industry=${encodeURIComponent(data.industry)}`} className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-            Generate {data.name} Plan - $29
+            Generate {data.name} Plan - $97
           </Link>
         </div>
       </header>
@@ -53,7 +53,7 @@ export default async function IndustryPage({ params }: PageProps) {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">{data.heroText}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href={`/generate?tier=pro&industry=${encodeURIComponent(data.industry)}`} className="px-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition">
-              Generate My {data.name} Plan - $29
+              Generate My {data.name} Plan - $97
             </Link>
             <Link href="/free-competitor-check" className="px-8 py-3 border-2 border-gray-200 text-gray-700 font-semibold rounded-lg hover:border-blue-300 transition">
               Free Competitor Check
@@ -110,7 +110,7 @@ export default async function IndustryPage({ params }: PageProps) {
             ))}
             <div className="border rounded-xl p-5">
               <p className="font-semibold text-gray-900 mb-2">How much does it cost?</p>
-              <p className="text-sm text-gray-600">Starter $29, Pro $49 (includes operations, risk analysis, money-back guarantee). One-time payment.</p>
+              <p className="text-sm text-gray-600">Starter $97, Pro $147 (includes operations, risk analysis, money-back guarantee). One-time payment.</p>
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default async function IndustryPage({ params }: PageProps) {
           <h2 className="text-2xl font-bold mb-3">Ready to create your {data.name.toLowerCase()} business plan?</h2>
           <p className="text-blue-100 mb-6">Real competitor data. Real financial projections. Ready in minutes.</p>
           <Link href={`/generate?tier=pro&industry=${encodeURIComponent(data.industry)}`} className="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-blue-50 transition">
-            Generate My Plan - $29
+            Generate My Plan - $97
           </Link>
         </div>
 

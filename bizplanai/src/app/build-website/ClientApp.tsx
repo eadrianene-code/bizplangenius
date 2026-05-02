@@ -289,7 +289,7 @@ function BuildWebsiteInner() {
             <p className="text-gray-600 mb-6">You need a business plan first. The AI uses your plan data to create a website tailored to your specific business.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a href="/generate" className="px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
-                Generate a Business Plan - $29
+                Generate a Business Plan - $97
               </a>
               <a href="/bundles" className="px-8 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">
                 Get Plan + Website Bundle

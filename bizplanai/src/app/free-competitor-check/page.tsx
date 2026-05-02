@@ -205,13 +205,13 @@ export default function FreeCompetitorCheck() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <a href="/spy" className="inline-block px-8 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">
-                  Full Spy Report - $19
+                  Full Spy Report - $97
                 </a>
                 <a href="/generate" className="inline-block px-8 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">
-                  Business Plan - $29
+                  Business Plan - $97
                 </a>
                 <a href="/bundles" className="inline-block px-8 py-3 border-2 border-accent-300 text-accent-700 font-semibold rounded-lg hover:bg-accent-50 transition">
-                  Bundle & Save - $59
+                  Bundle & Save - $197
                 </a>
               </div>
             </div>

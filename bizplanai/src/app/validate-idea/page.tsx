@@ -240,7 +240,7 @@ export default function ValidateIdeaPage() {
                   Free Competitor Check
                 </a>
                 <a href="/generate" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">
-                  Business Plan - $29
+                  Business Plan - $97
                 </a>
                 <a href="/bundles" className="px-6 py-3 border-2 border-accent-300 text-accent-700 font-semibold rounded-lg hover:bg-accent-50 transition">
                   Bundle & Save
@@ -249,7 +249,7 @@ export default function ValidateIdeaPage() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-6 border-t border-gray-100">
                 <a href="/spy" className="p-3 rounded-lg hover:bg-gray-50 transition text-center">
                   <p className="font-bold text-gray-900 text-sm">Spy Report</p>
-                  <p className="text-xs text-brand-600 font-bold">$19</p>
+                  <p className="text-xs text-brand-600 font-bold">$97</p>
                 </a>
                 <a href="/build-website" className="p-3 rounded-lg hover:bg-gray-50 transition text-center">
                   <p className="font-bold text-gray-900 text-sm">Website</p>

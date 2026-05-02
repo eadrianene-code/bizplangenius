@@ -250,7 +250,7 @@ function DashboardInner() {
                 <p className="font-semibold text-amber-900 text-sm">Unlock all products with a business plan</p>
                 <p className="text-xs text-amber-700 mt-1">Website Builder, Pitch Deck, Social Pack, Brand Kit, and Investor Emails all use your business plan data to generate personalized results.</p>
                 <a href="/generate" className="inline-block mt-3 px-4 py-2 bg-amber-600 text-white text-sm font-bold rounded-lg hover:bg-amber-700 transition">
-                  Generate a Business Plan - From $29
+                  Generate a Business Plan - From $97
                 </a>
               </div>
             </div>
@@ -363,7 +363,7 @@ function DashboardInner() {
                 Free Competitor Check
               </a>
               <a href="/spy" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">
-                Spy Report: $19
+                Spy Report: $97
               </a>
             </div>
           </div>

@@ -238,7 +238,7 @@ function GeneratePageInner() {
             >
               <div className="flex items-baseline justify-between mb-1">
                 <span className="font-bold text-lg">Starter</span>
-                <span className="text-2xl font-extrabold">$29</span>
+                <span className="text-2xl font-extrabold">$97</span>
               </div>
               <p className="text-xs text-gray-500">7-section business plan with real market research</p>
             </button>
@@ -254,7 +254,7 @@ function GeneratePageInner() {
               <div className="absolute -top-2.5 right-3 px-2 py-0.5 bg-brand-600 text-white text-[10px] font-bold rounded-full uppercase">Best Value</div>
               <div className="flex items-baseline justify-between mb-1">
                 <span className="font-bold text-lg">Pro</span>
-                <span className="text-2xl font-extrabold">$49</span>
+                <span className="text-2xl font-extrabold">$147</span>
               </div>
               <p className="text-xs text-gray-500">Full plan + Operations, Risk Analysis & Money-Back Guarantee</p>
             </button>

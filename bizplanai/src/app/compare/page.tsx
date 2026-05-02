@@ -4,7 +4,7 @@ const COMPETITORS = [
   {
     name: 'BizPlan Genius',
     highlight: true,
-    price: 'From $29',
+    price: 'From $97',
     time: '3-8 minutes',
     data: 'Real (live web search)',
     competitors: '5-15 real competitors',
@@ -84,7 +84,7 @@ export default function ComparePage() {
           <nav className="flex gap-4 items-center">
             <Link href="/free-competitor-check" className="text-sm text-gray-600 hover:text-gray-900">Free Tool</Link>
             <Link href="/generate" className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-              Get Your Plan - $29
+              Get Your Plan - $97
             </Link>
           </nav>
         </div>
