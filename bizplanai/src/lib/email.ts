@@ -246,3 +246,82 @@ export async function sendSpyDeliveryEmail({
     console.error('Failed to send spy delivery email:', err);
   }
 }
+
+/* ------------------------------------------------------------------ */
+/*  Abandoned cart recovery email                                      */
+/* ------------------------------------------------------------------ */
+
+interface AbandonedCartParams {
+  to: string;
+  productName: string;
+  productUrl: string;
+  productPrice: number; // in cents
+}
+
+export async function sendAbandonedCartEmail({
+  to,
+  productName,
+  productUrl,
+  productPrice,
+}: AbandonedCartParams) {
+  if (!to || !process.env.RESEND_API_KEY) return;
+
+  const priceUsd = (productPrice / 100).toFixed(0);
+  const discountedUsd = Math.max(0, (productPrice - 3000) / 100).toFixed(0);
+
+  try {
+    const resend = await getResend();
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to,
+      replyTo: REPLY_TO,
+      subject: `Your ${productName} is one click away (and here is $30 off)`,
+      html: `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background-color:#f8fafc;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f8fafc;padding:40px 20px;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+        <tr><td style="background: linear-gradient(135deg, #1e40af, #3b82f6); padding: 28px 40px; text-align: center;">
+          <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;">BizPlan Genius</h1>
+        </td></tr>
+        <tr><td style="padding:40px;">
+          <h2 style="margin:0 0 16px;color:#1e293b;font-size:22px;line-height:1.3;">You were a click away from your ${productName}.</h2>
+          <p style="color:#475569;font-size:16px;line-height:1.6;margin:0 0 20px;">
+            Something pulled you away. Happens. The form data is still there, and so are the real competitor names, market data, and projections waiting to be generated.
+          </p>
+          <p style="color:#475569;font-size:16px;line-height:1.6;margin:0 0 24px;">
+            To make it easier, here is a one-time discount: <strong>$30 off</strong> with code <strong style="background:#fef3c7;padding:2px 8px;border-radius:4px;">SAMPLE10</strong> at checkout. That brings your total to <strong>$${discountedUsd}</strong> instead of $${priceUsd}.
+          </p>
+          <div style="text-align:center;margin:32px 0;">
+            <a href="${productUrl}?coupon=SAMPLE10" style="display:inline-block;background:#2563eb;color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:10px;font-weight:bold;font-size:16px;">
+              Finish My ${productName} - $${discountedUsd}
+            </a>
+          </div>
+          <p style="color:#94a3b8;font-size:14px;line-height:1.6;margin:24px 0 0;">
+            Code expires in 48 hours. One-time use. No subscription, ever.
+          </p>
+          <hr style="border:none;border-top:1px solid #e2e8f0;margin:32px 0;">
+          <p style="color:#64748b;font-size:14px;line-height:1.6;margin:0;">
+            Why founders pick us over consultants and ChatGPT: real competitor research from live web data, not made-up competitors. 3-year financial projections grounded in actual industry benchmarks. PDF in 10 minutes, not 4 weeks. <a href="https://www.bizplangenius.com/methodology" style="color:#2563eb;">See our methodology &rarr;</a>
+          </p>
+        </td></tr>
+        <tr><td style="background-color:#f1f5f9;padding:20px 40px;text-align:center;">
+          <p style="margin:0;color:#94a3b8;font-size:13px;">
+            BizPlan Genius &middot; <a href="https://www.bizplangenius.com" style="color:#64748b;text-decoration:none;">bizplangenius.com</a>
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>
+      `,
+    });
+    console.log(`Abandoned cart email sent to ${to} for ${productName}`);
+  } catch (err) {
+    console.error('Failed to send abandoned cart email:', err);
+  }
+}
