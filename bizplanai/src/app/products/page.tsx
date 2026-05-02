@@ -273,7 +273,7 @@ function Hero() {
         </h1>
         <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-8 leading-relaxed">
           Handpicked tools to research your market, build your business plan, create your website, and impress investors.
-          All designed to work together. All starting at just $19.
+          All designed to work together. Add-ons from $19, core tools from $97.
         </p>
         <div className="flex gap-3 justify-center flex-wrap">
           <a href="#bundles" className="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl hover:bg-brand-700 transition shadow-lg shadow-brand-600/25 text-lg">

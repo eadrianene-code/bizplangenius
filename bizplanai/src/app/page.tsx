@@ -788,7 +788,7 @@ function SpyCrossSell() {
             <a href="/spy" className="inline-block px-6 py-3 bg-accent-500 text-white font-bold rounded-xl hover:bg-accent-600 transition shadow-lg text-sm">
               See a Sample Report
             </a>
-            <span className="text-gray-500 text-sm">Just $19 per report</span>
+            <span className="text-gray-500 text-sm">Just $97 per report</span>
           </div>
         </div>
         <div className="flex-shrink-0 bg-gray-800 rounded-xl p-5 border border-gray-700 w-full md:w-auto">
