@@ -97,7 +97,7 @@ Most first-time founders are in the first bucket. They need something this week,
 
 Full disclosure: we built [BizPlan Genius](https://www.bizplangenius.com/generate) specifically for the founder in the first bucket. You fill out a short form about your business. Our AI uses live Google Search grounding to research your real competitors, pull actual market data, and build 3-year financial projections based on your industry.
 
-Starter is $29 and includes a complete 7-section plan with PDF download. Pro is $49 and adds operations planning, risk analysis, and a money-back guarantee.
+Starter is $97 and includes a complete 7-section plan with PDF download. Pro is $147 and adds operations planning, risk analysis, and a money-back guarantee.
 
 The whole thing takes about 8 minutes. The output is a 40+ page plan with named competitors, real pricing benchmarks, and projections that a banker can actually evaluate. One-time payment, no subscription.
 
@@ -113,4 +113,4 @@ What you should not do is overpay for a template service, or underpay and submit
 
 Pick the option that matches your actual situation, produce something honest, and move on to actually building the business. The plan is a tool, not the goal.
 
-Ready to get your plan? [Start with BizPlan Genius](https://www.bizplangenius.com/generate) and have a complete, investor-ready business plan in under 10 minutes for $29.
+Ready to get your plan? [Start with BizPlan Genius](https://www.bizplangenius.com/generate) and have a complete, investor-ready business plan in under 10 minutes for $97.

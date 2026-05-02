@@ -84,7 +84,7 @@ That document is worth more than 90% of the "market research" reports people pay
 
 If you cannot spare 30 minutes, or if you want the depth this process cannot give you in that time (full SWOT analysis per competitor, vulnerability audit, a 90-day tactical plan for how to beat them), we built a tool for that.
 
-[Competitor Spy](/spy) runs the same process plus deeper analysis across 10 to 15 competitors and delivers a PDF report in under 3 minutes. It is $19, one-time, with a money-back guarantee. No subscription.
+[Competitor Spy](/spy) runs the same process plus deeper analysis across 10 to 15 competitors and delivers a PDF report in under 3 minutes. It is $97, one-time, with a money-back guarantee. No subscription.
 
 It is the research process above, but done by AI with live web search grounding, in a fraction of the time.
 

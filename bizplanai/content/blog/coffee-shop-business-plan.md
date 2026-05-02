@@ -343,7 +343,7 @@ Writing a full business plan from scratch -with financial models, market researc
 [BizPlan Genius](https://bizplangenius.com) is an AI business plan generator that creates professional, lender-ready business plans in under 10 minutes. For a coffee shop, you simply:
 
 1. Answer 5 quick questions about your location, concept, and target market
-2. Get an instant $49 business plan with sections pre-filled based on industry benchmarks
+2. Get an instant $97 business plan with sections pre-filled based on industry benchmarks
 3. Edit and customize to your story
 4. Export as PDF, ready for banks or investors
 

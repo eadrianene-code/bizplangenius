@@ -89,7 +89,7 @@ Instead of spending weeks researching competitors, market data, and financial be
 
 The difference from ChatGPT or generic templates: BizPlan Genius uses real data, not made-up examples. Your competitive analysis section will have actual restaurant names, actual ratings, and actual price comparisons from your specific market.
 
-[**Generate your restaurant business plan now - $49**](https://bizplangenius.com)
+[**Generate your restaurant business plan now - $147**](https://bizplangenius.com)
 
 ## Frequently Asked Questions
 

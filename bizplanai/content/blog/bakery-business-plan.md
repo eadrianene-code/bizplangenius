@@ -123,7 +123,7 @@ Researching competitors, calculating financial projections, and writing a profes
 
 Describe your bakery concept and location, and it pulls real competitors from your area by name, generates financial projections based on real industry benchmarks, builds a customized marketing strategy, and delivers a professional PDF ready for investors, banks, or your own planning.
 
-[Generate your bakery business plan now -- $49](https://bizplangenius.com)
+[Generate your bakery business plan now -- $147](https://bizplangenius.com)
 
 ## Frequently Asked Questions
 

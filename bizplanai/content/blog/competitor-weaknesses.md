@@ -59,7 +59,7 @@ Reading reviews and checking websites manually works, but it takes time. If you 
 
 That is exactly what we built [Competitor Spy](https://www.bizplangenius.com/spy) to do. You enter your business type and location, and it pulls real competitor data: who they are, what they charge, what their strengths and weaknesses are, where they are vulnerable, and a 90-day plan to exploit those gaps.
 
-It costs $19, takes about 5 minutes, and gives you a level of competitive intelligence that would take days to compile manually.
+It costs $97, takes about 5 minutes, and gives you a level of competitive intelligence that would take days to compile manually.
 
 ## The Bottom Line
 

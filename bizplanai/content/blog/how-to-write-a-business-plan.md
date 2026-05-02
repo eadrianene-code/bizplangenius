@@ -111,4 +111,4 @@ Your business plan isn't a school assignment you submit and forget. It should be
 
 ---
 
-*Need a business plan fast? [BizPlan Genius](https://bizplangenius.com) generates a complete, investor-ready business plan with real competitor research and market data in about 5 minutes. Plans from $29, one-time. No subscription.*
+*Need a business plan fast? [BizPlan Genius](https://bizplangenius.com) generates a complete, investor-ready business plan with real competitor research and market data in about 5 minutes. Plans from $97, one-time. No subscription.*

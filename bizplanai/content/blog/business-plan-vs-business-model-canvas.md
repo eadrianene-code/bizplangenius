@@ -119,7 +119,7 @@ Match the tool to the moment. Canvas for figuring out the business. Full plan fo
 
 We built [BizPlan Genius](https://www.bizplangenius.com/generate) specifically for the moment when you need the full plan fast. You fill out a form with the same kind of information you would put on a canvas, and our AI produces a complete business plan with real competitor research, market data, and 3-year financial projections.
 
-Starter is $29 and gives you a 7-section plan with PDF download. Pro is $49 and adds operations plan, risk analysis, and a money-back guarantee.
+Starter is $97 and gives you a 7-section plan with PDF download. Pro is $147 and adds operations plan, risk analysis, and a money-back guarantee.
 
 The whole process takes about 8 minutes. If you already have a filled-out canvas, generating a matching business plan from it takes almost no additional thinking. The tool does the research and formatting.
 
@@ -133,4 +133,4 @@ The business plan is a funding tool. Use it when a banker, lender, landlord, or 
 
 If you are choosing between the two, you are asking the wrong question. You probably need both, just at different times.
 
-Need the full plan? [Generate yours with BizPlan Genius](https://www.bizplangenius.com/generate) in under 10 minutes for $29.
+Need the full plan? [Generate yours with BizPlan Genius](https://www.bizplangenius.com/generate) in under 10 minutes for $97.

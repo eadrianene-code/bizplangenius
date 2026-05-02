@@ -66,7 +66,7 @@ Product/service gaps - what do they NOT offer? What features are missing? What c
 
 This step takes the longest. For 10-15 competitors, expect to spend 4-8 hours collecting this information manually. That's a full day of work, but the insights are worth it.
 
-Or you can use a tool. [BizPlan Genius Competitor Spy](https://bizplangenius.com/spy) does this research automatically for $19 and delivers a full report in under 5 minutes. It pulls real competitor names, pricing, reviews, and builds the analysis for you.
+Or you can use a tool. [BizPlan Genius Competitor Spy](https://bizplangenius.com/spy) does this research automatically for $97 and delivers a full report in under 5 minutes. It pulls real competitor names, pricing, reviews, and builds the analysis for you.
 
 ## Step 3: Run a SWOT analysis
 
@@ -103,7 +103,7 @@ A competitor might have a terrible mobile experience, but if their customers nev
 Real vulnerabilities look like this:
 
 - "Their customers constantly complain about slow support, and they haven't hired more people in 2 years. We can offer same-day response."
-- "They charge $99/month for a tool most customers use once. We can charge $19 one-time."
+- "They charge $99/month for a tool most customers use once. We can charge $97 one-time."
 - "They have zero social media presence. Their audience is on Instagram. We can own that channel."
 
 ## Step 6: Build your 90-day plan
@@ -138,7 +138,7 @@ You can do all of this manually - it just takes time. Here are some options:
 
 **Paid subscriptions:** SEMrush ($129/mo), Ahrefs ($99/mo), Crayon ($competitive intelligence platform). These are powerful but expensive if you just need a one-time analysis.
 
-**One-time reports:** [BizPlan Genius Competitor Spy](https://bizplangenius.com/spy) generates a full competitive analysis with 10-15 real competitors, SWOT analysis, pricing comparison, vulnerability audit, and 90-day tactical roadmap for $19. No subscription. You get a PDF you can keep forever and share with your team or investors.
+**One-time reports:** [BizPlan Genius Competitor Spy](https://bizplangenius.com/spy) generates a full competitive analysis with 10-15 real competitors, SWOT analysis, pricing comparison, vulnerability audit, and 90-day tactical roadmap for $97. No subscription. You get a PDF you can keep forever and share with your team or investors.
 
 ## When to do a competitive analysis
 

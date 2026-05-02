@@ -135,7 +135,7 @@ You describe your food truck concept and target location, and it researches real
 
 The difference from generic templates: BizPlan Genius uses real data from your specific market. Your competitive analysis will include actual food truck and restaurant names, ratings, and pricing - not placeholder text that you have to fill in yourself.
 
-[Generate your food truck business plan now - $49](https://bizplangenius.com)
+[Generate your food truck business plan now - $97](https://bizplangenius.com)
 
 ## Frequently Asked Questions
 

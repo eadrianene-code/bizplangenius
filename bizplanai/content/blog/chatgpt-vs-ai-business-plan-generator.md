@@ -87,4 +87,4 @@ Your time is worth something. Especially when you're starting a business.
 
 ---
 
-*[BizPlan Genius](https://bizplangenius.com) generates complete business plans with real competitor research and market data in about 5 minutes. Plans from $29, one-time payment, professional PDF. No subscription.*
+*[BizPlan Genius](https://bizplangenius.com) generates complete business plans with real competitor research and market data in about 5 minutes. Plans from $97, one-time payment, professional PDF. No subscription.*

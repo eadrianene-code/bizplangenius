@@ -111,7 +111,7 @@ Let's compare the main options you're likely considering:
 
 **Best for:** People who want more structure than templates but don't mind recurring charges.
 
-### BizPlan Genius ($49 one-time payment)
+### BizPlan Genius ($97 one-time payment)
 
 **What you get:** A complete, investor-ready business plan in 15 minutes.
 
@@ -125,7 +125,7 @@ Let's compare the main options you're likely considering:
 - Financial projections grounded in real market benchmarks
 - No subscription -one payment, forever access
 - 15-30 minutes from idea to finished plan
-- **Cost:** $49 one-time payment
+- **Cost:** $97 one-time payment
 
 **How it works:**
 1. You describe your business idea and target market
@@ -144,7 +144,7 @@ Let's compare the main options you're likely considering:
 | **Professional formatting** | Basic | No | Yes | Yes |
 | **Time to complete** | 40-50 hours | 10-15 hours | 20-30 hours | 15-30 min |
 | **Subscription required** | No | No | Yes ($20/mo) | No |
-| **Cost** | Free | Free-$20/mo | $240-300/yr | $49 one-time |
+| **Cost** | Free | Free-$20/mo | $240-300/yr | $97 one-time |
 | **Data accuracy** | You're responsible | Hallucinated | Template-based | Real and verified |
 | **Investor-ready** | No | No | Partially | Yes |
 
@@ -332,7 +332,7 @@ They choose BizPlan Genius because:
 1. **Speed** - 15-30 minutes vs. 40+ hours with templates
 2. **Real data** - Actual market research, not hallucinations
 3. **Professional quality** - Looks like a $2,000 consulting job
-4. **One-time cost** - $49, no monthly charges, no hidden fees
+4. **One-time cost** - $97, no monthly charges, no hidden fees
 5. **Actually AI** - Real AI market research, not ChatGPT word salad
 
 ## The Bottom Line
@@ -341,7 +341,7 @@ You have three choices:
 
 1. **Spend 40+ hours** building a plan from templates, hoping it's good enough
 2. **Spend $20/month forever** on subscription software while you do 75% of the work
-3. **Spend 30 minutes and $49** on a real AI generator that produces investor-ready plans
+3. **Spend 30 minutes and $97** on a real AI generator that produces investor-ready plans
 
 Most successful founders choose option 3.
 
@@ -359,7 +359,7 @@ That's what BizPlan Genius delivers.
 
 Stop spinning your wheels on business planning. Stop paying monthly for software you don't need. Stop crossing your fingers that your ChatGPT-generated plan will impress investors or banks.
 
-In 15 minutes and $49, you can have an investor-ready business plan backed by real market data.
+In 15 minutes and $97, you can have an investor-ready business plan backed by real market data.
 
 [**Get your business plan now →**](https://bizplangenius.com)
 
