@@ -27,7 +27,7 @@ export const metadata: Metadata = {
         url: '/api/og',
         width: 1200,
         height: 630,
-        alt: 'BizPlan Genius - The only AI that writes your plan AND builds your website from it',
+        alt: 'BizPlan Genius - Real research, investor-ready plan, matching website. From $97.',
       },
     ],
   },

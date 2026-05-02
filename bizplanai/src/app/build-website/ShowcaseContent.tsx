@@ -191,7 +191,7 @@ export default function ShowcaseContent() {
                 Get the Launch Pack - $297
               </a>
               <a href="/generate" className="px-8 py-4 border-2 border-brand-300 text-white font-semibold rounded-xl hover:bg-brand-700 transition text-lg">
-                Start With Just the Plan - $29
+                Start With Just the Plan - $97
               </a>
             </div>
           </div>

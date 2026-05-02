@@ -8,7 +8,7 @@ export const runtime = 'edge';
 // If no params, renders the default homepage card.
 
 const DEFAULT_TITLE = 'Your Business Plan Just Built Your Website.';
-const DEFAULT_SUBTITLE = 'The only AI that writes your plan AND builds your website from it. Starts at $29.';
+const DEFAULT_SUBTITLE = 'Real research. Investor-ready plan. Matching website. From $97.';
 
 function truncate(text: string, max: number): string {
   if (text.length <= max) return text;

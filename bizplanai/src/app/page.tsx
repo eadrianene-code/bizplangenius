@@ -489,7 +489,7 @@ function ComparisonBanner() {
             <p className="text-gray-500 mt-1">DIY with templates</p>
           </div>
           <div>
-            <p className="text-3xl font-bold text-accent-500">From $29, 10 min</p>
+            <p className="text-3xl font-bold text-accent-500">From $97, 10 min</p>
             <p className="text-gray-500 mt-1">BizPlan Genius</p>
           </div>
         </div>
@@ -651,8 +651,8 @@ function Pricing() {
             <div className="text-center">
               <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Starter</p>
               <div className="flex items-baseline justify-center gap-2 mb-2">
-                <span className="text-5xl font-extrabold">$29</span>
-                <span className="text-gray-500 line-through text-lg">$99</span>
+                <span className="text-5xl font-extrabold">$97</span>
+                <span className="text-gray-500 line-through text-lg">$197</span>
               </div>
               <p className="text-sm text-gray-500 mb-6">One-time payment</p>
             </div>
@@ -828,13 +828,13 @@ function MoreTools() {
             <p className="text-[10px] font-bold text-brand-600 uppercase mb-1">Research</p>
             <h3 className="font-bold text-gray-900 text-sm mb-1">Competitor Spy</h3>
             <p className="text-xs text-gray-500 mb-2">10-15 competitors analyzed</p>
-            <p className="text-lg font-extrabold text-brand-600">$19</p>
+            <p className="text-lg font-extrabold text-brand-600">$97</p>
           </a>
           <a href="/generate" className="bg-white rounded-xl border-2 border-brand-200 p-4 hover:shadow-md transition block bg-brand-50/30">
             <p className="text-[10px] font-bold text-brand-600 uppercase mb-1">Plan</p>
             <h3 className="font-bold text-gray-900 text-sm mb-1">Business Plan</h3>
             <p className="text-xs text-gray-500 mb-2">Investor-ready with real data</p>
-            <p className="text-lg font-extrabold text-brand-600">$29</p>
+            <p className="text-lg font-extrabold text-brand-600">$97</p>
           </a>
           <a href="/build-website" className="bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition block">
             <p className="text-[10px] font-bold text-accent-600 uppercase mb-1">Build</p>
@@ -890,7 +890,7 @@ function CTA() {
           built from one idea, backed by real data. Start in the next 60 seconds.
         </p>
         <a href="/generate" className="inline-block px-8 py-4 bg-white text-brand-700 font-bold rounded-xl hover:bg-gray-50 transition shadow-lg text-lg">
-          Start Building My Business - From $29
+          Start Building My Business - From $97
         </a>
       </div>
     </section>
