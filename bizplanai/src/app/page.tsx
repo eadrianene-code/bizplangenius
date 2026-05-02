@@ -682,7 +682,7 @@ function Pricing() {
               <p className="text-sm font-semibold text-brand-600 uppercase tracking-wider mb-2">Pro</p>
               <div className="flex items-baseline justify-center gap-2 mb-2">
                 <span className="text-5xl font-extrabold">$147</span>
-                <span className="text-gray-500 line-through text-lg">$149</span>
+                <span className="text-gray-500 line-through text-lg">$297</span>
               </div>
               <p className="text-sm text-gray-500 mb-6">One-time payment</p>
             </div>
