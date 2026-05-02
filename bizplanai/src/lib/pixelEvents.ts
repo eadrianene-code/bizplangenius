@@ -9,7 +9,7 @@ export function trackViewContent(plan: 'starter' | 'pro') {
     window.fbq('track', 'ViewContent', {
       content_name: `BizPlan Genius ${plan === 'starter' ? 'Starter' : 'Pro'} Plan`,
       content_category: 'Business Plan Generator',
-      value: plan === 'starter' ? 29 : 49,
+      value: plan === 'starter' ? 97 : 147,
       currency: 'USD',
     });
   }
@@ -19,7 +19,7 @@ export function trackInitiateCheckout(plan: 'starter' | 'pro') {
   if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
     window.fbq('track', 'InitiateCheckout', {
       content_name: `BizPlan Genius ${plan === 'starter' ? 'Starter' : 'Pro'} Plan`,
-      value: plan === 'starter' ? 29 : 49,
+      value: plan === 'starter' ? 97 : 147,
       currency: 'USD',
       num_items: 1,
     });
@@ -30,7 +30,7 @@ export function trackAddToCart(plan: 'starter' | 'pro') {
   if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
     window.fbq('track', 'AddToCart', {
       content_name: `BizPlan Genius ${plan === 'starter' ? 'Starter' : 'Pro'} Plan`,
-      value: plan === 'starter' ? 29 : 49,
+      value: plan === 'starter' ? 97 : 147,
       currency: 'USD',
       num_items: 1,
     });
@@ -41,7 +41,7 @@ export function trackPurchase(plan: 'starter' | 'pro') {
   if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
     window.fbq('track', 'Purchase', {
       content_name: `BizPlan Genius ${plan === 'starter' ? 'Starter' : 'Pro'} Plan`,
-      value: plan === 'starter' ? 29 : 49,
+      value: plan === 'starter' ? 97 : 147,
       currency: 'USD',
       num_items: 1,
     });

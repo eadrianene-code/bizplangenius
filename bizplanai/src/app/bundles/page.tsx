@@ -13,9 +13,9 @@ const BUNDLES = [
   {
     key: 'starter',
     name: 'Starter Bundle',
-    price: 59,
-    originalPrice: 68,
-    savings: 9,
+    price: 197,
+    originalPrice: 244,
+    savings: 47,
     tagline: 'Research + Plan',
     products: [
       { name: 'Competitor Spy Report', desc: '10-15 real competitors with SWOT, pricing comparison, vulnerability audit, and 90-day tactical roadmap', solo: '$97' },
@@ -27,9 +27,9 @@ const BUNDLES = [
   {
     key: 'launch',
     name: 'Launch Pack',
-    price: 199,
-    originalPrice: 206,
-    savings: 68,
+    price: 297,
+    originalPrice: 382,
+    savings: 85,
     tagline: 'Research + Plan + Website + Pitch',
     popular: true,
     products: [
@@ -44,9 +44,9 @@ const BUNDLES = [
   {
     key: 'full',
     name: 'Full Business Kit',
-    price: 349,
-    originalPrice: 374,
-    savings: 25,
+    price: 447,
+    originalPrice: 497,
+    savings: 50,
     tagline: 'Everything you need to launch',
     products: [
       { name: 'Competitor Spy Report', desc: '10-15 competitors, SWOT, pricing, vulnerability audit, 90-day roadmap', solo: '$97' },

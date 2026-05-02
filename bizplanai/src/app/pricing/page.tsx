@@ -22,20 +22,20 @@ const FREE_TOOLS = [
 ];
 
 const ONE_TIME = [
-  { name: 'Competitor Spy Report', desc: '10-15 real competitors analyzed with SWOT, pricing, and 90-day roadmap', price: 19, href: '/spy', color: 'text-brand-600' },
+  { name: 'Competitor Spy Report', desc: '10-15 real competitors analyzed with SWOT, pricing, and 90-day roadmap', price: 97, href: '/spy', color: 'text-brand-600' },
   { name: 'Investor Email Templates', desc: '10 personalized fundraising emails with subject lines and tips', price: 19, href: '/investor-emails', color: 'text-indigo-600' },
-  { name: 'Business Plan (Starter)', desc: '7-section plan with real competitor data and financial projections', price: 29, href: '/generate?tier=starter', color: 'text-brand-600' },
+  { name: 'Business Plan (Starter)', desc: '7-section plan with real competitor data and financial projections', price: 97, href: '/generate?tier=starter', color: 'text-brand-600' },
   { name: 'Social Media Pack', desc: '30 days of posts for Twitter, LinkedIn, Instagram, and Facebook', price: 29, href: '/social-pack', color: 'text-pink-600' },
   { name: 'Logo & Brand Kit', desc: '3 logo concepts, color palette, typography, and brand voice', price: 29, href: '/brand-kit', color: 'text-orange-600' },
   { name: 'Pitch Deck', desc: '12-slide investor deck with speaker notes', price: 39, href: '/pitch-deck', color: 'text-purple-600' },
-  { name: 'Business Plan (Pro)', desc: 'Full plan + Operations, Risk Analysis, Money-Back Guarantee', price: 49, href: '/generate?tier=pro', color: 'text-brand-600', popular: true },
+  { name: 'Business Plan (Pro)', desc: 'Full plan + Operations, Risk Analysis, Money-Back Guarantee', price: 147, href: '/generate?tier=pro', color: 'text-brand-600', popular: true },
   { name: 'Website Builder', desc: 'Custom website generated from your plan. 6 types available.', price: 99, href: '/build-website', color: 'text-accent-600' },
 ];
 
 const BUNDLES = [
-  { name: 'Starter Bundle', items: 'Spy Report + Pro Business Plan', price: 59, savings: 9, href: '/bundles' },
-  { name: 'Launch Pack', items: 'Spy + Pro Plan + Website + Pitch Deck', price: 199, savings: 68, href: '/bundles', popular: true },
-  { name: 'Full Business Kit', items: 'All 6 core products', price: 349, savings: 25, href: '/bundles' },
+  { name: 'Starter Bundle', items: 'Spy Report + Pro Business Plan', price: 197, savings: 47, href: '/bundles' },
+  { name: 'Launch Pack', items: 'Spy + Pro Plan + Website + Pitch Deck', price: 297, savings: 85, href: '/bundles', popular: true },
+  { name: 'Full Business Kit', items: 'All 6 core products', price: 447, savings: 50, href: '/bundles' },
 ];
 
 const SUBSCRIPTIONS = [

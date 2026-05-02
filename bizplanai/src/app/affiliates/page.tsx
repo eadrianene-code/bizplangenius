@@ -303,12 +303,12 @@ export default function AffiliatesPage() {
             <h3 className="font-bold text-gray-900 mb-3">Your Commission Per Product</h3>
             <div className="space-y-2">
               {[
-                { name: 'Spy Report', price: 19 }, { name: 'Investor Emails', price: 19 },
-                { name: 'Business Plan Starter', price: 29 }, { name: 'Social Pack', price: 29 },
+                { name: 'Spy Report', price: 97 }, { name: 'Investor Emails', price: 19 },
+                { name: 'Business Plan Starter', price: 97 }, { name: 'Social Pack', price: 29 },
                 { name: 'Brand Kit', price: 29 }, { name: 'Pitch Deck', price: 39 },
-                { name: 'Business Plan Pro', price: 49 }, { name: 'Website Builder', price: 99 },
-                { name: 'Starter Bundle', price: 59 }, { name: 'Launch Pack', price: 199 },
-                { name: 'Full Business Kit', price: 349 },
+                { name: 'Business Plan Pro', price: 147 }, { name: 'Website Builder', price: 99 },
+                { name: 'Starter Bundle', price: 197 }, { name: 'Launch Pack', price: 297 },
+                { name: 'Full Business Kit', price: 447 },
               ].map((p, i) => (
                 <div key={i} className="flex items-center justify-between py-1.5 text-sm">
                   <span className="text-gray-700">{p.name} (${p.price})</span>

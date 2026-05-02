@@ -60,7 +60,7 @@ function GeneratePageInner() {
 
   const update = (field: keyof FormData, value: string) => setForm(prev => ({ ...prev, [field]: value }));
 
-  const price = tier === 'starter' ? 29 : 49;
+  const price = tier === 'starter' ? 97 : 147;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

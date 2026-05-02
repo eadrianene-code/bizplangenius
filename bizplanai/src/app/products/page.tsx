@@ -6,8 +6,8 @@ const BUNDLES = [
   {
     id: 'full-kit',
     name: 'Full Business Kit',
-    price: 349,
-    original: 507,
+    price: 447,
+    original: 497,
     description: 'Everything to launch your business',
     items: [
       'Competitor Spy Report',
@@ -23,8 +23,8 @@ const BUNDLES = [
   {
     id: 'launch-pack',
     name: 'Launch Pack',
-    price: 199,
-    original: 307,
+    price: 297,
+    original: 382,
     description: 'Get launched fast',
     items: [
       'Competitor Spy Report',
@@ -36,8 +36,8 @@ const BUNDLES = [
   {
     id: 'starter-bundle',
     name: 'Starter Bundle',
-    price: 59,
-    original: 68,
+    price: 197,
+    original: 244,
     description: 'Start lean',
     items: [
       'Competitor Spy Report',
@@ -51,14 +51,14 @@ const PRODUCTS_BY_CATEGORY = {
     {
       id: 'plan-starter',
       name: 'Business Plan Starter',
-      price: 29,
+      price: 97,
       description: '7-section business plan with competitor analysis, market data, and financial projections. Professional PDF download.',
       features: ['Executive Summary', 'Competitor Analysis', '3-Year Financials', 'Marketing Strategy', 'Professional PDF']
     },
     {
       id: 'plan-pro',
       name: 'Business Plan Pro',
-      price: 49,
+      price: 147,
       description: 'Everything in Starter, plus operations plan, risk analysis, and our 100% money-back guarantee.',
       features: ['Everything in Starter', 'Operations Plan', 'Risk Analysis & Mitigation', 'Priority Generation', 'Money-Back Guarantee']
     }
@@ -67,7 +67,7 @@ const PRODUCTS_BY_CATEGORY = {
     {
       id: 'spy-report',
       name: 'Competitor Spy Report',
-      price: 19,
+      price: 97,
       description: 'Find 10-15 real competitors in your market. Get their pricing, strengths, weaknesses, and a 90-day action plan.',
       features: ['15+ Competitor Profiles', 'Real Pricing Data', 'SWOT Analysis', 'Vulnerability Audit', '90-Day Action Plan']
     }

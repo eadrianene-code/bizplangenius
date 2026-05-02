@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
         product: 'spy_report',
         name: 'Competitor Spy Report',
         description: '10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and 90-day tactical roadmap',
-        price: 19,
+        price: 97,
         url: '/spy',
         recommended: hasPlan, // If they have a plan, spy is the natural next step
       });
@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
         product: 'business_plan_starter',
         name: 'Business Plan (Starter)',
         description: '7-section business plan with real competitor data and market research',
-        price: 29,
+        price: 97,
         url: '/generate?tier=starter',
         recommended: hasSpy, // If they have spy, plan is the natural next step
       });
@@ -127,7 +127,7 @@ export async function POST(req: NextRequest) {
         product: 'business_plan_pro',
         name: 'Business Plan (Pro)',
         description: 'Complete plan with Operations, Risk Analysis, and Money-Back Guarantee',
-        price: 49,
+        price: 147,
         url: '/generate?tier=pro',
         recommended: hasSpy,
       });
@@ -136,7 +136,7 @@ export async function POST(req: NextRequest) {
         product: 'business_plan_pro',
         name: 'Upgrade to Pro Plan',
         description: 'Add Operations Plan, Risk Analysis, and get our Money-Back Guarantee',
-        price: 49,
+        price: 147,
         url: '/generate?tier=pro',
         recommended: true,
       });
