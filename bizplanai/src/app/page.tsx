@@ -270,7 +270,7 @@ function Hero() {
     <section className="pt-14 pb-16 px-4 bg-hero-pattern">
       <div className="max-w-4xl mx-auto text-center">
         <div className="inline-block px-4 py-1.5 bg-accent-50 text-accent-700 text-sm font-medium rounded-full mb-6 border border-accent-200">
-          The only AI that writes your plan AND builds your website from it
+          Real research. Investor-ready plan. Matching website. From $97.
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
           Walk in With an Idea.{' '}
