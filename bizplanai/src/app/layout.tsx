@@ -79,16 +79,16 @@ export default function RootLayout({
               "offers": [
                 {
                   "@type": "Offer",
-                  "name": "Starter Plan",
-                  "price": "29.00",
+                  "name": "Business Plan Starter",
+                  "price": "97.00",
                   "priceCurrency": "USD",
                   "description": "7-section AI business plan with real competitor data and PDF download",
                   "url": "https://www.bizplangenius.com/generate"
                 },
                 {
                   "@type": "Offer",
-                  "name": "Pro Plan",
-                  "price": "49.00",
+                  "name": "Business Plan Pro",
+                  "price": "147.00",
                   "priceCurrency": "USD",
                   "description": "Complete AI business plan with Operations Plan, Risk Analysis, and Money-Back Guarantee",
                   "url": "https://www.bizplangenius.com/generate"
@@ -96,7 +96,7 @@ export default function RootLayout({
                 {
                   "@type": "Offer",
                   "name": "Competitor Spy",
-                  "price": "19.00",
+                  "price": "97.00",
                   "priceCurrency": "USD",
                   "description": "10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and 90-day tactical roadmap",
                   "url": "https://www.bizplangenius.com/spy"
