@@ -16,6 +16,8 @@ export default function GlobalNav() {
           <a href="/products" className="text-sm text-gray-600 hover:text-brand-600 transition font-medium">Products</a>
           <a href="/pricing" className="text-sm text-gray-600 hover:text-brand-600 transition">Pricing</a>
           <a href="/free-competitor-check" className="text-sm text-gray-600 hover:text-brand-600 transition">Free Tools</a>
+          <a href="/sba-loan-business-plan" className="text-sm text-gray-600 hover:text-brand-600 transition">SBA Plans</a>
+          <a href="/e2-visa-business-plan" className="text-sm text-gray-600 hover:text-brand-600 transition">Visa Plans</a>
           <a href="/blog" className="text-sm text-gray-600 hover:text-brand-600 transition">Blog</a>
           <LanguageSelector />
           <a href="/generate" className="px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-700 transition shadow-sm">
@@ -47,6 +49,10 @@ export default function GlobalNav() {
           <a href="/business-name-generator" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-gray-600">Name Generator</a>
           <a href="/startup-cost-calculator" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-gray-600">Cost Calculator</a>
           <a href="/launch-checklist" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-gray-600">Launch Checklist</a>
+          <div className="border-t border-gray-100 my-2" />
+          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider py-1">For Specific Situations</p>
+          <a href="/sba-loan-business-plan" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-gray-600">SBA Loan Business Plan</a>
+          <a href="/e2-visa-business-plan" onClick={() => setMobileOpen(false)} className="block py-2 text-sm text-gray-600">E-2 Visa Business Plan</a>
           <div className="border-t border-gray-100 my-2" />
           <a href="/blog" onClick={() => setMobileOpen(false)} className="block py-2.5 text-gray-700">Blog</a>
           <a href="/dashboard" onClick={() => setMobileOpen(false)} className="block py-2.5 text-gray-700">My Toolkit</a>

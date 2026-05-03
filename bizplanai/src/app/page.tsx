@@ -522,6 +522,59 @@ function Features() {
   );
 }
 
+
+function UseCases() {
+  const cases = [
+    {
+      tag: 'For SBA loan applicants',
+      title: 'SBA Loan Business Plan',
+      desc: 'Lender-ready plan with 5-year financials, use of funds, and DSCR context. Built for SBA 7(a), 504, and microloan applications.',
+      cta: 'See SBA plan details',
+      href: '/sba-loan-business-plan',
+      price: '$147',
+      cardClass: 'block border-2 border-gray-200 rounded-2xl p-8 hover:border-green-300 hover:shadow-lg transition',
+      tagClass: 'inline-block px-3 py-1 bg-green-50 text-green-700 text-xs font-semibold rounded-full mb-4 border border-green-100',
+      ctaClass: 'text-green-600 font-semibold text-sm',
+    },
+    {
+      tag: 'For visa applicants',
+      title: 'E-2, L-1, EB-5 Visa Business Plan',
+      desc: 'USCIS-aligned plan with 5-year financials, treaty country narrative, and job creation forecast. Skip the $2,000 specialty consultant.',
+      cta: 'See visa plan details',
+      href: '/e2-visa-business-plan',
+      price: '$147',
+      cardClass: 'block border-2 border-gray-200 rounded-2xl p-8 hover:border-blue-300 hover:shadow-lg transition',
+      tagClass: 'inline-block px-3 py-1 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full mb-4 border border-blue-100',
+      ctaClass: 'text-blue-600 font-semibold text-sm',
+    },
+  ];
+  return (
+    <section className="py-20 px-4 bg-white">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Built for specific situations</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Applying for an SBA loan or a visa? We have plans built around the exact format your lender or immigration attorney expects to see.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {cases.map((c) => (
+            <a key={c.href} href={c.href} className={c.cardClass}>
+              <div className={c.tagClass}>{c.tag}</div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">{c.title}</h3>
+              <p className="text-sm text-gray-600 mb-4 leading-relaxed">{c.desc}</p>
+              <div className="flex items-center justify-between">
+                <span className={c.ctaClass}>{c.cta} -&gt;</span>
+                <span className="text-gray-900 font-bold">{c.price}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HowItWorks() {
   return (
     <section id="how-it-works" className="py-20 px-4 bg-gray-50">
@@ -1033,6 +1086,7 @@ export default function Home() {
         <SamplePlan />
         <ComparisonBanner />
         <Features />
+        <UseCases />
         <HowItWorks />
         <Pricing />
         <FAQ />
