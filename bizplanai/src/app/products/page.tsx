@@ -6,8 +6,8 @@ const BUNDLES = [
   {
     id: 'full-kit',
     name: 'Full Business Kit',
-    price: 447,
-    original: 497,
+    price: 397,
+    original: 440,
     description: 'Everything to launch your business',
     items: [
       'Competitor Spy Report',

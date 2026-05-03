@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import SamplePdfGate from './components/SamplePdfGate';
-import LiveCounter from './components/LiveCounter';
 
 
 const FEATURES = [
@@ -209,7 +208,7 @@ function Header() {
                   <div className="border-t border-gray-100 mt-1 pt-1">
                     <a href="/bundles" className="block px-3 py-2.5 rounded-lg hover:bg-brand-50 transition">
                       <div className="flex items-center justify-between">
-                        <div><p className="text-sm font-semibold text-brand-600">Bundles: Save up to $182</p><p className="text-xs text-gray-500">Get everything from $197</p></div>
+                        <div><p className="text-sm font-semibold text-brand-600">Bundles: Save up to $85</p><p className="text-xs text-gray-500">Get everything from $197</p></div>
                       </div>
                     </a>
                     <a href="/monitoring" className="block px-3 py-2.5 rounded-lg hover:bg-accent-50 transition">
@@ -251,7 +250,7 @@ function Header() {
           <a href="/social-pack" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Social Pack: $29</a>
           <a href="/brand-kit" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Brand Kit: $29</a>
           <a href="/investor-emails" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">Investor Emails: $19</a>
-          <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles: Save up to $182</a>
+          <a href="/bundles" onClick={() => setMobileOpen(false)} className="block text-brand-600 font-semibold py-2 px-2">Bundles: Save up to $85</a>
           <a href="/monitoring" onClick={() => setMobileOpen(false)} className="block text-accent-600 font-semibold py-2 px-2">Subscriptions: from $9/mo</a>
           <div className="border-t border-gray-100 my-2" />
           <a href="/products" onClick={() => setMobileOpen(false)} className="block text-gray-600 hover:text-brand-600 py-2 px-2">All Products</a>
@@ -337,7 +336,7 @@ function WhatYouLeaveWith() {
         {/* The pitch */}
         <div className="bg-gray-900 rounded-2xl p-8 sm:p-10 text-center text-white">
           <p className="text-accent-400 text-sm font-bold uppercase tracking-wider mb-3">Or get everything at once</p>
-          <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Full Business Kit: $447</h3>
+          <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">Full Business Kit: $397</h3>
           <p className="text-gray-400 mb-2 max-w-lg mx-auto">
             Plan + website + brand + pitch deck + social pack + competitor research.
             Describe your business once, get everything generated. Launch this week.
@@ -1030,7 +1029,6 @@ export default function Home() {
         <Hero />
         <JourneyPipeline />
         <WhatYouLeaveWith />
-        <LiveCounter />
         <TrustBar />
         <SamplePlan />
         <ComparisonBanner />

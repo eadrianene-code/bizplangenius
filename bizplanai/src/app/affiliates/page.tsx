@@ -105,7 +105,7 @@ export default function AffiliatesPage() {
                 { product: 'Spy Report ($97)', commission: '$19.40' },
                 { product: 'Pro Plan ($147)', commission: '$29.40' },
                 { product: 'Launch Pack ($297)', commission: '$59.40' },
-                { product: 'Full Kit ($447)', commission: '$89.40' },
+                { product: 'Full Kit ($397)', commission: '$79.40' },
               ].map((p, i) => (
                 <div key={i} className="p-4 bg-gray-50 rounded-xl">
                   <p className="text-xs text-gray-500 mb-1">{p.product}</p>
@@ -308,7 +308,7 @@ export default function AffiliatesPage() {
                 { name: 'Brand Kit', price: 29 }, { name: 'Pitch Deck', price: 39 },
                 { name: 'Business Plan Pro', price: 147 }, { name: 'Website Builder', price: 99 },
                 { name: 'Starter Bundle', price: 197 }, { name: 'Launch Pack', price: 297 },
-                { name: 'Full Business Kit', price: 447 },
+                { name: 'Full Business Kit', price: 397 },
               ].map((p, i) => (
                 <div key={i} className="flex items-center justify-between py-1.5 text-sm">
                   <span className="text-gray-700">{p.name} (${p.price})</span>

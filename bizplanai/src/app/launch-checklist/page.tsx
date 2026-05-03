@@ -191,7 +191,7 @@ export default function LaunchChecklistPage() {
               <h3 className="text-xl font-bold text-gray-900 mb-3">We can do most of these steps for you</h3>
               <p className="text-gray-600 mb-6 text-sm max-w-lg mx-auto">Business plan, website, brand kit, legal pages, social media, ad copy, pitch deck - all generated from one business description.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
-                <a href="/bundles" className="px-6 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">Full Business Kit - $447</a>
+                <a href="/bundles" className="px-6 py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition shadow-lg shadow-brand-600/25">Full Business Kit - $397</a>
                 <a href="/generate" className="px-6 py-3 border-2 border-brand-300 text-brand-700 font-semibold rounded-lg hover:bg-brand-50 transition">Business Plan - $97</a>
                 <a href="/free-competitor-check" className="px-6 py-3 border-2 border-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition">Free Competitor Check</a>
               </div>

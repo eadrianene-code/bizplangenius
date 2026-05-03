@@ -20,7 +20,7 @@ const BUNDLES: Record<string, { name: string; price: number; products: string[] 
   },
   full: {
     name: 'Full Business Kit',
-    price: 44700, // $447 (save $50 vs buying all separately)
+    price: 39700, // $397 (save $43 vs $97+$147+$99+$39+$29+$29 = $440)
     products: ['spy_report', 'business_plan_pro', 'website_landing', 'pitch_deck', 'social_media_pack', 'brand_kit'],
   },
 };

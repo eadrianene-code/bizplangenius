@@ -231,7 +231,7 @@ export function welcomeEmail2(): { subject: string; html: string } {
     <tr><td style="padding: 8px; border-bottom: 1px solid #eee;">Legal pages (Terms, Privacy)</td><td style="padding: 8px; border-bottom: 1px solid #eee; text-align: right; font-weight: bold;">$19</td></tr>
   </table>
 
-  <p>Or get everything in the <strong>Full Business Kit for $447</strong> (save $50+).</p>
+  <p>Or get everything in the <strong>Full Business Kit for $397</strong> (save $43+).</p>
 
   <div style="text-align: center; margin: 24px 0;">
     <a href="https://www.bizplangenius.com/bundles" style="display: inline-block; background: #2563eb; color: white; text-decoration: none; padding: 12px 28px; border-radius: 10px; font-weight: bold;">

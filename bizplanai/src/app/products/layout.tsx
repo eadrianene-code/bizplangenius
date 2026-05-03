@@ -5,7 +5,7 @@ export const metadata: Metadata = {
     canonical: '/products',
   },
   title: 'All Products & Tools - From Free to Full Business Kit | BizPlan Genius',
-  description: 'Browse all BizPlan Genius products: 6 free tools, business plans, website builder, pitch decks, brand kits, legal pages, ad copy, social packs, and bundles. From $0 to $447.',
+  description: 'Browse all BizPlan Genius products: 6 free tools, business plans, website builder, pitch decks, brand kits, legal pages, ad copy, social packs, and bundles. From $0 to $397.',
   openGraph: {
     title: 'All Products - BizPlan Genius',
     description: 'Everything you need to go from idea to running business. Free tools, one-time products, bundles, and subscriptions.',

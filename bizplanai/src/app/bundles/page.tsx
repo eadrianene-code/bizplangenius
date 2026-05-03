@@ -44,9 +44,9 @@ const BUNDLES = [
   {
     key: 'full',
     name: 'Full Business Kit',
-    price: 447,
-    originalPrice: 497,
-    savings: 50,
+    price: 397,
+    originalPrice: 440,
+    savings: 43,
     tagline: 'Everything you need to launch',
     products: [
       { name: 'Competitor Spy Report', desc: '10-15 competitors, SWOT, pricing, vulnerability audit, 90-day roadmap', solo: '$97' },
