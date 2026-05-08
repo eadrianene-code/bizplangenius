@@ -195,5 +195,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
                 changeFrequency: 'monthly',
                 priority: 0.3,
       },
+      {
+                url: `${baseUrl}/guides/investor-ready-business-plan-2026`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly',
+                priority: 0.95,
+      },
+      {
+                url: `${baseUrl}/compare/bizplangenius-vs-liveplan`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly',
+                priority: 0.9,
+      },
+      {
+                url: `${baseUrl}/compare/bizplangenius-vs-bizplan-com`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly',
+                priority: 0.9,
+      },
+      {
+                url: `${baseUrl}/compare/ai-business-plan-generators-2026`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly',
+                priority: 0.9,
+      },
         ];
 }
