@@ -134,57 +134,6 @@ export default function RootLayout({
             })
           }}
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": [
-                {
-                  "@type": "Question",
-                  "name": "How is BizPlan Genius different from ChatGPT?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "ChatGPT gives you generic templates with made-up data. BizPlan Genius researches your actual competitors, pulls real market data via Google Search, and generates financial projections based on real industry benchmarks. The result is a plan you can hand to a bank or investor."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "How long does it take to generate a business plan?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Most plans are generated in 3-8 minutes. Traditional consultants charge $2,000-$10,000 and take weeks. BizPlan Genius starts at $97."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Can I use BizPlan Genius for a bank loan application?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. Plans include all sections banks typically require: executive summary, market analysis, financial projections, competitive landscape, and operational plan."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "What products does BizPlan Genius offer?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "BizPlan Genius offers: Free Competitor Check ($0), Competitor Spy Reports ($97), Business Plans ($97-$147), AI Website Builder ($99-$199), Pitch Deck Generator ($39), Social Media Starter Pack ($29), Logo & Brand Kit ($29), and Investor Email Templates ($19). Bundles are available from $197."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Does BizPlan Genius use real data?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes. BizPlan Genius uses Google Gemini AI with live web search grounding to research real competitors, real pricing data, and real market trends for your specific business and location."
-                  }
-                }
-              ]
-            })
-          }}
-        />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-HT8SFNVXYC"
           strategy="afterInteractive"

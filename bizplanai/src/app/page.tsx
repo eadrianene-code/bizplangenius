@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import SamplePdfGate from './components/SamplePdfGate';
+import SchemaJsonLd from '@/app/components/SchemaJsonLd';
+import { faqSchema } from '@/lib/schemas';
+
 
 
 const FEATURES = [
@@ -111,6 +114,13 @@ function Header() {
   const [productsOpen, setProductsOpen] = useState(false);
   return (
     <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-100 z-50">
+      <SchemaJsonLd data={faqSchema([
+        { question: "How is BizPlan Genius different from ChatGPT?", answer: "ChatGPT gives you generic templates with made-up data. BizPlan Genius researches your actual competitors, pulls real market data via Google Search, and generates financial projections based on real industry benchmarks. The result is a plan you can hand to a bank or investor." },
+        { question: "How long does it take to generate a business plan?", answer: "Most plans are generated in 3-8 minutes. Traditional consultants charge $2,000-$10,000 and take weeks. BizPlan Genius starts at $97." },
+        { question: "Can I use BizPlan Genius for a bank loan application?", answer: "Yes. Plans include all sections banks typically require: executive summary, market analysis, financial projections, competitive landscape, and operational plan." },
+        { question: "What products does BizPlan Genius offer?", answer: "BizPlan Genius offers: Free Competitor Check ($0), Competitor Spy Reports ($97), Business Plans ($97-$147), AI Website Builder ($99-$199), Pitch Deck Generator ($39), Social Media Starter Pack ($29), Logo & Brand Kit ($29), and Investor Email Templates ($19). Bundles are available from $197." },
+        { question: "Does BizPlan Genius use real data?", answer: "Yes. BizPlan Genius uses Google Gemini AI with live web search grounding to research real competitors, real pricing data, and real market trends for your specific business and location." },
+      ])} />
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         <a href="/" className="text-xl font-bold text-gradient">BizPlan Genius</a>
         <nav className="hidden md:flex items-center gap-6">
