@@ -48,6 +48,9 @@ export default function SbaLoanLayout({ children }: { children: React.ReactNode 
               'AI-generated SBA loan business plan with 5-year financial projections, market analysis, and use of funds. Designed to meet typical SBA lender expectations.',
             url: 'https://www.bizplangenius.com/sba-loan-business-plan',
             brand: { '@type': 'Brand', name: 'BizPlan Genius' },
+            image: 'https://www.bizplangenius.com/api/og',
+            category: 'Business documentation',
+            sku: 'sba-loan-business-plan',
             offers: {
               '@type': 'Offer',
               price: '147.00',
@@ -55,6 +58,15 @@ export default function SbaLoanLayout({ children }: { children: React.ReactNode 
               availability: 'https://schema.org/InStock',
               priceValidUntil: '2026-12-31',
               url: 'https://www.bizplangenius.com/sba-loan-business-plan',
+              seller: { '@type': 'Organization', name: 'BizPlan Genius' },
+              hasMerchantReturnPolicy: {
+                '@type': 'MerchantReturnPolicy',
+                applicableCountry: 'US',
+                returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                merchantReturnDays: 14,
+                returnMethod: 'https://schema.org/ReturnByMail',
+                returnFees: 'https://schema.org/FreeReturn',
+              },
             },
           }),
         }}

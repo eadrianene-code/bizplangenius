@@ -48,6 +48,9 @@ export default function E2VisaLayout({ children }: { children: React.ReactNode }
               'AI-generated E-2, L-1, or EB-5 visa business plan with 5-year financial projections, market analysis, and job creation forecast. Designed as a starting point for your immigration attorney.',
             url: 'https://www.bizplangenius.com/e2-visa-business-plan',
             brand: { '@type': 'Brand', name: 'BizPlan Genius' },
+            image: 'https://www.bizplangenius.com/api/og',
+            category: 'Business documentation',
+            sku: 'e2-visa-business-plan',
             offers: {
               '@type': 'Offer',
               price: '147.00',
@@ -55,6 +58,15 @@ export default function E2VisaLayout({ children }: { children: React.ReactNode }
               availability: 'https://schema.org/InStock',
               priceValidUntil: '2026-12-31',
               url: 'https://www.bizplangenius.com/e2-visa-business-plan',
+              seller: { '@type': 'Organization', name: 'BizPlan Genius' },
+              hasMerchantReturnPolicy: {
+                '@type': 'MerchantReturnPolicy',
+                applicableCountry: 'US',
+                returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+                merchantReturnDays: 14,
+                returnMethod: 'https://schema.org/ReturnByMail',
+                returnFees: 'https://schema.org/FreeReturn',
+              },
             },
           }),
         }}
