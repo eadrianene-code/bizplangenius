@@ -1,3 +1,4 @@
+import UpsellModule from '@/app/components/UpsellModule';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -110,6 +111,7 @@ export default function E2VisaLayout({ children }: { children: React.ReactNode }
         }}
       />
       {children}
+      <UpsellModule />
     </>
   );
 }

@@ -118,6 +118,27 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              "name": "BizPlan Genius",
+              "url": "https://www.bizplangenius.com",
+              "image": "https://www.bizplangenius.com/api/og",
+              "description": "Self-serve AI platform that generates investor-ready business plans, websites, pitch decks, brand kits, and ad copy. Built for first-time founders, SBA loan applicants, and E-2 / L-1 / EB-5 visa applicants.",
+              "priceRange": "$19-$447",
+              "areaServed": "Worldwide",
+              "serviceType": "Business plan generation and launch documentation",
+              "provider": {
+                "@type": "Organization",
+                "name": "BizPlan Genius",
+                "url": "https://www.bizplangenius.com"
+              }
+            })
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
               "@type": "FAQPage",
               "mainEntity": [
                 {

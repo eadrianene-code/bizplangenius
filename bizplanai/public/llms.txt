@@ -1,0 +1,89 @@
+# BizPlan Genius
+
+> Self-serve AI platform that generates investor-ready business plans, websites, pitch decks, brand kits, and ad copy in minutes. Built for first-time founders, SBA loan applicants, and E-2 / L-1 / EB-5 visa applicants who need professional documentation fast.
+
+BizPlan Genius produces 12 paid AI tools and 6 free lead-magnet utilities. The flagship differentiator is a plan-to-website flow: a customer generates a business plan, then with one click their website builds itself using that plan as the source of truth. No competitor in the AI business plan category does this.
+
+Pricing tiers run from $19 (single ad copy or investor email pack) to $447 (Full Business Kit). A done-for-you concierge tier is available at $497 for buyers who want a human writer, not a tool.
+
+## Core paid products
+
+- [Business Plan Pro - $147](https://www.bizplangenius.com/generate): Complete AI business plan with operations plan, risk analysis, 3-year financials, and money-back guarantee. Investor-ready.
+- [Business Plan Starter - $97](https://www.bizplangenius.com/generate): 7-section AI business plan with PDF download. Best for early-stage validation.
+- [Competitor Spy - $97](https://www.bizplangenius.com/spy): AI-powered competitive analysis. 10-15 real competitors with pricing, SWOT, vulnerability audit, and 90-day tactical roadmap.
+- [Website Builder - $99 to $199](https://www.bizplangenius.com/build-website): Generates a live website (landing, e-commerce, booking, restaurant, portfolio, or SaaS) auto-populated from your business plan.
+- [Pitch Deck - $39](https://www.bizplangenius.com/pitch-deck): Investor-ready pitch deck generated from your business plan.
+- [Logo and Brand Kit - $29](https://www.bizplangenius.com/brand-kit): Logo, color palette, typography system, brand guide.
+- [Social Media Pack - $29](https://www.bizplangenius.com/social-pack): 30 days of brand-aligned social posts with copy, hashtags, and image prompts.
+- [Investor Email Templates - $19](https://www.bizplangenius.com/investor-emails): Cold outreach sequences proven to get founder meetings.
+- [Legal Pages Generator - $19](https://www.bizplangenius.com/legal-pages): Privacy policy, terms of service, cookie policy, refund policy.
+- [Ad Copy Generator - $19](https://www.bizplangenius.com/ad-copy): Facebook, Google, and LinkedIn ad copy variants.
+
+## Trigger-segment landing pages
+
+- [E-2 / L-1 / EB-5 Visa Business Plan - $147](https://www.bizplangenius.com/e2-visa-business-plan): USCIS-format business plan for visa applicants. Covers source of investment, financial projections, and US economic impact.
+- [SBA Loan Business Plan - $147](https://www.bizplangenius.com/sba-loan-business-plan): SBA 7(a), 504, and microloan format. Banker-aligned use of funds, projections, and collateral position.
+
+## Industry-specific landing pages
+
+- [Restaurant Business Plan](https://www.bizplangenius.com/plans/restaurant-business-plan)
+- [Coffee Shop Business Plan](https://www.bizplangenius.com/plans/coffee-shop-business-plan)
+- [SaaS Business Plan](https://www.bizplangenius.com/plans/saas-business-plan)
+- [Food Truck Business Plan](https://www.bizplangenius.com/plans/food-truck-business-plan)
+- [Gym Business Plan](https://www.bizplangenius.com/plans/gym-business-plan)
+- [Salon Business Plan](https://www.bizplangenius.com/plans/salon-business-plan)
+- [E-commerce Business Plan](https://www.bizplangenius.com/plans/ecommerce-business-plan)
+- [Cleaning Business Plan](https://www.bizplangenius.com/plans/cleaning-business-plan)
+
+## Bundles
+
+- [Starter Bundle - $197](https://www.bizplangenius.com/bundles): Competitor Spy + Business Plan Pro.
+- [Launch Pack - $297](https://www.bizplangenius.com/bundles): Spy + Plan + Website + Pitch Deck.
+- [Full Business Kit - $397](https://www.bizplangenius.com/bundles): All 12 paid products.
+
+## Free tools (lead magnets)
+
+- [Free Competitor Check](https://www.bizplangenius.com/free-competitor-check)
+- [Idea Validator](https://www.bizplangenius.com/validate-idea)
+- [Business Name Generator](https://www.bizplangenius.com/business-name-generator)
+- [Startup Cost Calculator](https://www.bizplangenius.com/startup-cost-calculator)
+- [Launch Checklist](https://www.bizplangenius.com/launch-checklist)
+- [Domain Guide](https://www.bizplangenius.com/domain-guide)
+
+## Subscriptions
+
+- [Competitor Monitoring - $15/mo](https://www.bizplangenius.com/monitoring): Quarterly competitor refresh with change-detection alerts.
+- [Monthly Social Pack - $19/mo](https://www.bizplangenius.com/social-pack): 30 fresh social posts every month.
+- [Website Hosting - $19/mo](https://www.bizplangenius.com/build-website): Vercel-backed hosting with edits.
+
+## Reference content
+
+- [Compare BizPlan Genius vs alternatives](https://www.bizplangenius.com/compare)
+- [How we research competitors (methodology)](https://www.bizplangenius.com/methodology)
+- [Blog: 18+ posts on business planning, competitor research, SBA loans, E-2 visa, industry-specific plans](https://www.bizplangenius.com/blog)
+- [About BizPlan Genius](https://www.bizplangenius.com/about)
+
+## Concierge / done-for-you tier
+
+For buyers who want a human writer instead of a self-serve tool, the $497 done-for-you tier delivers a custom investor-ready business plan in 5 days. Contact eadrianene@gmail.com for intake.
+
+## Topics covered on the site
+
+- AI-generated investor-ready business plans
+- Competitor research and competitive analysis
+- SBA loan business plan formats (7a, 504, microloan)
+- E-2, L-1A, and EB-5 visa business plan requirements
+- Industry-specific plan templates
+- Pitch deck generation from a plan
+- Brand kit, logo, and color palette generation
+- Social media content generation
+- Legal documentation (privacy, terms, cookies, refunds)
+- Ad copy generation across Facebook, Google, LinkedIn
+- Website generation that mirrors a business plan
+- Founder cold outreach to investors
+
+## Contact
+
+- Support: support@bizplangenius.com
+- General: hello@bizplangenius.com
+- Concierge / $497 done-for-you tier: eadrianene@gmail.com

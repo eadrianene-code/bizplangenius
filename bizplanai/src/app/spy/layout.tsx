@@ -1,66 +1,63 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
+import SchemaJsonLd from '@/app/components/SchemaJsonLd';
+import UpsellModule from '@/app/components/UpsellModule';
+import { productSchema, breadcrumbSchema, faqSchema, PRICING, SITE } from '@/lib/schemas';
 
 export const metadata: Metadata = {
-  title: 'Competitor Analysis Tool - Find Competitor Weaknesses for $97 | BizPlan Genius',
-  description:
-    'Get 10-15 real competitors analyzed with pricing, SWOT analysis, vulnerability audit, and 90-day tactical roadmap. One-time $97 payment. Full PDF report in minutes.',
-  keywords:
-    'competitor analysis tool, competitive intelligence, SWOT analysis, competitor research, business competitor spy, market analysis, competitor pricing analysis',
-  alternates: {
-    canonical: '/spy',
-  },
+  alternates: { canonical: '/spy' },
+  title: 'Competitor Spy - Find Their Weaknesses Before They Find Yours | BizPlan Genius',
+  description: '10-15 real competitors analyzed in under 5 minutes. Pricing comparison, SWOT analysis, vulnerability audit, and 90-day tactical roadmap. $97 PDF, no subscription.',
   openGraph: {
-    title: 'Competitor Analysis Tool - Real Competitor Data for $97',
-    description:
-      'Get 10-15 real competitors analyzed with pricing, SWOT, vulnerability audit, and 90-day action plan. $97 one-time. Full PDF report in minutes.',
-    url: 'https://www.bizplangenius.com/spy',
-    siteName: 'BizPlan Genius',
+    title: 'Competitor Spy - 10-15 Real Competitors, SWOT, Vulnerabilities, 90-Day Roadmap',
+    description: '$97 one-time, no subscription. Competitor Spy delivers 10-15 real competitors with SWOT and a 90-day tactical roadmap.',
+    url: `${SITE.url}/spy`,
+    siteName: SITE.name,
     type: 'website',
-    images: [
-      {
-        url: '/api/og?title=Real+Competitor+Research.+%2497.&subtitle=Find+your+10-15+real+competitors.+Get+pricing%2C+weaknesses%2C+and+a+90-day+plan+to+outrank+them.&badge=Competitor+Spy',
-        width: 1200,
-        height: 630,
-        alt: 'BizPlan Genius Competitor Spy - Real competitor research for $97',
-      },
-    ],
+    images: [{ url: '/api/og', width: 1200, height: 630, alt: 'Competitor Spy Report' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Real Competitor Research. $97 one-time.',
-    description: 'Find competitors, pricing, weaknesses, and a 90-day plan in 5 minutes.',
-    images: ['/api/og?title=Real+Competitor+Research.+%2497.&subtitle=Find+your+10-15+real+competitors.+Get+pricing%2C+weaknesses%2C+and+a+90-day+plan+to+outrank+them.&badge=Competitor+Spy'],
+    title: 'Competitor Spy - 10-15 Real Competitors Analyzed',
+    description: '$97 one-time. SWOT, vulnerability audit, 90-day tactical roadmap.',
+    images: ['/api/og'],
   },
 };
 
-export default function SpyLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": "Competitor Spy - Competitive Analysis Report",
-            "description": "AI-powered competitive analysis tool. Get 10-15 real competitors analyzed with pricing, SWOT analysis, vulnerability audit, and 90-day tactical roadmap.",
-            "url": "https://www.bizplangenius.com/spy",
-            "brand": {
-              "@type": "Brand",
-              "name": "BizPlan Genius"
-            },
-            "offers": {
-              "@type": "Offer",
-              "price": "19.00",
-              "priceCurrency": "USD",
-              "availability": "https://schema.org/InStock",
-              "priceValidUntil": "2026-12-31",
-              "url": "https://www.bizplangenius.com/spy"
-            }
-          })
-        }}
-      />
+      <SchemaJsonLd data={[
+        productSchema({
+          name: 'Competitor Spy Report',
+          description: 'AI-powered competitive analysis with 10-15 real competitors, pricing comparison, SWOT analysis, vulnerability audit, and 90-day tactical roadmap. PDF deliverable.',
+          url: `${SITE.url}/spy`,
+          price: PRICING.spy,
+        }),
+        breadcrumbSchema([
+          { name: 'Home', url: '/' },
+          { name: 'Competitor Spy', url: '/spy' },
+        ]),
+        faqSchema([
+          {
+            question: 'How many competitors does Competitor Spy analyze?',
+            answer: '10 to 15 real competitors per report, sourced via Gemini 2.5 Flash with Google Search grounding so the data reflects what is actually online.',
+          },
+          {
+            question: 'Is Competitor Spy a subscription?',
+            answer: 'No. Competitor Spy is a one-time $97 purchase that delivers a PDF report. Optional Competitor Monitoring at $15/mo adds quarterly refreshes and change-detection alerts.',
+          },
+          {
+            question: 'How long does the report take?',
+            answer: 'Most reports complete in under 5 minutes from the moment you describe your business.',
+          },
+          {
+            question: 'What is in the report?',
+            answer: 'Top 10 to 15 competitors, pricing comparison, SWOT for each, vulnerability audit (where competitors are weakest), and a 90-day tactical roadmap of moves you can make.',
+          },
+        ]),
+      ]} />
       {children}
+      <UpsellModule />
     </>
   );
 }
