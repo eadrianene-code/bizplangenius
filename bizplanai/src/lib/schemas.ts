@@ -55,6 +55,7 @@ export function productSchema(args: ProductSchemaArgs) {
     image: args.image || `${SITE_URL}/api/og`,
     brand: { '@type': 'Brand', name: args.brand || ORG_NAME },
     category: args.category || 'Business software',
+    sku: args.url.split('/').filter(Boolean).pop() || args.name.replace(/\s+/g, '-').toLowerCase(),
     offers: {
       '@type': 'Offer',
       price: args.price,
@@ -63,6 +64,31 @@ export function productSchema(args: ProductSchemaArgs) {
       priceValidUntil: '2026-12-31',
       url: args.url,
       seller: { '@type': 'Organization', name: ORG_NAME },
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'US',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 14,
+        returnMethod: 'https://schema.org/ReturnByMail',
+        returnFees: 'https://schema.org/FreeReturn',
+      },
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingRate: {
+          '@type': 'MonetaryAmount',
+          value: '0',
+          currency: 'USD',
+        },
+        shippingDestination: {
+          '@type': 'DefinedRegion',
+          geoMidpoint: { '@type': 'GeoCoordinates', latitude: 0, longitude: 0 },
+        },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 0, unitCode: 'd' },
+          transitTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 0, unitCode: 'd' },
+        },
+      },
     },
   };
 }
