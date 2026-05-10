@@ -115,7 +115,7 @@ export async function POST(req: NextRequest) {
         const { Resend } = await import('resend');
         const resend = new Resend(process.env.RESEND_API_KEY);
         await resend.emails.send({
-          from: 'BizPlan Genius <hello@bizplangenius.com>',
+          from: 'BizPlan Genius Counsel <hello@theaurareport.com>',
           to: 'eadrianene@gmail.com',
           subject: `[DEPOSIT CLEARED] ${meta.orderId} - ${meta.firmName} - production clock started`,
           html: `
@@ -141,5 +141,4 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ received: true });
-}
+  return NextResponse.json({ received: tru
