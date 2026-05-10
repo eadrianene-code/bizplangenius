@@ -36,17 +36,20 @@ export const runtime = 'nodejs';
  */
 export async function POST(req: NextRequest) {
   try {
-    // Auth
+    // Auth: accept either the primary B2B_API_KEY (production) or the
+    // B2B_API_KEY_SAMPLE_GEN (temporary, used by Claude to generate sample
+    // plans before removal). Both are valid.
     const apiKey = req.headers.get('x-api-key');
-    const expected = process.env.B2B_API_KEY;
-    if (!expected) {
-      console.error('[generate-uscis-plan] B2B_API_KEY not configured');
+    const expectedPrimary = process.env.B2B_API_KEY;
+    const expectedSample = process.env.B2B_API_KEY_SAMPLE_GEN;
+    if (!expectedPrimary && !expectedSample) {
+      console.error('[generate-uscis-plan] no API key configured');
       return NextResponse.json(
         { error: 'Server misconfigured: B2B_API_KEY missing' },
         { status: 500 },
       );
     }
-    if (!apiKey || apiKey !== expected) {
+    if (!apiKey || (apiKey !== expectedPrimary && apiKey !== expectedSample)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
