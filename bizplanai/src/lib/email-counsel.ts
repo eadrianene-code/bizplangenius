@@ -180,4 +180,12 @@ export async function sendCounselOrderNotification(args: CounselOrderNotificatio
   <li>Watch Stripe webhook for deposit clearance</li>
   <li>On clearance: ${args.productionDays}-day production clock starts</li>
   <li>Use /api/counsel/generate-uscis-plan with this intake to produce the plan</li>
-  <li>Email plan to ${args.firmEmail} when ready</l
+  <li>Email plan to ${args.firmEmail} when ready</li>
+  <li>Generate balance invoice ($${(args.totalPrice - args.depositPrice).toLocaleString()})</li>
+</ol>
+
+<h3>Full intake JSON</h3>
+<pre style="background:#f3f4f6;padding:12px;border-radius:6px;font-size:11px;overflow:auto;max-height:400px;">${intakeJson.replace(/[<>&]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;' }[c] || c))}</pre>
+    `,
+  });
+}

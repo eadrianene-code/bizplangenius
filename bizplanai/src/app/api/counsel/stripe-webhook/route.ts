@@ -141,4 +141,5 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ received: tru
+  return NextResponse.json({ received: true });
+}
