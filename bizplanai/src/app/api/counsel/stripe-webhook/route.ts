@@ -46,17 +46,49 @@ export async function POST(req: NextRequest) {
   console.log(`[counsel-webhook] received event: ${event.type} (${event.id})`);
 
   // Filter for counsel orders only (metadata.orderId starts with BPG-)
+  // We accept BOTH event types because Stripe can fire either depending on
+  // the payment method. payment_intent.succeeded is the more reliable signal
+  // and carries metadata propagated via payment_intent_data.metadata.
+  let meta: Record<string, string> = {};
+  let amountPaidCents = 0;
+
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session;
-    const meta = session.metadata || {};
-    if (!meta.orderId || !meta.orderId.startsWith('BPG-')) {
-      console.log(`[counsel-webhook] ignoring non-counsel order: ${meta.orderId || '(none)'}`);
-      return NextResponse.json({ ignored: true });
+    meta = (session.metadata || {}) as Record<string, string>;
+    amountPaidCents = session.amount_total || 0;
+
+    // If session metadata is empty (can happen with payment links), fall back
+    // to retrieving the linked payment intent metadata
+    if (!meta.orderId && session.payment_intent) {
+      try {
+        const piId = typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent.id;
+        const pi = await stripe.paymentIntents.retrieve(piId);
+        meta = (pi.metadata || {}) as Record<string, string>;
+      } catch (err) {
+        console.warn('[counsel-webhook] failed to retrieve payment intent metadata:', err);
+      }
     }
+  } else if (event.type === 'payment_intent.succeeded') {
+    const pi = event.data.object as Stripe.PaymentIntent;
+    meta = (pi.metadata || {}) as Record<string, string>;
+    amountPaidCents = pi.amount_received || pi.amount || 0;
+  } else {
+    console.log(`[counsel-webhook] event type ${event.type} - skipping`);
+    return NextResponse.json({ ignored: true, reason: 'unhandled-event-type' });
+  }
+
+  if (!meta.orderId || !meta.orderId.startsWith('BPG-')) {
+    console.log(`[counsel-webhook] ignoring non-counsel order: ${meta.orderId || '(none)'}`);
+    return NextResponse.json({ ignored: true, reason: 'non-counsel-order' });
+  }
+
+  // Single block of work for both event types from here on
+  {
 
     const productionDeadline = new Date();
     productionDeadline.setDate(productionDeadline.getDate() + 5); // default 5 business days
 
+ 
     // Notify Adi
     if (process.env.RESEND_API_KEY) {
       try {
@@ -71,7 +103,7 @@ export async function POST(req: NextRequest) {
 <p><strong>Order:</strong> ${meta.orderId}</p>
 <p><strong>Firm:</strong> ${meta.firmName}</p>
 <p><strong>Visa:</strong> ${meta.visaCategory}</p>
-<p><strong>Amount paid:</strong> $${((session.amount_total || 0) / 100).toLocaleString()}</p>
+<p><strong>Amount paid:</strong> $${(amountPaidCents / 100).toLocaleString()}</p>
 <p><strong>Production deadline:</strong> ${productionDeadline.toISOString().slice(0, 10)} (5 business days)</p>
 
 <h3>Action items</h3>

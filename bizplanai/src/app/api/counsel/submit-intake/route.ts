@@ -155,15 +155,26 @@ export async function POST(req: NextRequest) {
         unit_amount: body.depositPrice * 100, // cents
       });
 
+      const paymentLinkMetadata = {
+        orderId,
+        firmName: body.firmName,
+        firmEmail: body.firmEmail,
+        visaCategory: body.visaCategory,
+        paymentType: 'deposit',
+        totalFee: String(body.totalPrice),
+      };
+
       const paymentLink = await stripe.paymentLinks.create({
         line_items: [{ price: price.id, quantity: 1 }],
-        metadata: {
-          orderId,
-          firmName: body.firmName,
-          firmEmail: body.firmEmail,
-          visaCategory: body.visaCategory,
-          paymentType: 'deposit',
+        // Top-level: appears on the PaymentLink object itself
+        metadata: paymentLinkMetadata,
+        // Propagate to PaymentIntent so payment_intent.succeeded webhook sees it
+        payment_intent_data: {
+          metadata: paymentLinkMetadata,
         },
+        // CheckoutSessionData propagates metadata to the session created from this link,
+        // so checkout.session.completed sees session.metadata.orderId
+        // ref: https://docs.stripe.com/api/payment_link/create#create_payment_link-metadata
         after_completion: {
           type: 'hosted_confirmation',
           hosted_confirmation: {
