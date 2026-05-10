@@ -15,6 +15,7 @@ These are risks to the petition itself, addressing concerns an adjudicator might
 | Real-and-active enterprise challenge | Low | High | Section 3.4 and Section 9 (Operations Plan) document physical premises, equipment, vendor relationships, and regulatory registrations. |
 | Source-of-funds documentation gap | Medium | Medium | Section 2 (Source of Funds Narrative) summarizes lawful origin and traceable path. Firm of record retains relationships with petitioner's banks and tax authorities to obtain additional records on RFE. |
 | Treaty country verification | Low | Low | {{investor_country}} is a recognized E-2 treaty country. Documentation of treaty status is included in firm exhibits. (E-2 only; not applicable for L-1, O-1, EB-5, or EB-2 NIW.) |
+| Digital footprint inconsistency (NEW 2026 RFE pattern) | Medium | High | USCIS adjudicators in 2026 are increasingly checking petitioners' public digital profiles (LinkedIn, company websites, Crunchbase, news mentions) against petition claims. Common RFE: petitioner's LinkedIn still shows full-time employment at a foreign company while the petition claims 100% dedication to the U.S. enterprise. Firm of record is advised to verify, before filing, that {{investor_name}}'s public profiles consistently reflect the U.S. role and that any references to prior or concurrent foreign business activity are dated, contextualized, or removed where appropriate. |
 
 ## 10.2 RFE (Request for Evidence) preparedness
 
@@ -41,8 +42,4 @@ These are risks to the enterprise's commercial viability that could indirectly a
 
 {{sustainment_paragraph}}
 
-The combination of substantial investment, real-and-active operations, and demonstrated non-marginality indicates that the enterprise is positioned to sustain operations through the {{visa_category}} status period and beyond. The financial model (Section 7) and the hiring plan (Section 8) both reflect a sustainable, growing enterprise rather than a launch-only or speculative undertaking.
-
-## 10.5 Counsel coordination on visa-specific risks
-
-The firm of record retains responsibility for visa-specific compliance verification and adjudicator strategy. The risks identified in this section are those visible from the business-plan side of the petition. Risks that are exclusively legal or procedural (such as specific evidentiary standards, recent precedent decisions, or service-center processing trends) are within the firm of record's domain and are not addressed here.
+The combination of substantial investment, real-and-active operations, and demonstrated non-marginality indicates that the enterprise is positioned to sustain operations through the {{visa_category}} status period a

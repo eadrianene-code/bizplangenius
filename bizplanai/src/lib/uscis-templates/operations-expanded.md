@@ -78,10 +78,10 @@ Insurance certificates are provided as petition exhibits.
 
 Financial statements are prepared on an accrual basis and are reconciled monthly. The five-year financial model in Section 7 reflects this accounting approach.
 
-## 9.8 Operational milestones
+## 9.8 Day-to-day operations
 
-The enterprise has achieved or will achieve the following operational milestones:
+This subsection describes how {{business_name}} actually runs on a day-to-day basis. The narrative is included to address adjudicator expectations that the plan demonstrate substantive operational activity rather than a paper concept.
 
-{{operational_milestones_list}}
+**Operating hours:** {{operating_hours}}
 
-These milestones evidence that the enterprise is moving from launch through stabilized operations on a defined timeline, supporting the at-risk capital narrative in Section 3.3.
+**Daily operating

@@ -85,6 +85,12 @@ export interface IntakeForm {
   equipmentList?: { item: string; cost: number; status: string }[];
   vendors?: { name: string; service: string; status: string }[];
 
+  // Day-to-day operations narrative (v1.1 hardening for 2026 RFE patterns)
+  operatingHours?: string; // e.g. "Mon-Sat 11am-10pm, Sun 11am-9pm"
+  dailyOperatingRhythm?: string; // multi-line markdown bullets
+  vendorDeliveryCadence?: string;
+  salesApproach?: string;
+
   complianceNotes?: string;
 }
 
@@ -710,6 +716,15 @@ function buildOperationsExpandedContext(intake: IntakeForm, _plan: Plan): Record
     ? intake.vendors.map((v) => `- ${v.name}: ${v.service} (${v.status})`).join('\n')
     : `- Primary supply-chain vendor: per vendor exhibit (relationship established)\n- Secondary supply-chain vendor: per vendor exhibit (relationship established for redundancy)\n- Professional services (legal, accounting, payroll): per vendor exhibit (engaged)`;
 
+  // Day-to-day operations narrative (added v1.1 to address 2026 RFE pattern)
+  const operatingHours = intake.operatingHours || `Standard ${intake.industry} operating hours, posted at the operating premises and on the public-facing website. Specific hours are documented in the operations exhibit.`;
+
+  const dailyOperatingRhythm = intake.dailyOperatingRhythm || `- **Pre-opening:** Manager and staff arrive 30-60 minutes before opening to complete pre-shift checklist (equipment startup, inventory check, cash-drawer setup, premises walk-through).\n- **Operating shift:** Staff operate per the role descriptions in Section 8. Customer-facing roles handle direct service, kitchen or production roles handle order fulfillment, the petitioner or operations manager handles supervisory and corrective decisions in real time.\n- **Mid-day or shift-change handoff:** Where applicable, mid-shift transition includes inventory replenishment, deposit drop, and shift-change communication.\n- **Closing shift:** Daily reconciliation of point-of-sale, cash deposit prep, equipment shutdown checklist, premises secure.\n- **Off-premises (overnight):** Cleaning vendor (if contracted), security monitoring, scheduled deliveries flagged for next morning.`;
+
+  const vendorDeliveryCadence = intake.vendorDeliveryCadence || `Primary supply vendor delivers on a recurring schedule (typically weekly or twice-weekly depending on inventory turn). Secondary backup vendor maintains a dormant account activated when needed for redundancy. Professional services (accounting, payroll, legal) operate on monthly or quarterly cadence per the engagement letters in the vendor exhibit.`;
+
+  const salesApproach = intake.salesApproach || `${intake.businessName} acquires customers through the marketing channels detailed in Section 6 (Marketing Strategy). Customer transactions are conducted at the operating premises, through the website if applicable, and through partner channels (delivery, catering) as detailed in the revenue model. Cash, card, and digital payments are accepted, processed through the point-of-sale system, and reconciled daily. Customer data captured at the point of transaction is used for retention marketing, loyalty programs, and operational analytics.`;
+
   const supplyChain = `${intake.businessName} has established or is finalizing relationships with primary and secondary suppliers in the ${intake.industry} sector. The dual-vendor approach provides redundancy against single-vendor disruption. Lead times, payment terms, and minimum-order quantities are documented in the vendor exhibits.`;
 
   const federalCompliance = `- Federal Employer Identification Number (EIN) issued and active\n- Federal tax filings prepared on a calendar-year basis\n- Industry-specific federal regulatory registrations as applicable to ${intake.industry}`;
@@ -740,6 +755,10 @@ function buildOperationsExpandedContext(intake: IntakeForm, _plan: Plan): Record
     us_bank_or_placeholder: intake.usBank || 'the US operating bank named in the bank exhibits',
     accounting_software_or_placeholder: intake.accountingSoftware || 'an industry-standard accounting platform',
     operational_milestones_list: operationalMilestones,
+    operating_hours: operatingHours,
+    daily_operating_rhythm: dailyOperatingRhythm,
+    vendor_delivery_cadence: vendorDeliveryCadence,
+    sales_approach_paragraph: salesApproach,
   };
 }
 
@@ -771,10 +790,6 @@ function buildUscisRiskAnalysisContext(intake: IntakeForm, plan: Plan): Record<s
 // Public API
 // ============================================================================
 
-/**
- * Generate the full USCIS overlay (8 filled markdown sections) for a plan +
- * intake. v1: E-2 only. Other visa categories throw a clear error.
- */
 export function generateUscisOverlay(plan: Plan, intake: IntakeForm): OverlaySections {
   if (intake.visaCategory !== 'E-2') {
     throw new Error(
