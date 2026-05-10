@@ -2,8 +2,9 @@
  * Server-side .docx generator for BizPlan Genius plans.
  *
  * Used by:
- * - /api/counsel/generate-docx (B2B white-label deliveries)
- * - Future: consumer-side download, P5 sample generation
+ * - /api/counsel/generate-docx (B2B white-label deliveries, no overlay)
+ * - /api/counsel/generate-uscis-plan (B2B with USCIS overlay - the moat)
+ * - Future: consumer-side download
  *
  * IMPORTANT: When opts.whiteLabel === true, this function MUST NOT emit any
  * string identifying BizPlan Genius. The white-label test in
@@ -22,7 +23,6 @@ import {
   TableRow,
   TableCell,
   WidthType,
-  BorderStyle,
   Header,
   Footer,
   PageNumber,
@@ -39,6 +39,8 @@ import type {
   KeyMilestone,
   StartupCost,
 } from './plan-types';
+import { renderMarkdownToDocx } from './markdown-to-docx';
+import type { OverlaySections } from './uscis-overlay';
 
 // ============================================================================
 // Helpers
@@ -142,10 +144,7 @@ function buildCoverPage(meta: PlanMetadata, opts: DocxOptions): Paragraph[] {
   const businessName = meta.businessName || 'Business Plan';
 
   if (opts.whiteLabel) {
-    // White-label cover: business name + date ONLY. No subtitle, no company,
-    // no tag line, no URL. The lawyer will add their letterhead and re-export.
     const out: Paragraph[] = [
-      // Top spacer (~1/3 of page in 36pt blank lines)
       ...Array.from({ length: 8 }, () => emptyLine()),
       new Paragraph({
         alignment: AlignmentType.CENTER,
@@ -154,7 +153,7 @@ function buildCoverPage(meta: PlanMetadata, opts: DocxOptions): Paragraph[] {
           new TextRun({
             text: businessName,
             bold: true,
-            size: 56, // 28pt
+            size: 56,
           }),
         ],
       }),
@@ -164,7 +163,7 @@ function buildCoverPage(meta: PlanMetadata, opts: DocxOptions): Paragraph[] {
         children: [
           new TextRun({
             text: 'Business Plan',
-            size: 36, // 18pt
+            size: 36,
           }),
         ],
       }),
@@ -198,7 +197,6 @@ function buildCoverPage(meta: PlanMetadata, opts: DocxOptions): Paragraph[] {
     return out;
   }
 
-  // Consumer cover: full BizPlan Genius branding
   return [
     ...Array.from({ length: 6 }, () => emptyLine()),
     new Paragraph({
@@ -263,7 +261,7 @@ function buildCoverPage(meta: PlanMetadata, opts: DocxOptions): Paragraph[] {
 }
 
 // ============================================================================
-// Section builders
+// Section builders (consumer plan)
 // ============================================================================
 
 function buildExecutiveSummary(plan: Plan): Paragraph[] {
@@ -359,7 +357,7 @@ function buildMarketAnalysis(plan: Plan): Paragraph[] {
   return out;
 }
 
-function buildMarketingStrategy(plan: Plan): Paragraph[] {
+function buildMarketingStrategy(plan: Plan): (Paragraph | Table)[] {
   const ms = plan.marketingStrategy;
   if (!ms) return [];
   const out: (Paragraph | Table)[] = [h1('Marketing Strategy')];
@@ -385,7 +383,7 @@ function buildMarketingStrategy(plan: Plan): Paragraph[] {
   if (nonEmpty(ms.contentStrategy)) out.push(h2('Content Strategy'), p(safe(ms.contentStrategy)));
   if (nonEmpty(ms.launchPlan)) out.push(h2('First 90 Days: Launch Plan'), p(safe(ms.launchPlan)));
 
-  return out as Paragraph[]; // Tables are valid Document children too
+  return out;
 }
 
 function buildFinancialProjections(plan: Plan): (Paragraph | Table)[] {
@@ -395,7 +393,6 @@ function buildFinancialProjections(plan: Plan): (Paragraph | Table)[] {
 
   if (nonEmpty(fp.revenueModel)) out.push(h2('Revenue Model'), p(safe(fp.revenueModel)));
 
-  // Year-by-year table
   const years: { label: string; data: YearProjection | undefined }[] = [
     { label: 'Year 1', data: fp.year1 },
     { label: 'Year 2', data: fp.year2 },
@@ -483,7 +480,7 @@ function buildRiskAnalysis(plan: Plan): (Paragraph | Table)[] {
 }
 
 // ============================================================================
-// Headers and footers (only used when whiteLabel === false)
+// Headers and footers
 // ============================================================================
 
 function buildConsumerHeader(meta: PlanMetadata): Header {
@@ -526,7 +523,6 @@ function buildConsumerFooter(): Footer {
 }
 
 function buildWhiteLabelFooter(): Footer {
-  // Page number ONLY. No URL, no firm name, no tag line.
   return new Footer({
     children: [
       new Paragraph({
@@ -550,26 +546,62 @@ function buildWhiteLabelFooter(): Footer {
 /**
  * Build a .docx file from a plan JSON object.
  *
- * @param plan The structured plan JSON (matches the shape from /api/fulfill).
- * @param meta Business metadata (name, industry, etc.).
+ * @param plan The structured plan JSON.
+ * @param meta Business metadata.
  * @param opts Generation options including whiteLabel flag.
- * @returns A Node Buffer containing the .docx binary, ready for HTTP response or fs.writeFileSync.
+ * @param overlay Optional USCIS overlay sections. When provided, the document
+ *   is reorganized for a B2B counsel deliverable.
+ * @returns A Node Buffer containing the .docx binary.
  */
 export async function generatePlanDocx(
   plan: Plan,
   meta: PlanMetadata,
   opts: DocxOptions,
+  overlay?: OverlaySections,
 ): Promise<Buffer> {
-  const sections: (Paragraph | Table)[] = [
-    ...buildCoverPage(meta, opts),
-    ...buildExecutiveSummary(plan),
-    ...buildCompetitorAnalysis(plan),
-    ...buildMarketAnalysis(plan),
-    ...buildMarketingStrategy(plan),
-    ...buildFinancialProjections(plan),
-    ...buildOperationsPlan(plan),
-    ...buildRiskAnalysis(plan),
-  ];
+  let sections: (Paragraph | Table)[];
+
+  if (overlay) {
+    // B2B counsel order: USCIS-structured. Order matters - this is what an
+    // adjudicator expects.
+    sections = [
+      ...buildCoverPage(meta, opts),
+      // 1. Adjudicator Summary (front matter)
+      ...renderMarkdownToDocx(overlay.adjudicatorSummary),
+      // 2. Investor Background
+      ...renderMarkdownToDocx(overlay.investorBackground),
+      // 3. Source of Funds
+      ...renderMarkdownToDocx(overlay.sourceOfFunds),
+      // 4. Visa-Specific Eligibility
+      ...renderMarkdownToDocx(overlay.visaEligibility),
+      // 5. Executive Summary (consumer narrative)
+      ...buildExecutiveSummary(plan),
+      // 6. Market context (consumer narrative)
+      ...buildCompetitorAnalysis(plan),
+      ...buildMarketAnalysis(plan),
+      ...buildMarketingStrategy(plan),
+      // 7. Expanded Financial Model (REPLACES consumer financialProjections)
+      ...renderMarkdownToDocx(overlay.expandedFinancialModel),
+      // 8. US Hiring Plan and Job Creation
+      ...renderMarkdownToDocx(overlay.usHiringPlan),
+      // 9. Operations Plan - Expanded (REPLACES consumer operationsPlan)
+      ...renderMarkdownToDocx(overlay.expandedOperations),
+      // 10. Risk Analysis - USCIS-targeted (REPLACES consumer riskAnalysis)
+      ...renderMarkdownToDocx(overlay.uscisRiskAnalysis),
+    ];
+  } else {
+    // Consumer order: original 9-section plan
+    sections = [
+      ...buildCoverPage(meta, opts),
+      ...buildExecutiveSummary(plan),
+      ...buildCompetitorAnalysis(plan),
+      ...buildMarketAnalysis(plan),
+      ...buildMarketingStrategy(plan),
+      ...buildFinancialProjections(plan),
+      ...buildOperationsPlan(plan),
+      ...buildRiskAnalysis(plan),
+    ];
+  }
 
   const doc = new Document({
     creator: opts.whiteLabel ? meta.businessName : 'BizPlan Genius',
