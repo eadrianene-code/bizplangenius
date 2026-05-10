@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 interface OrderState {
@@ -13,7 +13,7 @@ interface OrderState {
   firmEmail: string;
 }
 
-export default function SubmittedPage() {
+function SubmittedContent() {
   const searchParams = useSearchParams();
   const orderIdFromUrl = searchParams?.get('orderId') || '';
   const depositFromUrl = searchParams?.get('deposit') || '';
@@ -28,9 +28,6 @@ export default function SubmittedPage() {
       if (stored) {
         const parsed = JSON.parse(stored) as OrderState;
         setState(parsed);
-
-        // Build a data URL for the engagement letter so it can be downloaded
-        // directly (no server roundtrip)
         if (parsed.engagementLetterBase64) {
           const dataUrl = `data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,${parsed.engagementLetterBase64}`;
           setDownloadHref(dataUrl);
@@ -65,7 +62,6 @@ export default function SubmittedPage() {
           </p>
         </div>
 
-        {/* Direct download + pay buttons (works even if email fails) */}
         {state ? (
           <section className="mt-8 rounded-lg border border-slate-200 bg-white p-6">
             <h2 className="text-lg font-bold tracking-tight text-slate-900">
@@ -77,7 +73,6 @@ export default function SubmittedPage() {
             </p>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              {/* Action 1: Download engagement letter */}
               <a
                 href={downloadHref || '#'}
                 download={filename}
@@ -87,18 +82,10 @@ export default function SubmittedPage() {
                     : 'cursor-not-allowed border-slate-200 bg-slate-100 opacity-60'
                 }`}
               >
-                <div className="text-xs font-semibold uppercase tracking-widest text-slate-500">
-                  Step 1
-                </div>
-                <div className="mt-2 text-base font-semibold text-slate-900">
-                  Download engagement letter
-                </div>
-                <div className="mt-1 text-xs text-slate-600">
-                  .docx — your e-signature is recorded inside
-                </div>
-                <div className="mt-3 inline-flex items-center text-sm font-semibold text-blue-700">
-                  Download .docx →
-                </div>
+                <div className="text-xs font-semibold uppercase tracking-widest text-slate-500">Step 1</div>
+                <div className="mt-2 text-base font-semibold text-slate-900">Download engagement letter</div>
+                <div className="mt-1 text-xs text-slate-600">.docx — your e-signature is recorded inside</div>
+                <div className="mt-3 inline-flex items-center text-sm font-semibold text-blue-700">Download .docx →</div>
               </a>
 
               <a
@@ -111,18 +98,12 @@ export default function SubmittedPage() {
                     : 'cursor-not-allowed border-slate-200 bg-slate-100 opacity-60'
                 }`}
               >
-                <div className="text-xs font-semibold uppercase tracking-widest text-blue-700">
-                  Step 2
-                </div>
+                <div className="text-xs font-semibold uppercase tracking-widest text-blue-700">Step 2</div>
                 <div className="mt-2 text-base font-semibold text-slate-900">
                   Pay {deposit ? `$${Number(deposit).toLocaleString()}` : ''} deposit
                 </div>
-                <div className="mt-1 text-xs text-slate-700">
-                  Stripe — card, ACH, or wire
-                </div>
-                <div className="mt-3 inline-flex items-center text-sm font-semibold text-blue-700">
-                  Pay deposit on Stripe →
-                </div>
+                <div className="mt-1 text-xs text-slate-700">Stripe — card, ACH, or wire</div>
+                <div className="mt-3 inline-flex items-center text-sm font-semibold text-blue-700">Pay deposit on Stripe →</div>
               </a>
             </div>
 
@@ -169,5 +150,16 @@ export default function SubmittedPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function SubmittedPage() {
+  // useSearchParams() in a client component requires a Suspense boundary
+  // for static rendering. Wrapping the entire content in Suspense satisfies
+  // the Next.js 14 app router requirement.
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-50" />}>
+      <SubmittedContent />
+    </Suspense>
   );
 }
