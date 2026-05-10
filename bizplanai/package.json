@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google/genai": "^1.48.0",
+    "docx": "^9.6.1",
     "gray-matter": "^4.0.3",
     "next": "^14.2.0",
     "openai": "^4.50.0",
