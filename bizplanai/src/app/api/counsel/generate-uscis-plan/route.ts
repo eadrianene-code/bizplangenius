@@ -96,11 +96,12 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // v1: E-2 only
-    if (intake.visaCategory !== 'E-2') {
+    // v1.2: E-2, L-1, EB-5 supported (O-1 and EB-2 NIW pending)
+    const supportedVisas = ['E-2', 'L-1', 'EB-5'];
+    if (!supportedVisas.includes(intake.visaCategory)) {
       return NextResponse.json(
         {
-          error: `USCIS plan generation v1 supports E-2 only. Visa category "${intake.visaCategory}" templates are pending.`,
+          error: `USCIS plan generation supports E-2, L-1, EB-5 in v1.2. Visa category "${intake.visaCategory}" templates are pending.`,
         },
         { status: 400 },
       );
