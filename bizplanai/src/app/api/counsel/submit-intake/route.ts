@@ -234,12 +234,19 @@ export async function POST(req: NextRequest) {
       console.error(`[submit-intake] adi notification failed for ${orderId}:`, notifyErr);
     }
 
+    // Encode engagement letter as base64 so the confirmation page can offer
+    // an inline download. This bypasses any email delivery issues - the
+    // lawyer gets the engagement letter directly from the confirmation page.
+    const engagementLetterBase64 = engagementBuffer.toString('base64');
+
     return NextResponse.json({
       ok: true,
       orderId,
       depositPrice: body.depositPrice,
       depositPaymentLink,
       productionDays,
+       engagementLetterBase64,
+      engagementLetterFilename: `${safeName(orderId)}.docx`,
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Unknown error';
@@ -249,4 +256,8 @@ export async function POST(req: NextRequest) {
       { status: 500 },
     );
   }
+}
+
+function safeName(orderId: string): string {
+  return `engagement-letter-${orderId}`.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 80);
 }

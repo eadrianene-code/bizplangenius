@@ -111,7 +111,9 @@ export async function sendEngagementEmail(args: EngagementEmailArgs): Promise<vo
     attachments: [
       {
         filename: `engagement-letter-${args.orderId}.docx`,
-        content: args.engagementLetterBuffer,
+        // Resend expects a base64 string for binary attachments. Passing
+        // a raw Buffer can silently fail to encode in some SDK versions.
+        content: args.engagementLetterBuffer.toString('base64'),
       },
     ],
   });

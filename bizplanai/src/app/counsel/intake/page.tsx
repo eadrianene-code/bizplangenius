@@ -130,6 +130,26 @@ export default function IntakePage() {
         throw new Error(data.error || `Server returned ${res.status}`);
       }
       const data = await res.json();
+      // Stash the engagement letter + payment link in sessionStorage so the
+      // submitted page can render them as direct download / pay buttons. This
+      // lets the lawyer get the letter even if email delivery fails.
+      try {
+        sessionStorage.setItem(
+          `counsel_order_${data.orderId}`,
+          JSON.stringify({
+            orderId: data.orderId,
+            depositPrice: data.depositPrice,
+            depositPaymentLink: data.depositPaymentLink,
+            productionDays: data.productionDays,
+            engagementLetterBase64: data.engagementLetterBase64,
+            engagementLetterFilename: data.engagementLetterFilename,
+            firmEmail: form.firmEmail,
+          }),
+        );
+      } catch (storageErr) {
+        // sessionStorage can fail in incognito with strict modes; not fatal
+        console.warn('Failed to write to sessionStorage:', storageErr);
+      }
       router.push(`/counsel/intake/submitted?orderId=${encodeURIComponent(data.orderId)}&deposit=${data.depositPrice}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Submission failed');
@@ -328,7 +348,7 @@ export default function IntakePage() {
   );
 }
 
-const inputClass = 'mt-1 block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600';
+const inputClass = 'mt-1 block w-full rounded-md border  border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-600';
 
 function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   return (
