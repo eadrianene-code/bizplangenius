@@ -5,6 +5,7 @@ import {
   sendEngagementEmail,
   sendCounselOrderNotification,
 } from '@/lib/email-counsel';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export const maxDuration = 60;
 export const runtime = 'nodejs';
@@ -191,6 +192,62 @@ export async function POST(req: NextRequest) {
       depositPaymentLink = '';
     }
 
+    // Persist to Supabase counsel_orders for admin dashboard tracking.
+    // Best-effort: a DB write failure should not block the lawyer's success
+    // response since the engagement letter and payment link are already
+    // generated and surfaced on the confirmation page.
+    let stripeProductId: string | undefined;
+    let stripePriceId: string | undefined;
+    try {
+      const supa = getSupabaseAdmin();
+      const { error: dbErr } = await supa.from('counsel_orders').insert({
+        order_id: orderId,
+        attorney_name: body.attorneyName,
+        firm_name: body.firmName,
+        firm_email: body.firmEmail,
+        firm_phone: body.firmPhone || null,
+        bar_admission_state: body.barAdmissionState,
+        investor_name: body.investorName,
+        investor_country: body.investorCountry,
+        visa_category: body.visaCategory,
+        investment_amount: body.investmentAmount,
+        business_concept: body.businessConcept,
+        business_name: body.businessName,
+        industry: body.industry,
+        naics_code: body.naicsCode || null,
+        us_location: body.usLocation,
+        us_state: body.usState,
+        source_of_funds_summary: body.sourceOfFundsSummary,
+        existing_us_entity: body.existingUsEntity,
+        us_entity_name: body.usEntityName || null,
+        us_entity_state: body.usEntityState || null,
+        hires_year1: body.hiresYear1,
+        hires_year2: body.hiresYear2,
+        hires_year3: body.hiresYear3,
+        rush_production: body.rushProduction,
+        total_price: body.totalPrice,
+        deposit_price: body.depositPrice,
+        production_days: productionDays,
+        deposit_status: 'pending',
+        plan_status: 'intake_received',
+        balance_status: 'not_yet',
+        stripe_deposit_payment_link: depositPaymentLink || null,
+        stripe_deposit_product_id: stripeProductId || null,
+        stripe_deposit_price_id: stripePriceId || null,
+        signature_name: body.signatureName,
+        signer_ip: signerIp,
+        user_agent: body.userAgent || null,
+        submitted_at: body.submittedAt,
+        compliance_notes: body.complianceNotes || null,
+        intake_json: body as unknown as Record<string, unknown>,
+      });
+      if (dbErr) {
+        console.error(`[submit-intake] supabase insert failed for ${orderId}:`, dbErr.message);
+      }
+    } catch (dbCatchErr) {
+      console.error(`[submit-intake] supabase exception for ${orderId}:`, dbCatchErr);
+    }
+
     // Send engagement email to attorney with engagement letter + Stripe link
     try {
       await sendEngagementEmail({
@@ -234,19 +291,15 @@ export async function POST(req: NextRequest) {
       console.error(`[submit-intake] adi notification failed for ${orderId}:`, notifyErr);
     }
 
-    // Encode engagement letter as base64 so the confirmation page can offer
-    // an inline download. This bypasses any email delivery issues - the
-    // lawyer gets the engagement letter directly from the confirmation page.
     const engagementLetterBase64 = engagementBuffer.toString('base64');
-
     return NextResponse.json({
       ok: true,
       orderId,
       depositPrice: body.depositPrice,
       depositPaymentLink,
       productionDays,
-       engagementLetterBase64,
-      engagementLetterFilename: `${safeName(orderId)}.docx`,
+      engagementLetterBase64,
+      engagementLetterFilename: `engagement-letter-${orderId}.docx`,
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : 'Unknown error';
@@ -256,8 +309,4 @@ export async function POST(req: NextRequest) {
       { status: 500 },
     );
   }
-}
-
-function safeName(orderId: string): string {
-  return `engagement-letter-${orderId}`.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 80);
 }

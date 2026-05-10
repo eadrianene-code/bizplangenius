@@ -187,23 +187,23 @@ export default function CounselLandingPage() {
                 visa: 'E-2',
                 title: 'Brazilian quick-casual restaurant, $200K, Miami',
                 desc: 'Substantial-investment sliding scale, treaty country narrative, marginality analysis with sensitivity. ~30 pages.',
-                slug: 'e2-brazilian-restaurant',
+                file: 'e2-brazilian-restaurant-sample.docx',
               },
               {
                 visa: 'L-1A',
                 title: 'Romanian software parent, Austin subsidiary',
                 desc: 'New-office L-1A, qualifying relationship, executive-capacity duties, 18-month staffing. ~28 pages.',
-                slug: 'l1a-romanian-austin',
+                file: 'l1a-romanian-austin-sample.docx',
               },
               {
                 visa: 'EB-5',
                 title: '$1.05M direct investment, U.S. tech-services',
                 desc: 'EB-5-grade source of funds, 10-job creation timeline with 4-job buffer, capital deployment phases. ~55 pages.',
-                slug: 'eb5-tech-services',
+                file: 'eb5-tech-services-sample.docx',
               },
             ].map((s) => (
               <div
-                key={s.slug}
+                key={s.file}
                 className="rounded-lg border border-slate-200 bg-white p-6"
               >
                 <div className="text-xs font-semibold uppercase tracking-widest text-slate-500">
@@ -216,10 +216,11 @@ export default function CounselLandingPage() {
                   {s.desc}
                 </div>
                 <a
-                  href={`/api/counsel/sample-request?plan=${s.slug}`}
+                  href={`/counsel-samples/${s.file}`}
+                  download
                   className="mt-4 inline-block text-sm font-semibold text-blue-700 hover:text-blue-800"
                 >
-                  Request sample (email-gated) -&gt;
+                  Download .docx sample -&gt;
                 </a>
               </div>
             ))}

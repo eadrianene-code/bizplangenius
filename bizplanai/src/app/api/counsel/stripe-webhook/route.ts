@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 export const maxDuration = 30;
 export const runtime = 'nodejs';
@@ -88,6 +89,25 @@ export async function POST(req: NextRequest) {
     const productionDeadline = new Date();
     productionDeadline.setDate(productionDeadline.getDate() + 5); // default 5 business days
 
+    // Update Supabase order status
+    try {
+      const supa = getSupabaseAdmin();
+      const { error: dbErr } = await supa
+        .from('counsel_orders')
+        .update({
+          deposit_status: 'cleared',
+          plan_status: 'in_production',
+          deposit_cleared_at: new Date().toISOString(),
+          production_deadline: productionDeadline.toISOString().slice(0, 10),
+        })
+        .eq('order_id', meta.orderId);
+      if (dbErr) {
+        console.error(`[counsel-webhook] supabase update failed for ${meta.orderId}:`, dbErr.message);
+      }
+    } catch (dbCatchErr) {
+      console.error(`[counsel-webhook] supabase exception for ${meta.orderId}:`, dbCatchErr);
+    }
+
  
     // Notify Adi
     if (process.env.RESEND_API_KEY) {
@@ -103,9 +123,8 @@ export async function POST(req: NextRequest) {
 <p><strong>Order:</strong> ${meta.orderId}</p>
 <p><strong>Firm:</strong> ${meta.firmName}</p>
 <p><strong>Visa:</strong> ${meta.visaCategory}</p>
-<p><strong>Amount paid:</strong> $${(amountPaidCents / 100).toLocaleString()}</p>
+<p><strong>Amount paid:</strong>$${(amountPaidCents / 100).toLocaleString()}</p>
 <p><strong>Production deadline:</strong> ${productionDeadline.toISOString().slice(0, 10)} (5 business days)</p>
-
 <h3>Action items</h3>
 <ol>
   <li>Open Stripe dashboard and confirm payment received</li>
