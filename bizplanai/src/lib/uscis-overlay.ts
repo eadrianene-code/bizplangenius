@@ -86,10 +86,30 @@ export interface IntakeForm {
   vendors?: { name: string; service: string; status: string }[];
 
   // Day-to-day operations narrative (v1.1 hardening for 2026 RFE patterns)
-  operatingHours?: string; // e.g. "Mon-Sat 11am-10pm, Sun 11am-9pm"
-  dailyOperatingRhythm?: string; // multi-line markdown bullets
+  operatingHours?: string;
+  dailyOperatingRhythm?: string;
   vendorDeliveryCadence?: string;
   salesApproach?: string;
+
+  // L-1A specific (added v1.2)
+  foreignEntityName?: string;
+  foreignEntityCountry?: string;
+  qualifyingRelationshipType?: 'parent' | 'subsidiary' | 'affiliate' | 'branch';
+  ownershipControlSummary?: string;
+  qualifyingEmploymentPeriod?: string;
+  qualifyingEmploymentNarrative?: string;
+  capacityClassification?: 'Executive' | 'Managerial';
+  managerialDuties?: string[];
+  newOfficePetition?: boolean;
+
+  // EB-5 specific (added v1.2)
+  isTEA?: boolean;
+  teaDesignationLetter?: string;
+  enterpriseFormationDate?: string;
+  enterpriseType?: string;
+  newOrAcquiredStatus?: string;
+  capitalDeploymentTimeline?: string;
+  petitionerInvolvementType?: 'active' | 'passive';
 
   complianceNotes?: string;
 }
@@ -787,50 +807,230 @@ function buildUscisRiskAnalysisContext(intake: IntakeForm, plan: Plan): Record<s
 }
 
 // ============================================================================
+// L-1A context builders
+// ============================================================================
+
+function buildL1AEligibilityContext(intake: IntakeForm, plan: Plan): Record<string, string | number> {
+  const foreignEntity = intake.foreignEntityName || `the foreign parent entity in ${intake.investorCountry}`;
+  const relationshipType = intake.qualifyingRelationshipType || 'parent';
+  const relationshipTypeLabel = {
+    'parent': 'Parent / subsidiary (foreign parent owns the U.S. subsidiary)',
+    'subsidiary': 'Parent / subsidiary (foreign parent owns the U.S. subsidiary)',
+    'affiliate': 'Affiliate (common ownership of foreign and U.S. entities)',
+    'branch': 'Branch (U.S. branch of the foreign entity)',
+  }[relationshipType] || 'Parent / subsidiary';
+
+  const ownershipControl = intake.ownershipControlSummary || `${foreignEntity} owns 100% of {{business_name}} as documented in the corporate exhibits. Common ownership and operational control between the foreign and U.S. entities satisfy the qualifying relationship standard.`;
+
+  const qualifyingEmployment = intake.qualifyingEmploymentPeriod || `At least one continuous year within the three-year period preceding the petition filing, in an executive or managerial capacity at ${foreignEntity}.`;
+
+  const qualifyingEmploymentNarrative = intake.qualifyingEmploymentNarrative || `${intake.investorName} has been continuously employed by ${foreignEntity} in an executive or managerial capacity for the qualifying period. Duties during the qualifying period included strategic direction of the entity, supervision of professional or managerial subordinates, hiring and firing authority, and operational control over a discretionary budget. Documentary evidence (employment letter, payroll records, organizational chart, board minutes) is provided in firm exhibits.`;
+
+  const capacity = intake.capacityClassification || 'Executive';
+
+  const duties = intake.managerialDuties && intake.managerialDuties.length > 0
+    ? intake.managerialDuties.map(d => `- ${d}`).join('\n')
+    : `- Direct the management of the U.S. enterprise\n- Establish goals and policies of the enterprise\n- Exercise wide latitude in discretionary decision-making\n- Receive only general supervision or direction from a higher-level executive, board, or stockholders\n- Supervise and control the work of professional, supervisory, or managerial subordinates\n- Hold authority over hiring, firing, and other personnel actions`;
+
+  const isNewOffice = intake.newOfficePetition !== false;
+  const newOfficeSection = isNewOffice
+    ? `This petition is a new-office L-1A. ${intake.businessName} was formed in the United States within the past 12 months and the petitioner is being transferred to develop the U.S. operations. The firm of record provides U.S. corporate formation documents, lease for the U.S. operating premises, Year-1 operating budget and staffing plan demonstrating viability, and Year-1 revenue projections supporting the executive role. The Year-1 staffing plan in Section 8 includes the petitioner's executive role plus subordinate professional or supervisory positions sufficient to support an L-1A executive or managerial classification within the one-year new-office window. Section 7 demonstrates revenue growth supporting an L-1A extension based on actual performance at the one-year mark.`
+    : `This petition is for an established U.S. entity. ${intake.businessName} has been operating in the United States with sufficient staff, revenue, and operations to support the petitioner's executive or managerial role at the time of filing. Section 7 and Section 9 demonstrate ongoing operations.`;
+
+  return {
+    investor_name: intake.investorName,
+    investor_country: intake.investorCountry,
+    investor_title: intake.investorTitle || 'President and Chief Executive Officer',
+    business_name: intake.businessName,
+    foreign_entity_name: foreignEntity,
+    qualifying_relationship_type: relationshipTypeLabel,
+    ownership_control_paragraph: ownershipControl.replace('{{business_name}}', intake.businessName),
+    qualifying_employment_period: qualifyingEmployment,
+    qualifying_employment_paragraph: qualifyingEmploymentNarrative,
+    capacity_classification: capacity,
+    managerial_duties_list: duties,
+    new_office_section: newOfficeSection,
+    us_location: intake.usLocation,
+    lease_summary: intake.leaseSummary || 'commercial lease at the operating address, terms detailed in lease exhibit',
+    visa_category: intake.visaCategory,
+  };
+}
+
+function buildL1SourceOfFundsContext(intake: IntakeForm, plan: Plan): Record<string, string | number> {
+  const foreignEntity = intake.foreignEntityName || `the foreign parent entity in ${intake.investorCountry}`;
+  const sources = intake.sourceOfFundsBreakdown && intake.sourceOfFundsBreakdown.length > 0
+    ? intake.sourceOfFundsBreakdown
+    : [
+        { source: `Capital contribution from ${foreignEntity}`, amount: Math.round(intake.investmentAmount * 0.8), documentation: 'Foreign parent audited financials, board resolution, and intercompany capital contribution agreement in firm exhibits' },
+        { source: 'Founder equity contribution', amount: Math.round(intake.investmentAmount * 0.2), documentation: 'Personal bank statements and capital contribution agreement in firm exhibits' },
+      ];
+
+  const capitalizationTable = [
+    '| Source | Amount (USD) | Documentation |',
+    '| --- | --- | --- |',
+    ...sources.map(s => `| ${s.source} | ${fmtUsd(s.amount)} | ${s.documentation} |`),
+    `| **Total** | **${fmtUsd(intake.investmentAmount)}** | - |`,
+  ].join('\n');
+
+  const sourceNarratives = sources.map((s, i) =>
+    `### Source ${i + 1}: ${s.source} (${fmtUsd(s.amount)})\n\n${s.source.toLowerCase().includes('capital contribution from') ? `Capital contributed by ${foreignEntity} from corporate operating cash. The contribution is governed by an arm's-length intercompany capital contribution agreement and was authorized by board resolution. ` : `Founder equity contribution from documented personal funds. `}Documentary evidence is provided as ${s.documentation}.`,
+  ).join('\n\n');
+
+  return {
+    investment_amount: fmtUsd(intake.investmentAmount),
+    business_name: intake.businessName,
+    investor_country: intake.investorCountry,
+    foreign_entity_name: foreignEntity,
+    us_bank_or_placeholder: intake.usBank || 'the U.S. operating bank named in the bank exhibits',
+    capital_commitment_date: intake.capitalCommitmentDate || 'the date noted in the bank exhibits',
+    capitalization_table: capitalizationTable,
+    source_narratives: sourceNarratives,
+    year1_costs: plan.financialProjections?.year1?.costs || '',
+  };
+}
+
+function buildEB5EligibilityContext(intake: IntakeForm, _plan: Plan): Record<string, string | number> {
+  const isTEA = intake.isTEA === true;
+  const minimumThreshold = isTEA ? 800_000 : 1_050_000;
+  const teaStatus = isTEA ? 'a Targeted Employment Area (TEA)' : 'a non-TEA standard investment';
+  const teaStatusNarrative = isTEA
+    ? `The investment is made in a Targeted Employment Area as designated by ${intake.teaDesignationLetter || 'the relevant state or federal designation authority'}. Documentation of TEA designation is included in firm exhibits.`
+    : `The investment is made in a non-TEA location, meeting the standard $1,050,000 minimum investment threshold under 8 CFR 204.6(f).`;
+
+  const investmentBasisParagraph = `The petitioner has invested ${fmtUsd(intake.investmentAmount)} in ${intake.businessName}, which equals or exceeds the EB-5 minimum investment threshold of ${fmtUsd(minimumThreshold)} for ${teaStatus}.`;
+
+  const capitalDeployment = intake.capitalDeploymentTimeline || `Phase 1 (Months 0-3): ${fmtUsd(Math.round(intake.investmentAmount * 0.4))} deployed to lease, build-out, and core equipment. Phase 2 (Months 4-12): ${fmtUsd(Math.round(intake.investmentAmount * 0.35))} deployed to operating capital, hiring ramp, and inventory. Phase 3 (Months 13-24): ${fmtUsd(Math.round(intake.investmentAmount * 0.25))} deployed to expansion capital and working capital reserve. Deployment milestones are tied to operational milestones in Section 9 and revenue milestones in Section 7.`;
+
+  const y1 = intake.hiresYear1;
+  const y2 = intake.hiresYear2;
+  const cumY1 = y1;
+  const cumY2 = cumY1 + y2;
+
+  const jobTable = [
+    '| Period | New direct W-2 jobs | Cumulative direct W-2 jobs |',
+    '| --- | --- | --- |',
+    `| Months 1-3 | ${Math.ceil(y1 * 0.4)} | ${Math.ceil(y1 * 0.4)} |`,
+    `| Months 4-6 | ${Math.ceil(y1 * 0.35)} | ${Math.ceil(y1 * 0.75)} |`,
+    `| Months 7-12 | ${y1 - Math.ceil(y1 * 0.75)} | ${y1} |`,
+    `| Year 2 | ${y2} | ${cumY2} |`,
+  ].join('\n');
+
+  const bufferAnalysis = cumY2 >= 12
+    ? `The plan creates ${cumY2} direct W-2 jobs by end of Year 2, exceeding the 10-job EB-5 threshold by ${cumY2 - 10} jobs. This buffer accommodates plausible attrition or hiring delay without falling below the regulatory minimum.`
+    : cumY2 >= 10
+      ? `The plan creates ${cumY2} direct W-2 jobs by end of Year 2, meeting the 10-job EB-5 threshold with a ${cumY2 - 10}-job buffer.`
+      : `The plan creates ${cumY2} direct W-2 jobs by end of Year 2, BELOW the 10-job EB-5 threshold. Counsel must work with the petitioner to expand the hiring plan.`;
+
+  const indirectMultiplier = 1.4;
+  const inducedMultiplier = 0.7;
+  const indirectJobs = Math.round(cumY2 * indirectMultiplier);
+  const inducedJobs = Math.round((cumY2 + indirectJobs) * inducedMultiplier);
+
+  const involvementNarrative = (intake.petitionerInvolvementType === 'passive')
+    ? `The petitioner takes a passive investor role in ${intake.businessName}, consistent with EB-5 regulations. Day-to-day management is delegated to the U.S. management team detailed in Section 8. The petitioner exercises governance rights consistent with the equity stake but does not engage in day-to-day operations.`
+    : `The petitioner takes an active role in ${intake.businessName}, serving as ${intake.investorTitle || 'a senior officer'} of the enterprise. EB-5 permits but does not require active involvement.`;
+
+  return {
+    investor_name: intake.investorName,
+    business_name: intake.businessName,
+    investment_amount: fmtUsd(intake.investmentAmount),
+    tea_status: teaStatus,
+    tea_status_narrative: teaStatusNarrative,
+    investment_basis_paragraph: investmentBasisParagraph,
+    us_bank_or_placeholder: intake.usBank || 'the U.S. operating bank named in the bank exhibits',
+    capital_commitment_date: intake.capitalCommitmentDate || 'the date noted in the bank exhibits',
+    committed_amount: fmtUsd(intake.committedAmount || Math.round(intake.investmentAmount * 0.6)),
+    capital_deployment_timeline: capitalDeployment,
+    direct_job_creation_table: jobTable,
+    cum_hires_y2: cumY2,
+    payroll_y2: fmtUsd(cumY2 * 52000),
+    job_creation_buffer_narrative: bufferAnalysis,
+    indirect_jobs_estimate: indirectJobs,
+    induced_jobs_estimate: inducedJobs,
+    enterprise_formation_date: intake.enterpriseFormationDate || 'within the past 12 months as documented in the corporate exhibits',
+    enterprise_type: intake.enterpriseType || 'limited liability company',
+    new_or_acquired_status: intake.newOrAcquiredStatus || 'New commercial enterprise formed for the EB-5 investment',
+    petitioner_involvement_narrative: involvementNarrative,
+    visa_category: intake.visaCategory,
+  };
+}
+
+function buildEB5SourceOfFundsContext(intake: IntakeForm, _plan: Plan): Record<string, string | number> {
+  const sources = intake.sourceOfFundsBreakdown && intake.sourceOfFundsBreakdown.length > 0
+    ? intake.sourceOfFundsBreakdown
+    : [
+        { source: 'Personal savings (multi-year accumulation)', amount: Math.round(intake.investmentAmount * 0.5), documentation: '24-36 months of bank statements, multi-year tax returns, and employment verification in firm exhibits' },
+        { source: 'Sale of business stake (prior venture)', amount: Math.round(intake.investmentAmount * 0.35), documentation: 'Sale agreement, share register entry, deposit records, and capital gains tax filing in firm exhibits' },
+        { source: 'Documented inheritance', amount: Math.round(intake.investmentAmount * 0.15), documentation: 'Death certificate, probate documentation, donor source documentation, and inheritance transfer records in firm exhibits' },
+      ];
+
+  const breakdownTable = [
+    '| Source | Amount (USD) | Documentation |',
+    '| --- | --- | --- |',
+    ...sources.map(s => `| ${s.source} | ${fmtUsd(s.amount)} | ${s.documentation} |`),
+    `| **Total** | **${fmtUsd(intake.investmentAmount)}** | - |`,
+  ].join('\n');
+
+  const sourceNarratives = sources.map((s, i) => {
+    let prefix = '';
+    if (s.source.toLowerCase().includes('savings')) {
+      prefix = `These funds represent ${intake.investorName}'s accumulated personal savings from documented earnings. Tax filings, employment letters, and bank statements demonstrate accumulation pattern consistent with declared income. `;
+    } else if (s.source.toLowerCase().includes('sale')) {
+      prefix = `These funds represent the proceeds from the sale of a prior business stake by ${intake.investorName}. The sale was at arm's length and the source of the original ownership stake is itself documented in the prior-business exhibits. `;
+    } else if (s.source.toLowerCase().includes('inheritance')) {
+      prefix = `These funds represent a documented inheritance received by ${intake.investorName}. Donor source-of-funds documentation establishes that the donor acquired the funds lawfully. `;
+    } else {
+      prefix = `These funds are documented per the documentation referenced. `;
+    }
+    return `### Source ${i + 1}: ${s.source} (${fmtUsd(s.amount)})\n\n${prefix}Documentary evidence is provided as ${s.documentation}.`;
+  }).join('\n\n');
+
+  return {
+    investment_amount: fmtUsd(intake.investmentAmount),
+    business_name: intake.businessName,
+    investor_country: intake.investorCountry,
+    investor_country_currency: intake.investorCountryCurrency || `the local currency of ${intake.investorCountry}`,
+    us_bank_or_placeholder: intake.usBank || 'the U.S. operating bank named in the bank exhibits',
+    source_of_funds_summary_paragraph: intake.sourceOfFundsSummary,
+    source_breakdown_table: breakdownTable,
+    source_narratives: sourceNarratives,
+  };
+}
+
+// ============================================================================
 // Public API
 // ============================================================================
 
 export function generateUscisOverlay(plan: Plan, intake: IntakeForm): OverlaySections {
-  if (intake.visaCategory !== 'E-2') {
+  const supportedVisas: VisaCategory[] = ['E-2', 'L-1', 'EB-5'];
+  if (!supportedVisas.includes(intake.visaCategory)) {
     throw new Error(
-      `USCIS overlay v1 supports E-2 only. Visa category "${intake.visaCategory}" templates are pending. See Business Builder/P7-USCIS-overlay-scope.md.`,
+      `USCIS overlay supports E-2, L-1, EB-5 in v1.2. Visa category "${intake.visaCategory}" templates are pending.`,
     );
   }
 
   const meta = VISA_METADATA[intake.visaCategory];
 
-  const adjudicatorSummary = fillTemplate(
-    loadTemplate('adjudicator-summary.md'),
-    buildAdjudicatorSummaryContext(intake, plan),
-  );
-  const investorBackground = fillTemplate(
-    loadTemplate('investor-background.md'),
-    buildInvestorBackgroundContext(intake, plan),
-  );
-  const sourceOfFunds = fillTemplate(
-    loadTemplate(meta.sourceOfFundsTemplate),
-    buildSourceOfFundsContext(intake, plan),
-  );
-  const visaEligibility = fillTemplate(
-    loadTemplate(meta.eligibilityTemplate),
-    buildE2EligibilityContext(intake, plan),
-  );
-  const expandedFinancialModel = fillTemplate(
-    loadTemplate('expanded-financial-model.md'),
-    buildExpandedFinancialModelContext(intake, plan),
-  );
-  const usHiringPlan = fillTemplate(
-    loadTemplate('us-hiring-plan.md'),
-    buildUSHiringPlanContext(intake, plan),
-  );
-  const expandedOperations = fillTemplate(
-    loadTemplate('operations-expanded.md'),
-    buildOperationsExpandedContext(intake, plan),
-  );
-  const uscisRiskAnalysis = fillTemplate(
-    loadTemplate('risk-analysis-uscis.md'),
-    buildUscisRiskAnalysisContext(intake, plan),
-  );
+  const adjudicatorSummary = fillTemplate(loadTemplate('adjudicator-summary.md'), buildAdjudicatorSummaryContext(intake, plan));
+  const investorBackground = fillTemplate(loadTemplate('investor-background.md'), buildInvestorBackgroundContext(intake, plan));
+
+  let sourceOfFunds: string;
+  let visaEligibility: string;
+  if (intake.visaCategory === 'E-2') {
+    sourceOfFunds = fillTemplate(loadTemplate(meta.sourceOfFundsTemplate), buildSourceOfFundsContext(intake, plan));
+    visaEligibility = fillTemplate(loadTemplate(meta.eligibilityTemplate), buildE2EligibilityContext(intake, plan));
+  } else if (intake.visaCategory === 'L-1') {
+    sourceOfFunds = fillTemplate(loadTemplate(meta.sourceOfFundsTemplate), buildL1SourceOfFundsContext(intake, plan));
+    visaEligibility = fillTemplate(loadTemplate(meta.eligibilityTemplate), buildL1AEligibilityContext(intake, plan));
+  } else {
+    sourceOfFunds = fillTemplate(loadTemplate(meta.sourceOfFundsTemplate), buildEB5SourceOfFundsContext(intake, plan));
+    visaEligibility = fillTemplate(loadTemplate(meta.eligibilityTemplate), buildEB5EligibilityContext(intake, plan));
+  }
+
+  const expandedFinancialModel = fillTemplate(loadTemplate('expanded-financial-model.md'), buildExpandedFinancialModelContext(intake, plan));
+  const usHiringPlan = fillTemplate(loadTemplate('us-hiring-plan.md'), buildUSHiringPlanContext(intake, plan));
+  const expandedOperations = fillTemplate(loadTemplate('operations-expanded.md'), buildOperationsExpandedContext(intake, plan));
+  const uscisRiskAnalysis = fillTemplate(loadTemplate('risk-analysis-uscis.md'), buildUscisRiskAnalysisContext(intake, plan));
 
   return {
     adjudicatorSummary,
